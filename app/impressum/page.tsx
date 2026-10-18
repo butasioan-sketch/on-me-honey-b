@@ -7,13 +7,13 @@ export const metadata: Metadata = {
 };
 
 const OPERATOR = {
-  brand: 'ON ME – Personalisierte Textilien',
-  name: 'Sergiu-Andrei Junc',
-  address: 'Auf den Flachsbeckwiesen 13',
-  postal: '45659 Recklinghausen',
+  brand: '[FIRMENNAME] – Personalisierte Textilien',
+  name: '[INHABERNAME]',
+  address: '[STRASSE UND HAUSNUMMER]',
+  postal: '[PLZ ORT]',
   country: 'Deutschland',
-  email: 's.junc@yahoo.com',
-  phone: '01728224958',
+  email: '[KONTAKT-EMAIL]',
+  phone: '[TELEFONNUMMER]',
 };
 
 const S = {

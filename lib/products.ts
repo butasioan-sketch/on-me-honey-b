@@ -31,18 +31,18 @@ export interface Product {
 // ESSENTIAL COLLECTION — genau 2 Produkte (alles weiß, 100% Polyester / AirFit Performance Fabric,
 // gleicher Aufbau: Atelier, 360°, Freeze, PDF). Brand-Zeile:
 //   Essential Collection · AirFit Pro [Shorts] · AirFit Performance Fabric · Unisex · Maßgefertigt
-// P1 + P2 LIVE. Essential Set (1x Tee + 1x Shorts) = 74.99 (siehe lib/pricing.ts, Stand 21.07.2026).
+// P1 + P2 LIVE. Essential Set (1x Tee + 1x Shorts) = 74.99 (siehe lib/pricing.ts, Stand 18.10.2026).
 // Shorts-Overlay/Placement (lib/print-spec.ts GARMENT_PROFILES['2']) ist eine ERSTVERSION,
 // visuell aus den Referenzfotos geschätzt — noch nicht durch physischen Testdruck verifiziert.
 // Siehe: ~/Schreibtisch/MeinVault/ClaudeData/BRAND-ESSENTIAL-COLLECTION-2PRODUKTE.md
-// Preis/Blank-Update 05.10.2026: Tee-Blank final auf James & Nicholson JN496 (100% PE, 165 g/m²,
-// EK 10,55€ brutto) umgestellt — siehe Masterplan-2.4-FINAL + FINANZPLANUNG-KOMPLETT.
-// Preise aktualisiert: T-Shirt 46,99€, Shorts 41,99€, Bundle 79,99€.
+// Produktion: Epson F100 SureColor Polyester-Sublimationsdruck, selbstfinanziert.
+// Blanks: T-Shirt JN827 (165 g/m², EK 16,40€), Shorts JN387 (135 g/m², EK 10,60€).
+// Preise: T-Shirt 44,99€, Shorts 39,99€, Bundle 74,99€.
 export const PRODUCTS: Product[] = [
   {
     id: '1',
     slug: 'essential-polyester',
-    price: 46.99,
+    price: 44.99,
     color: '#f5f5f5',
     textColor: '#000',
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
@@ -60,7 +60,7 @@ export const PRODUCTS: Product[] = [
       ro: 'AirFit Performance Fabric · 165 g/m² · Sublimare integrală 210 × 297 mm · Unisex',
       en: 'AirFit Performance Fabric · 165 gsm · Full-area sublimation 210 × 297 mm · Unisex',
     },
-    tags: ['essential', 'polyester', 'sublimation', 'hell', 'basic', 'tee', 'jn496'],
+    tags: ['essential', 'polyester', 'sublimation', 'hell', 'basic', 'tee', 'jn827'],
     active: true,
     createdAt: '2026-01-01',
   },
@@ -68,7 +68,7 @@ export const PRODUCTS: Product[] = [
   {
     id: '2',
     slug: 'airfit-pro-shorts',
-    price: 41.99,
+    price: 39.99,
     color: '#f5f5f5',
     textColor: '#000',
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],

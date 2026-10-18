@@ -2,15 +2,14 @@
 // Serverseitig (create-checkout) MUSS dieselben Funktionen nutzen wie hier — Client-Preise
 // werden nie vertraut.
 //
-// Stand 05.10.2026 (Preisanpassung nach Neukalkulation mit echten Marsladen-Preisen):
-// Tee-Blank: James & Nicholson JN496 (EK 10,55€ brutto, verifiziert Marsladen-PDF)
-// Shorts-Blank: James & Nicholson JN387 (EK 10,55€ brutto, verifiziert Marsladen-PDF)
-// Alte Preise (44,99€/39,99€) basierten auf falscher Kalkulation (8€ EK statt 10,55€).
-// Neue Preise (46,99€/41,99€) sichern Wirtschaftlichkeit bei echten Einkaufspreisen.
-// Argumentation: Premium-Qualität, personalisierte Maßanfertigung, professioneller Sublimationsdruck.
-export const PRICE_TEE = 46.99;
-export const PRICE_SHORTS = 41.99;
-export const PRICE_BUNDLE_ESSENTIAL = 79.99; // 1x Tee + 1x Shorts als Paar
+// Stand 18.10.2026 (Finale Preise für Marktstart):
+// Tee-Blank: James & Nicholson JN827 (EK 16,40€ brutto)
+// Shorts-Blank: James & Nicholson JN387 (EK 10,60€ brutto)
+// Strategie: Aggressive Markteinführungspreise für schnellen Kundenstamm-Aufbau.
+// Epson F100 SureColor Polyester-Sublimationsdruck, selbstfinanziert.
+export const PRICE_TEE = 44.99;
+export const PRICE_SHORTS = 39.99;
+export const PRICE_BUNDLE_ESSENTIAL = 74.99; // 1x Tee + 1x Shorts als Paar
 
 // BASE-Preis deckt INCLUDED_IMAGES Motiv-Slots ab (heute: vorne + hinten = 2).
 // Jedes weitere Bild (z.B. kuenftiges Multi-Panel) kostet EXTRA_IMAGE_PRICE zusaetzlich, pro Teil.
