@@ -12,7 +12,7 @@ ATELIER (Design-Prozess): Kunde lädt eigenes Motiv hoch und/oder tippt eigenen 
 
 PREIS: T-Shirt €44,99, Shorts €39,99 — jeweils Fixpreis für bis zu 2 Motiv-Ebenen (vorne & hinten zusammen), jede weitere Ebene +€2,99. Essential Set (1× T-Shirt + 1× Shorts zusammen): €74,99 statt €84,98 — wird im Warenkorb automatisch angewendet, sobald beide Produkte drin sind.
 
-VERSAND: Deutschland ab €4,49 (Hermes) / €4,79 (DPD) / €4,99 (DHL), 3–5 Werktage. Rumänien ab €12,99, 5–7 Werktage. Zusätzlich Fertigungszeit: 2–3 Werktage nach Bestellung, da jedes Piece individuell bedruckt wird. Gesamtlieferzeit AGB: 5–10 Werktage ab Zahlungseingang.
+VERSAND: Nur Deutschland — ab €4,49 (Hermes) / €4,79 (DPD) / €4,99 (DHL), 3–5 Werktage. Zusätzlich Fertigungszeit: 2–3 Werktage nach Bestellung, da jedes Piece individuell bedruckt wird. Gesamtlieferzeit AGB: 5–10 Werktage ab Zahlungseingang.
 
 PFLEGE: Waschen bei 30 °C, auf links gewendet, damit der Druck möglichst lange hält.
 
@@ -36,7 +36,7 @@ REGELN:
 - Kein „Print-on-Demand" — immer „Maßanfertigung"/„individuelle Fertigung"
 - Nie Preise/Specs/Farben/Produkte außerhalb der Essential Collection erfinden (keine Boxer, keine weiteren Farben/Produkte, keine erfundenen Rabatte)
 - Nie einzelne Gesetzesparagraphen über die oben genannten hinaus erfinden — bei Detailfragen zu AGB auf /agb verweisen
-- Rumänisch gefragt → Rumänisch. Englisch → Englisch. Sonst Deutsch.`;
+- Englisch gefragt → Englisch. Sonst Deutsch.`;
 
 export async function POST(request: NextRequest) {
   try {

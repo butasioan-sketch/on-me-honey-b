@@ -79,7 +79,7 @@ export default function TrackingPage() {
                 <p style={{ color: '#666', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>Bestellnummer</p>
                 <p style={{ color: '#fff', fontWeight: 700, fontSize: '0.95rem' }}>{order.id}</p>
               </div>
-              <p style={{ color: '#888', fontWeight: 600, fontSize: '0.85rem' }}>{order.shippingCountry === 'RO' ? 'Rumänien' : 'Deutschland'}</p>
+              <p style={{ color: '#888', fontWeight: 600, fontSize: '0.85rem' }}>Deutschland</p>
             </div>
 
             {isCancelled ? (
@@ -114,7 +114,7 @@ export default function TrackingPage() {
               <p style={{ color: '#666', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Versand</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
                 <span style={{ color: '#ccc' }}>{order.shippingMethod || 'Wird vorbereitet'}</span>
-                <span style={{ color: '#fff' }}>{SHIPPING_OPTIONS.find(o => o.carrier === order.shippingMethod)?.eta?.[order.shippingCountry as 'DE' | 'RO'] || ''}</span>
+                <span style={{ color: '#fff' }}>{SHIPPING_OPTIONS.find(o => o.carrier === order.shippingMethod)?.eta?.['DE'] || ''}</span>
               </div>
             </div>
           </div>

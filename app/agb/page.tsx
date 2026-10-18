@@ -33,7 +33,7 @@ export default function AGBPage() {
         <p style={S.p}>Alle Preise verstehen sich als Endpreise in Euro. Als Kleinunternehmer gemäß § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen. Die Zahlung erfolgt über Stripe (Kreditkarte, PayPal, Klarna u. a.).</p>
 
         <h2 style={S.h2}>5. Lieferung</h2>
-        <p style={S.p}>Lieferung erfolgt nach Deutschland und Rumänien mit dem im Checkout gewählten Versanddienstleister (DHL, Hermes oder DPD). Produktionszeit: 2–3 Werktage. Gesamtlieferzeit: 5–10 Werktage ab Zahlungseingang.</p>
+        <p style={S.p}>Lieferung erfolgt nach Deutschland mit dem im Checkout gewählten Versanddienstleister (DHL, Hermes oder DPD). Produktionszeit: 2–3 Werktage. Gesamtlieferzeit: 5–10 Werktage ab Zahlungseingang.</p>
 
         <h2 style={S.h2}>6. Ausschluss des Widerrufsrechts</h2>
         <p style={S.p}>Das Widerrufsrecht besteht gemäß § 312g Abs. 2 Nr. 1 BGB <strong style={{ color: '#fff' }}>nicht</strong> bei Verträgen zur Lieferung von Waren, die nicht vorgefertigt sind und für deren Herstellung eine individuelle Auswahl oder Bestimmung durch den Verbraucher maßgeblich ist oder die eindeutig auf die persönlichen Bedürfnisse des Verbrauchers zugeschnitten sind.</p>

@@ -167,7 +167,7 @@ export async function POST(request: Request) {
     }
 
     // === SERVERSEITIGE PREISBERECHNUNG — Client-Beträge werden ignoriert ===
-    const country: Country = body.country === "RO" ? "RO" : "DE";
+    const country: Country = "DE"; // Nur Deutschland aktiv
     const wantedId = String(body.shippingId || "").toLowerCase();
     const wantedCarrier = String(body.shippingMethod || "").toLowerCase();
     const shipOpt =

@@ -4,7 +4,7 @@ import SiteHeader from '@/app/components/SiteHeader';
 
 export const metadata: Metadata = {
   title: 'Versand & Reklamation | PLATYPUS',
-  description: 'Versandoptionen für Deutschland und Rumänien, Produktionszeiten und Reklamationsprozess für PLATYPUS Custom-Shirts.',
+  description: 'Versandoptionen für Deutschland, Produktionszeiten und Reklamationsprozess für PLATYPUS Custom-Shirts.',
 };
 
 const shippingDE = [
@@ -13,11 +13,12 @@ const shippingDE = [
   { label: 'DHL', detail: '€4.99 · 1–3 Werktage nach Produktion' },
 ];
 
-const shippingRO = [
-  { label: 'Hermes', detail: '€12.99 · 4–7 Werktage nach Produktion' },
-  { label: 'DPD', detail: '€13.49 · 4–7 Werktage nach Produktion' },
-  { label: 'DHL', detail: '€13.99 · 3–5 Werktage nach Produktion' },
-];
+// Rumänien-Versand deaktiviert (nur Deutschland aktiv)
+// const shippingRO = [
+//   { label: 'Hermes', detail: '€12.99 · 4–7 Werktage nach Produktion' },
+//   { label: 'DPD', detail: '€13.49 · 4–7 Werktage nach Produktion' },
+//   { label: 'DHL', detail: '€13.99 · 3–5 Werktage nach Produktion' },
+// ];
 
 function ShippingCard({ title, rows }: { title: string; rows: { label: string; detail: string }[] }) {
   return (
@@ -50,7 +51,6 @@ export default function VersandPage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2.5rem' }}>
           <ShippingCard title="Deutschland" rows={shippingDE} />
-          <ShippingCard title="Rumänien" rows={shippingRO} />
         </div>
 
         <div className="plt-card" style={{ padding: '1.75rem', border: '1px solid rgba(226,0,26,0.2)', background: 'rgba(226,0,26,0.04)', marginBottom: '2rem' }}>
