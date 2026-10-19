@@ -47,7 +47,7 @@ function buildStatusHtml(title: string, body: string, orderId: string, isDeliver
     </a><br/>` : '';
   return `
   <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
-    <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">PLATYPUS</p>
+    <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
     <h1 style="font-size:22px;font-weight:900;margin-bottom:8px;letter-spacing:-0.02em">${title}</h1>
     <p style="color:#888;margin-bottom:28px;line-height:1.6">${body}</p>
     ${reviewCta}
@@ -65,9 +65,9 @@ function buildStatusHtml(title: string, body: string, orderId: string, isDeliver
 
 function buildConfirmationEmail(d: OrderEmailData, designPreview: string) {
   const templates: Record<string, { subject: string; title: string; intro: string; footer: string }> = {
-    de: { subject: `PLATYPUS — Bestellbestätigung ${d.orderId}`, title: 'Danke für deine Bestellung!', intro: 'Deine Bestellung wurde erfolgreich aufgegeben.', footer: 'Produktion startet innerhalb von 24 Stunden.' },
-    ro: { subject: `PLATYPUS — Confirmare comandă ${d.orderId}`, title: 'Mulțumim pentru comandă!', intro: 'Comanda ta a fost plasată cu succes.', footer: 'Producția începe în 24 de ore.' },
-    en: { subject: `PLATYPUS — Order Confirmation ${d.orderId}`, title: 'Thank you for your order!', intro: 'Your order has been placed successfully.', footer: 'Production starts within 24 hours.' },
+    de: { subject: `ON ME HONEY B — Bestellbestätigung ${d.orderId}`, title: 'Danke für deine Bestellung!', intro: 'Deine Bestellung wurde erfolgreich aufgegeben.', footer: 'Produktion startet innerhalb von 24 Stunden.' },
+    ro: { subject: `ON ME HONEY B — Confirmare comandă ${d.orderId}`, title: 'Mulțumim pentru comandă!', intro: 'Comanda ta a fost plasată cu succes.', footer: 'Producția începe în 24 de ore.' },
+    en: { subject: `ON ME HONEY B — Order Confirmation ${d.orderId}`, title: 'Thank you for your order!', intro: 'Your order has been placed successfully.', footer: 'Production starts within 24 hours.' },
   };
   const t = templates[d.locale] || templates.de;
   return { subject: t.subject, html: buildHtml(t.title, t.intro, d, t.footer, designPreview) };
@@ -124,7 +124,7 @@ function buildHtml(title: string, intro: string, d: OrderEmailData, footer: stri
 
   return `
   <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
-    <h1 style="font-size:24px;letter-spacing:0.15em;margin-bottom:32px">PLATYPUS</h1>
+    <h1 style="font-size:24px;letter-spacing:0.15em;margin-bottom:32px">ON ME HONEY B</h1>
     <h2 style="font-size:20px;margin-bottom:8px">${title}</h2>
     <p style="color:#888;margin-bottom:24px">${intro}</p>
     ${designPreview}
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
         ? 'Manuell auf On Hold gesetzt'
         : 'Kein Motiv (designId) hinterlegt';
       const template = {
-        subject: `⚠ PLATYPUS Admin — Bestellung ${data.orderId} prüfen`,
+        subject: `⚠ ON ME Admin — Bestellung ${data.orderId} prüfen`,
         html: `
         <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
           <h1 style="font-size:20px;color:#f97316;margin-bottom:16px">Bestellung benötigt Prüfung</h1>
@@ -179,7 +179,7 @@ export async function POST(request: NextRequest) {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: 'PLATYPUS <onboarding@resend.dev>', to: data.email, subject: template.subject, html: template.html }),
+        body: JSON.stringify({ from: 'ON ME HONEY B <onboarding@resend.dev>', to: data.email, subject: template.subject, html: template.html }),
       });
       return NextResponse.json({ sent: res.ok });
     }
@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
       const html = `
       <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
-        <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">PLATYPUS</p>
+        <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
         <h1 style="font-size:22px;font-weight:900;margin-bottom:12px;letter-spacing:-0.02em">${t.title}</h1>
         <p style="color:#888;margin-bottom:28px;line-height:1.6">${t.body}</p>
         <a href="${siteUrl}/cart" style="display:inline-block;background:#e2001a;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:24px">
@@ -199,7 +199,7 @@ export async function POST(request: NextRequest) {
           <a href="${siteUrl}/versand" style="color:#888;text-decoration:none">Kontakt</a>
         </p>
       </div>`;
-      const subject = `PLATYPUS — ${t.subject}`;
+      const subject = `ON ME HONEY B — ${t.subject}`;
 
       if (!apiKey) {
         console.log('Abandoned (Demo):', subject, '→', data.email);
@@ -208,7 +208,7 @@ export async function POST(request: NextRequest) {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: 'PLATYPUS <onboarding@resend.dev>', to: data.email, subject, html }),
+        body: JSON.stringify({ from: 'ON ME HONEY B <onboarding@resend.dev>', to: data.email, subject, html }),
       });
       return NextResponse.json({ sent: res.ok });
     }
@@ -216,7 +216,7 @@ export async function POST(request: NextRequest) {
     const statusSet = data.type && data.type !== 'confirmation' ? STATUS_TEXTS[data.type] : null;
     const template = statusSet
       ? (() => { const t = statusSet[data.locale] || statusSet.de;
-          return { subject: `PLATYPUS — ${t.subject} (${data.orderId})`, html: buildStatusHtml(t.title, t.body, data.orderId, data.type === 'delivered') }; })()
+          return { subject: `ON ME HONEY B — ${t.subject} (${data.orderId})`, html: buildStatusHtml(t.title, t.body, data.orderId, data.type === 'delivered') }; })()
       : buildConfirmationEmail(data, designPreview);
 
     if (!apiKey) {
@@ -231,7 +231,7 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'PLATYPUS <onboarding@resend.dev>',
+        from: 'ON ME HONEY B <onboarding@resend.dev>',
         to: data.email,
         subject: template.subject,
         html: template.html,

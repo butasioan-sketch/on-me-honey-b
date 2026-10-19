@@ -12,7 +12,7 @@ const FAQ_DE: FaqItem[] = [
   { q: 'Wie wird gedruckt?', a: 'Vollflächiger Sublimationsdruck in die Faser — vorne und hinten, 210 × 297 mm. Waschbeständig bei 30 °C, auf links.' },
   { q: 'Umtausch oder Rückgabe?', a: 'Individuelle Fertigung — kein Widerrufsrecht (§ 312g BGB). Bei Druckfehlern oder Mängeln ersetzen wir dein Piece kostenfrei.' },
   { q: 'Zahlungsmethoden?', a: 'Sichere Kasse über Stripe — Karte, PayPal, Klarna und weitere Methoden.' },
-  { q: 'Kundenservice?', a: 'Platypus Concierge unten rechts — oder Kontakt über das Impressum.' },
+  { q: 'Kundenservice?', a: 'ON ME Concierge unten rechts — oder Kontakt über das Impressum.' },
 ];
 
 const FAQ_RO: FaqItem[] = [
@@ -25,7 +25,7 @@ const FAQ_RO: FaqItem[] = [
   { q: 'Cum se imprimă?', a: 'Sublimare integrală în fibră — față și spate, 210 × 297 mm.' },
   { q: 'Retur sau schimb?', a: 'Produs personalizat — fără drept de retragere. Înlocuire gratuită la defecte.' },
   { q: 'Metode de plată?', a: 'Plată securizată prin Stripe — card, PayPal, Klarna.' },
-  { q: 'Suport?', a: 'Platypus Concierge — sau contact din Impressum.' },
+  { q: 'Suport?', a: 'ON ME Concierge — sau contact din Impressum.' },
 ];
 
 const FAQ_EN: FaqItem[] = [
@@ -38,7 +38,7 @@ const FAQ_EN: FaqItem[] = [
   { q: 'How is it printed?', a: 'Full-area sublimation into the fiber — front and back, 210 × 297 mm.' },
   { q: 'Returns or exchanges?', a: 'Custom-made — no right of withdrawal. Free replacement for print defects.' },
   { q: 'Payment methods?', a: 'Secure checkout via Stripe — card, PayPal, Klarna and more.' },
-  { q: 'Customer service?', a: 'Platypus Concierge bottom-right — or contact via Impressum.' },
+  { q: 'Customer service?', a: 'ON ME Concierge bottom-right — or contact via Impressum.' },
 ];
 
 const META: Record<Locale, { label: string; title: string; sub: string; cta: string; more: string; moreSub: string }> = {

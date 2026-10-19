@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import SiteHeader from '@/app/components/SiteHeader';
 
 export const metadata: Metadata = {
-  title: 'Impressum | PLATYPUS',
-  description: 'Impressum und Kontaktdaten von PLATYPUS — Premium Custom Shirts.',
+  title: 'Impressum | ON ME HONEY B',
+  description: 'Impressum und Kontaktdaten von ON ME HONEY B — Premium Custom Shirts.',
 };
 
 const OPERATOR = {
@@ -27,7 +27,7 @@ export default function ImpressumPage() {
     <div style={{ minHeight: '100vh', background: 'radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.07), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <SiteHeader />
       <main id="main-content" style={{ maxWidth: '700px', margin: '0 auto', padding: '3rem 2rem 5rem', lineHeight: 1.7 }}>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>PLATYPUS</p>
+        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>ON ME HONEY B</p>
         <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>Impressum</h1>
         <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '2rem' }}>Angaben gemäß § 5 DDG</p>
 

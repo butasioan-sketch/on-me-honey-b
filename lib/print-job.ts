@@ -163,7 +163,7 @@ export async function generatePrintPdf(order: Order, designs: DesignRecord[], pr
   const cover = doc.addPage(A4_PT);
   const [pw, ph] = A4_PT;
   let y = ph - MARGIN;
-  drawText(cover, bold, 'PLATYPUS — Druckauftrag', MARGIN, y, 20);
+  drawText(cover, bold, 'ON ME HONEY B — Druckauftrag', MARGIN, y, 20);
   y -= 26;
   drawText(cover, font, `${order.id} · ${new Date(printJob.frozenAt).toLocaleString('de-DE')}`, MARGIN, y, 10, rgb(0.4, 0.4, 0.4));
   y -= 14;

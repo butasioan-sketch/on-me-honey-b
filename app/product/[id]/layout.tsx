@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const desc = product ? getProductDescription(product, 'de') : 'AirFit Performance Fabric, Vollflächendruck. Maßgefertigt auf Bestellung.';
 
   return {
-    title: `${name} — Dein Design | PLATYPUS`,
+    title: `${name} — Dein Design | ON ME HONEY B`,
     description: `${name} — ${desc}. Lade dein Motiv hoch und gestalte dein Statement-Piece.`,
   };
 }
@@ -25,16 +25,16 @@ export default async function Layout({ children, params }: { children: React.Rea
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: `${name} — PLATYPUS Custom ${kind}`,
+    name: `${name} — ON ME Custom ${kind}`,
     description: `${desc} Maßgefertigt auf Bestellung.`,
-    brand: { '@type': 'Brand', name: 'PLATYPUS' },
+    brand: { '@type': 'Brand', name: 'ON ME HONEY B' },
     offers: {
       '@type': 'Offer',
       price: String(product?.price ?? 39.99),
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
       priceValidUntil: '2027-12-31',
-      seller: { '@type': 'Organization', name: 'PLATYPUS' },
+      seller: { '@type': 'Organization', name: 'ON ME HONEY B' },
     },
     image: 'https://on-me-honey-b.vercel.app/og.png',
   };

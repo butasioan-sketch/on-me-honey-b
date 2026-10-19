@@ -15,21 +15,21 @@ async function sendConfirmationEmail(email: string, token: string, locale: strin
 
   const copy: Record<string, { subject: string; title: string; body: string; btn: string; footer: string }> = {
     de: {
-      subject: 'PLATYPUS — Bestätige deine Anmeldung',
+      subject: 'ON ME HONEY B — Bestätige deine Anmeldung',
       title: 'Fast geschafft!',
       body: 'Klicke auf den Button, um deine Newsletter-Anmeldung zu bestätigen. Der Link ist 48 Stunden gültig.',
       btn: 'Jetzt bestätigen',
       footer: 'Du erhältst diese E-Mail, weil du dich auf on-me-honey-b.vercel.app angemeldet hast.',
     },
     ro: {
-      subject: 'PLATYPUS — Confirmă înscrierea la newsletter',
+      subject: 'ON ME HONEY B — Confirmă înscrierea la newsletter',
       title: 'Aproape gata!',
       body: 'Apasă butonul pentru a confirma înscrierea la newsletter. Link-ul este valabil 48 de ore.',
       btn: 'Confirmă acum',
       footer: 'Ai primit acest email deoarece te-ai înscris pe on-me-honey-b.vercel.app.',
     },
     en: {
-      subject: 'PLATYPUS — Confirm your newsletter signup',
+      subject: 'ON ME HONEY B — Confirm your newsletter signup',
       title: 'Almost there!',
       body: 'Click the button below to confirm your newsletter subscription. The link expires in 48 hours.',
       btn: 'Confirm now',
@@ -40,7 +40,7 @@ async function sendConfirmationEmail(email: string, token: string, locale: strin
 
   const html = `
   <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
-    <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">PLATYPUS</p>
+    <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
     <h1 style="font-size:22px;font-weight:900;margin-bottom:12px;letter-spacing:-0.02em">${t.title}</h1>
     <p style="color:#888;margin-bottom:28px;line-height:1.6">${t.body}</p>
     <a href="${confirmUrl}" style="display:inline-block;background:#e2001a;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:28px">
@@ -58,7 +58,7 @@ async function sendConfirmationEmail(email: string, token: string, locale: strin
     method: 'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: 'PLATYPUS <onboarding@resend.dev>',
+      from: 'ON ME HONEY B <onboarding@resend.dev>',
       to: email,
       subject: t.subject,
       html,

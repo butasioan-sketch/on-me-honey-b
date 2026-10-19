@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const SYSTEM_PROMPT = `Du bist der Platypus Concierge — Premium-Berater für PLATYPUS On Me.
+const SYSTEM_PROMPT = `Du bist der ON ME Concierge — Premium-Berater für PLATYPUS On Me.
 
 PRODUKTE (Essential Collection — genau 2, alles unisex, weiß, LIVE):
 - AirFit Pro T-Shirt: AirFit Performance Fabric, 165 g/m², Blank James & Nicholson JN827, Unisex S–XXL, Maßanfertigung. Im Zweifel eine Größe größer.
@@ -111,7 +111,7 @@ function getFallbackResponse(message: string, locale: string): string {
       atelier: 'Im Atelier lädst du dein Motiv hoch (vorne und/oder hinten, 210 × 297 mm) und positionierst/skalierst es frei — was du siehst, wird genauso gedruckt. Die 360°-Ansicht drehst du nur manuell per Ziehen.',
       pflege: 'Waschen bei 30 °C, auf links gewendet — so hält der Druck am längsten.',
       bundleInfo: 'Essential Collection: AirFit Pro T-Shirt €44,99 und AirFit Pro Shorts €39,99. Beide zusammen als Essential Set: €74,99 statt €84,98, automatisch im Warenkorb.',
-      default: 'Willkommen beim Platypus Concierge. Frag mich zu Größe, Material, Atelier, Versand oder Qualität.',
+      default: 'Willkommen beim ON ME Concierge. Frag mich zu Größe, Material, Atelier, Versand oder Qualität.',
     },
     ro: {
       groesse: 'Mărimi: S (XS-S), M (M), L (L-XL), XL (XL-XXL), XXL (XXL+). La nesiguranță, comandați o mărime mai mare.',

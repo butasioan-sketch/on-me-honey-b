@@ -20,7 +20,7 @@ export default async function PrintView({ params }: { params: Promise<{ orderId:
     <div style={{ fontFamily: 'system-ui, sans-serif', padding: '2rem', maxWidth: 900, margin: '0 auto', color: '#111', background: '#fff', minHeight: '100vh' }}>
       <div style={{ borderBottom: '2px solid #111', paddingBottom: '1rem', marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: '1.4rem' }}>PLATYPUS — Druckauftrag</h1>
+          <h1 style={{ margin: 0, fontSize: '1.4rem' }}>ON ME HONEY B — Druckauftrag</h1>
           <p style={{ margin: '0.4rem 0 0', fontSize: '0.95rem' }}>
             <strong>{order.id}</strong> · {order.shippingCountry}{order.shippingMethod ? ' · ' + order.shippingMethod : ''} · Status: {order.status}
             {designs.some((d) => d.frozenAt) && (

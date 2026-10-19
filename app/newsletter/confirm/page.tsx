@@ -15,14 +15,14 @@ function ConfirmContent() {
       <main id="main-content" style={{ maxWidth: '520px', margin: '0 auto', padding: '5rem 2rem', textAlign: 'center' }}>
         <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>{success ? '✓' : '⚠'}</div>
         <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>
-          PLATYPUS Newsletter
+          ON ME Newsletter
         </p>
         <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
           {success ? 'Bestätigt!' : 'Link abgelaufen'}
         </h1>
         <p style={{ color: '#999', lineHeight: 1.65, marginBottom: '2rem', fontSize: '0.95rem' }}>
           {success
-            ? 'Du bist jetzt angemeldet. Wir halten dich über neue Drops, Angebote und PLATYPUS-Neuigkeiten auf dem Laufenden.'
+            ? 'Du bist jetzt angemeldet. Wir halten dich über neue Drops, Angebote und ON ME Neuigkeiten auf dem Laufenden.'
             : 'Dieser Bestätigungslink ist ungültig oder bereits abgelaufen. Melde dich einfach erneut an.'}
         </p>
         <Link href="/" className="plt-btn-primary" style={{ display: 'inline-block', textDecoration: 'none', padding: '0.9rem 2rem' }}>

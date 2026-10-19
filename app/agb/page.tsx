@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import SiteHeader from '@/app/components/SiteHeader';
 
 export const metadata: Metadata = {
-  title: 'AGB | PLATYPUS',
-  description: 'Allgemeine Geschäftsbedingungen von PLATYPUS — Maßgefertigte Premium-Shirts, Einzelanfertigung auf Bestellung.',
+  title: 'AGB | ON ME HONEY B',
+  description: 'Allgemeine Geschäftsbedingungen von ON ME HONEY B — Maßgefertigte Premium-Shirts, Einzelanfertigung auf Bestellung.',
 };
 
 const S = {
@@ -16,12 +16,12 @@ export default function AGBPage() {
     <div style={{ minHeight: '100vh', background: 'radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.07), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <SiteHeader />
       <main id="main-content" style={{ maxWidth: '700px', margin: '0 auto', padding: '3rem 2rem 5rem' }}>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>PLATYPUS</p>
+        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>ON ME HONEY B</p>
         <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>Allgemeine Geschäftsbedingungen</h1>
         <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '2.5rem' }}>Stand: Juli 2026</p>
 
         <h2 style={S.h2}>1. Geltungsbereich</h2>
-        <p style={S.p}>Diese AGB gelten für alle Bestellungen über den Online-Shop PLATYPUS (on-me-honey-b.vercel.app) durch Verbraucher. Anbieter ist der im Impressum genannte Betreiber.</p>
+        <p style={S.p}>Diese AGB gelten für alle Bestellungen über den Online-Shop ON ME HONEY B (on-me-honey-b.vercel.app) durch Verbraucher. Anbieter ist der im Impressum genannte Betreiber.</p>
 
         <h2 style={S.h2}>2. Vertragsschluss</h2>
         <p style={S.p}>Die Darstellung der Produkte im Shop stellt kein rechtlich bindendes Angebot dar, sondern eine Aufforderung zur Bestellung. Mit Abschluss des Bezahlvorgangs (Stripe Checkout) gibt der Kunde ein verbindliches Angebot ab. Der Vertrag kommt mit der Bestellbestätigung per E-Mail zustande.</p>

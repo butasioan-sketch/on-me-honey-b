@@ -5,21 +5,21 @@ import { trackPurchase } from '@/lib/analytics';
 
 const SHARE_TEXT: Record<string, { title: string; text: string; banner: string; share: string; copied: string }> = {
   de: {
-    title: 'Mein neues PLATYPUS Piece',
+    title: 'Mein neues ON ME Piece',
     text: 'Gerade bestellt — mein Motiv auf Performance-Polyester. On me. In your head.',
     banner: '✓ Zahlung erfolgreich! Bestätigung kommt per E-Mail.',
     share: 'Teilen',
     copied: 'Link kopiert!',
   },
   ro: {
-    title: 'Noul meu PLATYPUS',
+    title: 'Noul meu ON ME',
     text: 'Tocmai am comandat — motivul meu pe poliester premium. On me. In your head.',
     banner: '✓ Plată reușită! Confirmarea vine pe email.',
     share: 'Distribuie',
     copied: 'Link copiat!',
   },
   en: {
-    title: 'My new PLATYPUS piece',
+    title: 'My new ON ME piece',
     text: 'Just ordered — my design on performance polyester. On me. In your head.',
     banner: '✓ Payment successful! Confirmation coming via email.',
     share: 'Share',

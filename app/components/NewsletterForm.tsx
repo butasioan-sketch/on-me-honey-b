@@ -5,7 +5,7 @@ import { useState } from 'react';
 const COPY: Record<string, { placeholder: string; btn: string; success: string; exists: string; error: string; label: string; sub: string }> = {
   de: {
     label: 'NEWSLETTER',
-    sub: 'Neue Drops, exklusive Angebote & PLATYPUS-Neuigkeiten.',
+    sub: 'Neue Drops, exklusive Angebote & ON ME Neuigkeiten.',
     placeholder: 'deine@email.de',
     btn: 'Anmelden',
     success: 'Fast fertig — check deine E-Mails und bestätige die Anmeldung.',
@@ -14,7 +14,7 @@ const COPY: Record<string, { placeholder: string; btn: string; success: string; 
   },
   ro: {
     label: 'NEWSLETTER',
-    sub: 'Lansări noi, oferte exclusive și noutăți PLATYPUS.',
+    sub: 'Lansări noi, oferte exclusive și noutăți ON ME.',
     placeholder: 'email@tau.ro',
     btn: 'Abonează-te',
     success: 'Aproape gata — verifică email-ul și confirmă înscrierea.',
@@ -23,7 +23,7 @@ const COPY: Record<string, { placeholder: string; btn: string; success: string; 
   },
   en: {
     label: 'NEWSLETTER',
-    sub: 'New drops, exclusive deals & PLATYPUS news.',
+    sub: 'New drops, exclusive deals & ON ME news.',
     placeholder: 'your@email.com',
     btn: 'Subscribe',
     success: 'Almost done — check your inbox and confirm your signup.',

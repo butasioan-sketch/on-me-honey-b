@@ -12,9 +12,9 @@ interface Props {
 }
 
 const WELCOME: Record<string, string> = {
-  de: 'Willkommen. Ich bin dein Platypus Concierge — wie kann ich helfen?',
-  ro: 'Bun venit. Sunt Platypus Concierge — cum te pot ajuta?',
-  en: 'Welcome. I\'m your Platypus Concierge — how can I help?',
+  de: 'Willkommen. Ich bin dein ON ME Concierge — wie kann ich helfen?',
+  ro: 'Bun venit. Sunt ON ME Concierge — cum te pot ajuta?',
+  en: 'Welcome. I\'m your ON ME Concierge — how can I help?',
 };
 
 const PLACEHOLDERS: Record<string, string> = {
@@ -103,7 +103,7 @@ export default function ChatWidget({ locale = 'de' }: Props) {
               🦆
             </div>
             <div>
-              <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#fff' }}>Platypus Concierge</p>
+              <p style={{ fontWeight: 700, fontSize: '0.875rem', color: '#fff' }}>ON ME Concierge</p>
               <p style={{ fontSize: '0.7rem', color: '#4ade80' }}>● Online</p>
             </div>
           </div>

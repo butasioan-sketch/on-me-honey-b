@@ -23,7 +23,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="PLATYPUS-${order.id}.pdf"`,
+      'Content-Disposition': `attachment; filename="ON-ME-${order.id}.pdf"`,
     },
   });
 }
