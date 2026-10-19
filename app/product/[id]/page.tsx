@@ -181,7 +181,7 @@ export default function ProductPage() {
         </div>
 
         <div>
-          <p className="plt-label" style={{ color: '#e2001a', marginBottom: '0.5rem' }}>{t.shop.premium}</p>
+          <p className="plt-label" style={{ color: '#D4AF37', marginBottom: '0.5rem' }}>{t.shop.premium}</p>
           <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>{productName}</h1>
           <p style={{ color: '#888', fontSize: '0.85rem', lineHeight: 1.55, marginBottom: '1rem' }}>{getProductDescription(product, locale)}</p>
           <p style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '1.5rem', color: '#fff' }}>€{unitPrice.toFixed(2)}</p>
@@ -193,7 +193,7 @@ export default function ProductPage() {
                 <button key={c.key} onClick={() => setColorKey(c.key)} title={c.label[locale] || c.label.de} style={{
                   width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer',
                   background: c.hex,
-                  border: colorKey === c.key ? '3px solid #e2001a' : '2px solid rgba(255,255,255,0.2)',
+                  border: colorKey === c.key ? '3px solid #D4AF37' : '2px solid rgba(255,255,255,0.2)',
                   boxShadow: colorKey === c.key ? '0 0 0 2px rgba(226,0,26,0.3)' : 'none',
                   transition: 'all 0.15s',
                 }} />

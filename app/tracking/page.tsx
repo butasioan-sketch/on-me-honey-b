@@ -47,7 +47,7 @@ export default function TrackingPage() {
       <SiteHeader />
 
       <main id="main-content" style={{ maxWidth: '600px', margin: '0 auto', padding: '3rem 2rem' }}>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>Sendungsverfolgung</p>
+        <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>Sendungsverfolgung</p>
         <h1 style={{ fontSize: '2.2rem', fontWeight: 900, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.02em' }}>Bestellung verfolgen</h1>
         <p style={{ color: '#999', fontSize: '0.95rem', marginBottom: '2rem', lineHeight: 1.6 }}>
           Gib deine Bestellnummer ein (z.B. PLT-1781...). Du findest sie in deiner Bestätigungs-E-Mail.
@@ -61,7 +61,7 @@ export default function TrackingPage() {
             placeholder="PLT-..."
             style={{ flex: 1, background: '#121212', border: '1px solid rgba(255,255,255,0.10)', borderRadius: '10px', padding: '0.85rem 1rem', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
           />
-          <button onClick={search} disabled={loading} style={{ background: '#e2001a', color: '#fff', border: 'none', borderRadius: '10px', padding: '0.85rem 1.5rem', fontWeight: 700, fontSize: '0.9rem', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}>
+          <button onClick={search} disabled={loading} style={{ background: '#D4AF37', color: '#fff', border: 'none', borderRadius: '10px', padding: '0.85rem 1.5rem', fontWeight: 700, fontSize: '0.9rem', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}>
             {loading ? '...' : 'Suchen'}
           </button>
         </div>
@@ -94,11 +94,11 @@ export default function TrackingPage() {
                   return (
                     <div key={step.key} style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: i < STEPS.length - 1 ? '0.25rem' : 0 }}>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: done ? '#e2001a' : '#1c1c1c', border: done ? 'none' : '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: '#fff', flexShrink: 0 }}>
+                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: done ? '#D4AF37' : '#1c1c1c', border: done ? 'none' : '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: '#fff', flexShrink: 0 }}>
                           {done ? '✓' : ''}
                         </div>
                         {i < STEPS.length - 1 && (
-                          <div style={{ width: '2px', height: '22px', background: i < currentStep ? '#e2001a' : 'rgba(255,255,255,0.1)' }} />
+                          <div style={{ width: '2px', height: '22px', background: i < currentStep ? '#D4AF37' : 'rgba(255,255,255,0.1)' }} />
                         )}
                       </div>
                       <span style={{ fontSize: '0.9rem', color: active ? '#fff' : done ? '#bbb' : '#666', fontWeight: active ? 700 : 500, paddingBottom: i < STEPS.length - 1 ? '1.2rem' : 0 }}>

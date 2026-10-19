@@ -52,7 +52,7 @@ export default function AdminPage() {
     <div style={{ minHeight: '100vh', background: 'radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.06), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <header style={{ padding: '1.1rem 2rem', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.15em', color: '#fff' }}>ON ME HONEY B <span style={{ color: '#e2001a', fontSize: '0.7rem', letterSpacing: '0.1em' }}>ADMIN</span></span>
+          <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.15em', color: '#fff' }}>ON ME HONEY B <span style={{ color: '#D4AF37', fontSize: '0.7rem', letterSpacing: '0.1em' }}>ADMIN</span></span>
           <span style={{ color: '#444', marginLeft: '1rem', fontSize: '0.875rem' }}>Admin</span>
         </div>
         <Link href="/" style={{ color: '#555', fontSize: '0.8rem', textDecoration: 'none' }}>← Shop</Link>

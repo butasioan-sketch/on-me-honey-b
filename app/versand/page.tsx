@@ -42,7 +42,7 @@ export default function VersandPage() {
       <SiteHeader />
 
       <main id="main-content" style={{ maxWidth: '700px', margin: '0 auto', padding: '3rem 2rem 6rem' }}>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>ON ME HONEY B</p>
+        <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>ON ME HONEY B</p>
         <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>Versand & Reklamation</h1>
         <p style={{ color: '#888', fontSize: '0.9rem', marginBottom: '2.5rem', lineHeight: 1.6 }}>
           Jedes Shirt wird nach deiner Bestellung gefertigt. Produktionszeit:{' '}

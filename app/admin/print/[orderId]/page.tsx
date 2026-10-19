@@ -82,7 +82,7 @@ export default async function PrintView({ params }: { params: Promise<{ orderId:
                   download={`${order.id}-front.jpg`}
                   style={{
                     display: 'inline-block',
-                    background: '#e2001a',
+                    background: '#D4AF37',
                     color: '#fff',
                     padding: '0.6rem 1.25rem',
                     borderRadius: '8px',
@@ -110,7 +110,7 @@ export default async function PrintView({ params }: { params: Promise<{ orderId:
                   download={`${order.id}-back.jpg`}
                   style={{
                     display: 'inline-block',
-                    background: '#e2001a',
+                    background: '#D4AF37',
                     color: '#fff',
                     padding: '0.6rem 1.25rem',
                     borderRadius: '8px',

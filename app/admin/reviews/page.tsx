@@ -56,7 +56,7 @@ export default function AdminReviewsPage() {
     <div style={{ minHeight: '100vh', background: 'radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.06), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       <header style={{ padding: '1.1rem 2rem', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Link href="/admin" style={{ color: '#fff', textDecoration: 'none', fontWeight: 800, letterSpacing: '0.15em' }}>
-          ON ME <span style={{ color: '#e2001a', fontSize: '0.7rem' }}>ADMIN</span>
+          ON ME <span style={{ color: '#D4AF37', fontSize: '0.7rem' }}>ADMIN</span>
         </Link>
         <Link href="/admin" style={{ color: '#555', fontSize: '0.8rem', textDecoration: 'none' }}>← Admin</Link>
       </header>

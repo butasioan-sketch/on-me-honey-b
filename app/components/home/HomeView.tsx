@@ -5,10 +5,10 @@ import TrustIcon from '@/app/components/TrustIcon';
 import ReviewsSection from '@/app/components/reviews/ReviewsSection';
 
 const outdoorIcons: Record<string, React.ReactNode> = {
-  climb: <path d="M4 26 L14 8 L20 18 L26 6 L30 26 Z" fill="none" stroke="#e2001a" strokeWidth="2" strokeLinejoin="round" />,
-  run: <><circle cx="20" cy="7" r="3" fill="#e2001a" /><path d="M17 12 L11 18 L15 22 L13 28 M17 12 L23 15 L27 12 M17 12 L18 20" fill="none" stroke="#e2001a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></>,
-  ride: <><circle cx="9" cy="22" r="5" fill="none" stroke="#e2001a" strokeWidth="2" /><circle cx="25" cy="22" r="5" fill="none" stroke="#e2001a" strokeWidth="2" /><path d="M9 22 L15 12 L22 12 M15 12 L25 22 M20 8 L23 8" fill="none" stroke="#e2001a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></>,
-  wild: <><path d="M16 4 L26 26 L6 26 Z" fill="none" stroke="#e2001a" strokeWidth="2" strokeLinejoin="round" /><path d="M12 26 L16 16 L20 26" fill="none" stroke="#e2001a" strokeWidth="2" strokeLinejoin="round" /></>,
+  climb: <path d="M4 26 L14 8 L20 18 L26 6 L30 26 Z" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinejoin="round" />,
+  run: <><circle cx="20" cy="7" r="3" fill="#D4AF37" /><path d="M17 12 L11 18 L15 22 L13 28 M17 12 L23 15 L27 12 M17 12 L18 20" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></>,
+  ride: <><circle cx="9" cy="22" r="5" fill="none" stroke="#D4AF37" strokeWidth="2" /><circle cx="25" cy="22" r="5" fill="none" stroke="#D4AF37" strokeWidth="2" /><path d="M9 22 L15 12 L22 12 M15 12 L25 22 M20 8 L23 8" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></>,
+  wild: <><path d="M16 4 L26 26 L6 26 Z" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinejoin="round" /><path d="M12 26 L16 16 L20 26" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinejoin="round" /></>,
 };
 
 export default function HomeView({ locale }: { locale: Locale }) {

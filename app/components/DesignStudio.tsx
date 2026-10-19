@@ -287,7 +287,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
               style={{
                 display: 'flex', alignItems: 'center', gap: '0.3rem', padding: '0.25rem 0.4rem', borderRadius: '8px', cursor: 'pointer',
                 background: layer.id === selectedId ? 'rgba(226,0,26,0.15)' : 'rgba(255,255,255,0.05)',
-                border: layer.id === selectedId ? '1px solid #e2001a' : '1px solid rgba(255,255,255,0.1)',
+                border: layer.id === selectedId ? '1px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
               }}
             >
               <img src={layer.src} alt="" style={{ width: 18, height: 18, objectFit: 'cover', borderRadius: 4 }} />
@@ -311,7 +311,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
             </div>
             <input type="range" min={PRINT_SPEC.scaleMin} max={PRINT_SPEC.scaleMax} step="0.05" value={selectedLayer.transform.scale}
               onChange={(e) => setSelectedScale(Number(e.target.value))}
-              style={{ width: '100%', accentColor: '#e2001a', cursor: 'pointer' }} />
+              style={{ width: '100%', accentColor: '#D4AF37', cursor: 'pointer' }} />
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button type="button" className="plt-btn-secondary" style={{ flex: 1 }} onClick={centerSelected}>{t.studio.center}</button>

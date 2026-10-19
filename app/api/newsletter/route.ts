@@ -40,10 +40,10 @@ async function sendConfirmationEmail(email: string, token: string, locale: strin
 
   const html = `
   <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
-    <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
+    <p style="font-size:13px;letter-spacing:0.2em;color:#D4AF37;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
     <h1 style="font-size:22px;font-weight:900;margin-bottom:12px;letter-spacing:-0.02em">${t.title}</h1>
     <p style="color:#888;margin-bottom:28px;line-height:1.6">${t.body}</p>
-    <a href="${confirmUrl}" style="display:inline-block;background:#e2001a;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:28px">
+    <a href="${confirmUrl}" style="display:inline-block;background:#D4AF37;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:28px">
       ${t.btn}
     </a>
     <p style="color:#444;font-size:12px;line-height:1.6;margin-top:24px">${t.footer}</p>

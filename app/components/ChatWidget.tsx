@@ -75,7 +75,7 @@ export default function ChatWidget({ locale = 'de' }: Props) {
         style={{
           position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 1000,
           width: '56px', height: '56px', borderRadius: '50%',
-          background: open ? '#1a1a1a' : 'linear-gradient(135deg, #e2001a, #a00014)',
+          background: open ? '#1a1a1a' : 'linear-gradient(135deg, #D4AF37, #a00014)',
           color: '#fff',
           border: 'none', cursor: 'pointer',
           fontSize: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -99,7 +99,7 @@ export default function ChatWidget({ locale = 'de' }: Props) {
 
           {/* HEADER */}
           <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid #1a1a1a', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ width: '36px', height: '36px', background: 'linear-gradient(135deg, #e2001a, #a00014)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>
+            <div style={{ width: '36px', height: '36px', background: 'linear-gradient(135deg, #D4AF37, #a00014)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>
               🦆
             </div>
             <div>
@@ -114,7 +114,7 @@ export default function ChatWidget({ locale = 'de' }: Props) {
               <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
                 <div style={{
                   maxWidth: '80%', padding: '0.625rem 0.875rem', borderRadius: m.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
-                  background: m.role === 'user' ? '#e2001a' : '#1a1a1a',
+                  background: m.role === 'user' ? '#D4AF37' : '#1a1a1a',
                   color: m.role === 'user' ? '#fff' : '#fff',
                   fontSize: '0.8rem', lineHeight: 1.5,
                 }}>
@@ -146,7 +146,7 @@ export default function ChatWidget({ locale = 'de' }: Props) {
               }}
             />
             <button onClick={send} disabled={loading || !input.trim()} style={{
-              background: '#e2001a', color: '#fff', border: 'none',
+              background: '#D4AF37', color: '#fff', border: 'none',
               borderRadius: '8px', padding: '0.5rem 0.95rem',
               fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer',
               opacity: loading || !input.trim() ? 0.4 : 1,

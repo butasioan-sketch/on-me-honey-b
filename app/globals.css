@@ -1,31 +1,31 @@
-/* ── PLATYPUS Design Tokens ── */
+/* ── ON ME HONEY B Design Tokens ── */
 :root {
   /* Backgrounds */
   --plt-bg:            #0a0a0a;
-  --plt-bg-sub:        #0c0c0d;
-  --plt-surface:       #121212;
-  --plt-surface-raised:#141414;
-  --plt-surface-high:  #1a1a1a;
+  --plt-bg-sub:        #0f0d0a;
+  --plt-surface:       #1a1510;
+  --plt-surface-raised:#1f1812;
+  --plt-surface-high:  #252015;
 
-  /* Brand */
-  --plt-brand:         #e2001a;
-  --plt-brand-hover:   #ff1a33;
-  --plt-brand-glow:    rgba(226, 0, 26, 0.32);
-  --plt-brand-dim:     rgba(226, 0, 26, 0.12);
-  --plt-brand-muted:   rgba(226, 0, 26, 0.28);
+  /* Brand - Gold/Honig wie Logo */
+  --plt-brand:         #D4AF37;
+  --plt-brand-hover:   #F4D03F;
+  --plt-brand-glow:    rgba(212, 175, 55, 0.35);
+  --plt-brand-dim:     rgba(212, 175, 55, 0.15);
+  --plt-brand-muted:   rgba(212, 175, 55, 0.25);
 
   /* Text */
   --plt-text:          #ffffff;
-  --plt-text-secondary:#cccccc;
-  --plt-text-muted:    #888888;
-  --plt-text-faint:    #555555;
-  --plt-text-ghost:    #333333;
+  --plt-text-secondary:#e8d7b8;
+  --plt-text-muted:    #a89968;
+  --plt-text-faint:    #6b5d3f;
+  --plt-text-ghost:    #3d3520;
 
   /* Borders */
-  --plt-border:        rgba(255, 255, 255, 0.08);
-  --plt-border-subtle: rgba(255, 255, 255, 0.06);
-  --plt-border-mid:    rgba(255, 255, 255, 0.12);
-  --plt-border-brand:  rgba(226, 0, 26, 0.35);
+  --plt-border:        rgba(212, 175, 55, 0.12);
+  --plt-border-subtle: rgba(212, 175, 55, 0.08);
+  --plt-border-mid:    rgba(212, 175, 55, 0.18);
+  --plt-border-brand:  rgba(212, 175, 55, 0.4);
 
   /* Radius */
   --plt-r-xs:  6px;
@@ -54,6 +54,9 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   background: #0a0a0a;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
   color: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -85,14 +88,14 @@ a:hover {
 }
 
 .hero-product-viewer:focus-visible {
-  outline: 2px solid rgba(226, 0, 26, 0.6);
+  outline: 2px solid rgba(212, 175, 55, 0.7);
   outline-offset: 4px;
   border-radius: 12px;
 }
 
 /* ── Accessibility ── */
 :focus-visible {
-  outline: 2px solid rgba(226, 0, 26, 0.7);
+  outline: 2px solid rgba(212, 175, 55, 0.8);
   outline-offset: 3px;
   border-radius: 4px;
 }

@@ -43,7 +43,7 @@ export default function ReviewsSection({
   return (
     <section style={{ padding: compact ? '3rem 2rem' : '0', maxWidth: '1000px', margin: '0 auto' }}>
       <div style={{ textAlign: compact ? 'center' : 'left', marginBottom: '2rem' }}>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>
+        <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>
           {t.reviews.label}
         </p>
         <h2 style={{ fontSize: compact ? '1.75rem' : '2rem', fontWeight: 800, color: '#fff', marginBottom: '0.6rem', letterSpacing: '-0.02em' }}>
@@ -85,7 +85,7 @@ export default function ReviewsSection({
         }}>
           <p style={{ color: '#888', fontSize: '0.95rem', marginBottom: showLink ? '1rem' : 0 }}>{t.reviews.empty}</p>
           {showLink && (
-            <Link href="/bewertungen" style={{ color: '#e2001a', textDecoration: 'none', fontWeight: 600, fontSize: '0.9rem' }}>
+            <Link href="/bewertungen" style={{ color: '#D4AF37', textDecoration: 'none', fontWeight: 600, fontSize: '0.9rem' }}>
               {t.reviews.writeFirst} →
             </Link>
           )}

@@ -136,7 +136,7 @@ export default function ReviewForm({ locale, copy }: { locale: Locale; copy: Rev
         type="submit"
         disabled={status === 'sending'}
         style={{
-          background: status === 'sending' ? '#333' : '#e2001a',
+          background: status === 'sending' ? '#333' : '#D4AF37',
           color: '#fff',
           border: 'none',
           borderRadius: '999px',

@@ -42,12 +42,12 @@ const STATUS_TEXTS: Record<string, Record<string, { subject: string; title: stri
 function buildStatusHtml(title: string, body: string, orderId: string, isDelivered = false): string {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
   const reviewCta = isDelivered ? `
-    <a href="${siteUrl}/bewertungen" style="display:inline-block;background:#e2001a;color:#fff;text-decoration:none;padding:12px 24px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:20px">
+    <a href="${siteUrl}/bewertungen" style="display:inline-block;background:#D4AF37;color:#fff;text-decoration:none;padding:12px 24px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:20px">
       Bewertung schreiben / Leave a review
     </a><br/>` : '';
   return `
   <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
-    <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
+    <p style="font-size:13px;letter-spacing:0.2em;color:#D4AF37;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
     <h1 style="font-size:22px;font-weight:900;margin-bottom:8px;letter-spacing:-0.02em">${title}</h1>
     <p style="color:#888;margin-bottom:28px;line-height:1.6">${body}</p>
     ${reviewCta}
@@ -168,8 +168,8 @@ export async function POST(request: NextRequest) {
         <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
           <h1 style="font-size:20px;color:#f97316;margin-bottom:16px">Bestellung benötigt Prüfung</h1>
           <p style="color:#aaa;line-height:1.6"><strong>${data.orderId}</strong><br/>Grund: ${reason}<br/>Betrag: €${Number(data.total || 0).toFixed(2)}</p>
-          <p style="margin-top:20px"><a href="https://on-me-honey-b.vercel.app/admin/print/${data.orderId}" style="color:#e2001a">Druckauftrag öffnen</a> ·
-          <a href="https://on-me-honey-b.vercel.app/admin/orders" style="color:#e2001a;margin-left:12px">Admin Orders</a></p>
+          <p style="margin-top:20px"><a href="https://on-me-honey-b.vercel.app/admin/print/${data.orderId}" style="color:#D4AF37">Druckauftrag öffnen</a> ·
+          <a href="https://on-me-honey-b.vercel.app/admin/orders" style="color:#D4AF37;margin-left:12px">Admin Orders</a></p>
         </div>`,
       };
       if (!apiKey) {
@@ -189,10 +189,10 @@ export async function POST(request: NextRequest) {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
       const html = `
       <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
-        <p style="font-size:13px;letter-spacing:0.2em;color:#e2001a;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
+        <p style="font-size:13px;letter-spacing:0.2em;color:#D4AF37;margin-bottom:8px;font-weight:700">ON ME HONEY B</p>
         <h1 style="font-size:22px;font-weight:900;margin-bottom:12px;letter-spacing:-0.02em">${t.title}</h1>
         <p style="color:#888;margin-bottom:28px;line-height:1.6">${t.body}</p>
-        <a href="${siteUrl}/cart" style="display:inline-block;background:#e2001a;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:24px">
+        <a href="${siteUrl}/cart" style="display:inline-block;background:#D4AF37;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:14px;margin-bottom:24px">
           ${t.cta} →
         </a>
         <p style="color:#444;font-size:12px;line-height:1.6;margin-top:24px">

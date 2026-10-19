@@ -72,7 +72,7 @@ export default function ShirtPrintOverlay({
               pointerEvents: 'auto',
               cursor: isSelected ? 'grab' : 'pointer',
               borderRadius: '3px',
-              boxShadow: isSelected ? 'inset 0 0 0 2px #e2001a, 0 0 8px rgba(226,0,26,0.5)' : 'inset 0 0 0 1px rgba(255,255,255,0.2)',
+              boxShadow: isSelected ? 'inset 0 0 0 2px #D4AF37, 0 0 8px rgba(226,0,26,0.5)' : 'inset 0 0 0 1px rgba(255,255,255,0.2)',
             }}
           />
         );

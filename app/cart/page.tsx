@@ -176,7 +176,7 @@ export default function CartPage() {
                   {!item.designId && (
                     <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '0.6rem 0.85rem', fontSize: '0.78rem', color: '#fca5a5', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                       <span>{t.cart.noDesignItem}</span>
-                      <a href={`/product/${item.id}?size=${encodeURIComponent(item.size)}&edit=1`} style={{ color: '#e2001a', fontWeight: 700, textDecoration: 'none', whiteSpace: 'nowrap' }}>{t.cart.addDesignLink}</a>
+                      <a href={`/product/${item.id}?size=${encodeURIComponent(item.size)}&edit=1`} style={{ color: '#D4AF37', fontWeight: 700, textDecoration: 'none', whiteSpace: 'nowrap' }}>{t.cart.addDesignLink}</a>
                     </div>
                   )}
                 </div>
@@ -190,9 +190,9 @@ export default function CartPage() {
                 {COUNTRIES.map((c) => (
                   <button key={c.code} onClick={() => setCountry(c.code)} style={{
                     padding: '0.55rem 1.1rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 600,
-                    background: country === c.code ? '#e2001a' : '#121212',
+                    background: country === c.code ? '#D4AF37' : '#121212',
                     color: country === c.code ? '#fff' : '#888',
-                    border: country === c.code ? '1px solid #e2001a' : '1px solid rgba(255,255,255,0.10)',
+                    border: country === c.code ? '1px solid #D4AF37' : '1px solid rgba(255,255,255,0.10)',
                   }}>{c.label}</button>
                 ))}
               </div>
@@ -204,7 +204,7 @@ export default function CartPage() {
                     padding: '0.8rem 1rem', borderRadius: '10px', cursor: 'pointer', fontSize: '0.9rem', textAlign: 'left',
                     background: shipId === o.id ? 'rgba(226,0,26,0.12)' : '#121212',
                     color: '#fff',
-                    border: shipId === o.id ? '2px solid #e2001a' : '1px solid rgba(255,255,255,0.10)',
+                    border: shipId === o.id ? '2px solid #D4AF37' : '1px solid rgba(255,255,255,0.10)',
                   }}>
                     <span style={{ fontWeight: 700 }}>{o.carrier}<span style={{ color: '#888', fontWeight: 400, fontSize: '0.78rem', marginLeft: '0.5rem' }}>{o.eta[country]}</span></span>
                     <span style={{ fontWeight: 700 }}>€{o.price[country].toFixed(2)}</span>

@@ -48,7 +48,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
   return (
     <section className="hero-product" style={{ padding: '2.5rem 2rem 4rem', maxWidth: '1100px', margin: '0 auto' }}>
       <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2.5rem' }}>
-        <p className="plt-label hero-badge" style={{ color: '#e2001a', margin: '0 0 1rem' }}>
+        <p className="plt-label hero-badge" style={{ color: '#D4AF37', margin: '0 0 1rem' }}>
           {t.hero.badge}
         </p>
         <h1 style={{
@@ -57,7 +57,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
         }}>
           {t.hero.headline1}<br />
           <span style={{
-            background: 'linear-gradient(90deg, #e2001a, #ff5577)',
+            background: 'linear-gradient(90deg, #D4AF37, #ff5577)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
           }}>
             {t.hero.headline2}
@@ -93,7 +93,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
       {shorts && (
         <div className="plt-card" style={{ padding: '1.5rem', background: 'rgba(226,0,26,0.06)', border: '1px solid rgba(226,0,26,0.25)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
           <div>
-            <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 0.4rem', fontWeight: 700 }}>
+            <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 0.4rem', fontWeight: 700 }}>
               {t.hero.essentialSetLabel}
             </p>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem', marginBottom: '0.3rem' }}>

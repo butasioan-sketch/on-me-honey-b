@@ -32,7 +32,7 @@ export default function DesignPreview({ designId }: { designId: string }) {
 
   return (
     <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #1a1a1a' }}>
-      <p style={{ color: '#e2001a', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+      <p style={{ color: '#D4AF37', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
         🎨 Kunden-Design (zum Drucken)
       </p>
       <div style={{ display: 'flex', gap: '0.75rem' }}>

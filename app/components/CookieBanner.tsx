@@ -35,7 +35,7 @@ export default function CookieBanner() {
     }}>
       <p style={{ color: '#aaa', fontSize: '0.82rem', flex: 1, margin: 0, lineHeight: 1.5, minWidth: 200 }}>
         {t.cookie.text}{' '}
-        <Link href="/datenschutz" style={{ color: '#e2001a', textDecoration: 'none' }}>{t.cookie.privacy}</Link>
+        <Link href="/datenschutz" style={{ color: '#D4AF37', textDecoration: 'none' }}>{t.cookie.privacy}</Link>
       </p>
       <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
         <button
@@ -52,7 +52,7 @@ export default function CookieBanner() {
           onClick={accept}
           style={{
             padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer',
-            background: '#e2001a', border: 'none',
+            background: '#D4AF37', border: 'none',
             color: '#fff', fontSize: '0.82rem', fontWeight: 700,
           }}
         >

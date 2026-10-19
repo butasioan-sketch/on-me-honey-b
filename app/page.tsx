@@ -30,7 +30,7 @@ export default function HomePage() {
           .hero-product-info { text-align: center; }
           .hero-product-viewer { max-width: 360px; margin: 0 auto; }
         }
-        .btn-primary:hover { background: #ff1a33 !important; transform: translateY(-2px); }
+        .btn-primary:hover { background: #F4D03F !important; transform: translateY(-2px); }
         .btn-primary { transition: background 0.2s, transform 0.2s; }
         .hero-product-card:hover { border-color: rgba(226,0,26,0.35) !important; }
         .hero-product-card { transition: border-color 0.2s ease; }

@@ -7,7 +7,7 @@ export default function Loading() {
       <div style={{
         width: 44, height: 44,
         border: '3px solid rgba(226,0,26,0.15)',
-        borderTopColor: '#e2001a',
+        borderTopColor: '#D4AF37',
         borderRadius: '50%',
         animation: 'on-me-honey-b-spin 0.75s linear infinite',
       }} />

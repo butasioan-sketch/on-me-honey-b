@@ -14,7 +14,7 @@ function ConfirmContent() {
       <SiteHeader />
       <main id="main-content" style={{ maxWidth: '520px', margin: '0 auto', padding: '5rem 2rem', textAlign: 'center' }}>
         <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>{success ? '✓' : '⚠'}</div>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>
+        <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>
           ON ME Newsletter
         </p>
         <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>

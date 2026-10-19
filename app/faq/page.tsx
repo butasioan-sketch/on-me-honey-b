@@ -16,7 +16,7 @@ export default function FaqPage() {
       <SiteHeader />
 
       <main id="main-content" style={{ maxWidth: '720px', margin: '0 auto', padding: '3rem 2rem 5rem' }}>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>{meta.label}</p>
+        <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>{meta.label}</p>
         <h1 style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '0.6rem', color: '#fff', letterSpacing: '-0.02em' }}>{meta.title}</h1>
         <p style={{ color: '#999', fontSize: '1rem', marginBottom: '2.5rem', lineHeight: 1.6 }}>{meta.sub}</p>
 
@@ -30,7 +30,7 @@ export default function FaqPage() {
                   style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none', color: '#fff', padding: '1.15rem 1.35rem', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}
                 >
                   <span>{item.q}</span>
-                  <span style={{ color: '#e2001a', fontSize: '1.3rem', flexShrink: 0, transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>+</span>
+                  <span style={{ color: '#D4AF37', fontSize: '1.3rem', flexShrink: 0, transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>+</span>
                 </button>
                 {isOpen && (
                   <div style={{ padding: '0 1.35rem 1.25rem', color: '#aaa', fontSize: '0.9rem', lineHeight: 1.65 }}>

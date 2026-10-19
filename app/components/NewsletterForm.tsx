@@ -57,7 +57,7 @@ export default function NewsletterForm({ locale = 'de' }: { locale: string }) {
 
   return (
     <div style={{ marginBottom: '1.75rem' }}>
-      <p style={{ color: '#e2001a', fontSize: '0.68rem', letterSpacing: '0.22em', fontWeight: 700, marginBottom: '0.35rem' }}>{t.label}</p>
+      <p style={{ color: '#D4AF37', fontSize: '0.68rem', letterSpacing: '0.22em', fontWeight: 700, marginBottom: '0.35rem' }}>{t.label}</p>
       <p style={{ color: '#666', fontSize: '0.8rem', marginBottom: '0.85rem', lineHeight: 1.5 }}>{t.sub}</p>
 
       {(state === 'success' || state === 'exists') ? (

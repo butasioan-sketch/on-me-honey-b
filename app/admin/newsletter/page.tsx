@@ -51,7 +51,7 @@ export default function NewsletterAdminPage() {
       </Link>
 
       <div className="mt-5 rounded-[2rem] bg-[#121212] border border-white/10 shadow-xl p-6 sm:p-10">
-        <p className="text-[#e2001a] font-black uppercase tracking-widest text-xs">Newsletter</p>
+        <p className="text-[#D4AF37] font-black uppercase tracking-widest text-xs">Newsletter</p>
         <h1 className="mt-3 text-4xl sm:text-6xl font-black">E-Mail Leads</h1>
         <p className="mt-4 text-neutral-400">
           Double Opt-In — Neon Postgres. Bestätigt: <strong style={{ color: '#4ade80' }}>{confirmed.length}</strong> · Ausstehend: <strong style={{ color: '#fbbf24' }}>{pending.length}</strong>

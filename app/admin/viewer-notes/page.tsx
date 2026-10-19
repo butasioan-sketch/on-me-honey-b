@@ -30,7 +30,7 @@ export default function ViewerNotesPage() {
       </Link>
 
       <div className="mt-5 rounded-[2rem] bg-[#121212] border border-white/10 shadow-xl p-6 sm:p-10">
-        <p className="text-[#e2001a] font-black uppercase tracking-widest text-xs">
+        <p className="text-[#D4AF37] font-black uppercase tracking-widest text-xs">
           Kunden-Notizen
         </p>
 

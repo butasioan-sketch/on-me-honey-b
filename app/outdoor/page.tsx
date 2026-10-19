@@ -22,7 +22,7 @@ export default function OutdoorPage() {
 
       {/* Hero */}
       <section style={{ position: 'relative', overflow: 'hidden', padding: '6rem 2rem 5rem', textAlign: 'center', background: 'radial-gradient(800px 400px at 50% 0%, rgba(226,0,26,0.12), transparent 70%)' }}>
-        <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.3em', fontWeight: 700, marginBottom: '1.25rem', textTransform: 'uppercase' }}>
+        <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.3em', fontWeight: 700, marginBottom: '1.25rem', textTransform: 'uppercase' }}>
           ON ME × OUTDOOR
         </p>
         <h1 style={{ fontSize: 'clamp(2.4rem, 6vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '1.5rem', maxWidth: '800px', margin: '0 auto 1.5rem' }}>

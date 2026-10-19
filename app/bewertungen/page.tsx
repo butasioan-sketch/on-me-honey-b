@@ -33,7 +33,7 @@ export default function BewertungenPage() {
             borderRadius: '16px',
             padding: '1.5rem',
           }}>
-            <p style={{ color: '#e2001a', fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.75rem' }}>
+            <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.75rem' }}>
               {t.reviews.moderationLabel}
             </p>
             <p style={{ color: '#aaa', fontSize: '0.88rem', lineHeight: 1.65, margin: 0 }}>{t.reviews.moderationNote}</p>
