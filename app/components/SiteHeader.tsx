@@ -12,10 +12,10 @@ export default function SiteHeader() {
   return (
     <header className="plt-header site-header">
       <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-        <Image src="/logo.jpeg" alt="PLATYPUS" width={56} height={56} style={{ borderRadius: '10px', marginRight: '0.75rem' }} priority />
+        <Image src="/logo.png" alt="ON ME HONEY B" width={56} height={56} style={{ borderRadius: '10px', marginRight: '0.75rem' }} priority />
         <div className="brand-text" style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
           <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.05em', color: '#fff' }}>ON ME</span>
-          <span style={{ fontSize: '0.65rem', fontWeight: 500, letterSpacing: '0.08em', color: '#888', textTransform: 'uppercase' }}>im PLATYPUS-Webshop</span>
+          <span style={{ fontSize: '0.65rem', fontWeight: 500, letterSpacing: '0.08em', color: '#888', textTransform: 'uppercase' }}>Premium Custom Shirts</span>
         </div>
       </Link>
       <nav className="site-header-nav" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
