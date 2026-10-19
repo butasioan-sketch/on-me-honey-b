@@ -37,7 +37,7 @@ export default function PaymentSuccessBanner() {
     if (params.get('payment') !== 'success') return;
 
     setVisible(true);
-    localStorage.removeItem('platypus_cart');
+    localStorage.removeItem('on_me_honey_b_cart');
     window.dispatchEvent(new Event('cart-updated'));
     window.history.replaceState({}, '', '/');
 
@@ -47,7 +47,7 @@ export default function PaymentSuccessBanner() {
       sessionStorage.removeItem('plt_pending_purchase');
     }
 
-    const storedLocale = localStorage.getItem('platypus_locale') || 'de';
+    const storedLocale = localStorage.getItem('on_me_honey_b_locale') || 'de';
     setLocale(storedLocale);
 
     const timer = setTimeout(() => setVisible(false), 15000);
@@ -57,7 +57,7 @@ export default function PaymentSuccessBanner() {
   if (!visible) return null;
 
   const t = SHARE_TEXT[locale] || SHARE_TEXT.de;
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://platypus-shirt-shop.vercel.app';
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://on-me-honey-b.vercel.app';
 
   const handleShare = async () => {
     if (navigator.share) {

@@ -10,7 +10,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 async function sendConfirmationEmail(email: string, token: string, locale: string) {
   const apiKey = process.env.RESEND_API_KEY;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://platypus-shirt-shop.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
   const confirmUrl = `${siteUrl}/api/newsletter?action=confirm&token=${token}`;
 
   const copy: Record<string, { subject: string; title: string; body: string; btn: string; footer: string }> = {
@@ -19,21 +19,21 @@ async function sendConfirmationEmail(email: string, token: string, locale: strin
       title: 'Fast geschafft!',
       body: 'Klicke auf den Button, um deine Newsletter-Anmeldung zu bestätigen. Der Link ist 48 Stunden gültig.',
       btn: 'Jetzt bestätigen',
-      footer: 'Du erhältst diese E-Mail, weil du dich auf platypus-shirt-shop.vercel.app angemeldet hast.',
+      footer: 'Du erhältst diese E-Mail, weil du dich auf on-me-honey-b.vercel.app angemeldet hast.',
     },
     ro: {
       subject: 'PLATYPUS — Confirmă înscrierea la newsletter',
       title: 'Aproape gata!',
       body: 'Apasă butonul pentru a confirma înscrierea la newsletter. Link-ul este valabil 48 de ore.',
       btn: 'Confirmă acum',
-      footer: 'Ai primit acest email deoarece te-ai înscris pe platypus-shirt-shop.vercel.app.',
+      footer: 'Ai primit acest email deoarece te-ai înscris pe on-me-honey-b.vercel.app.',
     },
     en: {
       subject: 'PLATYPUS — Confirm your newsletter signup',
       title: 'Almost there!',
       body: 'Click the button below to confirm your newsletter subscription. The link expires in 48 hours.',
       btn: 'Confirm now',
-      footer: 'You received this because you signed up at platypus-shirt-shop.vercel.app.',
+      footer: 'You received this because you signed up at on-me-honey-b.vercel.app.',
     },
   };
   const t = copy[locale] || copy.de;
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const action = searchParams.get('action');
   const token = searchParams.get('token');
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://platypus-shirt-shop.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
 
   if (action === 'confirm' && token) {
     const ok = await confirmNewsletterSubscriber(token);

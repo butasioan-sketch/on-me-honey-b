@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 export function track(type: string, data?: Record<string, unknown>) {
-  if (typeof window !== 'undefined' && localStorage.getItem('platypus_cookie_consent') !== 'accepted') return;
+  if (typeof window !== 'undefined' && localStorage.getItem('on_me_honey_b_cookie_consent') !== 'accepted') return;
   try {
     fetch('/api/analytics', {
       method: 'POST',
@@ -20,8 +20,8 @@ export default function Analytics() {
 
   useEffect(() => {
     const firePageview = () => {
-      if (localStorage.getItem('platypus_cookie_consent') !== 'accepted') return;
-      const locale = localStorage.getItem('platypus_locale') || 'de';
+      if (localStorage.getItem('on_me_honey_b_cookie_consent') !== 'accepted') return;
+      const locale = localStorage.getItem('on_me_honey_b_locale') || 'de';
       track('pageview', { page: pathname, locale });
     };
 

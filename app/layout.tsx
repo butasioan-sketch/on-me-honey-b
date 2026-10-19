@@ -15,7 +15,7 @@ import Footer from './components/Footer';
 import Analytics from './components/Analytics';
 import CookieBanner from './components/CookieBanner';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://platypus-shirt-shop.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

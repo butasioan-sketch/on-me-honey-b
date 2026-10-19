@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
 
     try {
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://platypus-shirt-shop.vercel.app';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
       const parsedItems = (() => {
         try {
           const raw = JSON.parse(session.metadata?.items || '[]');
@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
 
     if (customerEmail) {
       try {
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://platypus-shirt-shop.vercel.app';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
         const locale = session.metadata?.locale || 'de';
         const total = (session.amount_total || 0) / 100;
 

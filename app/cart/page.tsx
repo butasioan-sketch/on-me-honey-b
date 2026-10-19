@@ -58,11 +58,11 @@ export default function CartPage() {
 
   useEffect(() => {
     try {
-      const raw: CartItem[] = JSON.parse(localStorage.getItem('platypus_cart') || '[]');
+      const raw: CartItem[] = JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]');
       const valid = raw.filter(i => i.designId);
       const removed = raw.length - valid.length;
       if (removed > 0) {
-        localStorage.setItem('platypus_cart', JSON.stringify(valid));
+        localStorage.setItem('on_me_honey_b_cart', JSON.stringify(valid));
         setError(t.cart.purgedNotice(removed));
         setTimeout(() => setError(''), 6000);
       }
@@ -73,7 +73,7 @@ export default function CartPage() {
   const remove = (index: number) => {
     const updated = items.filter((_, i) => i !== index);
     setItems(updated);
-    localStorage.setItem('platypus_cart', JSON.stringify(updated));
+    localStorage.setItem('on_me_honey_b_cart', JSON.stringify(updated));
   };
 
   const updateQty = (index: number, delta: number) => {
@@ -83,7 +83,7 @@ export default function CartPage() {
       return { ...item, quantity: qty };
     });
     setItems(updated);
-    localStorage.setItem('platypus_cart', JSON.stringify(updated));
+    localStorage.setItem('on_me_honey_b_cart', JSON.stringify(updated));
   };
 
   const merchItems: MerchandiseItem[] = items.map((i) => ({ productId: i.id, pages: i.pages || 1, qty: i.quantity }));
@@ -120,7 +120,7 @@ export default function CartPage() {
       });
       const data = await res.json();
       if (data.redirectUrl) {
-        localStorage.removeItem('platypus_cart');
+        localStorage.removeItem('on_me_honey_b_cart');
         window.location.href = data.redirectUrl;
       } else {
         setError(t.errors.checkout);

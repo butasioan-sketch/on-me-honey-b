@@ -42,7 +42,7 @@ export default function AdminPage() {
   ];
 
   const links = [
-    { label: 'Live Shop', href: 'https://platypus-shirt-shop.vercel.app', ext: true },
+    { label: 'Live Shop', href: 'https://on-me-honey-b.vercel.app', ext: true },
     { label: 'Produkt 1', href: '/product/1', ext: false },
     { label: 'Warenkorb', href: '/cart', ext: false },
     { label: 'Stripe Dashboard', href: 'https://dashboard.stripe.com', ext: true },

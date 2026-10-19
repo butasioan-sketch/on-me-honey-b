@@ -8,17 +8,17 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem('platypus_cookie_consent')) setVisible(true);
+    if (!localStorage.getItem('on_me_honey_b_cookie_consent')) setVisible(true);
   }, []);
 
   const accept = () => {
-    localStorage.setItem('platypus_cookie_consent', 'accepted');
+    localStorage.setItem('on_me_honey_b_cookie_consent', 'accepted');
     window.dispatchEvent(new Event('cookieconsent'));
     setVisible(false);
   };
 
   const decline = () => {
-    localStorage.setItem('platypus_cookie_consent', 'declined');
+    localStorage.setItem('on_me_honey_b_cookie_consent', 'declined');
     setVisible(false);
   };
 

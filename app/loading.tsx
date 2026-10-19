@@ -9,12 +9,12 @@ export default function Loading() {
         border: '3px solid rgba(226,0,26,0.15)',
         borderTopColor: '#e2001a',
         borderRadius: '50%',
-        animation: 'platypus-spin 0.75s linear infinite',
+        animation: 'on-me-honey-b-spin 0.75s linear infinite',
       }} />
       <p style={{ color: '#555', fontSize: '0.72rem', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
         On Me · Shop lädt
       </p>
-      <style>{`@keyframes platypus-spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`@keyframes on-me-honey-b-spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

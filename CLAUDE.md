@@ -1,14 +1,14 @@
-# PLATYPUS — Hinweise für Claude / AI-Assistenten
+# ON ME HONEY B — Hinweise für Claude / AI-Assistenten
 
 **Onboarding:** `~/Schreibtisch/MeinVault/ClaudeData/PLATYPUS-ONBOARDING.md`  
 **Bug-Audit-Liste:** `~/Schreibtisch/MeinVault/ClaudeData/BUG-AUDIT-LIST.md`  
 **Roadmap Phase 2:** `~/Schreibtisch/MeinVault/ClaudeData/ROADMAP-PHASE2.md` ← Design, Marketing, Cart, Social
 
 ## Projekt
-- Pfad: `~/Schreibtisch/platypus-shirt-shop`
-- Live: https://platypus-shirt-shop.vercel.app
+- Pfad: `~/Schreibtisch/on-me-honey-b`
+- Live: https://on-me-honey-b.vercel.app
 - Owner: [INHABER-EMAIL]
-- **Claude-Index (Live-Stand + offene Aufgaben):** `~/Schreibtisch/MeinVault/ClaudeData/CLAUDE-INDEX-PLATYPUS-LIVE.md`
+- **Claude-Index (Live-Stand + offene Aufgaben):** `~/Schreibtisch/MeinVault/ClaudeData/CLAUDE-INDEX-ON-ME-HONEY-B-LIVE.md`
 
 ## Befehle
 ```bash
@@ -63,4 +63,4 @@ Siehe `.env.example`. Production-Secrets auf Vercel — `npx vercel env ls`.
 - Vor Deploy: `./p build`
 - Preise auf Homepage seit 19.07.2026 erlaubt (Essential Collection zeigt Tee/Shorts/Set-Preis explizit, Jonny-OK)
 - Checkout immer mit designId
-- Terminologie: Maßanfertigung, Atelier, Platypus Concierge (nicht Print-on-Demand)
+- Terminologie: Maßanfertigung, Atelier, On Me Honey B Concierge (nicht Print-on-Demand)

@@ -2,7 +2,7 @@
 
 function hasConsent(): boolean {
   if (typeof window === 'undefined') return false;
-  return localStorage.getItem('platypus_cookie_consent') === 'accepted';
+  return localStorage.getItem('on_me_honey_b_cookie_consent') === 'accepted';
 }
 
 function postAnalytics(type: string, data?: Record<string, unknown>) {
@@ -28,7 +28,7 @@ export function trackEvent(eventName: string, data?: Record<string, unknown>) {
   if (!hasConsent()) return;
 
   postAnalytics(eventName.toLowerCase(), data);
-  console.log('[PLATYPUS EVENT]', eventName, data || {});
+  console.log('[ON-ME-HONEY-B EVENT]', eventName, data || {});
 
   const w = window as TrackingWindow;
   if (w.fbq) w.fbq('trackCustom', eventName, data || {});

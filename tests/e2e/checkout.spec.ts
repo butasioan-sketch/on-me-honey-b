@@ -7,7 +7,7 @@
  *   NEXT_PUBLIC_SITE_URL=http://localhost:3000 npx playwright test
  *
  * Oder gegen Live:
- *   BASE_URL=https://platypus-shirt-shop.vercel.app npx playwright test
+ *   BASE_URL=https://on-me-honey-b.vercel.app npx playwright test
  */
 
 import { test, expect, type Page } from '@playwright/test';
@@ -15,7 +15,7 @@ import { test, expect, type Page } from '@playwright/test';
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 async function clearCart(page: Page) {
-  await page.evaluate(() => localStorage.removeItem('platypus_cart'));
+  await page.evaluate(() => localStorage.removeItem('on_me_honey_b_cart'));
 }
 
 async function uploadDesign(page: Page, side: 'front' | 'back' = 'front') {
@@ -67,7 +67,7 @@ test.describe('PLATYPUS — Checkout-Flow', () => {
 
     // Warenkorb soll Item enthalten
     const cart = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem('platypus_cart') || '[]')
+      JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]')
     );
     expect(cart).toHaveLength(1);
     expect(cart[0].designId).toBeTruthy();
@@ -95,14 +95,14 @@ test.describe('PLATYPUS — Checkout-Flow', () => {
     // Manipuliere localStorage: Item ohne designId hinzufügen
     await page.evaluate(() => {
       const bad = [{ id: '1', name: 'AirFit Pro', price: 39.99, size: 'M', quantity: 1 }];
-      localStorage.setItem('platypus_cart', JSON.stringify(bad));
+      localStorage.setItem('on_me_honey_b_cart', JSON.stringify(bad));
     });
 
     await page.reload();
 
     // Nach Reload: Item sollte entfernt worden sein
     const cart = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem('platypus_cart') || '[]')
+      JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]')
     );
     expect(cart).toHaveLength(0);
   });

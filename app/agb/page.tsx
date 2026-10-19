@@ -21,7 +21,7 @@ export default function AGBPage() {
         <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '2.5rem' }}>Stand: Juli 2026</p>
 
         <h2 style={S.h2}>1. Geltungsbereich</h2>
-        <p style={S.p}>Diese AGB gelten für alle Bestellungen über den Online-Shop PLATYPUS (platypus-shirt-shop.vercel.app) durch Verbraucher. Anbieter ist der im Impressum genannte Betreiber.</p>
+        <p style={S.p}>Diese AGB gelten für alle Bestellungen über den Online-Shop PLATYPUS (on-me-honey-b.vercel.app) durch Verbraucher. Anbieter ist der im Impressum genannte Betreiber.</p>
 
         <h2 style={S.h2}>2. Vertragsschluss</h2>
         <p style={S.p}>Die Darstellung der Produkte im Shop stellt kein rechtlich bindendes Angebot dar, sondern eine Aufforderung zur Bestellung. Mit Abschluss des Bezahlvorgangs (Stripe Checkout) gibt der Kunde ein verbindliches Angebot ab. Der Vertrag kommt mit der Bestellbestätigung per E-Mail zustande.</p>

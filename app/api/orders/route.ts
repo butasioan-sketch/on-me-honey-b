@@ -83,7 +83,7 @@ export async function PATCH(request: NextRequest) {
       try {
         const order = await getOrderById(id);
         if (order?.customerEmail) {
-          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://platypus-shirt-shop.vercel.app';
+          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
           await fetch(`${siteUrl}/api/email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

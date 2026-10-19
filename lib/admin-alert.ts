@@ -9,7 +9,7 @@ export async function notifyAdminWebhookError(sessionId: string, error: unknown)
     console.error('[webhook-alert] Order nicht erstellt — kein Alert möglich:', sessionId, msg);
     return;
   }
-  const subject = `🚨 PLATYPUS Webhook-Fehler — Session ${sessionId}`;
+  const subject = `🚨 ON ME HONEY B Webhook-Fehler — Session ${sessionId}`;
   const html = `
     <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">
       <h1 style="font-size:20px;color:#f87171;margin-bottom:16px">⚠ Webhook-Fehler — Order nicht erstellt</h1>
@@ -21,7 +21,7 @@ export async function notifyAdminWebhookError(sessionId: string, error: unknown)
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'PLATYPUS <onboarding@resend.dev>', to: adminEmail, subject, html }),
+      body: JSON.stringify({ from: 'ON ME HONEY B <onboarding@resend.dev>', to: adminEmail, subject, html }),
     });
   } catch (e) {
     console.error('[webhook-alert] Alert-Versand fehlgeschlagen:', e);
@@ -38,7 +38,7 @@ export async function notifyAdminOrderIssue(
     return;
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://platypus-shirt-shop.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
 
   try {
     await fetch(`${siteUrl}/api/email`, {

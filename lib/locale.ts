@@ -3,7 +3,7 @@ import { Locale } from './i18n';
 export function detectLocale(): Locale {
   if (typeof window === 'undefined') return 'de';
 
-  const saved = localStorage.getItem('platypus_locale') as Locale;
+  const saved = localStorage.getItem('on_me_honey_b_locale') as Locale;
   if (saved && ['de', 'ro', 'en'].includes(saved)) return saved;
 
   const browser = navigator.language.toLowerCase();
@@ -13,7 +13,7 @@ export function detectLocale(): Locale {
 }
 
 export function setLocale(locale: Locale) {
-  localStorage.setItem('platypus_locale', locale);
+  localStorage.setItem('on_me_honey_b_locale', locale);
 }
 
 export const LOCALE_FLAGS: Record<Locale, string> = {

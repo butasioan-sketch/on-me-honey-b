@@ -36,7 +36,7 @@ export default async function Layout({ children, params }: { children: React.Rea
       priceValidUntil: '2027-12-31',
       seller: { '@type': 'Organization', name: 'PLATYPUS' },
     },
-    image: 'https://platypus-shirt-shop.vercel.app/og.png',
+    image: 'https://on-me-honey-b.vercel.app/og.png',
   };
 
   return (

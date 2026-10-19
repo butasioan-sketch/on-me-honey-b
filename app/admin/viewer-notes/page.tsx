@@ -13,13 +13,13 @@ export default function ViewerNotesPage() {
   const [notes, setNotes] = useState<ViewerNote[]>([]);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("platypus-viewer-notes") || "[]");
+    const saved = JSON.parse(localStorage.getItem("on-me-honey-b-viewer-notes") || "[]");
     setNotes(saved);
   }, []);
 
   function clearNotes() {
     if (!confirm("Viewer-Notizen wirklich löschen?")) return;
-    localStorage.removeItem("platypus-viewer-notes");
+    localStorage.removeItem("on-me-honey-b-viewer-notes");
     setNotes([]);
   }
 

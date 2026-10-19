@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'platypus-shirt-shop.vercel.app' },
+      { protocol: 'https', hostname: 'on-me-honey-b.vercel.app' },
     ],
     formats: ['image/avif', 'image/webp'],
   },

@@ -220,7 +220,7 @@ export async function POST(request: Request) {
     const StripeModule = await import("stripe");
     const Stripe = StripeModule.default;
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://platypus-shirt-shop.vercel.app";
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://on-me-honey-b.vercel.app";
 
     // Serialisiert Items mit abgekürzten Keys (~87 Zeichen/Item statt ~130).
     // Stripe-Limit: 500 Zeichen pro Metadata-Value. .slice() würde JSON brechen.

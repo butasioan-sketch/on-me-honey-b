@@ -5,6 +5,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       { userAgent: '*', allow: '/', disallow: ['/admin', '/admin/', '/api/'] },
     ],
-    sitemap: 'https://platypus-shirt-shop.vercel.app/sitemap.xml',
+    sitemap: 'https://on-me-honey-b.vercel.app/sitemap.xml',
   };
 }

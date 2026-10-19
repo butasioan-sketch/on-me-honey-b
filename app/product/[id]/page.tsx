@@ -121,12 +121,12 @@ export default function ProductPage() {
       const designId = await saveDesign();
       if (!designId) { setError(t.errors.saveDesign); return; }
       const pages = totalLayers;
-      const cart = JSON.parse(localStorage.getItem('platypus_cart') || '[]');
+      const cart = JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]');
       cart.push({
         id, name: productName, price: unitPrice, size,
         fit: t.product.unisex, color: colorLabel, quantity: 1, designId, pages,
       });
-      localStorage.setItem('platypus_cart', JSON.stringify(cart));
+      localStorage.setItem('on_me_honey_b_cart', JSON.stringify(cart));
       trackAddToCart({ id, name: productName, price: unitPrice, size, color: colorLabel, quantity: 1 });
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);

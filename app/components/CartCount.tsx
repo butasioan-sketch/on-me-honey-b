@@ -14,7 +14,7 @@ export default function CartCount() {
 
   const update = () => {
     try {
-      const cart = JSON.parse(localStorage.getItem('platypus_cart') || '[]');
+      const cart = JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]');
       const c = cart.reduce((s: number, i: { quantity?: number }) => s + (i.quantity || 1), 0);
       const merchItems: MerchandiseItem[] = cart.map((i: { id?: string; pages?: number; quantity?: number }) => ({
         productId: i.id || '1', pages: i.pages || 1, qty: i.quantity || 1,
