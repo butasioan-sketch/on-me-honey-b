@@ -61,3 +61,11 @@ backups/
 # GLBs liegen stattdessen unter public/models/library/inactive/.
 .tmp-shorts-sport/
 .tmp-pdfshop-extract/
+
+# Dokumentation (gehört nicht ins Git)
+*.pdf
+*Produktkatalog*.md
+*STRATEGIE*.md
+*LAGEBERICHT*.md
+*ABGLEICH*.md
+*Emblem*.png
