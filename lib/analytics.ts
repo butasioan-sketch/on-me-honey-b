@@ -11,11 +11,11 @@ type EventParams = Record<string, string | number | boolean>;
 
 export function trackEvent(eventName: EventName, params?: EventParams) {
   if (typeof window !== 'undefined' && 'va' in window) {
-    // @ts-ignore
+    // @ts-expect-error
     window.va?.('event', eventName, params);
   }
   if (typeof window !== 'undefined' && 'gtag' in window) {
-    // @ts-ignore
+    // @ts-expect-error
     window.gtag?.('event', eventName, params);
   }
   if (process.env.NODE_ENV === 'development') {
