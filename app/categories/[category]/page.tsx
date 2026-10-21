@@ -96,9 +96,9 @@ export default async function CategoryPage({
             <div className="aspect-square bg-gray-50 relative overflow-hidden">
               <img
                 src={
-                  product.sku === '001' ? '/airfit-front-t.png' :
-                  product.sku === '015' ? '/airfit-shorts-front.png' :
-                  '/products/placeholder/coming-soon.svg'
+                  product.hasPhoto
+                    ? `/products/${product.sku}/front.${product.sku === '001' || product.sku === '015' ? 'png' : 'jpg'}`
+                    : '/products/placeholder/coming-soon.svg'
                 }
                 alt={product.name.de}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
