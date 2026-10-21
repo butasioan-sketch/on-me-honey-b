@@ -19,6 +19,7 @@ export default function SiteHeader() {
         </div>
       </Link>
       <nav className="site-header-nav" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+        <Link href="/categories" className="plt-nav-link">Alle Produkte</Link>
         <Link href="/product/1" className="plt-nav-link">{t.nav.shirt}</Link>
         <Link href="/product/2" className="plt-nav-link">{t.nav.shorts}</Link>
         <Link href="/versand" className="plt-nav-link">{t.nav.shipping}</Link>

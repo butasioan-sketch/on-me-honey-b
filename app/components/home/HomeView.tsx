@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Locale, getTranslation } from '@/lib/i18n';
 import ProductHeroSection from './ProductHeroSection';
 import TrustIcon from '@/app/components/TrustIcon';
@@ -14,9 +15,67 @@ const outdoorIcons: Record<string, React.ReactNode> = {
 export default function HomeView({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
 
+  const categories = [
+    { id: 'A', name: 'Bekleidung', icon: '👕', count: 31 },
+    { id: 'B', name: 'Taschen', icon: '👜', count: 19 },
+    { id: 'C', name: 'Wohnen', icon: '🏠', count: 27 },
+    { id: 'D', name: 'Geschenke', icon: '🎁', count: 24 },
+    { id: 'E', name: 'Tassen', icon: '☕', count: 15 },
+    { id: 'F', name: 'Caps', icon: '🧢', count: 6 },
+    { id: 'G', name: 'Teller', icon: '🍽️', count: 4 },
+    { id: 'H', name: 'Stifte', icon: '✒️', count: 3 },
+    { id: 'I', name: 'Schuhe', icon: '👟', count: 4 },
+  ];
+
   return (
     <>
       <ProductHeroSection locale={locale} />
+
+      {/* Categories Section */}
+      <section style={{ padding: '4rem 2rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <h2 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#fff', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
+            Entdecke alle Kategorien
+          </h2>
+          <p style={{ color: '#999', fontSize: '0.95rem', maxWidth: '620px', margin: '0 auto 1.5rem', lineHeight: 1.6 }}>
+            133 individuell bedruckbare Produkte – von Bekleidung bis Wohnaccessoires. 2 sofort verfügbar, 131 in Vorbereitung.
+          </p>
+          <Link
+            href="/categories"
+            style={{
+              display: 'inline-block',
+              padding: '0.75rem 2rem',
+              background: 'linear-gradient(135deg, #D4AF37, #a00014)',
+              color: '#fff',
+              borderRadius: '999px',
+              fontSize: '0.9rem',
+              fontWeight: 700,
+              textDecoration: 'none',
+            }}
+          >
+            Alle Produkte ansehen →
+          </Link>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1.25rem', marginTop: '2.5rem' }}>
+          {categories.map((cat) => (
+            <Link
+              key={cat.id}
+              href={`/categories/${cat.id}`}
+              className="plt-card category-card-link"
+              style={{
+                padding: '1.75rem 1.25rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{cat.icon}</div>
+              <p style={{ color: '#fff', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.25rem' }}>{cat.name}</p>
+              <p style={{ color: '#888', fontSize: '0.75rem' }}>{cat.count} Produkte</p>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section style={{ padding: '4rem 2rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
