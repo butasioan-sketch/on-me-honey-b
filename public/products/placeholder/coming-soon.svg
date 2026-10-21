@@ -1,0 +1,27 @@
+<svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="800" fill="#f5f5f5"/>
+
+  <!-- Product silhouette area -->
+  <rect x="100" y="150" width="600" height="400" rx="20" fill="#e0e0e0" opacity="0.5"/>
+
+  <!-- Emblem placeholder circle -->
+  <circle cx="400" cy="350" r="120" fill="#ffffff" stroke="#d4af37" stroke-width="4"/>
+  <circle cx="400" cy="350" r="100" fill="none" stroke="#d4af37" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- Honey Badger text -->
+  <text x="400" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#333">HONEY</text>
+  <text x="400" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#333">BADGER</text>
+
+  <!-- Coming Soon badge -->
+  <rect x="250" y="600" width="300" height="60" rx="30" fill="#d4af37"/>
+  <text x="400" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#ffffff">BALD VERFÜGBAR</text>
+
+  <!-- Subtle grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="800" fill="url(#grid)" opacity="0.3"/>
+</svg>
