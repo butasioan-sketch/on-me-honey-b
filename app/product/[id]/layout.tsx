@@ -8,10 +8,17 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const product = getProduct(id);
   const name = product ? getProductName(product, 'de') : 'AirFit Pro';
   const desc = product ? getProductDescription(product, 'de') : 'AirFit Performance Fabric, Vollflächendruck. Maßgefertigt auf Bestellung.';
+  const price = product ? `${product.price.toFixed(2)} €` : '';
 
   return {
     title: `${name} — Dein Design | ON ME HONEY B`,
-    description: `${name} — ${desc}. Lade dein Motiv hoch und gestalte dein Statement-Piece.`,
+    description: `${name} ${price ? `(${price})` : ''} — ${desc}. Lade dein Motiv hoch und gestalte dein Statement-Piece.`,
+    openGraph: {
+      title: `${name} | ON ME HONEY B`,
+      description: `${desc} Jetzt gestalten!`,
+      type: 'website',
+      url: `https://on-me-honey-b.vercel.app/product/${id}`,
+    },
   };
 }
 

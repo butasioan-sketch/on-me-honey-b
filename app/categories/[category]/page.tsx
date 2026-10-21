@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { PRODUCTS_133, getProductsByCategory, type Category } from '@/lib/products-all-133';
 
 const CATEGORY_INFO = {
@@ -107,13 +108,15 @@ export default async function CategoryPage({
           >
             {/* Product Image */}
             <div style={{ aspectRatio: '1', background: '#1a1a1a', position: 'relative', overflow: 'hidden' }}>
-              <img
+              <Image
                 src={
                   product.hasPhoto
                     ? `/products/${product.sku}/front.${product.sku === '001' || product.sku === '015' ? 'png' : 'jpg'}`
                     : '/products/placeholder/coming-soon.svg'
                 }
                 alt={product.name.de}
+                width={400}
+                height={400}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
               {product.status !== 'shop_live' && (
