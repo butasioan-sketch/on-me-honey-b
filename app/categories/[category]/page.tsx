@@ -66,7 +66,11 @@ export default async function CategoryPage({
             {/* Product Image */}
             <div className="aspect-square bg-gray-50 relative overflow-hidden">
               <img
-                src={product.hasPhoto ? `/products/${product.sku}/front.png` : '/products/placeholder/coming-soon.svg'}
+                src={
+                  product.sku === '001' ? '/airfit-front-t.png' :
+                  product.sku === '015' ? '/airfit-shorts-front.png' :
+                  '/products/placeholder/coming-soon.svg'
+                }
                 alt={product.name.de}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -84,9 +88,11 @@ export default async function CategoryPage({
                 {product.name.de}
               </h3>
               <div className="flex items-baseline justify-between">
-                <div className="text-2xl font-bold text-gray-900">
-                  {product.price.toFixed(2)} €
-                </div>
+                {product.status === 'shop_live' && (
+                  <div className="text-2xl font-bold text-gray-900">
+                    {product.price.toFixed(2)} €
+                  </div>
+                )}
                 {product.status === 'shop_live' ? (
                   <Link
                     href={`/product/${product.id}`}

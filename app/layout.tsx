@@ -14,7 +14,6 @@ import RegisterSW from './components/RegisterSW';
 import Footer from './components/Footer';
 import Analytics from './components/Analytics';
 import CookieBanner from './components/CookieBanner';
-import MainNavigation from './components/MainNavigation';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
 
@@ -74,7 +73,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <LocaleProvider>
           <Analytics />
-          <MainNavigation />
           {children}
           <RegisterSW />
           <ChatWidgetWrapper />

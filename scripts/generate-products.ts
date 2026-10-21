@@ -1,9 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-// CSV zu TypeScript Converter für alle 133 Produkte
 const csvPath = '/home/jonny/Downloads/ON-ME-HoneyB-133/register/produkte_133_komplett.csv';
 const outputPath = path.join(process.cwd(), 'lib/products-all-133.ts');
+
+// SKU → Shop-ID Mapping
+const SKU_TO_SHOP_ID: Record<string, string> = {
+  '001': '1',  // T-Shirt
+  '015': '2',  // Shorts
+};
 
 interface CSVProduct {
   sku: string;
@@ -24,7 +29,7 @@ interface CSVProduct {
 function parseCSV(csvContent: string): CSVProduct[] {
   const lines = csvContent.trim().split('\n');
   const headers = lines[0].split(',');
-
+  
   return lines.slice(1).map(line => {
     const values = line.split(',');
     const product: any = {};
@@ -36,13 +41,11 @@ function parseCSV(csvContent: string): CSVProduct[] {
 }
 
 function generateProductName(name: string) {
-  // Einfache DE/RO/EN Namen generieren
   const nameMap: Record<string, {de: string, ro: string, en: string}> = {
     'Unisex-T-Shirts': {de: 'Unisex-T-Shirts', ro: 'Tricouri Unisex', en: 'Unisex T-Shirts'},
     'Shorts': {de: 'Shorts', ro: 'Pantaloni Scurți', en: 'Shorts'},
-    // Fallback: gleicher Name in allen Sprachen
   };
-
+  
   return nameMap[name] || {de: name, ro: name, en: name};
 }
 
@@ -77,8 +80,9 @@ export const PRODUCTS_133: Product133[] = [\n`;
 
   products.forEach((p, index) => {
     const names = generateProductName(p.name);
-    const id = p.status === 'shop_live' ? p.sku : '';
-
+    // Verwende Mapping für korrekte Shop-IDs
+    const id = SKU_TO_SHOP_ID[p.sku] || '';
+    
     ts += `  {
     sku: '${p.sku}',
     id: '${id}',
@@ -97,10 +101,7 @@ export const PRODUCTS_133: Product133[] = [\n`;
   }${index < products.length - 1 ? ',' : ''}\n`;
   });
 
-  ts += `];\n\n`;
-
-  // Helper functions
-  ts += `export function getProductBySKU(sku: string): Product133 | undefined {
+  ts += `];\n\nexport function getProductBySKU(sku: string): Product133 | undefined {
   return PRODUCTS_133.find(p => p.sku === sku);
 }
 
@@ -125,7 +126,7 @@ try {
   const csvContent = fs.readFileSync(csvPath, 'utf-8');
   const products = parseCSV(csvContent);
   const tsContent = generateTypeScript(products);
-
+  
   fs.writeFileSync(outputPath, tsContent);
   console.log(`✅ Generated ${products.length} products to ${outputPath}`);
 } catch (error) {

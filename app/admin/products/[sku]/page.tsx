@@ -59,12 +59,16 @@ export default async function ProductDetailPage({
           <h2 className="text-lg font-bold mb-4">Produktbild</h2>
           <div className="aspect-square max-w-md mx-auto bg-gray-50 rounded-lg overflow-hidden">
             <img
-              src={product.hasPhoto ? `/products/${product.sku}/front.png` : '/products/placeholder/coming-soon.svg'}
+              src={
+                product.sku === '001' ? '/airfit-front-t.png' :
+                product.sku === '015' ? '/airfit-shorts-front.png' :
+                '/products/placeholder/coming-soon.svg'
+              }
               alt={product.name.de}
               className="w-full h-full object-cover"
             />
           </div>
-          {!product.hasPhoto && (
+          {product.sku !== '001' && product.sku !== '015' && (
             <p className="text-center text-gray-500 mt-4">
               ⚠️ Platzhalter-Bild — Echtes Foto fehlt
             </p>

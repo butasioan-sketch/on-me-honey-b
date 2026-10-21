@@ -27,7 +27,7 @@ export interface Product133 {
 export const PRODUCTS_133: Product133[] = [
   {
     sku: '001',
-    id: '001',
+    id: '1',
     name: { de: 'Unisex-T-Shirts', ro: 'Tricouri Unisex', en: 'Unisex T-Shirts' },
     category: 'A' as Category,
     family: 'tee',
@@ -52,7 +52,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: false,
     weightGsm: 165,
     sides: 'front+back'
@@ -68,7 +68,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: false,
     weightGsm: 165,
     sides: 'front+back'
@@ -84,7 +84,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: false,
     weightGsm: 140,
     sides: 'front+back'
@@ -212,7 +212,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: false,
     weightGsm: 120,
     sides: 'front'
@@ -251,7 +251,7 @@ export const PRODUCTS_133: Product133[] = [
   },
   {
     sku: '015',
-    id: '015',
+    id: '2',
     name: { de: 'Shorts', ro: 'Pantaloni Scurți', en: 'Shorts' },
     category: 'A' as Category,
     family: 'shorts',
@@ -388,7 +388,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: false,
     weightGsm: 140,
     sides: 'front'
