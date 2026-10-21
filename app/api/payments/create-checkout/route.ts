@@ -4,6 +4,7 @@ import { getProviderMode } from "../../../../lib/paymentProviders";
 import { calcUnitPriceForProduct, calcMerchandiseTotal, isBundleEligible, PRICE_BUNDLE_ESSENTIAL, EXTRA_IMAGE_PRICE, INCLUDED_IMAGES, type MerchandiseItem } from "../../../../lib/pricing";
 import { checkRateLimit, clientIp } from "../../../../lib/rate-limit";
 import { SHIPPING_OPTIONS, DEFAULT_SHIPPING_ID, type Country } from "../../../../lib/shipping";
+import { PRODUCTS_133 } from "../../../../lib/products-all-133";
 
 type CheckoutItem = {
   productId?: string; // '1' Tee | '2' Shorts — default '1' fuer alte Aufrufer
@@ -162,6 +163,26 @@ export async function POST(request: Request) {
     if (missingDesign) {
       return NextResponse.json(
         { ok: false, error: "Jeder Artikel benötigt ein Design (designId)." },
+        { status: 400 }
+      );
+    }
+
+    // SECURITY: Only allow shop_live products to be purchased
+    const notShopLive = items.find((item) => {
+      const productId = item.productId || "1";
+      const product = PRODUCTS_133.find((p) => p.id === productId);
+      return !product || product.status !== "shop_live";
+    });
+    if (notShopLive) {
+      const productId = notShopLive.productId || "1";
+      const product = PRODUCTS_133.find((p) => p.id === productId);
+      return NextResponse.json(
+        {
+          ok: false,
+          error: `Produkt "${product?.name?.de || productId}" ist noch nicht verfügbar. Nur Live-Produkte können gekauft werden.`,
+          productId,
+          status: product?.status || "unknown"
+        },
         { status: 400 }
       );
     }

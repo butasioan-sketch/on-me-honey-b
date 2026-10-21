@@ -67,33 +67,46 @@ export default async function CategoryPage({
   const info = CATEGORY_INFO[categoryKey];
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div style={{ padding: '3rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
       {/* Header */}
-      <div className="mb-12">
-        <Link href="/categories" className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6">
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div style={{ marginBottom: '3rem' }}>
+        <Link href="/categories" style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          color: '#D4AF37',
+          textDecoration: 'none',
+          marginBottom: '1.5rem',
+          fontSize: '0.9rem',
+          fontWeight: 600
+        }}>
+          <svg style={{ width: '20px', height: '20px', marginRight: '0.5rem' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           Zurück zu allen Kategorien
         </Link>
-        <div className="flex items-center gap-4 mb-4">
-          <div className="text-6xl">{info.icon}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1rem' }}>
+          <div style={{ fontSize: '4rem' }}>{info.icon}</div>
           <div>
-            <h1 className="text-4xl font-bold">{info.name}</h1>
-            <p className="text-gray-600">{products.length} Produkte</p>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff', marginBottom: '0.25rem' }}>{info.name}</h1>
+            <p style={{ color: '#888', fontSize: '1rem' }}>{products.length} Produkte</p>
           </div>
         </div>
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
         {products.map((product) => (
           <div
             key={product.sku}
-            className="group bg-white rounded-xl border-2 border-gray-100 hover:border-[#d4af37] hover:shadow-lg transition-all duration-300 overflow-hidden"
+            className="plt-card"
+            style={{
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              cursor: product.status === 'shop_live' ? 'pointer' : 'default'
+            }}
           >
             {/* Product Image */}
-            <div className="aspect-square bg-gray-50 relative overflow-hidden">
+            <div style={{ aspectRatio: '1', background: '#1a1a1a', position: 'relative', overflow: 'hidden' }}>
               <img
                 src={
                   product.hasPhoto
