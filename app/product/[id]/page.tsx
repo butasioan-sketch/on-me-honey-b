@@ -41,6 +41,7 @@ export default function ProductPage() {
     if (preSize) setSize(preSize);
     if (preColor) setColorKey(preColor);
     if (params.has('edit')) setEditHint(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

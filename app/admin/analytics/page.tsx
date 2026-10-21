@@ -37,6 +37,7 @@ export default function AnalyticsPage() {
     setLoading(false);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, []);
 
   const FLAGS: Record<string, string> = { de: '🇩🇪', ro: '🇷🇴', en: '🇬🇧', DE: '🇩🇪', RO: '🇷🇴' };

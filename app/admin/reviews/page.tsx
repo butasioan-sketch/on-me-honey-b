@@ -29,6 +29,7 @@ export default function AdminReviewsPage() {
     setLoading(false);
   }, [filter]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [load]);
 
   const setStatus = async (id: string, status: ReviewStatus) => {

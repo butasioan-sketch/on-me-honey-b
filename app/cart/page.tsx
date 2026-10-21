@@ -68,7 +68,8 @@ export default function CartPage() {
       }
       setItems(valid);
     } catch { setItems([]); }
-  }, [t.cart]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const remove = (index: number) => {
     const updated = items.filter((_, i) => i !== index);

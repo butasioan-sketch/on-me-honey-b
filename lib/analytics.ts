@@ -11,11 +11,11 @@ type EventParams = Record<string, string | number | boolean>;
 
 export function trackEvent(eventName: EventName, params?: EventParams) {
   if (typeof window !== 'undefined' && 'va' in window) {
-    // @ts-expect-error
+    // @ts-expect-error - Vercel Analytics global not typed
     window.va?.('event', eventName, params);
   }
   if (typeof window !== 'undefined' && 'gtag' in window) {
-    // @ts-expect-error
+    // @ts-expect-error - Google Analytics global not typed
     window.gtag?.('event', eventName, params);
   }
   if (process.env.NODE_ENV === 'development') {

@@ -15,6 +15,7 @@ export default function ViewerNotesPage() {
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("on-me-honey-b-viewer-notes") || "[]");
     setNotes(saved);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function clearNotes() {

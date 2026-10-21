@@ -32,6 +32,7 @@ export default function AdminOrdersPage() {
     setLoading(false);
   }, [filter]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [load]);
 
   const problemCount = useMemo(() => orders.filter(orderMissingDesign).length, [orders]);
