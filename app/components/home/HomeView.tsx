@@ -32,80 +32,89 @@ export default function HomeView({ locale }: { locale: Locale }) {
       <ProductHeroSection locale={locale} />
 
       {/* Categories Section */}
-      <section style={{ padding: '4rem 2rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#fff', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
-            Entdecke alle Kategorien
-          </h2>
-          <p style={{ color: '#999', fontSize: '0.95rem', maxWidth: '620px', margin: '0 auto 1.5rem', lineHeight: 1.6 }}>
-            133 individuell bedruckbare Produkte – von Bekleidung bis Wohnaccessoires. 2 sofort verfügbar, 131 in Vorbereitung.
-          </p>
-          <Link
-            href="/categories"
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 2rem',
-              background: 'linear-gradient(135deg, #D4AF37, #a00014)',
-              color: '#fff',
-              borderRadius: '999px',
-              fontSize: '0.9rem',
-              fontWeight: 700,
-              textDecoration: 'none',
-            }}
-          >
-            Alle Produkte ansehen →
-          </Link>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1.25rem', marginTop: '2.5rem' }}>
-          {categories.map((cat) => (
+      <section style={{ padding: '5rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '1rem', letterSpacing: '-0.03em' }}>
+              Entdecke alle Kategorien
+            </h2>
+            <p style={{ color: '#999', fontSize: '1.05rem', maxWidth: '680px', margin: '0 auto 2rem', lineHeight: 1.7 }}>
+              133 individuell bedruckbare Produkte – von Bekleidung bis Wohnaccessoires. 2 sofort verfügbar, 131 in Vorbereitung.
+            </p>
             <Link
-              key={cat.id}
-              href={`/categories/${cat.id}`}
-              className="plt-card category-card-link"
+              href="/categories"
               style={{
-                padding: '1.75rem 1.25rem',
-                textAlign: 'center',
+                display: 'inline-block',
+                padding: '0.875rem 2.5rem',
+                background: 'linear-gradient(135deg, #D4AF37, #a00014)',
+                color: '#fff',
+                borderRadius: '999px',
+                fontSize: '0.95rem',
+                fontWeight: 700,
                 textDecoration: 'none',
-                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(212,175,55,0.2)',
+                transition: 'all 0.3s ease',
               }}
             >
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{cat.icon}</div>
-              <p style={{ color: '#fff', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.25rem' }}>{cat.name}</p>
-              <p style={{ color: '#888', fontSize: '0.75rem' }}>{cat.count} Produkte</p>
+              Alle Produkte ansehen →
             </Link>
-          ))}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.5rem' }}>
+            {categories.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/categories/${cat.id}`}
+                className="plt-card category-card-link"
+                style={{
+                  padding: '2rem 1.5rem',
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>{cat.icon}</div>
+                <p style={{ color: '#fff', fontWeight: 700, fontSize: '1rem', marginBottom: '0.35rem' }}>{cat.name}</p>
+                <p style={{ color: '#888', fontSize: '0.8rem' }}>{cat.count} Produkte</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section style={{ padding: '4rem 2rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)', maxWidth: '900px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#fff', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>{t.howItWorks.title}</h2>
-          <p style={{ color: '#999', fontSize: '0.95rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.6 }}>{t.howItWorks.sub}</p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
-          {t.howItWorks.steps.map((step) => (
-            <div key={step.num} className="plt-card" style={{ padding: '1.75rem 1.5rem', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ fontSize: '3rem', fontWeight: 900, color: 'rgba(226,0,26,0.12)', lineHeight: 1, marginBottom: '0.75rem', letterSpacing: '-0.04em' }}>{step.num}</div>
-              <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.0rem', marginBottom: '0.5rem' }}>{step.label}</p>
-              <p style={{ color: '#888', fontSize: '0.82rem', lineHeight: 1.6 }}>{step.desc}</p>
-            </div>
-          ))}
+      <section style={{ padding: '5rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '1rem', letterSpacing: '-0.03em' }}>{t.howItWorks.title}</h2>
+            <p style={{ color: '#999', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.7 }}>{t.howItWorks.sub}</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.75rem' }}>
+            {t.howItWorks.steps.map((step) => (
+              <div key={step.num} className="plt-card" style={{ padding: '2rem 1.75rem', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'rgba(226,0,26,0.15)', lineHeight: 1, marginBottom: '1rem', letterSpacing: '-0.04em' }}>{step.num}</div>
+                <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.6rem' }}>{step.label}</p>
+                <p style={{ color: '#999', fontSize: '0.9rem', lineHeight: 1.7 }}>{step.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section style={{ padding: '4rem 2rem 1rem', maxWidth: '1000px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h2 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#fff', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>{t.outdoor.title}</h2>
-          <p className="outdoor-sub" style={{ color: '#999', fontSize: '0.95rem', maxWidth: '620px', margin: '0 auto', lineHeight: 1.6 }}>{t.outdoor.sub}</p>
-        </div>
-        <div className="outdoor-grid">
-          {t.outdoor.cards.map((c) => (
-            <div key={c.key} className="plt-card" style={{ padding: '1.75rem 1.25rem', textAlign: 'center' }}>
-              <svg viewBox="0 0 32 32" width="44" height="44" style={{ marginBottom: '1rem' }}>{outdoorIcons[c.key]}</svg>
-              <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.05rem', marginBottom: '0.35rem' }}>{c.label}</p>
-              <p style={{ color: '#888', fontSize: '0.82rem', fontStyle: 'italic' }}>{c.line}</p>
-            </div>
-          ))}
+      <section style={{ padding: '5rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '1rem', letterSpacing: '-0.03em' }}>{t.outdoor.title}</h2>
+            <p className="outdoor-sub" style={{ color: '#999', fontSize: '1.05rem', maxWidth: '680px', margin: '0 auto', lineHeight: 1.7 }}>{t.outdoor.sub}</p>
+          </div>
+          <div className="outdoor-grid">
+            {t.outdoor.cards.map((c) => (
+              <div key={c.key} className="plt-card" style={{ padding: '2rem 1.5rem', textAlign: 'center' }}>
+                <svg viewBox="0 0 32 32" width="52" height="52" style={{ marginBottom: '1.25rem' }}>{outdoorIcons[c.key]}</svg>
+                <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.15rem', marginBottom: '0.5rem' }}>{c.label}</p>
+                <p style={{ color: '#999', fontSize: '0.9rem', fontStyle: 'italic' }}>{c.line}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -113,25 +122,27 @@ export default function HomeView({ locale }: { locale: Locale }) {
         <ReviewsSection locale={locale} compact />
       </section>
 
-      <section style={{ padding: '3rem 2rem 5rem', borderTop: '1px solid rgba(255,255,255,0.08)', maxWidth: '1000px', margin: '0 auto' }}>
-        <div className="trust-grid">
-          {t.trust.map((item) => (
-            <div key={item.key} className="plt-card" style={{
-              display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
-              gap: '0.85rem', padding: '1.5rem 1rem',
-            }}>
-              <div style={{
-                width: '52px', height: '52px', borderRadius: '50%', background: '#141414',
-                border: '1px solid rgba(226,0,26,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      <section style={{ padding: '5rem 2rem 6rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div className="trust-grid">
+            {t.trust.map((item) => (
+              <div key={item.key} className="plt-card" style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+                gap: '1rem', padding: '2rem 1.5rem',
               }}>
-                <TrustIcon name={item.key} />
+                <div style={{
+                  width: '64px', height: '64px', borderRadius: '50%', background: '#141414',
+                  border: '1px solid rgba(226,0,26,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <TrustIcon name={item.key} />
+                </div>
+                <div>
+                  <p style={{ color: '#fff', fontWeight: 600, fontSize: '0.95rem', marginBottom: '0.3rem' }}>{item.label}</p>
+                  <p style={{ color: '#999', fontSize: '0.8rem', letterSpacing: '0.02em' }}>{item.sub}</p>
+                </div>
               </div>
-              <div>
-                <p style={{ color: '#fff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.2rem' }}>{item.label}</p>
-                <p style={{ color: '#888', fontSize: '0.72rem', letterSpacing: '0.02em' }}>{item.sub}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
     </>
