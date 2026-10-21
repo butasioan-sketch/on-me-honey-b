@@ -52,7 +52,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: true,
     weightGsm: 165,
     sides: 'front+back'
@@ -68,7 +68,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: true,
     weightGsm: 165,
     sides: 'front+back'
@@ -84,7 +84,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front+back'
@@ -212,7 +212,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -388,7 +388,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: true,
+    hasGLB: false,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'

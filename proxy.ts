@@ -28,7 +28,7 @@ export function proxy(request: NextRequest) {
     }
     return new NextResponse('Admin Login erforderlich', {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="PLATYPUS Admin"' },
+      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
@@ -44,7 +44,7 @@ export function proxy(request: NextRequest) {
     }
     return new NextResponse('Admin Login erforderlich', {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="PLATYPUS Admin"' },
+      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
@@ -67,7 +67,7 @@ export function proxy(request: NextRequest) {
     }
     return new NextResponse('Admin Login erforderlich', {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="PLATYPUS Admin"' },
+      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
@@ -90,7 +90,7 @@ export function proxy(request: NextRequest) {
 
     return new NextResponse('Admin Login erforderlich', {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="PLATYPUS Admin"' },
+      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
