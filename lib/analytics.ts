@@ -1,74 +1,40 @@
-"use client";
+/**
+ * Analytics Helper - READY TO ACTIVATE
+ * 
+ * SETUP:
+ * 1. Vercel Analytics: npm i @vercel/analytics
+ * 2. GA4: Set NEXT_PUBLIC_GA_ID in .env
+ */
 
-function hasConsent(): boolean {
-  if (typeof window === 'undefined') return false;
-  return localStorage.getItem('on_me_honey_b_cookie_consent') === 'accepted';
+type EventName = 'design_upload' | 'add_to_cart' | 'checkout_start' | 'purchase_complete' | 'product_view';
+type EventParams = Record<string, string | number | boolean>;
+
+export function trackEvent(eventName: EventName, params?: EventParams) {
+  if (typeof window !== 'undefined' && 'va' in window) {
+    // @ts-ignore
+    window.va?.('event', eventName, params);
+  }
+  if (typeof window !== 'undefined' && 'gtag' in window) {
+    // @ts-ignore
+    window.gtag?.('event', eventName, params);
+  }
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[Analytics]', eventName, params);
+  }
 }
 
-function postAnalytics(type: string, data?: Record<string, unknown>) {
-  if (!hasConsent()) return;
-  try {
-    fetch('/api/analytics', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, ...data }),
-      keepalive: true,
-    }).catch(() => {});
-  } catch { /* ignore */ }
+export function trackProductView(productId: string, productName: string, price?: number) {
+  trackEvent('product_view', { product_id: productId, product_name: productName, ...(price && { value: price }) });
 }
 
-interface TrackingWindow extends Window {
-  fbq?: (...args: unknown[]) => void;
-  ttq?: { track: (...args: unknown[]) => void };
-  gtag?: (...args: unknown[]) => void;
+export function trackAddToCart(productId: string, productName: string, price: number) {
+  trackEvent('add_to_cart', { product_id: productId, product_name: productName, value: price });
 }
 
-export function trackEvent(eventName: string, data?: Record<string, unknown>) {
-  if (typeof window === 'undefined') return;
-  if (!hasConsent()) return;
-
-  postAnalytics(eventName.toLowerCase(), data);
-  console.log('[ON-ME-HONEY-B EVENT]', eventName, data || {});
-
-  const w = window as TrackingWindow;
-  if (w.fbq) w.fbq('trackCustom', eventName, data || {});
-  if (w.ttq) w.ttq.track(eventName, data || {});
-  if (w.gtag) w.gtag('event', eventName, data || {});
+export function trackPurchase(orderId: string, value: number, items: Array<{ id: string; name: string; price: number }>) {
+  trackEvent('purchase_complete', { transaction_id: orderId, value, items: JSON.stringify(items) });
 }
 
-export function trackViewProduct(product: { id: string; name: string; price: number }) {
-  trackEvent('ViewProduct', {
-    product_id: product.id,
-    product_name: product.name,
-    price: product.price,
-    currency: 'EUR',
-  });
-}
-
-export function trackUploadDesign(product: { id: string; side: 'front' | 'back' }) {
-  trackEvent('UploadDesign', { product_id: product.id, side: product.side });
-}
-
-export function trackAddToCart(product: { id: string; name: string; price: number; color?: string; size?: string; quantity: number }) {
-  trackEvent('AddToCart', {
-    product_id: product.id,
-    product_name: product.name,
-    price: product.price,
-    color: product.color,
-    size: product.size,
-    quantity: product.quantity,
-    currency: 'EUR',
-  });
-}
-
-export function trackCheckoutStarted(data: { items: number; total: number; currency?: string }) {
-  trackEvent('CheckoutStarted', { ...data, currency: data.currency ?? 'EUR' });
-}
-
-export function trackPurchase(order: { value: number; reference?: string; currency?: string }) {
-  trackEvent('Purchase', {
-    value: order.value,
-    reference: order.reference,
-    currency: order.currency ?? 'EUR',
-  });
+export function trackCheckoutStarted(value: number, items: Array<{ id: string; name: string; price: number }>) {
+  trackEvent('checkout_start', { value, items: JSON.stringify(items) });
 }

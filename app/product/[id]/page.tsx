@@ -16,7 +16,7 @@ import { calcUnitPriceForProduct } from '@/lib/pricing';
 import { renderPrintSheetMulti } from '@/lib/print-export';
 import { renderCustomerViewCompositeMulti } from '@/lib/print-customer-view';
 import { defaultPrintTransform } from '@/lib/print-position';
-import { trackAddToCart, trackViewProduct } from '@/lib/analytics';
+import { trackAddToCart, trackProductView } from '@/lib/analytics';
 
 export default function ProductPage() {
   const { t, locale } = useLocale();
@@ -44,7 +44,7 @@ export default function ProductPage() {
   }, []);
 
   useEffect(() => {
-    if (product) trackViewProduct({ id, name: product.name?.de ?? id, price: product.price });
+    if (product) trackProductView(id, product.name?.de ?? id, product.price);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -127,7 +127,7 @@ export default function ProductPage() {
         fit: t.product.unisex, color: colorLabel, quantity: 1, designId, pages,
       });
       localStorage.setItem('on_me_honey_b_cart', JSON.stringify(cart));
-      trackAddToCart({ id, name: productName, price: unitPrice, size, color: colorLabel, quantity: 1 });
+      trackAddToCart(id, productName, unitPrice);
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
     } catch { setError(t.errors.addCart); }

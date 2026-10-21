@@ -43,7 +43,7 @@ export default function PaymentSuccessBanner() {
 
     const storedTotal = parseFloat(sessionStorage.getItem('plt_pending_purchase') ?? '0');
     if (storedTotal > 0) {
-      trackPurchase({ value: storedTotal });
+      trackPurchase('unknown', storedTotal, []);
       sessionStorage.removeItem('plt_pending_purchase');
     }
 

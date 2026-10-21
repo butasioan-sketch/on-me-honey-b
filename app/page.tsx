@@ -1,7 +1,19 @@
+import type { Metadata } from 'next';
 import PaymentSuccessBanner from '@/app/components/PaymentSuccessBanner';
 import SiteHeader from '@/app/components/SiteHeader';
 import HomeView from '@/app/components/home/HomeView';
 import HomeLocaleGate from '@/app/components/home/HomeLocaleGate';
+
+export const metadata: Metadata = {
+  title: 'ON ME HONEY B - Individuell bedruckbare Premium-Sportbekleidung',
+  description: '133 individuell bedruckbare Produkte - von Bekleidung bis Wohnaccessoires. 2 Produkte sofort verfügbar, 131 in Vorbereitung. Premium AirFit Performance Fabric.',
+  openGraph: {
+    title: 'ON ME HONEY B - Premium Custom Shirts',
+    description: '133 individuell bedruckbare Produkte - Premium AirFit Performance Fabric',
+    type: 'website',
+    url: 'https://on-me-honey-b.vercel.app',
+  },
+};
 
 export default function HomePage() {
   return (

@@ -100,7 +100,7 @@ export default function CartPage() {
     if (items.length === 0 || missingDesign) return;
     setLoading(true);
     setError('');
-    trackCheckoutStarted({ items: items.reduce((s, i) => s + i.quantity, 0), total });
+    trackCheckoutStarted(total, items.map(i => ({ id: i.id, name: i.name, price: i.price })));
     sessionStorage.setItem('plt_pending_purchase', String(total));
     try {
       const res = await fetch('/api/payments/create-checkout', {

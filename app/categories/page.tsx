@@ -1,5 +1,16 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslation } from '@/lib/i18n';
+
+export const metadata: Metadata = {
+  title: 'Alle Produkte - ON ME HONEY B',
+  description: '133 individuell bedruckbare Produkte in 9 Kategorien: Bekleidung, Taschen, Wohnen, Geschenke, Tassen, Caps, Teller, Stifte, Schuhe. 2 sofort verfügbar.',
+  openGraph: {
+    title: 'Alle Produkte - ON ME HONEY B',
+    description: '133 individuell bedruckbare Produkte in 9 Kategorien',
+    type: 'website',
+  },
+};
 
 const categories = [
   { id: 'A', icon: '👕', count: 31 },

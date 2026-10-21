@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { PRODUCTS_133, getProductsByCategory, type Category } from '@/lib/products-all-133';
@@ -21,6 +22,34 @@ const STATUS_BADGES = {
   offen: { label: 'In Planung', color: 'bg-gray-100 text-gray-800' },
   pruefen: { label: 'Wird geprüft', color: 'bg-yellow-100 text-yellow-800' },
 } as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
+  const { category } = await params;
+  const categoryUpper = category.toUpperCase() as Category;
+
+  if (!CATEGORY_INFO[categoryUpper]) {
+    return {
+      title: 'Kategorie nicht gefunden',
+    };
+  }
+
+  const info = CATEGORY_INFO[categoryUpper];
+  const products = getProductsByCategory(categoryUpper);
+
+  return {
+    title: `${info.name} - ON ME HONEY B`,
+    description: `${products.length} individuell bedruckbare ${info.name} Produkte. Premium AirFit Performance Fabric. Jetzt entdecken!`,
+    openGraph: {
+      title: `${info.name} - ON ME HONEY B`,
+      description: `${products.length} individuell bedruckbare Produkte`,
+      type: 'website',
+    },
+  };
+}
 
 export default async function CategoryPage({
   params,
