@@ -40,47 +40,101 @@ export default async function CategoriesPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-6xl">
-      <h1 className="text-4xl font-bold mb-4 text-center">
-        Produktkategorien
-      </h1>
-      <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-        Entdecke unsere 133 individuell bedruckbaren Produkte aus 9 Kategorien.
-        Maßgefertigt auf Bestellung mit deinem Design.
-      </p>
+    <div style={{ padding: '5rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
+      {/* Header */}
+      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+        <h1 style={{
+          fontSize: '2.5rem',
+          fontWeight: 800,
+          color: '#fff',
+          marginBottom: '1rem',
+          letterSpacing: '-0.03em'
+        }}>
+          Produktkategorien
+        </h1>
+        <p style={{
+          color: '#999',
+          fontSize: '1.1rem',
+          maxWidth: '700px',
+          margin: '0 auto',
+          lineHeight: 1.7
+        }}>
+          Entdecke unsere 133 individuell bedruckbaren Produkte aus 9 Kategorien.
+          Maßgefertigt auf Bestellung mit deinem Design.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Category Grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '1.75rem',
+        marginBottom: '4rem'
+      }}>
         {categories.map((cat) => (
           <Link
             key={cat.id}
             href={`/categories/${cat.id}`}
-            className="group block p-8 bg-white rounded-2xl border-2 border-gray-100 hover:border-[#d4af37] hover:shadow-xl transition-all duration-300"
+            className="plt-card"
+            style={{
+              padding: '2rem',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              display: 'block'
+            }}
           >
-            <div className="flex items-start justify-between mb-4">
-              <div className="text-5xl">{cat.icon}</div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-gray-900">{cat.count}</div>
-                <div className="text-sm text-gray-500">Produkte</div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+              <div style={{ fontSize: '3.5rem', lineHeight: 1 }}>{cat.icon}</div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{cat.count}</div>
+                <div style={{ fontSize: '0.8rem', color: '#888', marginTop: '0.25rem' }}>Produkte</div>
               </div>
             </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-[#d4af37] transition-colors">
+            <h3 style={{
+              fontSize: '1.15rem',
+              fontWeight: 700,
+              color: '#fff',
+              marginBottom: '0.5rem'
+            }}>
               {categoryNames[cat.id].de}
             </h3>
-            <div className="flex items-center text-sm text-gray-500 group-hover:text-[#d4af37] transition-colors">
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontSize: '0.9rem',
+              color: '#D4AF37',
+              fontWeight: 600
+            }}>
               <span>Zur Kategorie</span>
-              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <span style={{ marginLeft: '0.5rem' }}>→</span>
             </div>
           </Link>
         ))}
       </div>
 
-      <div className="mt-16 p-8 bg-gray-50 rounded-2xl border-2 border-gray-100">
-        <h2 className="text-2xl font-bold mb-4 text-center">
+      {/* Info Box */}
+      <div className="plt-card" style={{
+        padding: '2.5rem 2rem',
+        textAlign: 'center',
+        background: 'rgba(20, 20, 20, 0.6)',
+        borderColor: 'rgba(212, 175, 55, 0.2)'
+      }}>
+        <h2 style={{
+          fontSize: '1.5rem',
+          fontWeight: 700,
+          color: '#fff',
+          marginBottom: '1rem'
+        }}>
           🍯 ON ME HONEY B — Dein Design, Deine Wahl
         </h2>
-        <p className="text-center text-gray-600 max-w-3xl mx-auto">
+        <p style={{
+          color: '#999',
+          fontSize: '1rem',
+          maxWidth: '800px',
+          margin: '0 auto',
+          lineHeight: 1.7
+        }}>
           Aktuell sind 2 Produkte live verfügbar (AirFit Pro T-Shirt & Shorts).
           Die restlichen 131 Produkte werden schrittweise aktiviert, sobald Blanks gesourct
           und Druckprofile kalibriert sind. Markierte Artikel zeigen dir den aktuellen Status.
