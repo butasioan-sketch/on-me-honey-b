@@ -5,6 +5,7 @@ import ProductHeroSection from './ProductHeroSection';
 import TrustIcon from '@/app/components/TrustIcon';
 import ReviewsSection from '@/app/components/reviews/ReviewsSection';
 import NewProductsPreview from '@/app/components/NewProductsPreview';
+import { getAllCategories, getTotalProductCount } from '@/lib/categories';
 
 const outdoorIcons: Record<string, React.ReactNode> = {
   climb: <path d="M4 26 L14 8 L20 18 L26 6 L30 26 Z" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinejoin="round" />,
@@ -15,18 +16,8 @@ const outdoorIcons: Record<string, React.ReactNode> = {
 
 export default function HomeView({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
-
-  const categories = [
-    { id: 'A', name: 'Bekleidung', icon: '👕', count: 31 },
-    { id: 'B', name: 'Taschen', icon: '👜', count: 19 },
-    { id: 'C', name: 'Wohnen', icon: '🏠', count: 27 },
-    { id: 'D', name: 'Geschenke', icon: '🎁', count: 24 },
-    { id: 'E', name: 'Tassen', icon: '☕', count: 15 },
-    { id: 'F', name: 'Caps', icon: '🧢', count: 6 },
-    { id: 'G', name: 'Teller', icon: '🍽️', count: 4 },
-    { id: 'H', name: 'Stifte', icon: '✒️', count: 3 },
-    { id: 'I', name: 'Schuhe', icon: '👟', count: 4 },
-  ];
+  const categories = getAllCategories();
+  const totalProducts = getTotalProductCount();
 
   return (
     <>
@@ -43,7 +34,7 @@ export default function HomeView({ locale }: { locale: Locale }) {
               Entdecke alle Kategorien
             </h2>
             <p style={{ color: '#999', fontSize: '1.05rem', maxWidth: '680px', margin: '0 auto 2rem', lineHeight: 1.7 }}>
-              133 individuell bedruckbare Produkte – von Bekleidung bis Wohnaccessoires. 2 sofort verfügbar, 131 in Vorbereitung.
+              {totalProducts} individuell bedruckbare Produkte – von Bekleidung bis Wohnaccessoires. 2 sofort verfügbar, {totalProducts - 2} in Vorbereitung.
             </p>
             <Link
               href="/categories"
@@ -63,11 +54,11 @@ export default function HomeView({ locale }: { locale: Locale }) {
               Alle Produkte ansehen →
             </Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
             {categories.map((cat) => (
               <Link
                 key={cat.id}
-                href={`/categories/${cat.id}`}
+                href={`/categories/${cat.slug}`}
                 className="plt-card category-card-link"
                 style={{
                   padding: '2rem 1.5rem',
@@ -75,14 +66,68 @@ export default function HomeView({ locale }: { locale: Locale }) {
                   textDecoration: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  border: `1px solid ${cat.color}20`,
                 }}
               >
-                <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>{cat.icon}</div>
-                <p style={{ color: '#fff', fontWeight: 700, fontSize: '1rem', marginBottom: '0.35rem' }}>{cat.name}</p>
-                <p style={{ color: '#888', fontSize: '0.8rem' }}>{cat.count} Produkte</p>
+                {/* Gradient Background on Hover */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: cat.gradient,
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease',
+                  pointerEvents: 'none',
+                }} className="category-hover-bg" />
+
+                {/* Content */}
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>{cat.icon}</div>
+                  <p style={{ color: '#fff', fontWeight: 700, fontSize: '1rem', marginBottom: '0.35rem' }}>{cat.name}</p>
+                  <p style={{ color: '#888', fontSize: '0.8rem', marginBottom: '0.5rem' }}>{cat.count} Produkte</p>
+
+                  {/* Status Badge */}
+                  {cat.status === 'live' ? (
+                    <span style={{
+                      display: 'inline-block',
+                      padding: '0.25rem 0.75rem',
+                      background: cat.color,
+                      color: '#000',
+                      borderRadius: '999px',
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                      marginTop: '0.5rem',
+                    }}>
+                      ✓ Verfügbar
+                    </span>
+                  ) : (
+                    <span style={{
+                      display: 'inline-block',
+                      padding: '0.25rem 0.75rem',
+                      background: 'rgba(255,255,255,0.1)',
+                      color: '#888',
+                      borderRadius: '999px',
+                      fontSize: '0.7rem',
+                      fontWeight: 600,
+                      marginTop: '0.5rem',
+                    }}>
+                      Bald verfügbar
+                    </span>
+                  )}
+                </div>
               </Link>
             ))}
           </div>
+
+          <style jsx>{`
+            .category-card-link:hover .category-hover-bg {
+              opacity: 0.15 !important;
+            }
+          `}</style>
         </div>
       </section>
 
