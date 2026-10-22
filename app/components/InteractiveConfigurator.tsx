@@ -434,7 +434,7 @@ export default function InteractiveConfigurator({
               💡 Klicke auf die hellen Bereiche, um dein Design hochzuladen
             </p>
             <p style={{ color: '#888', margin: '0.5rem 0 0', fontSize: '0.8rem' }}>
-              Rotiere mit Maus • Zoom mit Scroll
+              Desktop: Maus drehen + Scrollen • Mobile: Touch + Pinch
             </p>
           </div>
         </div>
@@ -653,10 +653,10 @@ export default function InteractiveConfigurator({
               💡 Tipps für beste Ergebnisse:
             </h4>
             <ul style={{ color: '#aaa', margin: 0, padding: '0 0 0 1.5rem', fontSize: '0.85rem', lineHeight: '1.8' }}>
-              <li>Mindestauflösung: 300 DPI</li>
-              <li>Format: 210 × 297 mm (A4)</li>
-              <li>Dateigröße: max. 10 MB</li>
-              <li>Transparenter Hintergrund empfohlen</li>
+              <li><strong style={{ color: '#ccc' }}>Auflösung:</strong> Mindestens 2000 × 2000 Pixel</li>
+              <li><strong style={{ color: '#ccc' }}>Format:</strong> PNG (transparent) oder JPG</li>
+              <li><strong style={{ color: '#ccc' }}>Druckbereich:</strong> Ca. 20 × 28 cm auf dem Shirt</li>
+              <li><strong style={{ color: '#ccc' }}>Dateigröße:</strong> max. 10 MB</li>
             </ul>
           </div>
         </div>
