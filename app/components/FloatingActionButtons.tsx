@@ -70,6 +70,7 @@ export default function FloatingActionButtons() {
       {/* Home Button */}
       <Link
         href="/"
+        aria-label="Zur Startseite"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -102,6 +103,7 @@ export default function FloatingActionButtons() {
       {/* Cart Button */}
       <Link
         href="/cart"
+        aria-label={`Warenkorb${cartCount > 0 ? ` (${cartCount} Artikel)` : ''}`}
         style={{
           position: 'relative',
           display: 'flex',

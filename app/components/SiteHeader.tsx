@@ -23,6 +23,7 @@ export default function SiteHeader() {
         <Link
           href="/"
           className="plt-nav-link"
+          aria-label="Zur Startseite"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
