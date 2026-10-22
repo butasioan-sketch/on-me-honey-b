@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Locale, getTranslation } from '@/lib/i18n';
 import { getAllProducts, getProductName, getProduct, type Product } from '@/lib/products';
