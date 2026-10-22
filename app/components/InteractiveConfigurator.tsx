@@ -31,8 +31,10 @@ interface InteractiveConfiguratorProps {
   productId: string;
   productName: string;
   modelPath: string;
+  price: number;
   onDesignChange?: (design: Design) => void;
   onSave?: (design: Design) => void;
+  onAddToCart?: (design: Design) => void;
 }
 
 // Model with clickable print zones
@@ -127,8 +129,10 @@ export default function InteractiveConfigurator({
   productId,
   productName,
   modelPath,
+  price,
   onDesignChange,
-  onSave
+  onSave,
+  onAddToCart
 }: InteractiveConfiguratorProps) {
   const [design, setDesign] = useState<Design>({});
   const [selectedZone, setSelectedZone] = useState<'front' | 'back' | null>(null);
@@ -199,28 +203,53 @@ export default function InteractiveConfigurator({
           }}>
             Design Konfigurator
           </h1>
-          <p style={{ color: '#888', margin: '0.5rem 0 0', fontSize: '0.95rem' }}>
-            {productName}
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.5rem' }}>
+            <p style={{ color: '#888', margin: 0, fontSize: '0.95rem' }}>
+              {productName}
+            </p>
+            <span style={{ color: '#666' }}>•</span>
+            <p style={{ color: '#D4AF37', margin: 0, fontSize: '1.1rem', fontWeight: 700 }}>
+              €{price.toFixed(2)}
+            </p>
+          </div>
         </div>
 
-        <button
-          onClick={handleSave}
-          disabled={!design.front && !design.back}
-          style={{
-            padding: '0.75rem 2rem',
-            background: (design.front || design.back) ? '#D4AF37' : '#333',
-            color: (design.front || design.back) ? '#000' : '#666',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '1rem',
-            fontWeight: 700,
-            cursor: (design.front || design.back) ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s'
-          }}
-        >
-          Design speichern
-        </button>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <button
+            onClick={handleSave}
+            disabled={!design.front && !design.back}
+            style={{
+              padding: '0.75rem 1.5rem',
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: (design.front || design.back) ? '#D4AF37' : '#666',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              borderRadius: '8px',
+              fontSize: '1rem',
+              fontWeight: 600,
+              cursor: (design.front || design.back) ? 'pointer' : 'not-allowed',
+              transition: 'all 0.2s'
+            }}
+          >
+            Speichern
+          </button>
+          <button
+            onClick={() => onAddToCart?.(design)}
+            disabled={!design.front && !design.back}
+            style={{
+              padding: '0.75rem 2rem',
+              background: (design.front || design.back) ? '#D4AF37' : '#333',
+              color: (design.front || design.back) ? '#000' : '#666',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '1rem',
+              fontWeight: 700,
+              cursor: (design.front || design.back) ? 'pointer' : 'not-allowed',
+              transition: 'all 0.2s'
+            }}
+          >
+            In den Warenkorb
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
