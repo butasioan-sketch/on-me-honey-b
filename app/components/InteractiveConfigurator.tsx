@@ -22,6 +22,7 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, PerspectiveCamera, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { addToCart, type CartItem } from '@/lib/cart';
+import Toast, { type ToastAction } from './Toast';
 
 type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
@@ -143,6 +144,7 @@ export default function InteractiveConfigurator({
   const [isDragging, setIsDragging] = useState(false);
   const [selectedSize, setSelectedSize] = useState<Size>('M');
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error'; action?: ToastAction } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const sizes: Size[] = ['S', 'M', 'L', 'XL', 'XXL'];
@@ -215,7 +217,10 @@ export default function InteractiveConfigurator({
       const designId = await saveDesignToDatabase(design);
 
       if (!designId) {
-        alert('Fehler beim Speichern des Designs. Bitte versuchen Sie es erneut.');
+        setToast({
+          message: 'Fehler beim Speichern des Designs. Bitte versuchen Sie es erneut.',
+          type: 'error'
+        });
         return;
       }
 
@@ -238,17 +243,20 @@ export default function InteractiveConfigurator({
       const success = addToCart(cartItem);
 
       if (success) {
-        alert('Zum Warenkorb hinzugefügt! 🛒\n\nGröße: ' + selectedSize + '\nSeiten: ' + pages);
+        setToast({ message: `Zum Warenkorb hinzugefügt! Größe ${selectedSize}, ${pages} Seite${pages > 1 ? 'n' : ''}`, type: 'success', action: { label: 'Warenkorb ansehen →', href: '/cart' } });
 
         // Optional callback for parent component
         onAddToCart?.(design);
       } else {
-        alert('Fehler beim Hinzufügen zum Warenkorb.');
+        setToast({ message: 'Fehler beim Hinzufügen zum Warenkorb.', type: 'error' });
       }
 
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+      setToast({
+        message: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
+        type: 'error'
+      });
     } finally {
       setIsAddingToCart(false);
     }
@@ -312,6 +320,14 @@ export default function InteractiveConfigurator({
           >
             Speichern
           </button>
+          <p style={{
+            fontSize: '0.75rem',
+            color: '#888',
+            margin: '-0.5rem 0 0 0',
+            fontStyle: 'italic'
+          }}>
+            Design für später speichern (ohne Kauf)
+          </p>
           <button
             onClick={handleAddToCart}
             disabled={(!design.front && !design.back) || isAddingToCart}
@@ -642,6 +658,16 @@ export default function InteractiveConfigurator({
         style={{ display: 'none' }}
         onChange={(e) => selectedZone && handleFileUpload(e, selectedZone)}
       />
+
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          action={toast.action}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }
