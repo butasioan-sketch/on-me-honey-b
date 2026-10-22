@@ -314,11 +314,17 @@ export default function InteractiveConfigurator({
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: isMobile ? '0.75rem' : '1rem',
+          width: isMobile ? '100%' : 'auto'
+        }}>
           <button
             onClick={handleSave}
             disabled={!design.front && !design.back}
             style={{
+              width: isMobile ? '100%' : 'auto',
               padding: '0.75rem 1.5rem',
               background: 'rgba(255, 255, 255, 0.1)',
               color: (design.front || design.back) ? '#D4AF37' : '#666',
@@ -344,6 +350,7 @@ export default function InteractiveConfigurator({
             onClick={handleAddToCart}
             disabled={(!design.front && !design.back) || isAddingToCart}
             style={{
+              width: isMobile ? '100%' : 'auto',
               padding: '0.75rem 2rem',
               background: (design.front || design.back) && !isAddingToCart ? '#D4AF37' : '#333',
               color: (design.front || design.back) && !isAddingToCart ? '#000' : '#666',
@@ -365,10 +372,11 @@ export default function InteractiveConfigurator({
       <div style={{
         flex: 1,
         display: 'grid',
-        gridTemplateColumns: '1fr 400px',
-        gap: '2rem',
-        padding: '2rem',
-        overflow: 'hidden'
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 400px',
+        gridTemplateRows: isMobile ? 'minmax(400px, 50vh) auto' : 'auto',
+        gap: isMobile ? '1rem' : '2rem',
+        padding: isMobile ? '1rem' : '2rem',
+        overflow: isMobile ? 'visible' : 'hidden'
       }}>
         {/* 3D Viewer */}
         <div style={{
@@ -376,7 +384,9 @@ export default function InteractiveConfigurator({
           borderRadius: '16px',
           overflow: 'hidden',
           position: 'relative',
-          border: '2px solid rgba(212, 175, 55, 0.2)'
+          border: '2px solid rgba(212, 175, 55, 0.2)',
+          minHeight: isMobile ? '400px' : 'auto',
+          maxHeight: isMobile ? '50vh' : 'none'
         }}>
           <Canvas shadows>
             <PerspectiveCamera makeDefault position={[0, 0, 3]} />
@@ -444,6 +454,7 @@ export default function InteractiveConfigurator({
           display: 'flex',
           flexDirection: 'column',
           gap: '1.5rem',
+          maxHeight: isMobile ? '60vh' : 'none',
           overflowY: 'auto'
         }}>
           {/* Size Selection */}

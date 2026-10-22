@@ -12,7 +12,7 @@
  * - Accessible (aria-live)
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export interface ToastAction {
@@ -37,6 +37,15 @@ export default function Toast({
   action
 }: ToastProps) {
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -81,11 +90,12 @@ export default function Toast({
       aria-live="polite"
       style={{
         position: 'fixed',
-        top: '2rem',
-        right: '2rem',
+        top: isMobile ? '1rem' : '2rem',
+        right: isMobile ? '1rem' : '2rem',
+        left: isMobile ? '1rem' : 'auto',
         zIndex: 9999,
-        maxWidth: '400px',
-        minWidth: '320px',
+        maxWidth: isMobile ? 'calc(100% - 2rem)' : '400px',
+        minWidth: isMobile ? 'auto' : '320px',
         background: theme.bg,
         border: `2px solid ${theme.border}`,
         borderRadius: '12px',
