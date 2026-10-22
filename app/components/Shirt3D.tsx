@@ -32,6 +32,9 @@ const MODEL_PATHS: Record<string, string> = {
   '1': '/models/shirt-white-v2.glb',
   /** Adult sport shorts (Shorts-Sport OBJ → white single mesh), NICHT Kids-Pant */
   '2': '/models/shorts-white-v1.glb',
+  '3': '/models/sport-shirt-pa4012.glb',
+  '4': '/models/basketball-shorts-pa1050.glb',
+  '5': '/models/pillow-cover-40x40.glb',
 };
 
 function getModelPath(productId?: string): string | null {
@@ -253,5 +256,9 @@ export default function Shirt3D({
   );
 }
 
+// Preload all GLB models
 useGLTF.preload('/models/shirt-white-v2.glb');
 useGLTF.preload('/models/shorts-white-v1.glb');
+useGLTF.preload('/models/sport-shirt-pa4012.glb');
+useGLTF.preload('/models/basketball-shorts-pa1050.glb');
+useGLTF.preload('/models/pillow-cover-40x40.glb');
