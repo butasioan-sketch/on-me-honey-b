@@ -103,6 +103,12 @@ function GarmentModel({
 }: Shirt3DProps & { modelPath: string; productId: string }) {
   const { scene } = useGLTF(modelPath);
   const [decalMesh, setDecalMesh] = useState<THREE.Mesh | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    // Entrance animation
+    setTimeout(() => setVisible(true), 100);
+  }, []);
 
   useEffect(() => {
     let bestMesh: THREE.Mesh | null = null;
@@ -146,9 +152,9 @@ function GarmentModel({
   }, [scene, shirtColor, productId]);
 
   return (
-    <>
+    <group scale={visible ? 1 : 0.8} position={[0, visible ? 0 : -0.3, 0]}>
       <primitive object={scene} />
-      {decalMesh && createPortal(
+      {decalMesh && visible && createPortal(
         <>
           {(frontPrint || []).map((p, i) => (
             <CustomerPrint key={`front-${i}`} mesh={decalMesh} print={p} front productId={productId} layerIndex={i} />
@@ -159,7 +165,7 @@ function GarmentModel({
         </>,
         decalMesh,
       )}
-    </>
+    </group>
   );
 }
 
@@ -277,7 +283,8 @@ export default function Shirt3D({
           enablePan={false}
           minDistance={cam.minDistance}
           maxDistance={cam.maxDistance}
-          autoRotate={false}
+          autoRotate={true}
+          autoRotateSpeed={1.5}
           target={cam.orbitTarget}
           enableRotate={enableTouch}
           enableZoom={enableTouch}
