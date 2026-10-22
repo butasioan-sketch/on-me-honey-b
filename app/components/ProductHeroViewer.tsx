@@ -3,9 +3,9 @@
 import dynamic from 'next/dynamic';
 import StaticShirtPreview from './StaticShirtPreview';
 
+// Dynamic import - loading component can't access productId, so we'll handle it differently
 const Shirt3D = dynamic(() => import('./Shirt3D'), {
   ssr: false,
-  loading: () => <StaticShirtPreview shadow="0 12px 32px rgba(0,0,0,0.55)" />,
 });
 
 interface ProductHeroViewerProps {
@@ -26,7 +26,14 @@ export default function ProductHeroViewer({ height = 400, productId = '1' }: Pro
       <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', transition: 'transform 0.2s ease' }}
         className="hero-shirt-viewer"
       >
-        <Shirt3D enableTouch={false} fallback="static" productId={productId} />
+        {/* Static preview while 3D loads - with correct productId */}
+        <StaticShirtPreview
+          shadow="0 12px 32px rgba(0,0,0,0.55)"
+          productId={productId}
+        />
+        <div style={{ position: 'absolute', inset: 0 }}>
+          <Shirt3D enableTouch={false} fallback="static" productId={productId} />
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { SHIRT_VIEWER_ASPECT, type PrintSide } from '@/lib/print-spec';
+import { SHIRT_VIEWER_ASPECT, type PrintSide, getGarmentPhotoSrc } from '@/lib/print-spec';
 import { getMotifStyle } from '@/lib/print-position';
 
 interface PrintData { src: string; x?: number; y?: number; scale?: number }
@@ -10,15 +10,19 @@ interface StaticShirtPreviewProps {
   side?: PrintSide;
   print?: PrintData;
   shadow?: string;
+  productId?: string;
 }
 
 export default function StaticShirtPreview({
-  shirtSrc = '/airfit-front-t.png',
-  alt = 'AirFit Pro — Vorderseite',
+  shirtSrc,
+  alt = 'AirFit Pro',
   side = 'front',
   print,
   shadow = '0 8px 24px rgba(0,0,0,0.5)',
+  productId = '1',
 }: StaticShirtPreviewProps) {
+  // Use getGarmentPhotoSrc if shirtSrc not explicitly provided
+  const imageSrc = shirtSrc || getGarmentPhotoSrc(side, productId);
   return (
     <div style={{
       position: 'relative', width: '100%', height: '100%',
@@ -26,7 +30,7 @@ export default function StaticShirtPreview({
     }}>
       <div style={{ position: 'relative', height: '100%', aspectRatio: SHIRT_VIEWER_ASPECT, maxWidth: '100%' }}>
         <Image
-          src={shirtSrc}
+          src={imageSrc}
           alt={alt}
           fill
           sizes="(max-width: 768px) 80vw, 340px"
