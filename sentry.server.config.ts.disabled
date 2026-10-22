@@ -1,0 +1,31 @@
+// Sentry server configuration - only runs if @sentry/nextjs is installed
+// This file is imported conditionally from instrumentation.ts
+
+// Dynamic import to avoid build errors when package is not installed
+if (typeof window === 'undefined') {
+  import('@sentry/nextjs')
+    .then((Sentry) => {
+      Sentry.init({
+        dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+        // Performance Monitoring
+        tracesSampleRate: 1.0,
+
+        // Environment
+        environment: process.env.NODE_ENV,
+
+        // Filter out development errors
+        beforeSend(event, hint) {
+          // Don't send errors in development to Sentry
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Sentry (dev):', hint.originalException || event);
+            return null;
+          }
+          return event;
+        },
+      });
+    })
+    .catch(() => {
+      console.log('Sentry package not installed - server error monitoring disabled');
+    });
+}

@@ -1,11 +1,7 @@
 export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    await import('./sentry.server.config');
-  }
-
-  if (process.env.NEXT_RUNTIME === 'edge') {
-    await import('./sentry.edge.config');
-  }
+  // Sentry integration - disabled until @sentry/nextjs is installed
+  // To enable: Install package and rename .disabled files to .ts
+  // console.log('Sentry not configured - continuing without error monitoring');
 }
 
 export const onRequestError = async (
@@ -25,11 +21,6 @@ export const onRequestError = async (
     renderType: 'dynamic' | 'dynamic-resume'; // 'dynamic-resume' for PPR
   },
 ) => {
-  const Sentry = await import('@sentry/nextjs');
-  Sentry.captureException(err, {
-    extra: {
-      request: request.path,
-      ...context,
-    },
-  });
+  // Sentry integration disabled - log to console
+  console.error('Request error:', err, { request: request.path, ...context });
 };

@@ -1,0 +1,19 @@
+// Sentry edge configuration - only runs if @sentry/nextjs is installed
+// This file is imported conditionally from instrumentation.ts
+
+// Dynamic import to avoid build errors when package is not installed
+import('@sentry/nextjs')
+  .then((Sentry) => {
+    Sentry.init({
+      dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+      // Performance Monitoring
+      tracesSampleRate: 1.0,
+
+      // Environment
+      environment: process.env.NODE_ENV,
+    });
+  })
+  .catch(() => {
+    console.log('Sentry package not installed - edge error monitoring disabled');
+  });
