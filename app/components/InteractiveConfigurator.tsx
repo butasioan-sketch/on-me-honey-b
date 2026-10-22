@@ -21,6 +21,7 @@ import { useState, useRef, useCallback } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, PerspectiveCamera, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
+import { addToCart, type CartItem } from '@/lib/cart';
 
 type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
@@ -141,6 +142,7 @@ export default function InteractiveConfigurator({
   const [selectedZone, setSelectedZone] = useState<'front' | 'back' | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedSize, setSelectedSize] = useState<Size>('M');
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const sizes: Size[] = ['S', 'M', 'L', 'XL', 'XXL'];
@@ -179,6 +181,78 @@ export default function InteractiveConfigurator({
     };
     reader.readAsDataURL(file);
   }, [design, onDesignChange]);
+
+  const saveDesignToDatabase = async (design: Design): Promise<string | null> => {
+    try {
+      const response = await fetch('/api/designs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          front_image: design.front || null,
+          back_image: design.back || null,
+          product_id: productId
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save design');
+      }
+
+      const data = await response.json();
+      return data.id;
+    } catch (error) {
+      console.error('Error saving design:', error);
+      return null;
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!design.front && !design.back) return;
+
+    setIsAddingToCart(true);
+    try {
+      // 1. Save design to database
+      const designId = await saveDesignToDatabase(design);
+
+      if (!designId) {
+        alert('Fehler beim Speichern des Designs. Bitte versuchen Sie es erneut.');
+        return;
+      }
+
+      // 2. Calculate pages (front + back = 2, one side = 1)
+      const pages = (design.front && design.back) ? 2 : 1;
+
+      // 3. Create cart item
+      const cartItem: CartItem = {
+        id: productId,
+        name: productName,
+        price: price,
+        size: selectedSize,
+        quantity: 1,
+        designId: designId,
+        pages: pages,
+        color: 'Weiß' // Default color for AirFit Pro
+      };
+
+      // 4. Add to cart
+      const success = addToCart(cartItem);
+
+      if (success) {
+        alert('Zum Warenkorb hinzugefügt! 🛒\n\nGröße: ' + selectedSize + '\nSeiten: ' + pages);
+
+        // Optional callback for parent component
+        onAddToCart?.(design);
+      } else {
+        alert('Fehler beim Hinzufügen zum Warenkorb.');
+      }
+
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
 
   const handleSave = () => {
     onSave?.(design);
@@ -239,25 +313,22 @@ export default function InteractiveConfigurator({
             Speichern
           </button>
           <button
-            onClick={() => {
-              if (design.front || design.back) {
-                onAddToCart?.({ ...design, size: selectedSize });
-              }
-            }}
-            disabled={!design.front && !design.back}
+            onClick={handleAddToCart}
+            disabled={(!design.front && !design.back) || isAddingToCart}
             style={{
               padding: '0.75rem 2rem',
-              background: (design.front || design.back) ? '#D4AF37' : '#333',
-              color: (design.front || design.back) ? '#000' : '#666',
+              background: (design.front || design.back) && !isAddingToCart ? '#D4AF37' : '#333',
+              color: (design.front || design.back) && !isAddingToCart ? '#000' : '#666',
               border: 'none',
               borderRadius: '8px',
               fontSize: '1rem',
               fontWeight: 700,
-              cursor: (design.front || design.back) ? 'pointer' : 'not-allowed',
-              transition: 'all 0.2s'
+              cursor: (design.front || design.back) && !isAddingToCart ? 'pointer' : 'not-allowed',
+              transition: 'all 0.2s',
+              opacity: isAddingToCart ? 0.7 : 1
             }}
           >
-            In den Warenkorb ({selectedSize})
+            {isAddingToCart ? 'Wird hinzugefügt...' : `In den Warenkorb (${selectedSize})`}
           </button>
         </div>
       </div>
