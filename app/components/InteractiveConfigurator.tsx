@@ -17,7 +17,7 @@
  * - Works for all products
  */
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, PerspectiveCamera, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
@@ -145,8 +145,20 @@ export default function InteractiveConfigurator({
   const [selectedSize, setSelectedSize] = useState<Size>('M');
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error'; action?: ToastAction } | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   const sizes: Size[] = ['S', 'M', 'L', 'XL', 'XXL'];
 
   const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>, zone: 'front' | 'back') => {
