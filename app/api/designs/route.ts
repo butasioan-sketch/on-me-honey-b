@@ -65,17 +65,20 @@ export async function POST(request: NextRequest) {
     // (fehlt/kaputt) einfach weglassen statt den ganzen Design-Save abzulehnen.
     const frontPreview = body.frontPreview && isPrintReadyDataUrl(body.frontPreview) ? body.frontPreview : null;
     const backPreview = body.backPreview && isPrintReadyDataUrl(body.backPreview) ? body.backPreview : null;
+    // Multi-Zone Support: zonesData enthält alle Druckzonen mit ihren Designs
+    const zonesData = body.zonesData && typeof body.zonesData === 'object' ? JSON.stringify(body.zonesData) : null;
 
     const id = `DSGN-${Date.now()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
     await sql.query(
-      `INSERT INTO designs (id, front_image, back_image, product_id, front_transform, back_transform, meta, front_preview, back_preview)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+      `INSERT INTO designs (id, front_image, back_image, product_id, front_transform, back_transform, meta, front_preview, back_preview, zones_data)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
       [
         id, front, back, body.productId || null,
         frontTransform ? JSON.stringify(frontTransform) : null,
         backTransform ? JSON.stringify(backTransform) : null,
         meta ? JSON.stringify(meta) : null,
         frontPreview, backPreview,
+        zonesData,
       ]
     );
     return NextResponse.json({ id, success: true });

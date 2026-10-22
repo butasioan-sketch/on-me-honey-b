@@ -178,13 +178,23 @@ function ModelLoadingSkeleton({ productId }: { productId: string }) {
  * Shorts teilen sich deshalb dieselbe Kamera statt Sonderwegen pro Produkt.
  */
 function getCamera(productId: string) {
-  void productId;
+  if (productId === '2') {
+    // Shorts - weiter weg, größerer Zoom-Range
+    return {
+      cameraPos: [0, 0.05, 1.9] as [number, number, number],
+      orbitTarget: [0, 0, 0] as [number, number, number],
+      minDistance: 0.7,
+      maxDistance: 4.5,
+      fov: 38,
+    };
+  }
+  // Default: T-Shirt - näher, engerer Frame
   return {
-    cameraPos: [0, 0.05, 1.9] as [number, number, number],
+    cameraPos: [0, 0.05, 1.7] as [number, number, number],
     orbitTarget: [0, 0, 0] as [number, number, number],
-    minDistance: 0.7,
-    maxDistance: 4.5,
-    fov: 38,
+    minDistance: 0.5,
+    maxDistance: 4.0,
+    fov: 40,
   };
 }
 

@@ -61,6 +61,7 @@ export async function initDb() {
     await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS frozen_at TIMESTAMPTZ`);
     await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS front_preview TEXT`);
     await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS back_preview TEXT`);
+    await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS zones_data TEXT`);
     await sql.query(`
       CREATE TABLE IF NOT EXISTS analytics_events (
         id BIGSERIAL PRIMARY KEY,
@@ -190,6 +191,7 @@ export interface DesignRecord {
   backTransform: { scale: number; x: number; y: number } | null;
   meta: Record<string, unknown> | null;
   frozenAt: string | null;
+  zonesData: string | null;
 }
 
 function mapDesignRow(row: Record<string, unknown>): DesignRecord {
@@ -204,6 +206,7 @@ function mapDesignRow(row: Record<string, unknown>): DesignRecord {
     backTransform: (row.back_transform as DesignRecord['backTransform']) || null,
     meta: (row.meta as Record<string, unknown>) || null,
     frozenAt: row.frozen_at ? new Date(row.frozen_at as string).toISOString() : null,
+    zonesData: (row.zones_data as string) || null,
   };
 }
 
