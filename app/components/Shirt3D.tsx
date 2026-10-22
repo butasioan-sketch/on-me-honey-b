@@ -44,7 +44,7 @@ function getModelPath(productId?: string): string | null {
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {
   return new THREE.MeshStandardMaterial({
     color: new THREE.Color(color),
-    roughness: 0.62,
+    roughness: 0.58,  // Optimized from 0.62 for slightly better reflections
     metalness: 0,
     side: THREE.DoubleSide,
   });
@@ -125,8 +125,8 @@ function GarmentModel({
         (m.material as THREE.Material).dispose();
       }
       m.material = matTemplate.clone();
-      m.castShadow = false;
-      m.receiveShadow = false;
+      m.castShadow = true;
+      m.receiveShadow = true;
 
       const count = m.geometry.attributes.position?.count ?? 0;
       if (count > bestCount) {
@@ -230,15 +230,26 @@ export default function Shirt3D({
 
   return (
     <Canvas
+      shadows
       camera={{ position: cam.cameraPos, fov: cam.fov }}
       dpr={[1, 2]}
       style={{ width: '100%', height: '100%', background: 'transparent' }}
       gl={{ antialias: true, alpha: true }}
     >
       <Suspense fallback={<ModelLoadingSkeleton productId={productId} />}>
-        {/* Identisches Licht-Setup für Tee und Shorts */}
-        <ambientLight intensity={0.85} />
-        <directionalLight position={[2.5, 4, 3]} intensity={1.15} />
+        {/* Enhanced lighting with shadows - balanced for quality & performance */}
+        <ambientLight intensity={0.8} />
+        <directionalLight
+          position={[2.5, 4, 3]}
+          intensity={1.15}
+          castShadow
+          shadow-mapSize={[512, 512]}
+          shadow-camera-far={15}
+          shadow-camera-left={-3}
+          shadow-camera-right={3}
+          shadow-camera-top={3}
+          shadow-camera-bottom={-3}
+        />
         <directionalLight position={[-2.5, 2, -2]} intensity={0.45} />
         <directionalLight position={[0, 1, 4]} intensity={0.35} />
         <GarmentModel {...props} modelPath={modelPath} productId={productId} />
@@ -250,6 +261,8 @@ export default function Shirt3D({
           target={cam.orbitTarget}
           enableRotate={enableTouch}
           enableZoom={enableTouch}
+          enableDamping={true}
+          dampingFactor={0.05}
         />
       </Suspense>
     </Canvas>
