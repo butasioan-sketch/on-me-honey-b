@@ -14,8 +14,8 @@ export default function SiteHeader() {
       <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
         <Image src="/logo.png" alt="ON ME HONEY B" width={56} height={56} style={{ borderRadius: '10px', marginRight: '0.75rem' }} priority />
         <div className="brand-text" style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
-          <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.05em', color: '#fff' }}>ON ME</span>
-          <span style={{ fontSize: '0.65rem', fontWeight: 500, letterSpacing: '0.08em', color: '#888', textTransform: 'uppercase' }}>Premium Custom Shirts</span>
+          <span style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.05em', color: '#fff' }}>ON ME HONEY B</span>
+          <span style={{ fontSize: '0.65rem', fontWeight: 500, letterSpacing: '0.08em', color: '#888', textTransform: 'uppercase' }}>Personalisierte Textilien</span>
         </div>
       </Link>
       <nav className="site-header-nav" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
