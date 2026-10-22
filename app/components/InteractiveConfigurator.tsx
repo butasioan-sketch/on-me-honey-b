@@ -492,6 +492,48 @@ export default function InteractiveConfigurator({
             </div>
           </div>
 
+          {/* Product Info */}
+          <div style={{
+            padding: '1.5rem',
+            background: 'rgba(33, 150, 243, 0.08)',
+            border: '1px solid rgba(33, 150, 243, 0.25)',
+            borderRadius: '12px'
+          }}>
+            <h3 style={{ color: '#2196F3', marginBottom: '1rem', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span>ℹ️</span> Produktinformationen
+            </h3>
+            <div style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: '1.8' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <span style={{ color: '#2196F3', fontSize: '1.1rem' }}>🚚</span>
+                <div>
+                  <strong style={{ color: '#ccc' }}>Lieferung:</strong> 3-7 Werktage<br/>
+                  <span style={{ fontSize: '0.8rem', color: '#888' }}>Maßgefertigt auf Bestellung</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <span style={{ color: '#2196F3', fontSize: '1.1rem' }}>👕</span>
+                <div>
+                  <strong style={{ color: '#ccc' }}>Material:</strong> 100% Polyester<br/>
+                  <span style={{ fontSize: '0.8rem', color: '#888' }}>165 g/m² • AirFit Performance Fabric</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <span style={{ color: '#2196F3', fontSize: '1.1rem' }}>🎨</span>
+                <div>
+                  <strong style={{ color: '#ccc' }}>Druck:</strong> Sublimationsdruck<br/>
+                  <span style={{ fontSize: '0.8rem', color: '#888' }}>Brillante Farben, langlebig</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <span style={{ color: '#2196F3', fontSize: '1.1rem' }}>🧺</span>
+                <div>
+                  <strong style={{ color: '#ccc' }}>Pflege:</strong> Maschinenwaschbar 30°C<br/>
+                  <span style={{ fontSize: '0.8rem', color: '#888' }}>Nicht bleichen, schonend trocknen</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Front Upload */}
           <div
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
