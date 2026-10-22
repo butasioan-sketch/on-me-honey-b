@@ -14,6 +14,7 @@ import RegisterSW from './components/RegisterSW';
 import Footer from './components/Footer';
 import Analytics from './components/Analytics';
 import CookieBanner from './components/CookieBanner';
+import FloatingActionButtons from './components/FloatingActionButtons';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
 
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <RegisterSW />
           <ChatWidgetWrapper />
+          <FloatingActionButtons />
           <CookieBanner />
           <Footer />
         </LocaleProvider>
