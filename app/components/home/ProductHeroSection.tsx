@@ -63,9 +63,63 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
             {t.hero.headline2}
           </span>
         </h1>
-        <p style={{ color: '#9a9a9a', fontSize: '1rem', lineHeight: 1.65 }}>
+        <p style={{ color: '#9a9a9a', fontSize: '1rem', lineHeight: 1.65, marginBottom: '2rem' }}>
           {t.hero.sub}
         </p>
+        {/* Primary CTA */}
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link href="/konfigurator">
+            <button style={{
+              padding: '1.1rem 2.8rem',
+              background: 'linear-gradient(135deg, #D4AF37, #F4D03F)',
+              color: '#000',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '1.15rem',
+              fontWeight: 800,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              boxShadow: '0 8px 24px rgba(212, 175, 55, 0.35)',
+              letterSpacing: '0.02em'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(212, 175, 55, 0.45)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(212, 175, 55, 0.35)';
+            }}>
+              🎨 JETZT GESTALTEN
+            </button>
+          </Link>
+          <button
+            onClick={() => {
+              const productsSection = document.querySelector('.hero-collection-grid');
+              productsSection?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            style={{
+              padding: '1.1rem 2rem',
+              background: 'transparent',
+              color: '#D4AF37',
+              border: '2px solid #D4AF37',
+              borderRadius: '12px',
+              fontSize: '1rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = 'rgba(212, 175, 55, 0.1)';
+              e.currentTarget.style.borderColor = '#F4D03F';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = '#D4AF37';
+            }}>
+            Essential Set ansehen
+          </button>
+        </div>
       </div>
 
       {/* Essential Collection — Tee und Shorts gleichwertig, gleich grosse Karten */}
