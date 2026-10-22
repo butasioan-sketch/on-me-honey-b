@@ -1,7 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import Shirt3DEnhanced from './Shirt3DEnhanced';
+import { useState, Suspense } from 'react';
+import dynamic from 'next/dynamic';
+
+// Dynamic import with loading state
+const Shirt3DEnhanced = dynamic(() => import('./Shirt3DEnhanced'), {
+  loading: () => <LoadingSkeleton />,
+  ssr: false // 3D only on client
+});
 
 /**
  * NEUE PRODUKTE PREVIEW — Homepage Section
@@ -72,8 +78,49 @@ const newProducts: NewProduct[] = [
   }
 ];
 
+// Loading skeleton component
+function LoadingSkeleton() {
+  return (
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
+      borderRadius: '12px',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <div style={{
+        width: '60px',
+        height: '60px',
+        border: '3px solid rgba(212, 175, 55, 0.2)',
+        borderTop: '3px solid #D4AF37',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
+      }} />
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+      <p style={{
+        position: 'absolute',
+        bottom: '30%',
+        fontSize: '0.9rem',
+        color: '#888'
+      }}>
+        3D-Modell wird geladen...
+      </p>
+    </div>
+  );
+}
+
 export default function NewProductsPreview() {
   const [selectedProduct, setSelectedProduct] = useState(newProducts[0]);
+  const [viewerError, setViewerError] = useState(false);
 
   return (
     <section
@@ -236,7 +283,7 @@ export default function NewProductsPreview() {
             gap: '2rem',
             alignItems: 'start'
           }}>
-            {/* 3D Model */}
+            {/* 3D Model Viewer */}
             <div style={{
               height: '500px',
               background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
@@ -244,12 +291,49 @@ export default function NewProductsPreview() {
               overflow: 'hidden',
               position: 'relative'
             }}>
-              {/* 3D-Modell Viewer */}
-              <Shirt3DEnhanced
-                productId={selectedProduct.id}
-                shirtColor="#ffffff"
-                enableTouch={true}
-              />
+              {!viewerError ? (
+                <Suspense fallback={<LoadingSkeleton />}>
+                  <Shirt3DEnhanced
+                    productId={selectedProduct.id}
+                    shirtColor="#ffffff"
+                    enableTouch={true}
+                  />
+                </Suspense>
+              ) : (
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#888'
+                }}>
+                  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                  <p style={{ marginTop: '1rem', fontSize: '1rem' }}>
+                    3D-Ansicht vorübergehend nicht verfügbar
+                  </p>
+                  <button
+                    onClick={() => setViewerError(false)}
+                    style={{
+                      marginTop: '1rem',
+                      padding: '0.5rem 1rem',
+                      background: '#D4AF37',
+                      color: '#000',
+                      border: 'none',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontWeight: 600
+                    }}
+                  >
+                    Erneut versuchen
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Product Details */}
