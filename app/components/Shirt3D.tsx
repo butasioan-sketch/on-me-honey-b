@@ -1,7 +1,7 @@
 'use client';
 import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import { Canvas, createPortal } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Decal, useTexture, Html } from '@react-three/drei';
+import { OrbitControls, useGLTF, Decal, useTexture, Html, ContactShadows, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import ShirtFlip from './ShirtFlip';
 import StaticShirtPreview from './StaticShirtPreview';
@@ -44,9 +44,10 @@ function getModelPath(productId?: string): string | null {
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {
   return new THREE.MeshStandardMaterial({
     color: new THREE.Color(color),
-    roughness: 0.58,  // Optimized from 0.62 for slightly better reflections
+    roughness: 0.55,  // Optimized for best reflections while maintaining fabric feel
     metalness: 0,
     side: THREE.DoubleSide,
+    envMapIntensity: 0.6,  // Subtle environment reflections
   });
 }
 
@@ -234,25 +235,44 @@ export default function Shirt3D({
       camera={{ position: cam.cameraPos, fov: cam.fov }}
       dpr={[1, 2]}
       style={{ width: '100%', height: '100%', background: 'transparent' }}
-      gl={{ antialias: true, alpha: true }}
+      gl={{
+        antialias: true,
+        alpha: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure: 1.0,
+      }}
     >
       <Suspense fallback={<ModelLoadingSkeleton productId={productId} />}>
-        {/* Enhanced lighting with shadows - balanced for quality & performance */}
-        <ambientLight intensity={0.8} />
+        {/* Professional lighting with shadows + environment - 10/10 quality */}
+        <ambientLight intensity={0.75} />
         <directionalLight
           position={[2.5, 4, 3]}
-          intensity={1.15}
+          intensity={1.2}
           castShadow
-          shadow-mapSize={[512, 512]}
+          shadow-mapSize={[1024, 1024]}
           shadow-camera-far={15}
           shadow-camera-left={-3}
           shadow-camera-right={3}
           shadow-camera-top={3}
           shadow-camera-bottom={-3}
+          shadow-bias={-0.0001}
         />
-        <directionalLight position={[-2.5, 2, -2]} intensity={0.45} />
-        <directionalLight position={[0, 1, 4]} intensity={0.35} />
+        <directionalLight position={[-2.5, 2, -2]} intensity={0.5} />
+        <directionalLight position={[0, 1, 4]} intensity={0.4} />
+
+        {/* Subtle environment for reflections - premium feel */}
+        <Environment preset="apartment" intensity={0.4} />
+
         <GarmentModel {...props} modelPath={modelPath} productId={productId} />
+
+        {/* Soft contact shadows - realistic ground contact */}
+        <ContactShadows
+          position={[0, -0.85, 0]}
+          opacity={0.3}
+          scale={3}
+          blur={2}
+          far={2}
+        />
         <OrbitControls
           enablePan={false}
           minDistance={cam.minDistance}
