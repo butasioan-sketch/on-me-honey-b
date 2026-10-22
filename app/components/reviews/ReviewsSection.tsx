@@ -23,19 +23,30 @@ export default function ReviewsSection({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Timeout to prevent stuck loading state
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+      setReviews([]);
+      setStats({ count: 0, avg: 0 });
+    }, 5000); // 5 seconds max
+
     Promise.all([
       fetch('/api/reviews?status=approved&limit=' + (compact ? 3 : 20)).then((r) => r.json()),
       fetch('/api/reviews?stats=true').then((r) => r.json()),
     ])
       .then(([data, s]) => {
+        clearTimeout(timeoutId);
         setReviews(data.reviews || []);
         setStats({ count: s.count ?? 0, avg: s.avg ?? 0 });
       })
       .catch(() => {
+        clearTimeout(timeoutId);
         setReviews([]);
         setStats({ count: 0, avg: 0 });
       })
       .finally(() => setLoading(false));
+
+    return () => clearTimeout(timeoutId);
   }, [compact]);
 
   const limit = compact ? 3 : reviews.length;

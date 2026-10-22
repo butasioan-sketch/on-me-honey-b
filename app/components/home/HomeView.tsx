@@ -122,12 +122,6 @@ export default function HomeView({ locale }: { locale: Locale }) {
               </Link>
             ))}
           </div>
-
-          <style jsx>{`
-            .category-card-link:hover .category-hover-bg {
-              opacity: 0.15 !important;
-            }
-          `}</style>
         </div>
       </section>
 
