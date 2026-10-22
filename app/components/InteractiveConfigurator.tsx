@@ -27,6 +27,8 @@ interface Design {
   back?: string | null;
 }
 
+type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
+
 interface InteractiveConfiguratorProps {
   productId: string;
   productName: string;
@@ -137,7 +139,10 @@ export default function InteractiveConfigurator({
   const [design, setDesign] = useState<Design>({});
   const [selectedZone, setSelectedZone] = useState<'front' | 'back' | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<Size>('M');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const sizes: Size[] = ['S', 'M', 'L', 'XL', 'XXL'];
 
   const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>, zone: 'front' | 'back') => {
     const file = e.target.files?.[0];
@@ -233,7 +238,11 @@ export default function InteractiveConfigurator({
             Speichern
           </button>
           <button
-            onClick={() => onAddToCart?.(design)}
+            onClick={() => {
+              if (design.front || design.back) {
+                onAddToCart?.({ ...design, size: selectedSize });
+              }
+            }}
             disabled={!design.front && !design.back}
             style={{
               padding: '0.75rem 2rem',
@@ -247,7 +256,7 @@ export default function InteractiveConfigurator({
               transition: 'all 0.2s'
             }}
           >
-            In den Warenkorb
+            In den Warenkorb ({selectedSize})
           </button>
         </div>
       </div>
@@ -337,6 +346,52 @@ export default function InteractiveConfigurator({
           gap: '1.5rem',
           overflowY: 'auto'
         }}>
+          {/* Size Selection */}
+          <div style={{
+            padding: '1.5rem',
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '12px'
+          }}>
+            <h3 style={{ color: '#fff', marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 700 }}>
+              Größe wählen
+            </h3>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {sizes.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  style={{
+                    padding: '0.75rem 1.25rem',
+                    background: selectedSize === size ? '#D4AF37' : 'rgba(255, 255, 255, 0.05)',
+                    color: selectedSize === size ? '#000' : '#fff',
+                    border: selectedSize === size ? 'none' : '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
+                    fontSize: '1rem',
+                    fontWeight: selectedSize === size ? 700 : 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    minWidth: '60px'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedSize !== size) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.5)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedSize !== size) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }
+                  }}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Front Upload */}
           <div
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
