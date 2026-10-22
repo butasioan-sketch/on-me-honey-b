@@ -3,7 +3,7 @@ import SiteHeader from '@/app/components/SiteHeader';
 
 export const metadata: Metadata = {
   title: 'Impressum | ON ME HONEY B',
-  description: 'Impressum und Kontaktdaten von ON ME HONEY B — Premium Custom Shirts.',
+  description: 'Impressum und Kontaktdaten von ON ME HONEY B — Personalisierte Textilien.',
 };
 
 const OPERATOR = {
