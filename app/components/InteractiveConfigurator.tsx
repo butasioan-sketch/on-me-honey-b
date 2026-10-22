@@ -22,12 +22,13 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, PerspectiveCamera, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
+type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
+
 interface Design {
   front?: string | null;
   back?: string | null;
+  size?: Size;
 }
-
-type Size = 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
 interface InteractiveConfiguratorProps {
   productId: string;
