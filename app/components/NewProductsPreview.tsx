@@ -3,8 +3,8 @@
 import { useState, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
-// Dynamic import with loading state
-const Shirt3DEnhanced = dynamic(() => import('./Shirt3DEnhanced'), {
+// Dynamic import with loading state - PREMIUM VIEWER
+const Enhanced3DViewer = dynamic(() => import('./Enhanced3DViewer'), {
   loading: () => <LoadingSkeleton />,
   ssr: false // 3D only on client
 });
@@ -293,10 +293,10 @@ export default function NewProductsPreview() {
             }}>
               {!viewerError ? (
                 <Suspense fallback={<LoadingSkeleton />}>
-                  <Shirt3DEnhanced
+                  <Enhanced3DViewer
                     productId={selectedProduct.id}
-                    shirtColor="#ffffff"
-                    enableTouch={true}
+                    autoRotate={true}
+                    enableZoom={true}
                   />
                 </Suspense>
               ) : (
