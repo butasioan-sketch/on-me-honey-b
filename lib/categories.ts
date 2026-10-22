@@ -25,11 +25,11 @@ export const CATEGORIES: Category[] = [
     name: 'Bekleidung & Mode',
     nameEN: 'Apparel & Fashion',
     icon: '👕',
-    count: 31,
+    count: 31,  // Total: 31 (2 live: T-Shirt + Shorts, 29 coming soon)
     description: 'T-Shirts, Shorts, Hoodies & mehr – individuell bedruckt',
     color: '#D4AF37',
     gradient: 'linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%)',
-    status: 'live', // 2 Produkte live
+    status: 'live', // Has live products (2/31)
     priority: 1
   },
   {
