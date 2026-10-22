@@ -42,6 +42,9 @@ interface Shirt3DEnhancedProps {
 const MODEL_PATHS: Record<string, string> = {
   '1': '/models/shirt-white-v2.glb',
   '2': '/models/shorts-white-v1.glb',
+  '3': '/models/sport-shirt-pa4012.glb',
+  '4': '/models/basketball-shorts-pa1050.glb',
+  '5': '/models/pillow-cover-40x40.glb',
 };
 
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {
