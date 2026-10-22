@@ -4,6 +4,7 @@ import { Locale, getTranslation } from '@/lib/i18n';
 import ProductHeroSection from './ProductHeroSection';
 import TrustIcon from '@/app/components/TrustIcon';
 import ReviewsSection from '@/app/components/reviews/ReviewsSection';
+import NewProductsPreview from '@/app/components/NewProductsPreview';
 
 const outdoorIcons: Record<string, React.ReactNode> = {
   climb: <path d="M4 26 L14 8 L20 18 L26 6 L30 26 Z" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinejoin="round" />,
@@ -30,6 +31,9 @@ export default function HomeView({ locale }: { locale: Locale }) {
   return (
     <>
       <ProductHeroSection locale={locale} />
+
+      {/* NEW PRODUCTS PREVIEW */}
+      <NewProductsPreview />
 
       {/* Categories Section */}
       <section style={{ padding: '5rem 2rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
