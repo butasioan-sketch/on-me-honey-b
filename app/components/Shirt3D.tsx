@@ -7,6 +7,7 @@ import ShirtFlip from './ShirtFlip';
 import StaticShirtPreview from './StaticShirtPreview';
 import { getDecalDimensions, getDecalPosition } from '@/lib/print-position';
 import { getViewerAspect } from '@/lib/print-spec';
+import { getFamilyByShopId, getLiveFamilies } from '@/lib/catalog/families';
 
 interface PrintData { src: string; x: number; y: number; scale: number; }
 interface Shirt3DProps {
@@ -27,18 +28,13 @@ interface Shirt3DProps {
  * - Kundenmotiv = Decal
  * - gleiches Licht, gleiche Material-Parameter
  * - productId steuert nur Modellpfad + Kamera-Framing
+ *
+ * WAVE 4.1: MODEL_PATHS replaced by families.ts
  */
-const MODEL_PATHS: Record<string, string> = {
-  '1': '/models/shirt-white-v2.glb',
-  /** Adult sport shorts (Shorts-Sport OBJ → white single mesh), NICHT Kids-Pant */
-  '2': '/models/shorts-white-v1.glb',
-  // '3'/'4' removed - 11-in-1 not shop_live
-  // '5' pillow - Phase 6
-};
-
 function getModelPath(productId?: string): string | null {
   if (!productId) return null;
-  return MODEL_PATHS[productId] ?? null;
+  const family = getFamilyByShopId(productId);
+  return family?.glbPath ?? null;
 }
 
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {
@@ -296,6 +292,9 @@ export default function Shirt3D({
   );
 }
 
-// Preload only shop_live GLB models
-useGLTF.preload('/models/shirt-white-v2.glb');
-useGLTF.preload('/models/shorts-white-v1.glb');
+// WAVE 4.1: Preload only shop_live families
+getLiveFamilies().forEach(family => {
+  if (family.glbPath) {
+    useGLTF.preload(family.glbPath);
+  }
+});
