@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { getProduct, getProductName, getProductDescription } from '@/lib/products';
 
 type Params = Promise<{ id: string }>;
@@ -6,9 +7,11 @@ type Params = Promise<{ id: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { id } = await params;
   const product = getProduct(id);
-  const name = product ? getProductName(product, 'de') : 'AirFit Pro';
-  const desc = product ? getProductDescription(product, 'de') : 'AirFit Performance Fabric, Vollflächendruck. Maßgefertigt auf Bestellung.';
-  const price = product ? `${product.price.toFixed(2)} €` : '';
+  if (!product) return notFound();
+
+  const name = getProductName(product, 'de');
+  const desc = getProductDescription(product, 'de');
+  const price = `${product.price.toFixed(2)} €`;
 
   return {
     title: `${name} — Dein Design | ON ME HONEY B`,
@@ -25,8 +28,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function Layout({ children, params }: { children: React.ReactNode; params: Params }) {
   const { id } = await params;
   const product = getProduct(id);
-  const name = product ? getProductName(product, 'de') : 'AirFit Pro';
-  const desc = product ? getProductDescription(product, 'de') : 'Premium-Polyester-Piece mit Vollflächendruck — sublimiert in die Faser. Maßgefertigt auf Bestellung.';
+  if (!product) return notFound();
+
+  const name = getProductName(product, 'de');
+  const desc = getProductDescription(product, 'de');
   const kind = id === '2' ? 'Shorts' : 'Shirt';
 
   const productSchema = {
@@ -37,7 +42,7 @@ export default async function Layout({ children, params }: { children: React.Rea
     brand: { '@type': 'Brand', name: 'ON ME HONEY B' },
     offers: {
       '@type': 'Offer',
-      price: String(product?.price ?? 39.99),
+      price: String(product.price),
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
       priceValidUntil: '2027-12-31',
