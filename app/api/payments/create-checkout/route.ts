@@ -226,6 +226,23 @@ export async function POST(request: Request) {
       );
     }
 
+    // SECURITY: Quantity must be between 1 and 9
+    const invalidQty = items.find((item) => {
+      const qty = Math.round(Number(item.quantity || 0));
+      return qty < 1 || qty > 9;
+    });
+    if (invalidQty) {
+      const qty = Math.round(Number(invalidQty.quantity || 0));
+      return NextResponse.json(
+        {
+          ok: false,
+          error: `Ungültige Menge: ${qty}. Bitte wählen Sie zwischen 1 und 9 Artikeln.`,
+          quantity: qty,
+        },
+        { status: 400 },
+      );
+    }
+
     // SECURITY: Only allow shop_live products to be purchased
     const notShopLive = items.find((item) => {
       const product = PRODUCTS_133.find((p) => p.id === item.productId);
@@ -323,10 +340,7 @@ export async function POST(request: Request) {
             Math.max(0, Math.min(12, Math.round(backCount)));
         }
       }
-      const qty = Math.max(
-        1,
-        Math.min(99, Math.round(Number(item.quantity || 1))),
-      );
+      const qty = Math.round(Number(item.quantity || 1)); // Already validated 1-9
       priced.push({
         ...item,
         productId,
