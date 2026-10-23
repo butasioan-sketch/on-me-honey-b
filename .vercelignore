@@ -22,3 +22,8 @@ scripts/_archive/
 scripts/archive/
 *.bak
 tsconfig.tsbuildinfo
+
+# Backup/source GLB files (Task 1.1 - prevent deployment drift)
+*-ORIGINAL.*
+*-BACKUP.*
+*-OLD.*
