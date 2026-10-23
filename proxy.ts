@@ -124,5 +124,13 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/orders', '/api/orders/:id/print-pdf', '/api/reviews'],
+  matcher: [
+    '/admin/:path*',
+    '/api/orders',
+    '/api/orders/:id/print-pdf',
+    '/api/reviews',
+    '/api/email',
+    '/api/newsletter/admin',
+    '/api/analytics',
+  ],
 };
