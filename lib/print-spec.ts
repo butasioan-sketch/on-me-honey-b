@@ -61,6 +61,8 @@ export interface GarmentProfile {
   /** Näherungs-Referenzhöhe in mm für die mm-Umrechnung im PDF — null wenn keine
    *  belastbare Referenzmessung vorliegt (dann zeigt das PDF nur %, kein mm). */
   mmReferenceHeight: number | null;
+  /** Overlay-Kalibrierung verifiziert durch physischen Testdruck (WAVE 6.2) */
+  overlayVerified?: boolean;
 }
 
 const TEE_PROFILE: GarmentProfile = {
@@ -100,9 +102,29 @@ const SHORTS_PROFILE: GarmentProfile = {
   mmReferenceHeight: null, // keine Referenzmessung vorhanden — nicht erfinden
 };
 
+// WAVE 6.2: Pillow profile (Phase 6 - after Jonny price + gate)
+// Overlay Start values - NOT verified by physical test print yet
+const PILLOW_OVERLAY = { top: 15, left: 15, width: 70, height: 70 };
+const PILLOW_PLACEMENT = { top: 10, left: 10, width: 80, height: 80 };
+
+const PILLOW_PROFILE: GarmentProfile = {
+  productId: "3",
+  photoWidth: 1024,
+  photoHeight: 1024, // Square aspect for pillow
+  overlay: { front: PILLOW_OVERLAY, back: PILLOW_OVERLAY },
+  placement: { front: PILLOW_PLACEMENT, back: PILLOW_PLACEMENT },
+  blank: "BRILDOR Kissenbezug 40×40cm",
+  weightGsm: 180,
+  frontSrc: "/products/051/front.jpg",
+  backSrc: "/products/051/front.jpg", // Pillow uses same image for both sides
+  mmReferenceHeight: 400, // 40cm square
+  overlayVerified: false, // NOT verified - awaiting physical test print
+};
+
 export const GARMENT_PROFILES: Record<string, GarmentProfile> = {
   "1": TEE_PROFILE,
   "2": SHORTS_PROFILE,
+  "3": PILLOW_PROFILE, // WAVE 6.2
 };
 
 export function getGarmentProfile(productId: string): GarmentProfile {

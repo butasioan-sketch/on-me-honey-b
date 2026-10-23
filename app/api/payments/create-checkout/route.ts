@@ -242,6 +242,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // WAVE 6.4: Gate check for productId='3' (pillow) - requires Jonny approval
+    const hasPillow = items.find((item) => item.productId === "3");
+    if (hasPillow) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Kissenbezüge sind noch nicht verfügbar. Das Produkt befindet sich in der Vorbereitung.",
+          productId: "3",
+          status: "pilot",
+        },
+        { status: 400 },
+      );
+    }
+
     // SECURITY: Only allow shop_live products to be purchased
     const notShopLive = items.find((item) => {
       const product = PRODUCTS_133.find((p) => p.id === item.productId);

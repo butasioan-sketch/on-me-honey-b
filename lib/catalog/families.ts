@@ -28,13 +28,13 @@ export const PRODUCT_FAMILIES: Record<string, ProductFamily> = {
     glbPath: '/models/shorts-white-v1.glb',
     shop_live: true,
   },
-  // Pillow: Phase 6 after Jonny price + gate
-  // pillow: {
-  //   id: 'pillow',
-  //   name: 'Kissenbezug',
-  //   glbPath: '/models/pillow-cover-40x40.glb',
-  //   shop_live: false,
-  // },
+  // WAVE 6.3: Pillow family (NOT shop_live until Jonny price + gate)
+  pillow: {
+    id: 'pillow',
+    name: 'Kissenbezug',
+    glbPath: '/models/pillow-cover-40x40.glb',
+    shop_live: false, // Phase 6 gate - awaiting Jonny approval
+  },
 };
 
 /**
@@ -646,10 +646,10 @@ export const CATALOG: Record<string, ProductRecord> = {
   },
   '051': {
     sku: '051',
-    shopId: null,
-    familyId: 'tee',
+    shopId: null, // WAVE 6.4: shopId='3' only after Jonny price + jonnyOk gate
+    familyId: 'pillow', // WAVE 6.3: now uses pillow family
     name: 'Dekokissenbezüge',
-    shop_live: false,
+    shop_live: false, // WAVE 6.4: stays false until gate opens
   },
   '052': {
     sku: '052',
