@@ -1,5 +1,5 @@
 /**
- * PLATYPUS — E2E-Test-Suite (Playwright)
+ * ON ME HONEY B — E2E-Test-Suite (Playwright)
  *
  * Setup:
  *   npm install --save-dev @playwright/test
@@ -34,7 +34,7 @@ async function uploadDesign(page: Page, side: 'front' | 'back' = 'front') {
   });
 }
 
-test.describe('PLATYPUS — Checkout-Flow', () => {
+test.describe('ON ME HONEY B — Checkout-Flow', () => {
 
   test('Produkt-Seite lädt korrekt', async ({ page }) => {
     await page.goto(`${BASE_URL}/product/1`);
@@ -109,10 +109,10 @@ test.describe('PLATYPUS — Checkout-Flow', () => {
 
   test('Homepage lädt (smoke test)', async ({ page }) => {
     await page.goto(BASE_URL);
-    await expect(page).toHaveTitle(/PLATYPUS/);
+    await expect(page).toHaveTitle(/ON ME HONEY B/);
     // Logo statt .brand-text pruefen: der Text-Schriftzug ist unter 640px
     // absichtlich ausgeblendet (Mobile-Header-Fix), das Logo bleibt immer sichtbar.
-    await expect(page.getByAltText('PLATYPUS').first()).toBeVisible();
+    await expect(page.getByAltText('ON ME HONEY B').first()).toBeVisible();
   });
 
   test('Tracking-Seite akzeptiert Bestellnummer', async ({ page }) => {
@@ -125,7 +125,7 @@ test.describe('PLATYPUS — Checkout-Flow', () => {
   });
 });
 
-test.describe('PLATYPUS — Admin (braucht ADMIN_PASSWORD)', () => {
+test.describe('ON ME HONEY B — Admin (braucht ADMIN_PASSWORD)', () => {
   test('Admin-Orders erreichbar (401 ohne Auth)', async ({ page }) => {
     const res = await page.goto(`${BASE_URL}/admin/orders`);
     // Ohne Auth: 401 oder Login-Redirect

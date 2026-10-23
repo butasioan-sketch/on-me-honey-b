@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'ON ME – Personalisierte Textilien | ON ME HONEY B',
   description: 'ON ME – Personalisierte Textilien im ON ME HONEY B. Gestalte dein individuelles T-Shirt oder Shorts mit eigenem Bild auf AirFit Performance Fabric.',
-  keywords: 'on me, personalisierte textilien, platypus, custom shirt, eigenes design, t-shirt bedrucken, shorts bedrucken, sublimation',
+  keywords: 'on me, personalisierte textilien, custom shirt, eigenes design, t-shirt bedrucken, shorts bedrucken, sublimation, maßanfertigung',
   icons: {
     icon: [{ url: '/icon-192.png', sizes: '192x192' }, { url: '/icon-512.png', sizes: '512x512' }],
     apple: '/apple-touch-icon.png',
