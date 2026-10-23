@@ -1,8 +1,8 @@
 #!/bin/bash
-# PLATYPUS Helfer — Pflicht-Toolchain
+# ON ME HONEY B — Pflicht-Toolchain
 set -e
-cd ~/Schreibtisch/platypus-shirt-shop
-LIVE="https://platypus-shirt-shop.vercel.app"
+cd ~/Schreibtisch/on-me-honey-b
+LIVE="https://on-me-honey-b.vercel.app"
 
 case "${1:-help}" in
   deploy)
@@ -12,7 +12,7 @@ case "${1:-help}" in
     echo "→ Build-Check..."
     npm run build 2>&1 | grep -E "Compiled|Failed|error|Type error" | head -5
     echo "→ Commit + Push..."
-    git add -A && git commit --no-verify -m "$MSG" || echo "(nichts zu committen)"
+    git commit --no-verify -m "$MSG" || echo "(nichts zu committen)"
     git push origin main || echo "(push uebersprungen)"
     echo "→ Deploy..."
     npx vercel build --prod && npx vercel deploy --prebuilt --prod --yes
@@ -60,7 +60,7 @@ case "${1:-help}" in
     bash scripts/p2-verify.sh "${2:-}"
     ;;
   *)
-    echo "PLATYPUS Helfer:"
+    echo "ON ME HONEY B Helfer:"
     echo "  ./p tools              - Pflicht/Nice-to-have Toolchain pruefen"
     echo "  ./p build              - Build-Check"
     echo "  ./p deploy \"msg\"       - tools + build + commit + deploy"
