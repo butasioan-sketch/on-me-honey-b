@@ -121,7 +121,7 @@ export default function CartPage() {
       });
       const data = await res.json();
       if (data.redirectUrl) {
-        localStorage.removeItem('on_me_honey_b_cart');
+        // Cart cleared on ?payment=success (PaymentSuccessBanner), NOT before redirect
         window.location.href = data.redirectUrl;
       } else {
         setError(t.errors.checkout);
