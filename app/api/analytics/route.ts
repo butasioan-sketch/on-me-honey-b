@@ -18,7 +18,26 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+function checkAdminAuth(request: NextRequest): boolean {
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader?.startsWith('Basic ')) return false;
+
+  const base64 = authHeader.slice(6);
+  const decoded = Buffer.from(base64, 'base64').toString('utf-8');
+  const [email, password] = decoded.split(':');
+
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  return email === adminEmail && password === adminPassword;
+}
+
+export async function GET(request: NextRequest) {
+  // SECURITY: Analytics data is admin-only
+  if (!checkAdminAuth(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     await initDb();
     const summary = await getAnalyticsSummary();
