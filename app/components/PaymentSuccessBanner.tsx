@@ -37,7 +37,7 @@ export default function PaymentSuccessBanner() {
     if (params.get('payment') !== 'success') return;
 
     setVisible(true);
-    localStorage.removeItem('on_me_honey_b_cart');
+    // Cart already cleared before Stripe redirect (cart/page.tsx)
     window.dispatchEvent(new Event('cart-updated'));
     window.history.replaceState({}, '', '/');
 
