@@ -53,7 +53,7 @@ export default function CookieBanner() {
           style={{
             padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer',
             background: '#D4AF37', border: 'none',
-            color: '#fff', fontSize: '0.82rem', fontWeight: 700,
+            color: '#000', fontSize: '0.82rem', fontWeight: 700,
           }}
         >
           {t.cookie.accept}
