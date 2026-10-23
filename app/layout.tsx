@@ -47,7 +47,7 @@ const organizationSchema = {
       '@id': `${siteUrl}/#organization`,
       name: 'ON ME HONEY B',
       url: siteUrl,
-      logo: `${siteUrl}/logo.jpeg`,
+      logo: `${siteUrl}/logo.png`,
     },
     {
       '@type': 'WebSite',
