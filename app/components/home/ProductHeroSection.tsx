@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Locale, getTranslation } from '@/lib/i18n';
 import { getAllProducts, getProductName, getProduct, type Product } from '@/lib/products';
 import { PRICE_TEE, PRICE_SHORTS, PRICE_BUNDLE_ESSENTIAL } from '@/lib/pricing';
-import ProductHeroViewer from '@/app/components/ProductHeroViewer';
 
 const TEE_HREF = '/product/1';
 const SHORTS_HREF = '/product/2';
@@ -128,7 +128,17 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
       <div className="hero-collection-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
         <ProductCard
           href={TEE_HREF}
-          viewer={<ProductHeroViewer height={CARD_HEIGHT} />}
+          viewer={
+            <div style={{ position: 'relative', width: '100%', height: `${CARD_HEIGHT}px`, background: '#111' }}>
+              <Image
+                src="/airfit-tee-front.png"
+                alt="AirFit Pro T-Shirt"
+                fill
+                style={{ objectFit: 'contain' }}
+                priority
+              />
+            </div>
+          }
           badgeLabel={t.brand.collection}
           name={getProductName(tee, locale)}
           price={PRICE_TEE}
@@ -137,7 +147,17 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
         {shorts && (
           <ProductCard
             href={SHORTS_HREF}
-            viewer={<ProductHeroViewer height={CARD_HEIGHT} productId="2" />}
+            viewer={
+              <div style={{ position: 'relative', width: '100%', height: `${CARD_HEIGHT}px`, background: '#111' }}>
+                <Image
+                  src="/airfit-shorts-front.png"
+                  alt="AirFit Pro Shorts"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </div>
+            }
             badgeLabel={t.brand.collection}
             name={getProductName(shorts as Product, locale)}
             price={PRICE_SHORTS}
