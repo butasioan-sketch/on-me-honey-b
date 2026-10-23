@@ -17,34 +17,6 @@ interface NewProduct {
 
 const newProducts: NewProduct[] = [
   {
-    id: '3',
-    name: 'PROACT® PA4012',
-    nameDE: 'Sport-Shirt Raglan',
-    weight: '130 g/m²',
-    material: '100% Recycling-Polyester',
-    description: 'Leichtes Sportshirt mit Raglanärmeln und kontrastfarbenem Nackenband',
-    features: [
-      'Raglanärmel für optimale Bewegungsfreiheit',
-      'Recyceltes Polyester - nachhaltig',
-      'Schnelltrocknendes Gewebe',
-      'Front + Back bedruckbar'
-    ],
-  },
-  {
-    id: '4',
-    name: 'PROACT® PA1050',
-    nameDE: 'Basketball-Shorts',
-    weight: '180 g/m²',
-    material: '100% Birdseye-Polyester',
-    description: 'Atmungsaktive Basketball-Shorts mit Seitenschlitzen',
-    features: [
-      'Birdseye-Gewebe für maximale Atmungsaktivität',
-      '2 Seitenschlitze für Bewegungsfreiheit',
-      'Elastischer Bund mit Kordelzug',
-      'Front + Back + Seiten bedruckbar'
-    ],
-  },
-  {
     id: '5',
     name: 'BRILDOR®',
     nameDE: 'Kissenbezug 40×40cm',

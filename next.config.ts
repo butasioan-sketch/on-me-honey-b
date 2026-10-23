@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
       { source: '/shop', destination: '/', permanent: true },
       { source: '/products', destination: '/', permanent: true },
       { source: '/categories/bekleidung', destination: '/categories/A', permanent: true },
+      { source: '/konfigurator', destination: '/product/1', permanent: true },
     ];
   },
 };

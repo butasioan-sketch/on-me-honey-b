@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const SYSTEM_PROMPT = `Du bist der ON ME Concierge — Premium-Berater für PLATYPUS On Me.
+const SYSTEM_PROMPT = `Du bist der ON ME Concierge — Premium-Berater für ON ME HONEY B.
 
 PRODUKTE (Essential Collection — genau 2, alles unisex, weiß, LIVE):
 - AirFit Pro T-Shirt: AirFit Performance Fabric, 165 g/m², Blank James & Nicholson JN827, Unisex S–XXL, Maßanfertigung. Im Zweifel eine Größe größer.

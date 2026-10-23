@@ -30,6 +30,7 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
 const FOOTER_LINKS = [
   { label: 'Impressum', href: '/impressum' },
   { label: 'AGB', href: '/agb' },
+  { label: 'Widerruf', href: '/widerruf' },
   { label: 'Datenschutz', href: '/datenschutz' },
   { label: 'Versand & Reklamation', href: '/versand' },
   { label: 'FAQ', href: '/faq' },
