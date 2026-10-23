@@ -4,6 +4,11 @@ import { getProduct, getProductName, getProductDescription } from '@/lib/product
 
 type Params = Promise<{ id: string }>;
 
+export const dynamicParams = false;
+export async function generateStaticParams() {
+  return [{ id: '1' }, { id: '2' }];
+}
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { id } = await params;
   const product = getProduct(id);

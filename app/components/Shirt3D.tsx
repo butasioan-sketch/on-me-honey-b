@@ -37,7 +37,8 @@ const MODEL_PATHS: Record<string, string> = {
 };
 
 function getModelPath(productId?: string): string | null {
-  return MODEL_PATHS[productId || '1'] ?? null;
+  if (!productId) return null;
+  return MODEL_PATHS[productId] ?? null;
 }
 
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {

@@ -70,7 +70,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
         </p>
         {/* Primary CTA */}
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Link href="/konfigurator">
+          <Link href="/product/1">
             <button style={{
               padding: '1.1rem 2.8rem',
               background: 'linear-gradient(135deg, #D4AF37, #F4D03F)',

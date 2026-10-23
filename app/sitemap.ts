@@ -6,7 +6,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: base, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
-    { url: `${base}/konfigurator`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
     { url: `${base}/categories`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     ...categories.map(cat => ({
       url: `${base}/categories/${cat}`,
