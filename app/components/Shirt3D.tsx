@@ -267,7 +267,7 @@ export default function Shirt3D({
         <directionalLight position={[0, 1, 4]} intensity={0.4} />
 
         {/* Subtle environment for reflections - premium feel */}
-        <Environment preset="apartment" intensity={0.4} />
+        <Environment preset="apartment" />
 
         <GarmentModel {...props} modelPath={modelPath} productId={productId} />
 
