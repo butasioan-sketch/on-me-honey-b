@@ -9,6 +9,8 @@ import TrustIcon from '@/app/components/TrustIcon';
 import { useLocale } from '@/app/components/LocaleProvider';
 import { formatSizeMm, PRINT_SPEC, getGarmentProfile } from '@/lib/print-spec';
 import { getProduct, getProductName, getProductDescription, SHIRT_COLORS } from '@/lib/products';
+import { getProductById } from '@/lib/catalog/families';
+import CatalogProductView from '@/app/components/CatalogProductView';
 
 const DesignStudio = dynamic(() => import('@/app/components/DesignStudio'), { ssr: false });
 import type { DesignState } from '@/app/components/DesignStudio';
@@ -22,7 +24,19 @@ export default function ProductPage() {
   const { t, locale } = useLocale();
   const params = useParams();
   const id = params?.id as string;
-  const product = getProduct(id);
+
+  // WAVE 4.2: Accept both shopId and SKU
+  const catalogProduct = getProductById(id);
+  if (!catalogProduct) return notFound();
+
+  // If not shop_live, show catalog view (photo only, no purchase)
+  if (!catalogProduct.shop_live) {
+    return <CatalogProductView product={catalogProduct} />;
+  }
+
+  // Shop_live products: get from old products.ts (uses shopId)
+  const productIdForStudio = catalogProduct.shopId || id;
+  const product = getProduct(productIdForStudio);
 
   if (!product) return notFound();
 
