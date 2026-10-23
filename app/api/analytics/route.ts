@@ -24,12 +24,11 @@ function checkAdminAuth(request: NextRequest): boolean {
 
   const base64 = authHeader.slice(6);
   const decoded = Buffer.from(base64, 'base64').toString('utf-8');
-  const [email, password] = decoded.split(':');
+  const [, password] = decoded.split(':');
 
-  const adminEmail = process.env.ADMIN_EMAIL;
   const adminPassword = process.env.ADMIN_PASSWORD;
 
-  return email === adminEmail && password === adminPassword;
+  return password === adminPassword;
 }
 
 export async function GET(request: NextRequest) {

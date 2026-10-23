@@ -180,8 +180,13 @@ export async function getOrders(status?: string, limit = 50): Promise<Order[]> {
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
 
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     let orders = memoryStore;
     if (status) orders = orders.filter((o) => o.status === status);
     return orders.slice(0, limit);
@@ -201,6 +206,11 @@ export async function getOrders(status?: string, limit = 50): Promise<Order[]> {
     return rows.map(mapRow);
   } catch (err) {
     console.error("getOrders error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to get orders: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     return memoryStore.slice(0, limit);
   }
 }
@@ -209,7 +219,13 @@ export async function getOrderById(id: string): Promise<Order | null> {
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
+
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     return memoryStore.find((o) => o.id === id) || null;
   }
   try {
@@ -219,6 +235,11 @@ export async function getOrderById(id: string): Promise<Order | null> {
     return rows.length ? mapRow(rows[0]) : null;
   } catch (err) {
     console.error("getOrderById error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to get order: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     return memoryStore.find((o) => o.id === id) || null;
   }
 }
@@ -230,8 +251,13 @@ export async function updateOrderStatus(
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
 
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     const order = memoryStore.find((o) => o.id === id);
     if (order) {
       order.status = status as Order["status"];
@@ -246,7 +272,13 @@ export async function updateOrderStatus(
       [status, id],
     );
     return true;
-  } catch {
+  } catch (err) {
+    console.error("updateOrderStatus error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to update order status: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     return false;
   }
 }
