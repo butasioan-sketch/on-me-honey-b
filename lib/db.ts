@@ -1,7 +1,7 @@
 // Datenbank Abstraktion: nutzt Postgres wenn DATABASE_URL gesetzt,
 // sonst In-Memory Fallback. So läuft alles auch ohne DB-Setup.
 
-import { Order, Review, ReviewStatus } from './types';
+import { Order, Review, ReviewStatus } from "./types";
 
 const memoryStore: Order[] = [];
 const memoryReviews: Review[] = [];
@@ -13,7 +13,7 @@ async function getPg() {
   if (!url) return null;
 
   try {
-    const { neon } = await import('@neondatabase/serverless');
+    const { neon } = await import("@neondatabase/serverless");
     pgClient = neon(url);
     return pgClient;
   } catch {
@@ -22,7 +22,9 @@ async function getPg() {
 }
 
 export async function initDb() {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) return false;
 
   try {
@@ -43,9 +45,15 @@ export async function initDb() {
         updated_at TIMESTAMPTZ DEFAULT NOW()
       )
     `);
-    await sql.query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS design_id TEXT`);
-    await sql.query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_method TEXT`);
-    await sql.query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS print_job JSONB`);
+    await sql.query(
+      `ALTER TABLE orders ADD COLUMN IF NOT EXISTS design_id TEXT`,
+    );
+    await sql.query(
+      `ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_method TEXT`,
+    );
+    await sql.query(
+      `ALTER TABLE orders ADD COLUMN IF NOT EXISTS print_job JSONB`,
+    );
     await sql.query(`
       CREATE TABLE IF NOT EXISTS designs (
         id TEXT PRIMARY KEY,
@@ -55,13 +63,25 @@ export async function initDb() {
         created_at TIMESTAMPTZ DEFAULT NOW()
       )
     `);
-    await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS front_transform JSONB`);
-    await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS back_transform JSONB`);
+    await sql.query(
+      `ALTER TABLE designs ADD COLUMN IF NOT EXISTS front_transform JSONB`,
+    );
+    await sql.query(
+      `ALTER TABLE designs ADD COLUMN IF NOT EXISTS back_transform JSONB`,
+    );
     await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS meta JSONB`);
-    await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS frozen_at TIMESTAMPTZ`);
-    await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS front_preview TEXT`);
-    await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS back_preview TEXT`);
-    await sql.query(`ALTER TABLE designs ADD COLUMN IF NOT EXISTS zones_data TEXT`);
+    await sql.query(
+      `ALTER TABLE designs ADD COLUMN IF NOT EXISTS frozen_at TIMESTAMPTZ`,
+    );
+    await sql.query(
+      `ALTER TABLE designs ADD COLUMN IF NOT EXISTS front_preview TEXT`,
+    );
+    await sql.query(
+      `ALTER TABLE designs ADD COLUMN IF NOT EXISTS back_preview TEXT`,
+    );
+    await sql.query(
+      `ALTER TABLE designs ADD COLUMN IF NOT EXISTS zones_data TEXT`,
+    );
     await sql.query(`
       CREATE TABLE IF NOT EXISTS analytics_events (
         id BIGSERIAL PRIMARY KEY,
@@ -86,7 +106,9 @@ export async function initDb() {
         updated_at TIMESTAMPTZ DEFAULT NOW()
       )
     `);
-    await sql.query(`CREATE INDEX IF NOT EXISTS reviews_status_idx ON reviews (status, created_at DESC)`);
+    await sql.query(
+      `CREATE INDEX IF NOT EXISTS reviews_status_idx ON reviews (status, created_at DESC)`,
+    );
     await sql.query(`
       CREATE TABLE IF NOT EXISTS newsletter_subscribers (
         id BIGSERIAL PRIMARY KEY,
@@ -98,18 +120,27 @@ export async function initDb() {
         confirmed_at TIMESTAMPTZ
       )
     `);
-    await sql.query(`CREATE UNIQUE INDEX IF NOT EXISTS newsletter_email_idx ON newsletter_subscribers (lower(email))`);
+    await sql.query(
+      `CREATE UNIQUE INDEX IF NOT EXISTS newsletter_email_idx ON newsletter_subscribers (lower(email))`,
+    );
     return true;
   } catch (err) {
-    console.error('DB init error:', err);
+    console.error("DB init error:", err);
     return false;
   }
 }
 
 export async function createOrder(order: Order): Promise<Order> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
 
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     memoryStore.unshift(order);
     return order;
   }
@@ -119,61 +150,101 @@ export async function createOrder(order: Order): Promise<Order> {
       `INSERT INTO orders (id, stripe_session_id, customer_email, amount_total, currency, status, items, locale, shipping_country, design_id, shipping_method)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
        ON CONFLICT (stripe_session_id) DO NOTHING`,
-      [order.id, order.stripeSessionId, order.customerEmail, order.amountTotal, order.currency, order.status, JSON.stringify(order.items), order.locale, order.shippingCountry, order.designId || null, order.shippingMethod || null]
+      [
+        order.id,
+        order.stripeSessionId,
+        order.customerEmail,
+        order.amountTotal,
+        order.currency,
+        order.status,
+        JSON.stringify(order.items),
+        order.locale,
+        order.shippingCountry,
+        order.designId || null,
+        order.shippingMethod || null,
+      ],
     );
   } catch (err) {
-    console.error('createOrder error:', err);
+    console.error("createOrder error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to create order: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     memoryStore.unshift(order);
   }
   return order;
 }
 
 export async function getOrders(status?: string, limit = 50): Promise<Order[]> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
 
   if (!sql) {
     let orders = memoryStore;
-    if (status) orders = orders.filter(o => o.status === status);
+    if (status) orders = orders.filter((o) => o.status === status);
     return orders.slice(0, limit);
   }
 
   try {
     const rows = status
-      ? await sql.query(`SELECT * FROM orders WHERE status=$1 ORDER BY created_at DESC LIMIT $2`, [status, limit])
-      : await sql.query(`SELECT * FROM orders ORDER BY created_at DESC LIMIT $1`, [limit]);
+      ? await sql.query(
+          `SELECT * FROM orders WHERE status=$1 ORDER BY created_at DESC LIMIT $2`,
+          [status, limit],
+        )
+      : await sql.query(
+          `SELECT * FROM orders ORDER BY created_at DESC LIMIT $1`,
+          [limit],
+        );
 
     return rows.map(mapRow);
   } catch (err) {
-    console.error('getOrders error:', err);
+    console.error("getOrders error:", err);
     return memoryStore.slice(0, limit);
   }
 }
 
 export async function getOrderById(id: string): Promise<Order | null> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) {
-    return memoryStore.find(o => o.id === id) || null;
+    return memoryStore.find((o) => o.id === id) || null;
   }
   try {
-    const rows = await sql.query(`SELECT * FROM orders WHERE id=$1 LIMIT 1`, [id]);
+    const rows = await sql.query(`SELECT * FROM orders WHERE id=$1 LIMIT 1`, [
+      id,
+    ]);
     return rows.length ? mapRow(rows[0]) : null;
   } catch (err) {
-    console.error('getOrderById error:', err);
-    return memoryStore.find(o => o.id === id) || null;
+    console.error("getOrderById error:", err);
+    return memoryStore.find((o) => o.id === id) || null;
   }
 }
 
-export async function updateOrderStatus(id: string, status: string): Promise<boolean> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+export async function updateOrderStatus(
+  id: string,
+  status: string,
+): Promise<boolean> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
 
   if (!sql) {
-    const order = memoryStore.find(o => o.id === id);
-    if (order) { order.status = status as Order['status']; return true; }
+    const order = memoryStore.find((o) => o.id === id);
+    if (order) {
+      order.status = status as Order["status"];
+      return true;
+    }
     return false;
   }
 
   try {
-    await sql.query(`UPDATE orders SET status=$1, updated_at=NOW() WHERE id=$2`, [status, id]);
+    await sql.query(
+      `UPDATE orders SET status=$1, updated_at=NOW() WHERE id=$2`,
+      [status, id],
+    );
     return true;
   } catch {
     return false;
@@ -202,66 +273,94 @@ function mapDesignRow(row: Record<string, unknown>): DesignRecord {
     frontPreview: (row.front_preview as string) || null,
     backPreview: (row.back_preview as string) || null,
     productId: (row.product_id as string) || null,
-    frontTransform: (row.front_transform as DesignRecord['frontTransform']) || null,
-    backTransform: (row.back_transform as DesignRecord['backTransform']) || null,
+    frontTransform:
+      (row.front_transform as DesignRecord["frontTransform"]) || null,
+    backTransform:
+      (row.back_transform as DesignRecord["backTransform"]) || null,
     meta: (row.meta as Record<string, unknown>) || null,
-    frozenAt: row.frozen_at ? new Date(row.frozen_at as string).toISOString() : null,
+    frozenAt: row.frozen_at
+      ? new Date(row.frozen_at as string).toISOString()
+      : null,
     zonesData: (row.zones_data as string) || null,
   };
 }
 
 /** Design-Datensatz laden (Bilder + Platzierungs-Transforms). */
 export async function getDesignById(id: string): Promise<DesignRecord | null> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) return null;
   try {
-    const rows = await sql.query(`SELECT * FROM designs WHERE id=$1 LIMIT 1`, [id]);
+    const rows = await sql.query(`SELECT * FROM designs WHERE id=$1 LIMIT 1`, [
+      id,
+    ]);
     return rows.length ? mapDesignRow(rows[0]) : null;
   } catch (err) {
-    console.error('getDesignById error:', err);
+    console.error("getDesignById error:", err);
     return null;
   }
 }
 
 /** Setzt frozen_at einmalig (idempotent) — macht das Design für die Produktion unveränderlich. */
 export async function freezeDesign(id: string): Promise<DesignRecord | null> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) return null;
   try {
     const rows = await sql.query(
       `UPDATE designs SET frozen_at=COALESCE(frozen_at, NOW()) WHERE id=$1 RETURNING *`,
-      [id]
+      [id],
     );
     return rows.length ? mapDesignRow(rows[0]) : null;
   } catch (err) {
-    console.error('freezeDesign error:', err);
+    console.error("freezeDesign error:", err);
     return null;
   }
 }
 
 /** Speichert den eingefrorenen Druckauftrags-Snapshot (Transforms + PrintSpec zum Zahlungszeitpunkt) an der Order. */
-export async function updateOrderPrintJob(id: string, printJob: unknown): Promise<boolean> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+export async function updateOrderPrintJob(
+  id: string,
+  printJob: unknown,
+): Promise<boolean> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) return false;
   try {
-    await sql.query(`UPDATE orders SET print_job=$1 WHERE id=$2`, [JSON.stringify(printJob), id]);
+    await sql.query(`UPDATE orders SET print_job=$1 WHERE id=$2`, [
+      JSON.stringify(printJob),
+      id,
+    ]);
     return true;
   } catch (err) {
-    console.error('updateOrderPrintJob error:', err);
+    console.error("updateOrderPrintJob error:", err);
     return false;
   }
 }
 
-export async function getOrderPrintJob(id: string): Promise<Record<string, unknown> | null> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+export async function getOrderPrintJob(
+  id: string,
+): Promise<Record<string, unknown> | null> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) return null;
   try {
-    const rows = await sql.query(`SELECT print_job FROM orders WHERE id=$1 LIMIT 1`, [id]);
+    const rows = await sql.query(
+      `SELECT print_job FROM orders WHERE id=$1 LIMIT 1`,
+      [id],
+    );
     if (!rows.length) return null;
     const pj = rows[0].print_job;
-    return (typeof pj === 'string' ? JSON.parse(pj) : pj) as Record<string, unknown> | null;
+    return (typeof pj === "string" ? JSON.parse(pj) : pj) as Record<
+      string,
+      unknown
+    > | null;
   } catch (err) {
-    console.error('getOrderPrintJob error:', err);
+    console.error("getOrderPrintJob error:", err);
     return null;
   }
 }
@@ -272,19 +371,26 @@ export async function getOrderStats() {
 
   return {
     total: orders.length,
-    revenue: orders.filter(o => o.status !== 'cancelled').reduce((s, o) => s + Number(o.amountTotal), 0),
-    last24h: orders.filter(o => now - new Date(o.createdAt).getTime() < 86400000).length,
+    revenue: orders
+      .filter((o) => o.status !== "cancelled")
+      .reduce((s, o) => s + Number(o.amountTotal), 0),
+    last24h: orders.filter(
+      (o) => now - new Date(o.createdAt).getTime() < 86400000,
+    ).length,
     byStatus: {
-      paid: orders.filter(o => o.status === 'paid').length,
-      production: orders.filter(o => o.status === 'production').length,
-      shipped: orders.filter(o => o.status === 'shipped').length,
-      delivered: orders.filter(o => o.status === 'delivered').length,
-      cancelled: orders.filter(o => o.status === 'cancelled').length,
+      paid: orders.filter((o) => o.status === "paid").length,
+      production: orders.filter((o) => o.status === "production").length,
+      shipped: orders.filter((o) => o.status === "shipped").length,
+      delivered: orders.filter((o) => o.status === "delivered").length,
+      cancelled: orders.filter((o) => o.status === "cancelled").length,
     },
-    byCountry: orders.reduce((acc, o) => {
-      acc[o.shippingCountry] = (acc[o.shippingCountry] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>),
+    byCountry: orders.reduce(
+      (acc, o) => {
+        acc[o.shippingCountry] = (acc[o.shippingCountry] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    ),
   };
 }
 
@@ -299,9 +405,16 @@ export interface AnalyticsEvent {
 
 const memoryAnalytics: AnalyticsEvent[] = [];
 
-export async function trackAnalyticsEvent(event: Omit<AnalyticsEvent, 'timestamp'>): Promise<void> {
-  const full: AnalyticsEvent = { ...event, timestamp: new Date().toISOString() };
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<unknown> } | null;
+export async function trackAnalyticsEvent(
+  event: Omit<AnalyticsEvent, "timestamp">,
+): Promise<void> {
+  const full: AnalyticsEvent = {
+    ...event,
+    timestamp: new Date().toISOString(),
+  };
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<unknown>;
+  } | null;
 
   if (!sql) {
     memoryAnalytics.unshift(full);
@@ -312,20 +425,30 @@ export async function trackAnalyticsEvent(event: Omit<AnalyticsEvent, 'timestamp
   try {
     await sql.query(
       `INSERT INTO analytics_events (type, page, product_id, locale, value) VALUES ($1,$2,$3,$4,$5)`,
-      [event.type, event.page || null, event.productId || null, event.locale || null, event.value ?? null]
+      [
+        event.type,
+        event.page || null,
+        event.productId || null,
+        event.locale || null,
+        event.value ?? null,
+      ],
     );
   } catch (err) {
-    console.error('trackAnalyticsEvent error:', err);
+    console.error("trackAnalyticsEvent error:", err);
     memoryAnalytics.unshift(full);
   }
 }
 
 export async function getAnalyticsSummary() {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
 
   if (!sql) {
     const now = Date.now();
-    const last24h = memoryAnalytics.filter(e => now - new Date(e.timestamp).getTime() < 86400000);
+    const last24h = memoryAnalytics.filter(
+      (e) => now - new Date(e.timestamp).getTime() < 86400000,
+    );
     return buildAnalyticsSummary(memoryAnalytics, last24h);
   }
 
@@ -335,7 +458,7 @@ export async function getAnalyticsSummary() {
        FROM analytics_events
        WHERE created_at > NOW() - INTERVAL '7 days'
        ORDER BY created_at DESC
-       LIMIT 1000`
+       LIMIT 1000`,
     );
     const events: AnalyticsEvent[] = rows.map((r) => ({
       type: r.type as string,
@@ -346,17 +469,24 @@ export async function getAnalyticsSummary() {
       timestamp: new Date(r.created_at as string).toISOString(),
     }));
     const now = Date.now();
-    const last24h = events.filter(e => now - new Date(e.timestamp).getTime() < 86400000);
+    const last24h = events.filter(
+      (e) => now - new Date(e.timestamp).getTime() < 86400000,
+    );
     return buildAnalyticsSummary(events, last24h);
   } catch (err) {
-    console.error('getAnalyticsSummary error:', err);
+    console.error("getAnalyticsSummary error:", err);
     const now = Date.now();
-    const last24h = memoryAnalytics.filter(e => now - new Date(e.timestamp).getTime() < 86400000);
+    const last24h = memoryAnalytics.filter(
+      (e) => now - new Date(e.timestamp).getTime() < 86400000,
+    );
     return buildAnalyticsSummary(memoryAnalytics, last24h);
   }
 }
 
-function buildAnalyticsSummary(events: AnalyticsEvent[], last24h: AnalyticsEvent[]) {
+function buildAnalyticsSummary(
+  events: AnalyticsEvent[],
+  last24h: AnalyticsEvent[],
+) {
   const byType: Record<string, number> = {};
   const byLocale: Record<string, number> = {};
   const byProduct: Record<string, number> = {};
@@ -384,8 +514,10 @@ function mapRow(row: Record<string, unknown>): Order {
     customerEmail: row.customer_email as string,
     amountTotal: Number(row.amount_total),
     currency: row.currency as string,
-    status: row.status as Order['status'],
-    items: (typeof row.items === 'string' ? JSON.parse(row.items) : row.items) as Order['items'],
+    status: row.status as Order["status"],
+    items: (typeof row.items === "string"
+      ? JSON.parse(row.items)
+      : row.items) as Order["items"],
     locale: row.locale as string,
     shippingCountry: row.shipping_country as string,
     shippingMethod: (row.shipping_method as string) || undefined,
@@ -410,7 +542,9 @@ function mapReviewRow(row: Record<string, unknown>): Review {
 }
 
 export async function createReview(review: Review): Promise<Review> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<unknown> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<unknown>;
+  } | null;
 
   if (!sql) {
     memoryReviews.unshift(review);
@@ -421,54 +555,85 @@ export async function createReview(review: Review): Promise<Review> {
     await sql.query(
       `INSERT INTO reviews (id, name, rating, comment, order_id, locale, status)
        VALUES ($1,$2,$3,$4,$5,$6,$7)`,
-      [review.id, review.name, review.rating, review.comment, review.orderId || null, review.locale, review.status]
+      [
+        review.id,
+        review.name,
+        review.rating,
+        review.comment,
+        review.orderId || null,
+        review.locale,
+        review.status,
+      ],
     );
   } catch (err) {
-    console.error('createReview error:', err);
+    console.error("createReview error:", err);
     memoryReviews.unshift(review);
   }
   return review;
 }
 
-export async function getReviews(status?: ReviewStatus | 'all', limit = 50): Promise<Review[]> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+export async function getReviews(
+  status?: ReviewStatus | "all",
+  limit = 50,
+): Promise<Review[]> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
 
   if (!sql) {
     let list = memoryReviews;
-    if (status && status !== 'all') list = list.filter(r => r.status === status);
+    if (status && status !== "all")
+      list = list.filter((r) => r.status === status);
     return list.slice(0, limit);
   }
 
   try {
-    const rows = status && status !== 'all'
-      ? await sql.query(`SELECT * FROM reviews WHERE status=$1 ORDER BY created_at DESC LIMIT $2`, [status, limit])
-      : await sql.query(`SELECT * FROM reviews ORDER BY created_at DESC LIMIT $1`, [limit]);
+    const rows =
+      status && status !== "all"
+        ? await sql.query(
+            `SELECT * FROM reviews WHERE status=$1 ORDER BY created_at DESC LIMIT $2`,
+            [status, limit],
+          )
+        : await sql.query(
+            `SELECT * FROM reviews ORDER BY created_at DESC LIMIT $1`,
+            [limit],
+          );
     return rows.map(mapReviewRow);
   } catch (err) {
-    console.error('getReviews error:', err);
+    console.error("getReviews error:", err);
     let list = memoryReviews;
-    if (status && status !== 'all') list = list.filter(r => r.status === status);
+    if (status && status !== "all")
+      list = list.filter((r) => r.status === status);
     return list.slice(0, limit);
   }
 }
 
 export async function getReviewById(id: string): Promise<Review | null> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
-  if (!sql) return memoryReviews.find(r => r.id === id) || null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  if (!sql) return memoryReviews.find((r) => r.id === id) || null;
   try {
-    const rows = await sql.query(`SELECT * FROM reviews WHERE id=$1 LIMIT 1`, [id]);
+    const rows = await sql.query(`SELECT * FROM reviews WHERE id=$1 LIMIT 1`, [
+      id,
+    ]);
     return rows.length ? mapReviewRow(rows[0]) : null;
   } catch (err) {
-    console.error('getReviewById error:', err);
-    return memoryReviews.find(r => r.id === id) || null;
+    console.error("getReviewById error:", err);
+    return memoryReviews.find((r) => r.id === id) || null;
   }
 }
 
-export async function updateReviewStatus(id: string, status: ReviewStatus): Promise<boolean> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<unknown> } | null;
+export async function updateReviewStatus(
+  id: string,
+  status: ReviewStatus,
+): Promise<boolean> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<unknown>;
+  } | null;
 
   if (!sql) {
-    const review = memoryReviews.find(r => r.id === id);
+    const review = memoryReviews.find((r) => r.id === id);
     if (review) {
       review.status = status;
       review.updatedAt = new Date().toISOString();
@@ -478,7 +643,10 @@ export async function updateReviewStatus(id: string, status: ReviewStatus): Prom
   }
 
   try {
-    await sql.query(`UPDATE reviews SET status=$1, updated_at=NOW() WHERE id=$2`, [status, id]);
+    await sql.query(
+      `UPDATE reviews SET status=$1, updated_at=NOW() WHERE id=$2`,
+      [status, id],
+    );
     return true;
   } catch {
     return false;
@@ -486,10 +654,12 @@ export async function updateReviewStatus(id: string, status: ReviewStatus): Prom
 }
 
 export async function deleteReview(id: string): Promise<boolean> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<unknown> } | null;
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<unknown>;
+  } | null;
 
   if (!sql) {
-    const idx = memoryReviews.findIndex(r => r.id === id);
+    const idx = memoryReviews.findIndex((r) => r.id === id);
     if (idx >= 0) {
       memoryReviews.splice(idx, 1);
       return true;
@@ -505,42 +675,61 @@ export async function deleteReview(id: string): Promise<boolean> {
   }
 }
 
-export async function addNewsletterSubscriber(email: string, token: string, locale = 'de'): Promise<'created' | 'exists'> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
-  if (!sql) return 'created';
+export async function addNewsletterSubscriber(
+  email: string,
+  token: string,
+  locale = "de",
+): Promise<"created" | "exists"> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  if (!sql) return "created";
   try {
     await sql.query(
       `INSERT INTO newsletter_subscribers (email, token, locale) VALUES (lower($1), $2, $3)`,
-      [email, token, locale]
+      [email, token, locale],
     );
-    return 'created';
+    return "created";
   } catch {
-    return 'exists';
+    return "exists";
   }
 }
 
-export async function confirmNewsletterSubscriber(token: string): Promise<boolean> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+export async function confirmNewsletterSubscriber(
+  token: string,
+): Promise<boolean> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) return false;
   const rows = await sql.query(
     `UPDATE newsletter_subscribers SET status='confirmed', confirmed_at=NOW() WHERE token=$1 AND status='pending' RETURNING id`,
-    [token]
+    [token],
   );
   return rows.length > 0;
 }
 
-export async function getNewsletterSubscribers(): Promise<{ email: string; status: string; locale: string; created_at: string }[]> {
-  const sql = await getPg() as { query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]> } | null;
+export async function getNewsletterSubscribers(): Promise<
+  { email: string; status: string; locale: string; created_at: string }[]
+> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
   if (!sql) return [];
   const rows = await sql.query(
-    `SELECT email, status, locale, created_at FROM newsletter_subscribers ORDER BY created_at DESC LIMIT 500`
+    `SELECT email, status, locale, created_at FROM newsletter_subscribers ORDER BY created_at DESC LIMIT 500`,
   );
-  return rows as { email: string; status: string; locale: string; created_at: string }[];
+  return rows as {
+    email: string;
+    status: string;
+    locale: string;
+    created_at: string;
+  }[];
 }
 
 export async function getReviewStats() {
-  const approved = await getReviews('approved', 1000);
-  const pending = await getReviews('pending', 1000);
+  const approved = await getReviews("approved", 1000);
+  const pending = await getReviews("pending", 1000);
   const count = approved.length;
   const avg = count
     ? Math.round((approved.reduce((s, r) => s + r.rating, 0) / count) * 10) / 10
