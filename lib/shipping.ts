@@ -41,6 +41,6 @@ export function getShipping(id: string, country: Country): number {
   return opt ? opt.price[country] : SHIPPING_OPTIONS[0].price[country];
 }
 
-// Standard-Auswahl (günstigste in DE)
-export const DEFAULT_SHIPPING_ID = 'dhl';
+// Standard-Auswahl (Hermes)
+export const DEFAULT_SHIPPING_ID = 'hermes';
 export const DEFAULT_COUNTRY: Country = 'DE';

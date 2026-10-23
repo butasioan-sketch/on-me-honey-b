@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
     return [
       { source: '/shop', destination: '/', permanent: true },
       { source: '/products', destination: '/', permanent: true },
+      { source: '/categories/bekleidung', destination: '/categories/A', permanent: true },
     ];
   },
 };
