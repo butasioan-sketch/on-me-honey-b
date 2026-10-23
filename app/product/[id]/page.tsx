@@ -24,6 +24,8 @@ export default function ProductPage() {
   const id = params?.id as string;
   const product = getProduct(id);
 
+  if (!product) return notFound();
+
   const [size, setSize] = useState('');
   const [colorKey, setColorKey] = useState('weiss');
   const activeColor = SHIRT_COLORS.find(c => c.key === colorKey) || SHIRT_COLORS[0];

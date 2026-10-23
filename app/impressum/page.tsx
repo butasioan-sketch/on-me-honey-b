@@ -7,14 +7,16 @@ export const metadata: Metadata = {
 };
 
 const OPERATOR = {
-  brand: '[FIRMENNAME] – Personalisierte Textilien',
-  name: '[INHABERNAME]',
-  address: '[STRASSE UND HAUSNUMMER]',
-  postal: '[PLZ ORT]',
+  brand: process.env.OPERATOR_BRAND || 'ON ME HONEY B',
+  name: process.env.OPERATOR_NAME || '',
+  address: process.env.OPERATOR_ADDRESS || '',
+  postal: process.env.OPERATOR_POSTAL || '',
   country: 'Deutschland',
-  email: '[KONTAKT-EMAIL]',
-  phone: '[TELEFONNUMMER]',
+  email: process.env.OPERATOR_EMAIL || '',
+  phone: process.env.OPERATOR_PHONE || '',
 };
+
+const hasOperator = OPERATOR.name && OPERATOR.address && OPERATOR.postal;
 
 const S = {
   section: { marginTop: '1.5rem' } as const,
@@ -31,29 +33,39 @@ export default function ImpressumPage() {
         <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>Impressum</h1>
         <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '2rem' }}>Angaben gemäß § 5 DDG</p>
 
-        <div style={S.section}>
-          <p style={S.label}>Betreiber</p>
-          <p style={S.value}>
-            <strong>{OPERATOR.brand}</strong><br />
-            {OPERATOR.name}<br />
-            {OPERATOR.address}<br />
-            {OPERATOR.postal}<br />
-            {OPERATOR.country}
-          </p>
-        </div>
+        {!hasOperator ? (
+          <div style={{ padding: '2rem', background: '#1a1a1a', borderRadius: '12px', border: '1px solid #333' }}>
+            <p style={{ color: '#888', lineHeight: 1.6 }}>
+              Angaben folgen nach Gewerbeanmeldung. ON ME HONEY B befindet sich in Vorbereitung.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div style={S.section}>
+              <p style={S.label}>Betreiber</p>
+              <p style={S.value}>
+                <strong>{OPERATOR.brand}</strong><br />
+                {OPERATOR.name}<br />
+                {OPERATOR.address}<br />
+                {OPERATOR.postal}<br />
+                {OPERATOR.country}
+              </p>
+            </div>
 
-        <div style={S.section}>
-          <p style={S.label}>Kontakt</p>
-          <p style={S.value}>
-            E-Mail: <a href={`mailto:${OPERATOR.email}`} style={{ color: '#D4AF37' }}>{OPERATOR.email}</a><br />
-            Telefon: {OPERATOR.phone}
-          </p>
-        </div>
+            <div style={S.section}>
+              <p style={S.label}>Kontakt</p>
+              <p style={S.value}>
+                E-Mail: <a href={`mailto:${OPERATOR.email}`} style={{ color: '#D4AF37' }}>{OPERATOR.email}</a><br />
+                Telefon: {OPERATOR.phone}
+              </p>
+            </div>
 
-        <div style={S.section}>
-          <p style={S.label}>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</p>
-          <p style={S.value}>{OPERATOR.name}, {OPERATOR.address}, {OPERATOR.postal}</p>
-        </div>
+            <div style={S.section}>
+              <p style={S.label}>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</p>
+              <p style={S.value}>{OPERATOR.name}, {OPERATOR.address}, {OPERATOR.postal}</p>
+            </div>
+          </>
+        )}
 
         <div style={{ marginTop: '2.5rem', color: '#555', fontSize: '0.82rem', lineHeight: 1.6 }}>
           <p>
