@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
           if (!Array.isArray(raw)) return [];
           // Unterstützt altes Format {name,size,...} und neues abgekürztes Format {n,s,...}
           return raw.map((i: Record<string, unknown>) => ({
-            productId: String(i.productId ?? i.pid ?? "1"), // pid from checkout metadata
+            productId: String(i.productId ?? i.pid ?? ""), // pid from checkout metadata, no Tee fallback
             name: String(i.name ?? i.n ?? "AirFit Pro"),
             size: String(i.size ?? i.s ?? ""),
             color: String(i.color ?? i.c ?? ""),

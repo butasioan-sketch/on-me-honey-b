@@ -1,4 +1,5 @@
 export interface OrderItem {
+  productId?: string;
   pages?: number;
   designId?: string;
   name: string;
@@ -9,7 +10,7 @@ export interface OrderItem {
   price: number;
 }
 
-export type ReviewStatus = 'pending' | 'approved' | 'rejected';
+export type ReviewStatus = "pending" | "approved" | "rejected";
 
 export interface Review {
   id: string;
@@ -30,7 +31,14 @@ export interface Order {
   customerEmail?: string;
   amountTotal: number;
   currency: string;
-  status: 'pending' | 'paid' | 'on_hold' | 'production' | 'shipped' | 'delivered' | 'cancelled';
+  status:
+    | "pending"
+    | "paid"
+    | "on_hold"
+    | "production"
+    | "shipped"
+    | "delivered"
+    | "cancelled";
   items: OrderItem[];
   locale: string;
   shippingCountry: string;
