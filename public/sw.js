@@ -1,5 +1,5 @@
 /** Bump V on every deploy that must purge old offline caches. */
-const V = 'on-me-honey-b-v3-no-glb-cache';
+const V = 'on-me-honey-b-v4-asset-sync';
 const ASSETS = ['/', '/icon-192.png', '/icon-512.png'];
 
 self.addEventListener('install', (e) => {
