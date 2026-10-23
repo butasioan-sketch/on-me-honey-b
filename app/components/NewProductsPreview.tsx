@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * NEUE PRODUKTE PREVIEW — Homepage Section
  * Zeigt kommende Produkte (kein 3D - Grok WAVE 3.2)
