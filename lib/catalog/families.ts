@@ -115,3 +115,21 @@ export function getProductBySku(sku: string): ProductRecord | null {
 export function getProductByShopId(shopId: string): ProductRecord | null {
   return Object.values(CATALOG).find(r => r.shopId === shopId) || null;
 }
+
+/**
+ * Get product by ID (either shopId or SKU)
+ * Used by /product/[id] route to accept both formats
+ */
+export function getProductById(id: string): ProductRecord | null {
+  // Try as SKU first
+  if (CATALOG[id]) return CATALOG[id];
+  // Try as shopId
+  return getProductByShopId(id);
+}
+
+/**
+ * Check if ID is valid (exists in catalog)
+ */
+export function isValidProductId(id: string): boolean {
+  return getProductById(id) !== null;
+}
