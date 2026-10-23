@@ -81,9 +81,10 @@ export async function POST(request: NextRequest) {
         items: parsedItems,
         locale: session.metadata?.locale || "de",
         shippingCountry: session.metadata?.shippingCountry || "DE",
-        shippingMethod: session.metadata?.shippingMethod || null,
-        designId: session.metadata?.designId || null,
+        shippingMethod: session.metadata?.shippingMethod || undefined,
+        designId: session.metadata?.designId || undefined,
         createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
 
       console.log("Order erstellt direkt:", order.id);
