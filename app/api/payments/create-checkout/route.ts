@@ -173,7 +173,6 @@ export async function GET() {
     endpoint: "create-checkout",
     method: "POST",
     status: "ready",
-    stripeKeyConfigured: looksLikeStripeSecret(process.env.STRIPE_SECRET_KEY),
   });
 }
 

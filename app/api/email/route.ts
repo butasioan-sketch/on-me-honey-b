@@ -145,6 +145,12 @@ function buildHtml(title: string, intro: string, d: OrderEmailData, footer: stri
 }
 
 export async function POST(request: NextRequest) {
+  // SECURITY: Only internal services can send emails
+  const internalKey = request.headers.get('x-internal-key');
+  if (internalKey !== process.env.INTERNAL_API_KEY) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const data: OrderEmailData = await request.json();
     const apiKey = process.env.RESEND_API_KEY;

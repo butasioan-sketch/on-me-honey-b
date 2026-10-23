@@ -134,7 +134,10 @@ export async function POST(request: NextRequest) {
         if (customerEmail) {
           await fetch(`${siteUrl}/api/email`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "x-internal-key": process.env.INTERNAL_API_KEY || "",
+            },
             body: JSON.stringify({
               orderId,
               email: customerEmail,
@@ -174,7 +177,10 @@ export async function POST(request: NextRequest) {
 
         await fetch(`${siteUrl}/api/email`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "x-internal-key": process.env.INTERNAL_API_KEY || "",
+          },
           body: JSON.stringify({
             type: "abandoned",
             email: customerEmail,

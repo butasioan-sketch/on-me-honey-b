@@ -1,14 +1,22 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === '/api/orders') {
-    // POST: nur mit Internal-Key (Stripe-Webhook) — Env fehlt => offen lassen
+    // POST: nur mit Internal-Key (Stripe-Webhook) — Env fehlt => Production fail-closed
     if (request.method === 'POST') {
       const internalKey = process.env.INTERNAL_API_KEY;
-      if (!internalKey || request.headers.get('x-internal-key') === internalKey) {
+      if (!internalKey) {
+        if (isProduction) {
+          return new NextResponse('Internal API key missing', { status: 500 });
+        }
+        return NextResponse.next(); // Dev: allow
+      }
+      if (request.headers.get('x-internal-key') === internalKey) {
         return NextResponse.next();
       }
       return new NextResponse('Unauthorized', { status: 401 });
@@ -19,7 +27,12 @@ export function proxy(request: NextRequest) {
     }
     // GET-Liste/Stats + PATCH: nur Admin (Basic-Auth wie /admin)
     const adminPassword = process.env.ADMIN_PASSWORD;
-    if (!adminPassword) return NextResponse.next();
+    if (!adminPassword) {
+      if (isProduction) {
+        return new NextResponse('Admin password missing', { status: 500 });
+      }
+      return NextResponse.next(); // Dev: allow
+    }
     const authHeader = request.headers.get('authorization');
     if (authHeader?.startsWith('Basic ')) {
       const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
@@ -35,7 +48,12 @@ export function proxy(request: NextRequest) {
   if (pathname.endsWith('/print-pdf')) {
     // Druckauftrag-PDF enthält Kundenmotive — gleiches Schutzmodell wie /admin
     const adminPassword = process.env.ADMIN_PASSWORD;
-    if (!adminPassword) return NextResponse.next();
+    if (!adminPassword) {
+      if (isProduction) {
+        return new NextResponse('Admin password missing', { status: 500 });
+      }
+      return NextResponse.next(); // Dev: allow
+    }
     const authHeader = request.headers.get('authorization');
     if (authHeader?.startsWith('Basic ')) {
       const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
@@ -58,7 +76,12 @@ export function proxy(request: NextRequest) {
     }
 
     const adminPassword = process.env.ADMIN_PASSWORD;
-    if (!adminPassword) return NextResponse.next();
+    if (!adminPassword) {
+      if (isProduction) {
+        return new NextResponse('Admin password missing', { status: 500 });
+      }
+      return NextResponse.next(); // Dev: allow
+    }
     const authHeader = request.headers.get('authorization');
     if (authHeader?.startsWith('Basic ')) {
       const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
@@ -75,7 +98,10 @@ export function proxy(request: NextRequest) {
     const adminPassword = process.env.ADMIN_PASSWORD;
 
     if (!adminPassword) {
-      return NextResponse.next();
+      if (isProduction) {
+        return new NextResponse('Admin password missing', { status: 500 });
+      }
+      return NextResponse.next(); // Dev: allow
     }
 
     const authHeader = request.headers.get('authorization');
