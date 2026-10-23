@@ -255,17 +255,50 @@ export async function POST(request: Request) {
     const shippingCost = shipOpt.price[country];
 
     const sql = await getSql();
+    if (!sql) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Database connection failed. Please try again later.",
+        },
+        { status: 500 },
+      );
+    }
+
+    // SECURITY: All designs must exist in database
+    const designIds = items.map((item) => item.designId).filter(Boolean);
+    if (designIds.length > 0) {
+      const placeholders = designIds.map((_, i) => `$${i + 1}`).join(",");
+      const designRows = (await sql.query(
+        `SELECT id FROM designs WHERE id IN (${placeholders})`,
+        designIds,
+      )) as Record<string, unknown>[];
+      const foundIds = new Set(designRows.map((row) => row.id as string));
+      const missingDesignId = designIds.find((id) => !foundIds.has(id!));
+      if (missingDesignId) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: `Design "${missingDesignId}" nicht gefunden. Bitte erstellen Sie zuerst ein Design.`,
+            designId: missingDesignId,
+          },
+          { status: 400 },
+        );
+      }
+    }
     const priced: PricedItem[] = [];
     for (const item of items) {
       const productId = item.productId!; // Already validated above
       let front: string | null = null;
       let back: string | null = null;
       let pages = 0;
-      if (item.designId && sql) {
+      if (item.designId) {
+        // Design existence already validated above
         const rows = (await sql.query(
           `SELECT front_image, back_image, meta FROM designs WHERE id=$1`,
           [item.designId],
         )) as Record<string, unknown>[];
+        // rows.length guaranteed to be > 0 due to validation
         if (rows.length) {
           front = (rows[0].front_image as string) || null;
           back = (rows[0].back_image as string) || null;
