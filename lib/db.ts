@@ -577,8 +577,13 @@ export async function createReview(review: Review): Promise<Review> {
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<unknown>;
   } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
 
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     memoryReviews.unshift(review);
     return review;
   }
@@ -599,6 +604,11 @@ export async function createReview(review: Review): Promise<Review> {
     );
   } catch (err) {
     console.error("createReview error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to create review: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     memoryReviews.unshift(review);
   }
   return review;
@@ -611,8 +621,13 @@ export async function getReviews(
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
 
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     let list = memoryReviews;
     if (status && status !== "all")
       list = list.filter((r) => r.status === status);
@@ -633,6 +648,11 @@ export async function getReviews(
     return rows.map(mapReviewRow);
   } catch (err) {
     console.error("getReviews error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to get reviews: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     let list = memoryReviews;
     if (status && status !== "all")
       list = list.filter((r) => r.status === status);
@@ -644,7 +664,15 @@ export async function getReviewById(id: string): Promise<Review | null> {
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
-  if (!sql) return memoryReviews.find((r) => r.id === id) || null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
+
+  if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
+    return memoryReviews.find((r) => r.id === id) || null;
+  }
   try {
     const rows = await sql.query(`SELECT * FROM reviews WHERE id=$1 LIMIT 1`, [
       id,
@@ -652,6 +680,11 @@ export async function getReviewById(id: string): Promise<Review | null> {
     return rows.length ? mapReviewRow(rows[0]) : null;
   } catch (err) {
     console.error("getReviewById error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to get review: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     return memoryReviews.find((r) => r.id === id) || null;
   }
 }
@@ -663,8 +696,13 @@ export async function updateReviewStatus(
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<unknown>;
   } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
 
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     const review = memoryReviews.find((r) => r.id === id);
     if (review) {
       review.status = status;
@@ -680,7 +718,12 @@ export async function updateReviewStatus(
       [status, id],
     );
     return true;
-  } catch {
+  } catch (err) {
+    if (isProduction) {
+      throw new Error(
+        `Failed to update review status: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     return false;
   }
 }
@@ -689,8 +732,13 @@ export async function deleteReview(id: string): Promise<boolean> {
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<unknown>;
   } | null;
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
 
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     const idx = memoryReviews.findIndex((r) => r.id === id);
     if (idx >= 0) {
       memoryReviews.splice(idx, 1);
@@ -702,7 +750,12 @@ export async function deleteReview(id: string): Promise<boolean> {
   try {
     await sql.query(`DELETE FROM reviews WHERE id=$1`, [id]);
     return true;
-  } catch {
+  } catch (err) {
+    if (isProduction) {
+      throw new Error(
+        `Failed to delete review: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     return false;
   }
 }
