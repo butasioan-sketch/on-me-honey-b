@@ -5,7 +5,7 @@
 # Usage: make <command>
 # ===================================================================
 
-.PHONY: help install dev build test lint clean health verify deploy
+.PHONY: help install dev build test lint clean health verify status
 
 # Default target
 .DEFAULT_GOAL := help
@@ -67,11 +67,6 @@ health:
 	@echo "🏥 Running production health check..."
 	./scripts/health-check.sh --production
 
-## pre-deploy: Run pre-deployment verification
-pre-deploy:
-	@echo "✅ Running pre-deployment checks..."
-	./scripts/pre-deploy-check.sh
-
 ## status: Check deployment status
 status:
 	@echo "📊 Checking deployment status..."
@@ -92,9 +87,9 @@ setup: install verify
 	@echo "╚════════════════════════════════════════════════════════════╝"
 	@echo ""
 	@echo "Next steps:"
-	@echo "  1. make dev          # Start development server"
-	@echo "  2. make test         # Run tests"
-	@echo "  3. make pre-deploy   # Verify before deploying"
+	@echo "  1. make dev      # Start development server"
+	@echo "  2. make test     # Run tests"
+	@echo "  3. make health   # Check production health"
 	@echo ""
 
 ## check: Run all quality checks
@@ -102,12 +97,8 @@ check: build lint test
 	@echo ""
 	@echo "✅ All quality checks passed!"
 
-## deploy: Deploy to production (via git push)
-deploy: pre-deploy
-	@echo "🚀 Deploying to production..."
-	@git push origin main
-	@echo "✅ Pushed to main - Vercel will auto-deploy"
-	@echo ""
-	@echo "Monitor deployment:"
-	@echo "  • Vercel Dashboard: https://vercel.com/dashboard"
-	@echo "  • Health Check: make health"
+## deploy: Print the production deploy command. Does not push and does not deploy.
+deploy:
+	@echo "Ein Git-Push deployt dieses Projekt nicht."
+	@echo "Production-Deploy: npx vercel --prod"
+	@echo "Danach: ./scripts/health-check.sh --production"

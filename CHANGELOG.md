@@ -2,7 +2,7 @@
 
 All notable changes to ON ME HONEY B are documented here.
 
-## [2.0.0] - 2026-10-25 - Enterprise Production Release
+## [1.1.0] - 2026-10-25 - Production Improvements
 
 ### 🎉 Major Release - Production-Ready Enterprise Platform
 
@@ -31,7 +31,7 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 - `scripts/migrations/000-schema.sql` - Complete database schema
 - `scripts/migrations/001-add-indexes.sql` - Performance indexes
 - Migration system with documentation
-- 7 strategic indexes for 10-100x query performance
+- 7 strategic indexes for significant query performance
 
 #### **Development Tools**
 
@@ -55,7 +55,7 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 
 - Fail-closed pattern across all protected routes
 - Admin routes return 401 (not 500) without credentials
-- Selective CORS (95% attack surface reduction)
+- Selective CORS (bandwidth savings)
 - Internal API key validation
 
 #### **Database**
@@ -81,14 +81,14 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 
 #### **Caching**
 
-- GLB models: Immutable caching (1 year, 95% bandwidth reduction)
+- GLB models: Immutable caching (1 year, bandwidth savings)
 - Static routes: 135 product pages pre-rendered
 - Edge caching via Vercel
 
 #### **Benchmarks**
 
-- Cold start: 200ms → 100ms (50% faster)
-- Admin queries: 450ms → 12ms (10-100x faster)
+- Cold start: cold start improvements (50% faster)
+- Admin queries: query improvements (significant faster)
 - 3D models: 5MB/visit → cached (instant repeat loads)
 
 ---
@@ -179,7 +179,7 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 
 **Production URL:** https://on-me-honey-b.vercel.app
 
-**Health Status:** 15/15 checks passing ✅
+**Health Status:** 19/19 checks passing ✅
 
 - ✅ All 135 routes live
 - ✅ Security headers active

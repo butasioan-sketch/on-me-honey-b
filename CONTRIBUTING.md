@@ -40,7 +40,7 @@ npm run dev
 
 ### Branch Strategy
 
-- `main` - Production branch (auto-deploys to Vercel)
+- `main` - Production branch (for production (manual deploy))
 - `feature/*` - Feature branches
 - `fix/*` - Bug fix branches
 
@@ -293,7 +293,7 @@ git checkout main
 git merge feature/your-feature
 git push origin main
 
-# 2. Vercel auto-deploys
+# 2. Manual deploy required
 # → Check https://vercel.com/dashboard
 
 # 3. Verify deployment

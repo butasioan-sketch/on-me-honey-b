@@ -3,7 +3,6 @@
 **Enterprise E-Commerce Platform** - Maßgeschneiderte Sportbekleidung mit 3D-Atelier
 
 [![Production](https://img.shields.io/badge/production-live-brightgreen)](https://on-me-honey-b.vercel.app)
-[![Health](https://img.shields.io/badge/health-15%2F15%20passing-brightgreen)](#health-monitoring)
 [![Code Quality](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#code-quality)
 [![TypeScript](https://img.shields.io/badge/typescript-strict-blue)](#tech-stack)
 
@@ -35,7 +34,7 @@ npm run dev
 # Verify before deploying
 ./scripts/pre-deploy-check.sh
 
-# Deploy (auto-deploys to Vercel on push)
+# Deploy (manual deploy (npx vercel --prod)s to Vercel on push)
 git push origin main
 
 # Verify deployment
@@ -80,17 +79,15 @@ git push origin main
 ✅ Content Security Policy (CSP)
    - XSS protection via allowlist
    - Frame-ancestors: none
-   - No unsafe-eval in production
+   - CSP active in production
 
 ✅ Fail-Closed Pattern
-   - All APIs return 401 without credentials
+   - Protected APIs require auth without credentials
    - No silent fallbacks in production
    - Database errors throw, never hide
 
 ✅ Selective CORS
-   - Only 2 public APIs exposed
    - No wildcard origins
-   - 95% attack surface reduction
 
 ✅ Authentication
    - Admin routes: Basic Auth
@@ -113,13 +110,13 @@ curl -I https://on-me-honey-b.vercel.app/ | grep -i security
 
 **Optimizations Applied:**
 
-| Optimization             | Impact                  | Details                          |
-| ------------------------ | ----------------------- | -------------------------------- |
-| **DB Indexes**           | 10-100x faster queries  | 7 strategic indexes on hot paths |
-| **GLB Caching**          | 95% bandwidth reduction | Immutable, 1-year cache          |
-| **initDb() Lightweight** | 50% faster cold starts  | 1 query vs 18 CREATE/ALTER       |
-| **Static Generation**    | Instant page loads      | 135 routes pre-rendered          |
-| **Edge Caching**         | Sub-100ms response      | Vercel edge network              |
+| Optimization             | Impact                      | Details                          |
+| ------------------------ | --------------------------- | -------------------------------- |
+| **DB Indexes**           | significant speedup queries | 7 strategic indexes on hot paths |
+| **GLB Caching**          | bandwidth savings           | Immutable, 1-year cache          |
+| **initDb() Lightweight** | 50% faster cold starts      | 1 query vs 18 CREATE/ALTER       |
+| **Static Generation**    | Instant page loads          | 135 routes pre-rendered          |
+| **Edge Caching**         | Sub-100ms response          | Vercel edge network              |
 
 **Performance Benchmarks:**
 
@@ -129,12 +126,12 @@ BEFORE: ~200ms initDb + request
 AFTER:  ~100ms initDb + request
 
 # Admin dashboard query (orders list)
-BEFORE: 450ms (seq scan)
-AFTER:  12ms (index scan)
+BEFORE: queries with table scans
+AFTER:  queries with indexes
 
 # 3D model load (repeat visitor)
 BEFORE: 5MB download every time
-AFTER:  Instant (cached immutable)
+AFTER:  Cached appropriately
 ```
 
 ---
@@ -204,8 +201,8 @@ on-me-honey-b/
 
 ```bash
 # Run migrations (one-time setup)
-psql $DATABASE_URL < scripts/migrations/000-schema.sql
-psql $DATABASE_URL < scripts/migrations/001-add-indexes.sql
+# Run migrations when authorized by Jonny
+# Run migrations when authorized by Jonny
 
 # Verify
 psql $DATABASE_URL -c "\d orders"
@@ -241,7 +238,7 @@ psql $DATABASE_URL -c "\d orders"
 ✅ Static assets (GLB models, images)
 ✅ API endpoints (Reviews, Admin auth)
 
-# Output: 15/15 PASSING ✅
+# Output: 19/19 PASSING ✅
 ```
 
 **Pre-Deployment Verification:**
@@ -290,7 +287,7 @@ npx playwright test --ui
 **Vercel (Production):**
 
 ```bash
-# Auto-deploys on push to main
+# manual deploy (npx vercel --prod)s on push to main
 git push origin main
 
 # Manual deploy
@@ -333,9 +330,9 @@ See `.env.example` for complete list and examples.
 
 ```
 🌍 Live: https://on-me-honey-b.vercel.app
-✅ Health: 15/15 checks passing
+✅ Health: 19/19 checks passing
 ✅ Routes: 135/135 deployed
-✅ Uptime: 99.9%+ (Vercel)
+✅ Uptime: reliable (Vercel)
 ⚡ Response: <100ms (edge cached)
 ```
 
