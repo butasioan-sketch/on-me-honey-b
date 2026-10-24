@@ -145,16 +145,13 @@ export function requireGarmentProductId(
   return productId;
 }
 
-export function getGarmentPhotoSrc(
-  side: PrintSide,
-  productId: string = "1",
-): string {
+export function getGarmentPhotoSrc(side: PrintSide, productId: string): string {
   const g = getGarmentProfile(productId);
   return side === "front" ? g.frontSrc : g.backSrc;
 }
 
 /** CSS aspect-ratio Wert für den Viewer-Container, produktabhängig. */
-export function getViewerAspect(productId: string = "1"): string {
+export function getViewerAspect(productId: string): string {
   const g = getGarmentProfile(productId);
   return `${g.photoWidth} / ${g.photoHeight}`;
 }
