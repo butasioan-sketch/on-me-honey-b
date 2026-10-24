@@ -1,9 +1,9 @@
 #!/bin/bash
 # P2 Verifikation: Stripe, Admin-Alert-Env, Health
 set -euo pipefail
-cd ~/Schreibtisch/platypus-shirt-shop
+cd ~/Schreibtisch/on-me-honey-b
 
-BASE="${NEXT_PUBLIC_SITE_URL:-https://platypus-shirt-shop.vercel.app}"
+BASE="${NEXT_PUBLIC_SITE_URL:-https://on-me-honey-b.vercel.app}"
 DESIGN_ID="${1:-}"
 
 echo "=== P2 VERIFY — $BASE ==="

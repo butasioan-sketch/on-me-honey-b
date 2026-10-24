@@ -29,8 +29,8 @@ npm run build
 echo ""
 echo "5. Live Produktseiten"
 
-curl -I https://platypus-shirt-shop.vercel.app/product/1
-curl -I https://platypus-shirt-shop.vercel.app/product/2
+curl -I https://on-me-honey-b.vercel.app/product/1
+curl -I https://on-me-honey-b.vercel.app/product/2
 
 echo ""
 echo "✅ PRODUCT PAGE AUDIT COMPLETE"

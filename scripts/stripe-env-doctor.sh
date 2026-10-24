@@ -41,7 +41,7 @@ fi
 echo ""
 echo "4. Live API Status"
 
-curl -s https://platypus-shirt-shop.vercel.app/api/payments/create-checkout
+curl -s https://on-me-honey-b.vercel.app/api/payments/create-checkout
 echo ""
 
 echo ""

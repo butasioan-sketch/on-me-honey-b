@@ -38,7 +38,7 @@ case "$1" in
         ./scripts/health-all.sh
         ;;
     *)
-        echo "p = PLATYPUS Kurzbefehle"
+        echo "p = ON ME HONEY B Kurzbefehle"
         echo ""
         echo " p o / orders   → Order Menü"
         echo " p d / dashboard→ Dashboard"

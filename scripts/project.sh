@@ -58,8 +58,8 @@ case "$1" in
         fi
         ;;
     urls)
-        echo "Live Shop: https://platypus-shirt-shop.vercel.app"
-        echo "Admin:     https://platypus-shirt-shop.vercel.app/admin"
+        echo "Live Shop: https://on-me-honey-b.vercel.app"
+        echo "Admin:     https://on-me-honey-b.vercel.app/admin"
         ;;
     scripts)
         ./scripts/list-scripts.sh

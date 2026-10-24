@@ -2,7 +2,7 @@
 
 set -e
 
-BASE_URL="https://platypus-shirt-shop.vercel.app"
+BASE_URL="https://on-me-honey-b.vercel.app"
 
 echo "========================================================="
 echo "              PLATYPUS ORDERS LIVE HEALTHCHECK"

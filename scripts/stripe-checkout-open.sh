@@ -2,7 +2,7 @@
 
 set -e
 
-BASE_URL="${NEXT_PUBLIC_SITE_URL:-https://platypus-shirt-shop.vercel.app}"
+BASE_URL="${NEXT_PUBLIC_SITE_URL:-https://on-me-honey-b.vercel.app}"
 DESIGN_ID="${1:-DSGN-1784029264490-Q1Z80}"
 
 echo "========================================================="

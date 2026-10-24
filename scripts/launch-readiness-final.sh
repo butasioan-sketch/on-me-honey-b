@@ -48,7 +48,7 @@ echo "✅ Vertrauen & Zahlung"
 echo ""
 echo "8. Deployment"
 echo "✅ Vercel Live"
-echo "https://platypus-shirt-shop.vercel.app"
+echo "https://on-me-honey-b.vercel.app"
 
 echo ""
 echo "========================================================="

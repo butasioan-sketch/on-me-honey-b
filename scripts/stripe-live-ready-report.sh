@@ -3,7 +3,7 @@
 set -e
 
 REPORT="STRIPE-LIVE-READY-REPORT.md"
-BASE_URL="https://platypus-shirt-shop.vercel.app"
+BASE_URL="https://on-me-honey-b.vercel.app"
 
 echo "# PLATYPUS Stripe Live Ready Report" > "$REPORT"
 echo "" >> "$REPORT"

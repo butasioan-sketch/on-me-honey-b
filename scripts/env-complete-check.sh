@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/Schreibtisch/platypus-shirt-shop
+cd ~/Schreibtisch/on-me-honey-b
 
 echo "=========================================="
 echo "   PLATYPUS Environment Complete Check"
