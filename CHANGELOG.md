@@ -6,7 +6,7 @@ All notable changes to ON ME HONEY B are documented here.
 
 ### 🎉 Major Release - Production-Ready Enterprise Platform
 
-This release transforms the project from MVP to enterprise-grade e-commerce platform with comprehensive security, performance optimizations, and professional tooling.
+This release transforms the project from MVP to production-ready e-commerce platform with comprehensive security, performance optimizations, and professional tooling.
 
 ---
 
@@ -31,7 +31,6 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 - `scripts/migrations/000-schema.sql` - Complete database schema
 - `scripts/migrations/001-add-indexes.sql` - Performance indexes
 - Migration system with documentation
-- 7 strategic indexes for significant query performance
 
 #### **Development Tools**
 
@@ -70,24 +69,22 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 
 #### **Database Optimizations**
 
-- `initDb()` lightweight: 100ms faster cold starts (18 queries → 1)
 - Indexes on hot paths:
   - `orders(created_at DESC)` - Admin dashboard
   - `orders(stripe_session_id)` - Webhook lookups
   - `orders(status)` - Status filtering
   - `designs(product_id)` - Product queries
-  - `analytics(created_at DESC)` - Analytics
+  - `analytics_events(created_at DESC)` - Analytics
   - Plus 2 more strategic indexes
 
 #### **Caching**
 
-- GLB models: Immutable caching (1 year, bandwidth savings)
 - Static routes: 135 product pages pre-rendered
 - Edge caching via Vercel
 
 #### **Benchmarks**
 
-- Cold start: cold start improvements (50% faster)
+- Cold start: cold start improvements (faster)
 - Admin queries: query improvements (significant faster)
 - 3D models: 5MB/visit → cached (instant repeat loads)
 
@@ -100,7 +97,6 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 - ESLint: 20 errors → 0 errors ✅
 - Added eslint-disable for legitimate React patterns
 - Stricter TypeScript configuration
-- Node.js engine pinned to 20.x
 
 #### **Environment Management**
 
@@ -137,7 +133,6 @@ This release transforms the project from MVP to enterprise-grade e-commerce plat
 #### **Deployment**
 
 - SKU routes 001-133: All 135 routes now live ✅
-- Vercel deployment: Auto-deploy on push
 - Build consistency: Node engine pinned
 
 ---

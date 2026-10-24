@@ -34,7 +34,6 @@ npm run dev
 # Verify before deploying
 ./scripts/pre-deploy-check.sh
 
-# Deploy (manual deploy (npx vercel --prod)s to Vercel on push)
 git push origin main
 
 # Verify deployment
@@ -73,8 +72,6 @@ git push origin main
 
 ## 🛡️ Security
 
-**Enterprise-Grade Security:**
-
 ```typescript
 ✅ Content Security Policy (CSP)
    - XSS protection via allowlist
@@ -110,20 +107,14 @@ curl -I https://on-me-honey-b.vercel.app/ | grep -i security
 
 **Optimizations Applied:**
 
-| Optimization             | Impact                      | Details                          |
-| ------------------------ | --------------------------- | -------------------------------- |
-| **DB Indexes**           | significant speedup queries | 7 strategic indexes on hot paths |
-| **GLB Caching**          | bandwidth savings           | Immutable, 1-year cache          |
-| **initDb() Lightweight** | 50% faster cold starts      | 1 query vs 18 CREATE/ALTER       |
-| **Static Generation**    | Instant page loads          | 135 routes pre-rendered          |
-| **Edge Caching**         | Sub-100ms response          | Vercel edge network              |
+| Optimization          | Impact             | Details                 |
+| --------------------- | ------------------ | ----------------------- |
+| **Static Generation** | Instant page loads | 135 routes pre-rendered |
 
 **Performance Benchmarks:**
 
 ```bash
 # Cold start time
-BEFORE: ~200ms initDb + request
-AFTER:  ~100ms initDb + request
 
 # Admin dashboard query (orders list)
 BEFORE: queries with table scans
@@ -185,51 +176,10 @@ on-me-honey-b/
 ├── public/                 # Static assets
 │   └── models/            # GLB 3D models
 ├── scripts/               # Tooling & automation
-│   ├── health-check.sh    # Production verification
-│   ├── verify-env.sh      # Environment check
-│   ├── pre-deploy-check.sh # Pre-deployment
-│   └── migrations/        # Database migrations
-├── tests/e2e/             # Playwright tests
-└── .github/workflows/     # CI/CD
-```
+│   ├── health-check.sh    # Ein Git-Push deployt dieses Projekt nicht.
+npx vercel --prod
 
----
-
-## 🗄️ Database
-
-**Schema Management:**
-
-```bash
-# Run migrations (one-time setup)
-# Run migrations when authorized by Jonny
-# Run migrations when authorized by Jonny
-
-# Verify
-psql $DATABASE_URL -c "\d orders"
-```
-
-**Tables:**
-
-- `orders` - Customer orders with Stripe integration
-- `designs` - 3D designs with freeze capability
-- `reviews` - Product reviews (moderation)
-- `analytics_events` - Usage tracking
-- `newsletter_subscribers` - Email list
-
-**Performance:**
-
-- 7 strategic indexes on hot query paths
-- Serverless Neon (auto-scaling)
-- Connection pooling
-- Fail-closed error handling
-
----
-
-## 🏥 Health Monitoring
-
-**Production Health Check:**
-
-```bash
+# Danach messen
 ./scripts/health-check.sh --production
 
 # Checks:
@@ -287,7 +237,6 @@ npx playwright test --ui
 **Vercel (Production):**
 
 ```bash
-# manual deploy (npx vercel --prod)s on push to main
 git push origin main
 
 # Manual deploy
@@ -333,7 +282,6 @@ See `.env.example` for complete list and examples.
 ✅ Health: 19/19 checks passing
 ✅ Routes: 135/135 deployed
 ✅ Uptime: reliable (Vercel)
-⚡ Response: <100ms (edge cached)
 ```
 
 **Code Quality Metrics:**
