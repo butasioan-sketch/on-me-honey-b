@@ -1,22 +1,33 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: "./tests/e2e",
   timeout: 30_000,
   retries: 1,
-  reporter: 'list',
+  reporter: "list",
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || "http://localhost:3000",
     headless: true,
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
     // Tests erwarten deutsche UI-Texte (Shop-Standardsprache) — ohne das faellt
     // navigator.language im Testbrowser oft auf en-US, lib/locale.ts detectLocale()
     // wechselt dann auf Englisch und alle deutschen Text-Locators schlagen fehl.
-    locale: 'de-DE',
+    locale: "de-DE",
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "mobile-chrome", use: { ...devices["Pixel 5"] } },
   ],
+  /* Run your local dev server before starting the tests */
+  ...(process.env.BASE_URL
+    ? {}
+    : {
+        webServer: {
+          command: "npm run dev",
+          url: "http://localhost:3000",
+          reuseExistingServer: !process.env.CI,
+          timeout: 120_000,
+        },
+      }),
 });

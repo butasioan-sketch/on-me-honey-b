@@ -28,7 +28,6 @@ jobs:
       
       - name: Lint
         run: npm run lint
-        continue-on-error: true
       
       - name: Build
         run: npm run build
@@ -53,8 +52,7 @@ jobs:
         run: npx playwright install --with-deps
       
       - name: Run Playwright tests
-        run: npx playwright test
-        continue-on-error: true
+        run: npm test
       
       - name: Upload test results
         if: always()
