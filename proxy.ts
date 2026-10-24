@@ -1,122 +1,174 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL;
+const isProduction =
+  process.env.NODE_ENV === "production" || process.env.VERCEL;
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname === '/api/orders') {
+  if (pathname === "/api/orders") {
     // POST: nur mit Internal-Key (Stripe-Webhook) — Env fehlt => Production fail-closed
-    if (request.method === 'POST') {
+    if (request.method === "POST") {
       const internalKey = process.env.INTERNAL_API_KEY;
       if (!internalKey) {
         if (isProduction) {
-          return new NextResponse('Internal API key missing', { status: 500 });
+          return new NextResponse("Unauthorized", { status: 401 });
         }
         return NextResponse.next(); // Dev: allow
       }
-      if (request.headers.get('x-internal-key') === internalKey) {
+      if (request.headers.get("x-internal-key") === internalKey) {
         return NextResponse.next();
       }
-      return new NextResponse('Unauthorized', { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
     // GET mit ?id= : oeffentlich (Tracking, Route liefert reduzierte Daten)
-    if (request.method === 'GET' && request.nextUrl.searchParams.get('id')) {
+    if (request.method === "GET" && request.nextUrl.searchParams.get("id")) {
       return NextResponse.next();
     }
     // GET-Liste/Stats + PATCH: nur Admin (Basic-Auth wie /admin)
     const adminPassword = process.env.ADMIN_PASSWORD;
     if (!adminPassword) {
       if (isProduction) {
-        return new NextResponse('Admin password missing', { status: 500 });
+        return new NextResponse("Unauthorized", { status: 401 });
       }
       return NextResponse.next(); // Dev: allow
     }
-    const authHeader = request.headers.get('authorization');
-    if (authHeader?.startsWith('Basic ')) {
-      const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
-      const [, password] = credentials.split(':');
+    const authHeader = request.headers.get("authorization");
+    if (authHeader?.startsWith("Basic ")) {
+      const credentials = Buffer.from(
+        authHeader.split(" ")[1],
+        "base64",
+      ).toString("utf-8");
+      const [, password] = credentials.split(":");
       if (password === adminPassword) return NextResponse.next();
     }
-    return new NextResponse('Admin Login erforderlich', {
+    return new NextResponse("Admin Login erforderlich", {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
+      headers: { "WWW-Authenticate": 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
-  if (pathname.endsWith('/print-pdf')) {
+  if (pathname.endsWith("/print-pdf")) {
     // Druckauftrag-PDF enthält Kundenmotive — gleiches Schutzmodell wie /admin
     const adminPassword = process.env.ADMIN_PASSWORD;
     if (!adminPassword) {
       if (isProduction) {
-        return new NextResponse('Admin password missing', { status: 500 });
+        return new NextResponse("Unauthorized", { status: 401 });
       }
       return NextResponse.next(); // Dev: allow
     }
-    const authHeader = request.headers.get('authorization');
-    if (authHeader?.startsWith('Basic ')) {
-      const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
-      const [, password] = credentials.split(':');
+    const authHeader = request.headers.get("authorization");
+    if (authHeader?.startsWith("Basic ")) {
+      const credentials = Buffer.from(
+        authHeader.split(" ")[1],
+        "base64",
+      ).toString("utf-8");
+      const [, password] = credentials.split(":");
       if (password === adminPassword) return NextResponse.next();
     }
-    return new NextResponse('Admin Login erforderlich', {
+    return new NextResponse("Admin Login erforderlich", {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
+      headers: { "WWW-Authenticate": 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
-  if (pathname === '/api/reviews') {
-    if (request.method === 'POST') return NextResponse.next();
+  if (pathname === "/api/reviews") {
+    if (request.method === "POST") return NextResponse.next();
 
-    if (request.method === 'GET') {
-      const status = request.nextUrl.searchParams.get('status') || 'approved';
-      if (request.nextUrl.searchParams.get('stats') === 'true') return NextResponse.next();
-      if (status === 'approved' || !request.nextUrl.searchParams.get('status')) return NextResponse.next();
+    if (request.method === "GET") {
+      const status = request.nextUrl.searchParams.get("status") || "approved";
+      if (request.nextUrl.searchParams.get("stats") === "true")
+        return NextResponse.next();
+      if (status === "approved" || !request.nextUrl.searchParams.get("status"))
+        return NextResponse.next();
     }
 
     const adminPassword = process.env.ADMIN_PASSWORD;
     if (!adminPassword) {
       if (isProduction) {
-        return new NextResponse('Admin password missing', { status: 500 });
+        return new NextResponse("Unauthorized", { status: 401 });
       }
       return NextResponse.next(); // Dev: allow
     }
-    const authHeader = request.headers.get('authorization');
-    if (authHeader?.startsWith('Basic ')) {
-      const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
-      const [, password] = credentials.split(':');
+    const authHeader = request.headers.get("authorization");
+    if (authHeader?.startsWith("Basic ")) {
+      const credentials = Buffer.from(
+        authHeader.split(" ")[1],
+        "base64",
+      ).toString("utf-8");
+      const [, password] = credentials.split(":");
       if (password === adminPassword) return NextResponse.next();
     }
-    return new NextResponse('Admin Login erforderlich', {
+    return new NextResponse("Admin Login erforderlich", {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
+      headers: { "WWW-Authenticate": 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
-  if (pathname.startsWith('/admin')) {
+  // /api/email, /api/newsletter/admin, /api/analytics - nur mit Internal-Key oder Admin
+  if (
+    pathname === "/api/email" ||
+    pathname === "/api/newsletter/admin" ||
+    pathname === "/api/analytics"
+  ) {
+    // Erst Internal-Key prüfen (für automatisierte Systeme)
+    const internalKey = process.env.INTERNAL_API_KEY;
+    if (internalKey && request.headers.get("x-internal-key") === internalKey) {
+      return NextResponse.next();
+    }
+
+    // Fallback auf Admin-Auth
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminPassword) {
+      if (isProduction) {
+        return new NextResponse("Unauthorized", { status: 401 });
+      }
+      return NextResponse.next(); // Dev: allow
+    }
+
+    const authHeader = request.headers.get("authorization");
+    if (authHeader?.startsWith("Basic ")) {
+      const credentials = Buffer.from(
+        authHeader.split(" ")[1],
+        "base64",
+      ).toString("utf-8");
+      const [, password] = credentials.split(":");
+      if (password === adminPassword) return NextResponse.next();
+    }
+
+    return new NextResponse("Admin Login erforderlich", {
+      status: 401,
+      headers: { "WWW-Authenticate": 'Basic realm="ON ME HONEY B Admin"' },
+    });
+  }
+
+  if (pathname.startsWith("/admin")) {
     const adminPassword = process.env.ADMIN_PASSWORD;
 
     if (!adminPassword) {
       if (isProduction) {
-        return new NextResponse('Admin password missing', { status: 500 });
+        return new NextResponse("Unauthorized", { status: 401 });
       }
       return NextResponse.next(); // Dev: allow
     }
 
-    const authHeader = request.headers.get('authorization');
+    const authHeader = request.headers.get("authorization");
 
-    if (authHeader?.startsWith('Basic ')) {
-      const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
-      const [, password] = credentials.split(':');
+    if (authHeader?.startsWith("Basic ")) {
+      const credentials = Buffer.from(
+        authHeader.split(" ")[1],
+        "base64",
+      ).toString("utf-8");
+      const [, password] = credentials.split(":");
       if (password === adminPassword) {
         return NextResponse.next();
       }
     }
 
-    return new NextResponse('Admin Login erforderlich', {
+    return new NextResponse("Admin Login erforderlich", {
       status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="ON ME HONEY B Admin"' },
+      headers: { "WWW-Authenticate": 'Basic realm="ON ME HONEY B Admin"' },
     });
   }
 
@@ -125,12 +177,12 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/:path*',
-    '/api/orders',
-    '/api/orders/:id/print-pdf',
-    '/api/reviews',
-    '/api/email',
-    '/api/newsletter/admin',
-    '/api/analytics',
+    "/admin/:path*",
+    "/api/orders",
+    "/api/orders/:id/print-pdf",
+    "/api/reviews",
+    "/api/email",
+    "/api/newsletter/admin",
+    "/api/analytics",
   ],
 };
