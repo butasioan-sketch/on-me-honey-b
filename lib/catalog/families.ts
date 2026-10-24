@@ -654,14 +654,14 @@ export const CATALOG: Record<string, ProductRecord> = {
   "052": {
     sku: "052",
     shopId: null,
-    familyId: "tee",
+    familyId: "pillow",
     name: "Kopfkissenbezüge",
     shop_live: false,
   },
   "053": {
     sku: "053",
     shopId: null,
-    familyId: "tee",
+    familyId: "pillow",
     name: "Zierkissenbezüge",
     shop_live: false,
   },
