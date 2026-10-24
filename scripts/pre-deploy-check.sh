@@ -70,9 +70,9 @@ info "Current commit: $COMMIT"
 # ===== CODE QUALITY =====
 section "🔍 Code Quality"
 
-# TypeScript
-if npm run build > /dev/null 2>&1; then
-  pass "TypeScript compilation"
+# TypeScript only. Production build happens on Vercel, not in this script.
+if npx tsc --noEmit > /dev/null 2>&1; then
+  pass "TypeScript"
 else
   fail "TypeScript errors detected"
 fi
@@ -90,10 +90,14 @@ fi
 # ===== TESTS =====
 section "🧪 Tests"
 
-if npm test --passWithNoTests > /dev/null 2>&1; then
-  pass "Playwright smoke tests"
+if curl -sf -o /dev/null --max-time 3 "http://localhost:3000/"; then
+  if npm test > /dev/null 2>&1; then
+    pass "Playwright smoke tests"
+  else
+    fail "Tests failing"
+  fi
 else
-  fail "Tests failing"
+  warn "Smoke tests skipped. No server on localhost:3000"
 fi
 
 # ===== SECURITY =====
@@ -113,7 +117,12 @@ else
   warn "proxy.ts not found or missing production checks"
 fi
 
-  pass "No hardcoded secrets detected"
+# Real Stripe values are long. Short placeholders and this pattern itself do not match.
+# .env files stay out of the search.
+if git grep -I -n -E 'sk_live_[A-Za-z0-9]{24,}|whsec_[A-Za-z0-9]{24,}' -- ':!.env*' ':!*.env' >/dev/null 2>&1; then
+  fail "Live Stripe secret found in git"
+else
+  pass "No live Stripe secret in git"
 fi
 
 # ===== DATABASE =====
@@ -131,30 +140,27 @@ else
   warn "Index migration missing"
 fi
 
-# Check initDb is lightweight
-INITDB_LINES=$(grep -A 20 "export async function initDb" lib/db.ts | wc -l)
-if [ "$INITDB_LINES" -lt 40 ]; then
-  pass "initDb() is lightweight"
+# initDb must stay a health check. Schema changes belong in the SQL files.
+INITDB=$(grep -A 25 "export async function initDb" lib/db.ts || true)
+if echo "$INITDB" | grep -q "SELECT 1 FROM orders" && ! echo "$INITDB" | grep -q "CREATE TABLE"; then
+  pass "initDb() only checks that orders exists"
 else
-  warn "initDb() might be doing heavy operations"
+  warn "initDb() is not a simple orders health check"
 fi
 
 # ===== BUILD ARTIFACTS =====
 section "🔨 Build Verification"
 
-if [ -d ".next" ]; then
-  pass ".next build directory exists"
-  
-  if [ -f ".next/prerender-manifest.json" ]; then
-    ROUTES=$(grep -o '"/product/' .next/prerender-manifest.json | wc -l)
-    if [ "$ROUTES" -ge 135 ]; then
-      pass "Product routes generated ($ROUTES routes)"
-    else
-      warn "Only $ROUTES product routes (expected 135)"
-    fi
+# 133 catalog SKUs plus shop ids /product/1 and /product/2. test-zones is not part of that count.
+if [ -f ".next/prerender-manifest.json" ]; then
+  ROUTES=$(node -e 'const d=require("./.next/prerender-manifest.json"); const n=Object.keys(d.routes||{}).filter(r=>/^\/product\/\d+$/.test(r)).length; process.stdout.write(String(n));')
+  if [ "$ROUTES" -eq 135 ]; then
+    pass "135 numeric product routes in the last local build"
+  else
+    warn "Last local build has $ROUTES numeric product routes (expected 135)"
   fi
 else
-  fail "No .next directory - run npm run build first"
+  warn "No local .next build. Product routes are not counted here."
 fi
 
 # ===== ENVIRONMENT =====
@@ -179,10 +185,10 @@ fi
 # ===== PACKAGE.JSON =====
 section "📦 Package Configuration"
 
-if grep -q '"engines"' package.json; then
-  pass "Node engine version pinned"
+if grep -q '"node": ">=20"' package.json; then
+  pass "Node engine is >=20"
 else
-  warn "Node engine not pinned in package.json"
+  warn "Node engine in package.json is not >=20"
 fi
 
 if grep -q 'playwright test' package.json; then
@@ -218,9 +224,8 @@ else
   echo "🚀 Ready to deploy to production!"
   echo ""
   echo "Next steps:"
-  echo "  1. Run migrations: psql \$DATABASE_URL < scripts/migrations/*.sql"
-  echo "  2. Set Vercel env vars: vercel env add ..."
-  echo "  3. Deploy: git push origin main (auto-deploys on Vercel)"
-  echo "  4. Verify: ./scripts/health-check.sh --production"
+  echo "  1. Deploy with: npx vercel --prod"
+  echo "  2. A git push does not deploy this project"
+  echo "  3. Verify: ./scripts/health-check.sh --production"
   exit 0
 fi

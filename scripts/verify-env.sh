@@ -66,7 +66,7 @@ check_var() {
       fi
     fi
   else
-    echo "💡 $var_name (run: vercel env ls to verify)"
+    echo "💡 $var_name"
   fi
 }
 
@@ -109,6 +109,12 @@ echo "✅ Set: $PASS"
 echo "⚠️  Optional Missing: $WARN"
 echo "❌ Required Missing: $MISSING"
 echo "================================"
+
+if [ "$MODE" != "--local" ]; then
+  echo ""
+  echo "⚠️  Vercel values were not read. Run: npx vercel env ls"
+  exit 0
+fi
 
 if [ $MISSING -gt 0 ]; then
   echo ""
