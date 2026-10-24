@@ -31,12 +31,10 @@ npm run dev
 **Production Deployment:**
 
 ```bash
-# Verify before deploying
-./scripts/pre-deploy-check.sh
+# Ein Git-Push deployt dieses Projekt nicht.
+npx vercel --prod
 
-git push origin main
-
-# Verify deployment
+# Danach messen
 ./scripts/health-check.sh --production
 ```
 
@@ -176,20 +174,27 @@ on-me-honey-b/
 ├── public/                 # Static assets
 │   └── models/            # GLB 3D models
 ├── scripts/               # Tooling & automation
-│   ├── health-check.sh    # Ein Git-Push deployt dieses Projekt nicht.
-npx vercel --prod
-
-# Danach messen
-./scripts/health-check.sh --production
-
-# Checks:
-✅ Core routes (7 checks)
-✅ Security headers (CSP, X-Frame, X-Content-Type)
-✅ Static assets (GLB models, images)
-✅ API endpoints (Reviews, Admin auth)
-
-# Output: 19/19 PASSING ✅
+│   ├── health-check.sh    # Production verification
+│   ├── verify-env.sh      # Environment check
+│   ├── pre-deploy-check.sh # Pre-deployment
+│   └── migrations/        # Database migrations
+├── tests/e2e/             # Playwright tests
+└── .github/workflows/     # CI
 ```
+
+---
+
+## Datenbank und Health
+
+`initDb()` führt nur `SELECT 1 FROM orders LIMIT 0` aus.
+
+`scripts/migrations/001-add-indexes.sql` enthält sechs `CREATE INDEX` auf `orders`, `designs` und `analytics_events`. Die Datei ist nicht gegen Neon gelaufen.
+
+Das Health-Skript prüft 19 Punkte. Der letzte gemessene Lauf war 19 grün gegen Deployment `2877bc5`.
+
+Kaufbar sind Produkt 1 (Tee 44,99 €) und Produkt 2 (Shorts 39,99 €). Set 74,99 €. 051 ist Coming Soon.
+
+Node in `package.json` ist `>=20`.
 
 **Pre-Deployment Verification:**
 
@@ -237,13 +242,11 @@ npx playwright test --ui
 **Vercel (Production):**
 
 ```bash
-git push origin main
+# Ein Git-Push deployt dieses Projekt nicht.
+npx vercel --prod
 
-# Manual deploy
-vercel --prod
-
-# Check deployment
-./scripts/deployment-status.sh
+# Danach messen
+./scripts/health-check.sh --production
 ```
 
 **Environment Variables (Required):**
@@ -279,9 +282,8 @@ See `.env.example` for complete list and examples.
 
 ```
 🌍 Live: https://on-me-honey-b.vercel.app
-✅ Health: 19/19 checks passing
-✅ Routes: 135/135 deployed
-✅ Uptime: reliable (Vercel)
+Das Health-Skript prüft 19 Punkte.
+Der letzte gemessene Produktionslauf war 19 grün gegen Deployment 2877bc5.
 ```
 
 **Code Quality Metrics:**
@@ -290,9 +292,7 @@ See `.env.example` for complete list and examples.
 | ----------------- | ---------- |
 | ESLint Errors     | 0 ✅       |
 | TypeScript Errors | 0 ✅       |
-| Test Suite        | Passing ✅ |
-| Build Time        | ~18s       |
-| Bundle Size       | Optimized  |
+| Test Suite        | `npm test` |
 
 ---
 
@@ -325,6 +325,4 @@ Private project - All rights reserved.
 
 ---
 
-**Built with ❤️ using Next.js, Three.js, and Vercel**
-
-_Enterprise-grade e-commerce platform for custom sportswear_
+**Built with Next.js, Three.js, and Vercel**

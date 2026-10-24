@@ -4,7 +4,7 @@ All notable changes to ON ME HONEY B are documented here.
 
 ## [1.1.0] - 2026-10-25 - Production Improvements
 
-### 🎉 Major Release - Production-Ready Enterprise Platform
+### Release notes
 
 This release transforms the project from MVP to production-ready e-commerce platform with comprehensive security, performance optimizations, and professional tooling.
 
@@ -69,24 +69,18 @@ This release transforms the project from MVP to production-ready e-commerce plat
 
 #### **Database Optimizations**
 
-- Indexes on hot paths:
-  - `orders(created_at DESC)` - Admin dashboard
-  - `orders(stripe_session_id)` - Webhook lookups
-  - `orders(status)` - Status filtering
-  - `designs(product_id)` - Product queries
-  - `analytics_events(created_at DESC)` - Analytics
-  - Plus 2 more strategic indexes
+- `001-add-indexes.sql` lists six indexes. They are not applied on Neon:
+  - `orders(created_at DESC)`
+  - `orders(status)`
+  - `designs(product_id)`
+  - `designs(created_at DESC)`
+  - `analytics_events(created_at DESC)`
+  - `analytics_events(type)`
 
 #### **Caching**
 
-- Static routes: 135 product pages pre-rendered
-- Edge caching via Vercel
-
-#### **Benchmarks**
-
-- Cold start: cold start improvements (faster)
-- Admin queries: query improvements (significant faster)
-- 3D models: 5MB/visit → cached (instant repeat loads)
+- Static routes: 135 numeric product routes in the last local build
+- GLB files are not cached for a year
 
 ---
 
@@ -133,7 +127,7 @@ This release transforms the project from MVP to production-ready e-commerce plat
 #### **Deployment**
 
 - SKU routes 001-133: All 135 routes now live ✅
-- Build consistency: Node engine pinned
+- Node engine is `>=20`
 
 ---
 

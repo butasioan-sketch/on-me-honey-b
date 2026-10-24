@@ -27,28 +27,31 @@ test.describe("Smoke Tests", () => {
     await expect(sizeButtons.first()).toBeVisible({ timeout: 10000 });
   });
 
-  // PR 2: Lock prices
+  // Prices and names appear more than once. Assert the heading and the page text.
   test("/product/1 shows 44.99 and AirFit @smoke", async ({ page }) => {
     await page.goto("/product/1");
-    await expect(page.locator("text=44.99")).toBeVisible({ timeout: 10000 });
-    await expect(page.locator("text=/AirFit/i")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /AirFit/i,
+    );
+    await expect(page.locator("body")).toContainText("44.99");
   });
 
   test("/product/2 shows 39.99 and Shorts @smoke", async ({ page }) => {
     await page.goto("/product/2");
-    await expect(page.locator("text=39.99")).toBeVisible({ timeout: 10000 });
-    await expect(page.locator("text=/Shorts/i")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Shorts/i,
+    );
+    await expect(page.locator("body")).toContainText("39.99");
   });
 
-  // PR 2: Lock SKU routes
   test("/product/001 is not 404 and contains AirFit @smoke", async ({
     page,
   }) => {
     const response = await page.goto("/product/001");
     expect(response?.status()).not.toBe(404);
-    await expect(page.locator("text=/AirFit/i")).toBeVisible({
-      timeout: 10000,
-    });
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /AirFit/i,
+    );
   });
 
   test("/product/015 is not 404 and contains Shorts @smoke", async ({
@@ -56,20 +59,24 @@ test.describe("Smoke Tests", () => {
   }) => {
     const response = await page.goto("/product/015");
     expect(response?.status()).not.toBe(404);
-    await expect(page.locator("text=/Shorts/i")).toBeVisible({
-      timeout: 10000,
-    });
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Shorts/i,
+    );
   });
 
-  test("/product/051 title/h1 contains Dekokissenbezüge, not AirFit @smoke", async ({
+  test("/product/051 title is Dekokissenbezüge, not AirFit @smoke", async ({
     page,
   }) => {
-    await page.goto("/product/051");
-    const heading = page.locator("h1, title").first();
-    await expect(heading).toContainText(/Dekokissenbezüge/i, {
-      timeout: 10000,
-    });
-    await expect(heading).not.toContainText(/AirFit/i);
+    const response = await page.goto("/product/051");
+    expect(response?.status()).not.toBe(404);
+    await expect(page).toHaveTitle(/Dekokissenbezüge/);
+    await expect(page).not.toHaveTitle(/AirFit/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "Dekokissenbezüge",
+    );
+    await expect(page.getByRole("heading", { level: 1 })).not.toContainText(
+      /AirFit/,
+    );
   });
 
   test("/product/999 returns 404 @smoke", async ({ page }) => {
