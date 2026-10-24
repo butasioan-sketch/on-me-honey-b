@@ -117,7 +117,7 @@ const PILLOW_PROFILE: GarmentProfile = {
   weightGsm: 180,
   frontSrc: "/products/051/front.jpg",
   backSrc: "/products/051/front.jpg", // Pillow uses same image for both sides
-  mmReferenceHeight: 400, // 40cm square
+  mmReferenceHeight: null, // keine Foto-Messung — 40 cm Blank nicht als mm-Referenz erfinden
   overlayVerified: false, // NOT verified - awaiting physical test print
 };
 

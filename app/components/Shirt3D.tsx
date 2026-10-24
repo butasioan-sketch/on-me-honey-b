@@ -1,21 +1,34 @@
-'use client';
-import React, { Suspense, useEffect, useMemo, useState } from 'react';
-import { Canvas, createPortal } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Decal, useTexture, Html, ContactShadows, Environment } from '@react-three/drei';
-import * as THREE from 'three';
-import ShirtFlip from './ShirtFlip';
-import StaticShirtPreview from './StaticShirtPreview';
-import { getDecalDimensions, getDecalPosition } from '@/lib/print-position';
-import { getViewerAspect } from '@/lib/print-spec';
-import { getFamilyByShopId, getLiveFamilies } from '@/lib/catalog/families';
+"use client";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
+import { Canvas, createPortal } from "@react-three/fiber";
+import {
+  OrbitControls,
+  useGLTF,
+  Decal,
+  useTexture,
+  Html,
+  ContactShadows,
+  Environment,
+} from "@react-three/drei";
+import * as THREE from "three";
+import ShirtFlip from "./ShirtFlip";
+import StaticShirtPreview from "./StaticShirtPreview";
+import { getDecalDimensions, getDecalPosition } from "@/lib/print-position";
+import { getViewerAspect } from "@/lib/print-spec";
+import { getFamilyByShopId, getLiveFamilies } from "@/lib/catalog/families";
 
-interface PrintData { src: string; x: number; y: number; scale: number; }
+interface PrintData {
+  src: string;
+  x: number;
+  y: number;
+  scale: number;
+}
 interface Shirt3DProps {
   frontPrint?: PrintData[];
   backPrint?: PrintData[];
   shirtColor?: string;
   enableTouch?: boolean;
-  fallback?: 'static' | 'flip';
+  fallback?: "static" | "flip";
   frontSrc?: string;
   backSrc?: string;
   productId?: string;
@@ -40,26 +53,50 @@ function getModelPath(productId?: string): string | null {
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {
   return new THREE.MeshStandardMaterial({
     color: new THREE.Color(color),
-    roughness: 0.55,  // Optimized for best reflections while maintaining fabric feel
+    roughness: 0.55, // Optimized for best reflections while maintaining fabric feel
     metalness: 0,
     side: THREE.DoubleSide,
-    envMapIntensity: 0.6,  // Subtle environment reflections
+    envMapIntensity: 0.6, // Subtle environment reflections
   });
 }
 
-function CustomerPrint({ mesh, print, front, productId, layerIndex = 0 }:
-  { mesh: THREE.Mesh; print: PrintData; front: boolean; productId: string; layerIndex?: number }) {
+function CustomerPrint({
+  mesh,
+  print,
+  front,
+  productId,
+  layerIndex = 0,
+}: {
+  mesh: THREE.Mesh;
+  print: PrintData;
+  front: boolean;
+  productId: string;
+  layerIndex?: number;
+}) {
   const tex = useTexture(print.src);
-  tex.anisotropy = 8;
+
+  useEffect(() => {
+    if (tex) {
+      // eslint-disable-next-line react-hooks/immutability
+      tex.anisotropy = 8;
+    }
+  }, [tex]);
 
   const { pos, size } = useMemo(() => {
     mesh.geometry.computeBoundingBox();
     const bb = mesh.geometry.boundingBox as THREE.Box3;
-    const c = new THREE.Vector3(); bb.getCenter(c);
-    const s = new THREE.Vector3(); bb.getSize(s);
-    const side = front ? 'front' : 'back';
+    const c = new THREE.Vector3();
+    bb.getCenter(c);
+    const s = new THREE.Vector3();
+    bb.getSize(s);
+    const side = front ? "front" : "back";
     const transform = { scale: print.scale || 1, x: print.x, y: print.y };
-    const { w, h } = getDecalDimensions({ x: s.x, y: s.y, z: s.z }, side, transform, productId);
+    const { w, h } = getDecalDimensions(
+      { x: s.x, y: s.y, z: s.z },
+      side,
+      transform,
+      productId,
+    );
     const position = getDecalPosition(
       { x: c.x, y: c.y, z: c.z },
       { x: s.x, y: s.y, z: s.z },
@@ -95,7 +132,7 @@ function GarmentModel({
   productId,
   frontPrint,
   backPrint,
-  shirtColor = '#ffffff',
+  shirtColor = "#ffffff",
 }: Shirt3DProps & { modelPath: string; productId: string }) {
   const { scene } = useGLTF(modelPath);
   const [decalMesh, setDecalMesh] = useState<THREE.Mesh | null>(null);
@@ -116,15 +153,18 @@ function GarmentModel({
       const m = o as THREE.Mesh;
       if (!m.geometry) return;
 
-      if (!m.geometry.attributes.normal || m.geometry.attributes.normal.count === 0) {
+      if (
+        !m.geometry.attributes.normal ||
+        m.geometry.attributes.normal.count === 0
+      ) {
         m.geometry.computeVertexNormals();
       }
 
       if (Array.isArray(m.material)) {
         m.material.forEach((mat) => {
-          if (mat && 'dispose' in mat) (mat as THREE.Material).dispose();
+          if (mat && "dispose" in mat) (mat as THREE.Material).dispose();
         });
-      } else if (m.material && 'dispose' in m.material) {
+      } else if (m.material && "dispose" in m.material) {
         (m.material as THREE.Material).dispose();
       }
       m.material = matTemplate.clone();
@@ -141,8 +181,15 @@ function GarmentModel({
     if (bestMesh) {
       const b = bestMesh as THREE.Mesh;
       b.geometry.computeBoundingBox();
-      console.log('[Shirt3D] product', productId, 'verts', bestCount,
-        'bbox', JSON.stringify(b.geometry.boundingBox));
+      console.log(
+        "[Shirt3D] product",
+        productId,
+        "verts",
+        bestCount,
+        "bbox",
+        JSON.stringify(b.geometry.boundingBox),
+      );
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDecalMesh(b);
     }
   }, [scene, shirtColor, productId]);
@@ -150,17 +197,33 @@ function GarmentModel({
   return (
     <group scale={visible ? 1 : 0.8} position={[0, visible ? 0 : -0.3, 0]}>
       <primitive object={scene} />
-      {decalMesh && visible && createPortal(
-        <>
-          {(frontPrint || []).map((p, i) => (
-            <CustomerPrint key={`front-${i}`} mesh={decalMesh} print={p} front productId={productId} layerIndex={i} />
-          ))}
-          {(backPrint || []).map((p, i) => (
-            <CustomerPrint key={`back-${i}`} mesh={decalMesh} print={p} front={false} productId={productId} layerIndex={i} />
-          ))}
-        </>,
-        decalMesh,
-      )}
+      {decalMesh &&
+        visible &&
+        createPortal(
+          <>
+            {(frontPrint || []).map((p, i) => (
+              <CustomerPrint
+                key={`front-${i}`}
+                mesh={decalMesh}
+                print={p}
+                front
+                productId={productId}
+                layerIndex={i}
+              />
+            ))}
+            {(backPrint || []).map((p, i) => (
+              <CustomerPrint
+                key={`back-${i}`}
+                mesh={decalMesh}
+                print={p}
+                front={false}
+                productId={productId}
+                layerIndex={i}
+              />
+            ))}
+          </>,
+          decalMesh,
+        )}
     </group>
   );
 }
@@ -168,11 +231,24 @@ function GarmentModel({
 function ModelLoadingSkeleton({ productId }: { productId: string }) {
   return (
     <Html fullscreen>
-      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{
-          width: '55%', aspectRatio: getViewerAspect(productId), borderRadius: '16px',
-          background: 'rgba(255,255,255,0.06)', animation: 'plt-glb-pulse 1.3s ease-in-out infinite',
-        }} />
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "55%",
+            aspectRatio: getViewerAspect(productId),
+            borderRadius: "16px",
+            background: "rgba(255,255,255,0.06)",
+            animation: "plt-glb-pulse 1.3s ease-in-out infinite",
+          }}
+        />
       </div>
     </Html>
   );
@@ -184,7 +260,7 @@ function ModelLoadingSkeleton({ productId }: { productId: string }) {
  * Shorts teilen sich deshalb dieselbe Kamera statt Sonderwegen pro Produkt.
  */
 function getCamera(productId: string) {
-  if (productId === '2') {
+  if (productId === "2") {
     // Shorts - weiter weg, größerer Zoom-Range
     return {
       cameraPos: [0, 0.05, 1.9] as [number, number, number],
@@ -206,14 +282,14 @@ function getCamera(productId: string) {
 
 export default function Shirt3D({
   enableTouch = true,
-  fallback = 'flip',
+  fallback = "flip",
   ...props
 }: Shirt3DProps) {
-  const productId = props.productId || '1';
-  const modelPath = getModelPath(productId);
+  const requestedId = props.productId;
+  const modelPath = getModelPath(requestedId);
 
-  if (!modelPath) {
-    if (fallback === 'static') {
+  if (!requestedId || !modelPath) {
+    if (fallback === "static") {
       return <StaticShirtPreview shadow="0 12px 32px rgba(0,0,0,0.55)" />;
     }
     return (
@@ -229,6 +305,7 @@ export default function Shirt3D({
     );
   }
 
+  const productId = requestedId;
   const cam = getCamera(productId);
 
   return (
@@ -236,7 +313,7 @@ export default function Shirt3D({
       shadows
       camera={{ position: cam.cameraPos, fov: cam.fov }}
       dpr={[1, 2]}
-      style={{ width: '100%', height: '100%', background: 'transparent' }}
+      style={{ width: "100%", height: "100%", background: "transparent" }}
       gl={{
         antialias: true,
         alpha: true,
@@ -293,7 +370,7 @@ export default function Shirt3D({
 }
 
 // WAVE 4.1: Preload only shop_live families
-getLiveFamilies().forEach(family => {
+getLiveFamilies().forEach((family) => {
   if (family.glbPath) {
     useGLTF.preload(family.glbPath);
   }

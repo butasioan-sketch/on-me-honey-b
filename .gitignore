@@ -62,6 +62,10 @@ backups/
 .tmp-shorts-sport/
 .tmp-pdfshop-extract/
 
+# WAVE 4 FIX: Backup-GLBs nicht mehr ins Repo (Pillow-Backup war 3,6 MB).
+*-backup*.glb
+public/models/library/inactive/
+
 # Dokumentation (gehört nicht ins Git)
 *.pdf
 *Produktkatalog*.md

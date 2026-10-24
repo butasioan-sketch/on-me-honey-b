@@ -1,71 +1,90 @@
-'use client';
+"use client";
 
-import { getShipping, DEFAULT_SHIPPING_ID, DEFAULT_COUNTRY } from '@/lib/shipping';
-import { useState, useEffect } from 'react';
-import { useParams, notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import SiteHeader from '@/app/components/SiteHeader';
-import TrustIcon from '@/app/components/TrustIcon';
-import { useLocale } from '@/app/components/LocaleProvider';
-import { formatSizeMm, PRINT_SPEC, getGarmentProfile } from '@/lib/print-spec';
-import { getProduct, getProductName, getProductDescription, SHIRT_COLORS } from '@/lib/products';
-import { getProductById } from '@/lib/catalog/families';
-import CatalogProductView from '@/app/components/CatalogProductView';
+import {
+  getShipping,
+  DEFAULT_SHIPPING_ID,
+  DEFAULT_COUNTRY,
+} from "@/lib/shipping";
+import { useState, useEffect } from "react";
+import { useParams, notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+import SiteHeader from "@/app/components/SiteHeader";
+import TrustIcon from "@/app/components/TrustIcon";
+import { useLocale } from "@/app/components/LocaleProvider";
+import { formatSizeMm, PRINT_SPEC, getGarmentProfile } from "@/lib/print-spec";
+import {
+  getProduct,
+  getProductName,
+  getProductDescription,
+  SHIRT_COLORS,
+} from "@/lib/products";
+import { getProductById } from "@/lib/catalog/families";
+import CatalogProductView from "@/app/components/CatalogProductView";
 
-const DesignStudio = dynamic(() => import('@/app/components/DesignStudio'), { ssr: false });
-import type { DesignState } from '@/app/components/DesignStudio';
-import { calcUnitPriceForProduct } from '@/lib/pricing';
-import { renderPrintSheetMulti } from '@/lib/print-export';
-import { renderCustomerViewCompositeMulti } from '@/lib/print-customer-view';
-import { defaultPrintTransform } from '@/lib/print-position';
-import { trackAddToCart, trackProductView } from '@/lib/analytics';
+const DesignStudio = dynamic(() => import("@/app/components/DesignStudio"), {
+  ssr: false,
+});
+import type { DesignState } from "@/app/components/DesignStudio";
+import { calcUnitPriceForProduct } from "@/lib/pricing";
+import { renderPrintSheetMulti } from "@/lib/print-export";
+import { renderCustomerViewCompositeMulti } from "@/lib/print-customer-view";
+import { defaultPrintTransform } from "@/lib/print-position";
+import { trackAddToCart, trackProductView } from "@/lib/analytics";
 
 export default function ProductPage() {
   const { t, locale } = useLocale();
   const params = useParams();
-  const id = params?.id as string;
+  const urlId = params?.id as string;
 
-  // WAVE 4.2: Accept both shopId and SKU
-  const catalogProduct = getProductById(id);
+  // WAVE 4: shopId (1, 2) oder SKU (001–133). Kauf nur über die Shop-ID.
+  const catalogProduct = getProductById(urlId);
+  const product =
+    catalogProduct?.shop_live && catalogProduct.shopId
+      ? getProduct(catalogProduct.shopId)
+      : undefined;
+  const id = product?.id;
+
+  // All hooks must be called before any conditional returns
+  const [size, setSize] = useState("");
+  const [colorKey, setColorKey] = useState("weiss");
+  const activeColor =
+    SHIRT_COLORS.find((c) => c.key === colorKey) || SHIRT_COLORS[0];
+  const [loading, setLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
+  const [added, setAdded] = useState(false);
+  const [error, setError] = useState("");
+  const [design, setDesign] = useState<DesignState>({
+    frontLayers: [],
+    backLayers: [],
+  });
+  const [editHint, setEditHint] = useState(false);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const preSize = searchParams.get("size");
+    const preColor = searchParams.get("color");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (preSize) setSize(preSize);
+
+    if (preColor) setColorKey(preColor);
+
+    if (searchParams.has("edit")) setEditHint(true);
+  }, []);
+
+  useEffect(() => {
+    if (id && product) {
+      trackProductView(id, product.name?.de ?? id, product.price);
+    }
+  }, [id, product]);
+
+  // Conditional returns after all hooks
   if (!catalogProduct) return notFound();
 
-  // If not shop_live, show catalog view (photo only, no purchase)
   if (!catalogProduct.shop_live) {
     return <CatalogProductView product={catalogProduct} />;
   }
 
-  // Shop_live products: get from old products.ts (uses shopId)
-  const productIdForStudio = catalogProduct.shopId || id;
-  const product = getProduct(productIdForStudio);
-
   if (!product) return notFound();
-
-  const [size, setSize] = useState('');
-  const [colorKey, setColorKey] = useState('weiss');
-  const activeColor = SHIRT_COLORS.find(c => c.key === colorKey) || SHIRT_COLORS[0];
-  const [loading, setLoading] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const [added, setAdded] = useState(false);
-  const [error, setError] = useState('');
-  const [design, setDesign] = useState<DesignState>({ frontLayers: [], backLayers: [] });
-  const [editHint, setEditHint] = useState(false);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const preSize = params.get('size');
-    const preColor = params.get('color');
-    if (preSize) setSize(preSize);
-    if (preColor) setColorKey(preColor);
-    if (params.has('edit')) setEditHint(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (product) trackProductView(id, product.name?.de ?? id, product.price);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  if (!product) notFound();
 
   const totalLayers = design.frontLayers.length + design.backLayers.length;
   const unitPrice = calcUnitPriceForProduct(id, totalLayers);
@@ -78,10 +97,48 @@ export default function ProductPage() {
       const hasFront = design.frontLayers.length > 0;
       const hasBack = design.backLayers.length > 0;
       const [front, back, frontPreview, backPreview] = await Promise.all([
-        hasFront ? renderPrintSheetMulti('front', design.frontLayers.map((l) => ({ src: l.src, transform: l.transform })), id, { format: 'jpeg', quality: 0.92 }) : Promise.resolve(null),
-        hasBack ? renderPrintSheetMulti('back', design.backLayers.map((l) => ({ src: l.src, transform: l.transform })), id, { format: 'jpeg', quality: 0.92 }) : Promise.resolve(null),
-        hasFront ? renderCustomerViewCompositeMulti('front', design.frontLayers.map((l) => ({ src: l.src, transform: l.transform })), id).catch(() => null) : Promise.resolve(null),
-        hasBack ? renderCustomerViewCompositeMulti('back', design.backLayers.map((l) => ({ src: l.src, transform: l.transform })), id).catch(() => null) : Promise.resolve(null),
+        hasFront
+          ? renderPrintSheetMulti(
+              "front",
+              design.frontLayers.map((l) => ({
+                src: l.src,
+                transform: l.transform,
+              })),
+              id,
+              { format: "jpeg", quality: 0.92 },
+            )
+          : Promise.resolve(null),
+        hasBack
+          ? renderPrintSheetMulti(
+              "back",
+              design.backLayers.map((l) => ({
+                src: l.src,
+                transform: l.transform,
+              })),
+              id,
+              { format: "jpeg", quality: 0.92 },
+            )
+          : Promise.resolve(null),
+        hasFront
+          ? renderCustomerViewCompositeMulti(
+              "front",
+              design.frontLayers.map((l) => ({
+                src: l.src,
+                transform: l.transform,
+              })),
+              id,
+            ).catch(() => null)
+          : Promise.resolve(null),
+        hasBack
+          ? renderCustomerViewCompositeMulti(
+              "back",
+              design.backLayers.map((l) => ({
+                src: l.src,
+                transform: l.transform,
+              })),
+              id,
+            ).catch(() => null)
+          : Promise.resolve(null),
       ]);
       // Ganzes A4-Blatt wird als EINE Einheit auf den Blank gepresst (Sublimation) —
       // die einzelnen Ebenen haben zwar eigene Positionen INNERHALB des Blatts (siehe
@@ -90,10 +147,13 @@ export default function ProductPage() {
       // Platzierungsseite (Ebene 2), unabhaengig von den Ebenen-eigenen Positionen.
       const standardTransform = defaultPrintTransform();
       const payload = JSON.stringify({
-        front, back, productId: id,
+        front,
+        back,
+        productId: id,
         frontTransform: hasFront ? standardTransform : null,
         backTransform: hasBack ? standardTransform : null,
-        frontPreview, backPreview,
+        frontPreview,
+        backPreview,
         meta: {
           dpi: PRINT_SPEC.dpi,
           widthPx: PRINT_SPEC.widthPx,
@@ -106,14 +166,26 @@ export default function ProductPage() {
           backLayerCount: design.backLayers.length,
           // Rohe Ebenen-Info (nicht nur das gerenderte Bild) — QA im Druckblatt-PDF und
           // Grundlage fuer den spaeteren Plotter-SVG-Export (Phase 2, Text als Vektor).
-          frontLayers: design.frontLayers.map((l) => ({ kind: l.kind, text: l.text || null, color: l.color || null })),
-          backLayers: design.backLayers.map((l) => ({ kind: l.kind, text: l.text || null, color: l.color || null })),
+          frontLayers: design.frontLayers.map((l) => ({
+            kind: l.kind,
+            text: l.text || null,
+            color: l.color || null,
+          })),
+          backLayers: design.backLayers.map((l) => ({
+            kind: l.kind,
+            text: l.text || null,
+            color: l.color || null,
+          })),
         },
       });
-      console.log('[saveDesign] payload', (payload.length / 1024 / 1024).toFixed(2), 'MB');
-      const res = await fetch('/api/designs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      console.log(
+        "[saveDesign] payload",
+        (payload.length / 1024 / 1024).toFixed(2),
+        "MB",
+      );
+      const res = await fetch("/api/designs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: payload,
       });
       if (!res.ok) {
@@ -121,59 +193,100 @@ export default function ProductPage() {
         throw new Error(`/api/designs ${res.status}: ${errText}`);
       }
       const data = await res.json();
-      if (!data.id) throw new Error('Kein Design-ID erhalten');
+      if (!data.id) throw new Error("Kein Design-ID erhalten");
       return data.id;
     } catch (err) {
-      console.error('[saveDesign]', err);
+      console.error("[saveDesign]", err);
       return null;
     }
   };
 
   const addToCart = async () => {
-    if (!size) { setError(t.product.selectSize); return; }
-    if (!design.frontLayers.length && !design.backLayers.length) { setError(t.shop.needDesign); return; }
-    setError('');
+    if (!size) {
+      setError(t.product.selectSize);
+      return;
+    }
+    if (!design.frontLayers.length && !design.backLayers.length) {
+      setError(t.shop.needDesign);
+      return;
+    }
+    setError("");
     setAddLoading(true);
     try {
       const designId = await saveDesign();
-      if (!designId) { setError(t.errors.saveDesign); return; }
+      if (!designId) {
+        setError(t.errors.saveDesign);
+        return;
+      }
       const pages = totalLayers;
-      const cart = JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]');
+      const cart = JSON.parse(
+        localStorage.getItem("on_me_honey_b_cart") || "[]",
+      );
       cart.push({
-        id, name: productName, price: unitPrice, size,
-        fit: t.product.unisex, color: colorLabel, quantity: 1, designId, pages,
+        id,
+        name: productName,
+        price: unitPrice,
+        size,
+        fit: t.product.unisex,
+        color: colorLabel,
+        quantity: 1,
+        designId,
+        pages,
       });
-      localStorage.setItem('on_me_honey_b_cart', JSON.stringify(cart));
+      localStorage.setItem("on_me_honey_b_cart", JSON.stringify(cart));
       trackAddToCart(id, productName, unitPrice);
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
-    } catch { setError(t.errors.addCart); }
-    finally { setAddLoading(false); }
+    } catch {
+      setError(t.errors.addCart);
+    } finally {
+      setAddLoading(false);
+    }
   };
 
   const buyNow = async () => {
-    if (!size) { setError(t.product.selectSize); return; }
-    if (!design.frontLayers.length && !design.backLayers.length) { setError(t.shop.needDesign); return; }
-    setError('');
+    if (!size) {
+      setError(t.product.selectSize);
+      return;
+    }
+    if (!design.frontLayers.length && !design.backLayers.length) {
+      setError(t.shop.needDesign);
+      return;
+    }
+    setError("");
     setLoading(true);
     try {
       const designId = await saveDesign();
-      if (!designId) { setError(t.errors.saveDesign); return; }
-      const res = await fetch('/api/payments/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      if (!designId) {
+        setError(t.errors.saveDesign);
+        return;
+      }
+      const res = await fetch("/api/payments/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          paymentMethod: 'card',
+          paymentMethod: "card",
           reference: `PROD-${id}-${size}`,
           shipping: getShipping(DEFAULT_SHIPPING_ID, DEFAULT_COUNTRY),
           total: unitPrice + getShipping(DEFAULT_SHIPPING_ID, DEFAULT_COUNTRY),
           country: DEFAULT_COUNTRY,
-          shippingMethod: 'DHL',
-          items: [{ productId: id, name: productName, size, color: colorLabel, price: unitPrice, quantity: 1, designId }],
+          shippingMethod: "DHL",
+          items: [
+            {
+              productId: id,
+              name: productName,
+              size,
+              color: colorLabel,
+              price: unitPrice,
+              quantity: 1,
+              designId,
+            },
+          ],
         }),
       });
       const data = await res.json();
       if (data.redirectUrl) {
+        // eslint-disable-next-line react-hooks/immutability
         window.location.href = data.redirectUrl;
       } else {
         setError(t.errors.checkout);
@@ -186,95 +299,276 @@ export default function ProductPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.08), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)', color: '#fff', fontFamily: 'system-ui, sans-serif' }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.08), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)",
+        color: "#fff",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
       <SiteHeader />
 
-      <div className="product-grid" style={{ maxWidth: '1100px', margin: '0 auto', padding: '1.5rem 1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
-        <div className="editor-col" style={{ position: 'sticky', top: '5rem', alignSelf: 'start' }}>
-          <p className="plt-label" style={{ marginBottom: '0.75rem', color: '#aaa' }}>
-            {t.shop.printZone.replace('{size}', formatSizeMm())}
+      <div
+        className="product-grid"
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          padding: "1.5rem 1rem",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "3rem",
+        }}
+      >
+        <div
+          className="editor-col"
+          style={{ position: "sticky", top: "5rem", alignSelf: "start" }}
+        >
+          <p
+            className="plt-label"
+            style={{ marginBottom: "0.75rem", color: "#aaa" }}
+          >
+            {t.shop.printZone.replace("{size}", formatSizeMm())}
           </p>
-          <DesignStudio productId={id} shirtColor={activeColor.hex} onDesignChange={setDesign} />
+          <DesignStudio
+            productId={id}
+            shirtColor={activeColor.hex}
+            onDesignChange={setDesign}
+          />
         </div>
 
         <div>
-          <p className="plt-label" style={{ color: '#D4AF37', marginBottom: '0.5rem' }}>{t.shop.premium}</p>
-          <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem', color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>{productName}</h1>
-          <p style={{ color: '#888', fontSize: '0.85rem', lineHeight: 1.55, marginBottom: '1rem' }}>{getProductDescription(product, locale)}</p>
-          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '1.5rem', color: '#fff' }}>€{unitPrice.toFixed(2)}</p>
+          <p
+            className="plt-label"
+            style={{ color: "#D4AF37", marginBottom: "0.5rem" }}
+          >
+            {t.shop.premium}
+          </p>
+          <h1
+            style={{
+              fontSize: "2rem",
+              fontWeight: 900,
+              marginBottom: "0.5rem",
+              color: "#fff",
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
+            }}
+          >
+            {productName}
+          </h1>
+          <p
+            style={{
+              color: "#888",
+              fontSize: "0.85rem",
+              lineHeight: 1.55,
+              marginBottom: "1rem",
+            }}
+          >
+            {getProductDescription(product, locale)}
+          </p>
+          <p
+            style={{
+              fontSize: "1.75rem",
+              fontWeight: 800,
+              marginBottom: "1.5rem",
+              color: "#fff",
+            }}
+          >
+            €{unitPrice.toFixed(2)}
+          </p>
 
-          <div style={{ marginBottom: '1.25rem' }}>
-            <p className="plt-label" style={{ marginBottom: '0.6rem' }}>{t.product.color}: {colorLabel}</p>
-            <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+          <div style={{ marginBottom: "1.25rem" }}>
+            <p className="plt-label" style={{ marginBottom: "0.6rem" }}>
+              {t.product.color}: {colorLabel}
+            </p>
+            <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
               {SHIRT_COLORS.map((c) => (
-                <button key={c.key} onClick={() => setColorKey(c.key)} title={c.label[locale] || c.label.de} style={{
-                  width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer',
-                  background: c.hex,
-                  border: colorKey === c.key ? '3px solid #D4AF37' : '2px solid rgba(255,255,255,0.2)',
-                  boxShadow: colorKey === c.key ? '0 0 0 2px rgba(226,0,26,0.3)' : 'none',
-                  transition: 'all 0.15s',
-                }} />
+                <button
+                  key={c.key}
+                  onClick={() => setColorKey(c.key)}
+                  title={c.label[locale] || c.label.de}
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "50%",
+                    cursor: "pointer",
+                    background: c.hex,
+                    border:
+                      colorKey === c.key
+                        ? "3px solid #D4AF37"
+                        : "2px solid rgba(255,255,255,0.2)",
+                    boxShadow:
+                      colorKey === c.key
+                        ? "0 0 0 2px rgba(226,0,26,0.3)"
+                        : "none",
+                    transition: "all 0.15s",
+                  }}
+                />
               ))}
             </div>
           </div>
 
-          <div style={{ marginBottom: '1.25rem' }}>
-            <p className="plt-label" style={{ marginBottom: '0.6rem' }}>{t.product.size}</p>
-            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+          <div style={{ marginBottom: "1.25rem" }}>
+            <p className="plt-label" style={{ marginBottom: "0.6rem" }}>
+              {t.product.size}
+            </p>
+            <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
               {product.sizes.map((s) => (
-                <button key={s} type="button" onClick={() => setSize(s)} className={`plt-size-btn${size === s ? ' plt-size-btn-active' : ''}`}>
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setSize(s)}
+                  className={`plt-size-btn${size === s ? " plt-size-btn-active" : ""}`}
+                >
                   {s}
                 </button>
               ))}
             </div>
-            {id === '1' && size && size !== 'L' && (
-              <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#666', lineHeight: 1.5 }}>
-                Das Druckbild ist für Größe L kalibriert — auf {size} wirkt es proportional angepasst.
+            {id === "1" && size && size !== "L" && (
+              <p
+                style={{
+                  marginTop: "0.5rem",
+                  fontSize: "0.75rem",
+                  color: "#666",
+                  lineHeight: 1.5,
+                }}
+              >
+                Das Druckbild ist für Größe L kalibriert — auf {size} wirkt es
+                proportional angepasst.
               </p>
             )}
-            <details style={{ marginTop: '0.7rem' }}>
-              <summary style={{ cursor: 'pointer', color: '#888', fontSize: '0.8rem', userSelect: 'none' }}>
+            <details style={{ marginTop: "0.7rem" }}>
+              <summary
+                style={{
+                  cursor: "pointer",
+                  color: "#888",
+                  fontSize: "0.8rem",
+                  userSelect: "none",
+                }}
+              >
                 📏 {t.product.sizeChart}
               </summary>
-              <div style={{ marginTop: '0.6rem', background: '#121212', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '0.9rem', fontSize: '0.8rem' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', color: '#ccc' }}>
-                  <thead><tr style={{ color: '#888', textAlign: 'left' }}>
-                    <th style={{ padding: '0.3rem 0' }}>{t.product.sizeCol}</th><th>{t.product.chestCol}</th><th>{t.product.lengthCol}</th>
-                  </tr></thead>
+              <div
+                style={{
+                  marginTop: "0.6rem",
+                  background: "#121212",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "10px",
+                  padding: "0.9rem",
+                  fontSize: "0.8rem",
+                }}
+              >
+                <table
+                  style={{
+                    width: "100%",
+                    borderCollapse: "collapse",
+                    color: "#ccc",
+                  }}
+                >
+                  <thead>
+                    <tr style={{ color: "#888", textAlign: "left" }}>
+                      <th style={{ padding: "0.3rem 0" }}>
+                        {t.product.sizeCol}
+                      </th>
+                      <th>{t.product.chestCol}</th>
+                      <th>{t.product.lengthCol}</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                    {[['S','50 cm','70 cm'],['M','53 cm','72 cm'],['L','56 cm','74 cm'],['XL','59 cm','76 cm'],['XXL','62 cm','78 cm']].map(([g,b,l]) => (
-                      <tr key={g} style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                        <td style={{ padding: '0.35rem 0', fontWeight: 600, color: '#fff' }}>{g}</td><td>{b}</td><td>{l}</td>
+                    {[
+                      ["S", "50 cm", "70 cm"],
+                      ["M", "53 cm", "72 cm"],
+                      ["L", "56 cm", "74 cm"],
+                      ["XL", "59 cm", "76 cm"],
+                      ["XXL", "62 cm", "78 cm"],
+                    ].map(([g, b, l]) => (
+                      <tr
+                        key={g}
+                        style={{
+                          borderTop: "1px solid rgba(255,255,255,0.06)",
+                        }}
+                      >
+                        <td
+                          style={{
+                            padding: "0.35rem 0",
+                            fontWeight: 600,
+                            color: "#fff",
+                          }}
+                        >
+                          {g}
+                        </td>
+                        <td>{b}</td>
+                        <td>{l}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                <p style={{ color: '#666', fontSize: '0.7rem', marginTop: '0.6rem', lineHeight: 1.5 }}>{t.product.sizeNote}</p>
+                <p
+                  style={{
+                    color: "#666",
+                    fontSize: "0.7rem",
+                    marginTop: "0.6rem",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {t.product.sizeNote}
+                </p>
               </div>
             </details>
           </div>
 
-          <div style={{ marginBottom: '1.5rem' }}>
-            <p className="plt-label" style={{ marginBottom: '0.4rem' }}>{t.product.fit}</p>
-            <p style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 600 }}>{t.product.unisex}</p>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <p className="plt-label" style={{ marginBottom: "0.4rem" }}>
+              {t.product.fit}
+            </p>
+            <p style={{ fontSize: "0.95rem", color: "#fff", fontWeight: 600 }}>
+              {t.product.unisex}
+            </p>
           </div>
 
           {editHint && (
-            <div className="plt-fade-in-up" style={{ background: 'rgba(226,0,26,0.08)', border: '1px solid rgba(226,0,26,0.25)', borderRadius: '10px', padding: '0.7rem 1rem', marginBottom: '1rem', fontSize: '0.8rem', color: '#fca5a5', lineHeight: 1.5 }}>
-              Größe & Farbe vorausgewählt. Lade dein Motiv erneut hoch um das Piece zu aktualisieren.
+            <div
+              className="plt-fade-in-up"
+              style={{
+                background: "rgba(226,0,26,0.08)",
+                border: "1px solid rgba(226,0,26,0.25)",
+                borderRadius: "10px",
+                padding: "0.7rem 1rem",
+                marginBottom: "1rem",
+                fontSize: "0.8rem",
+                color: "#fca5a5",
+                lineHeight: 1.5,
+              }}
+            >
+              Größe & Farbe vorausgewählt. Lade dein Motiv erneut hoch um das
+              Piece zu aktualisieren.
             </div>
           )}
 
           {/* Design-Status Indikator */}
-          <div className="plt-design-status" style={{
-            display: 'flex', alignItems: 'center', gap: '0.6rem',
-            padding: '0.65rem 0.9rem', borderRadius: '10px', marginBottom: '1rem',
-            background: totalLayers > 0 ? 'rgba(74,222,128,0.08)' : 'rgba(255,255,255,0.03)',
-            border: `1px solid ${totalLayers > 0 ? 'rgba(74,222,128,0.25)' : 'rgba(255,255,255,0.08)'}`,
-            fontSize: '0.78rem', fontWeight: 600,
-            color: totalLayers > 0 ? '#4ade80' : '#666',
-          }}>
-            <span style={{ fontSize: '1rem' }}>{totalLayers > 0 ? '✓' : '←'}</span>
+          <div
+            className="plt-design-status"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.6rem",
+              padding: "0.65rem 0.9rem",
+              borderRadius: "10px",
+              marginBottom: "1rem",
+              background:
+                totalLayers > 0
+                  ? "rgba(74,222,128,0.08)"
+                  : "rgba(255,255,255,0.03)",
+              border: `1px solid ${totalLayers > 0 ? "rgba(74,222,128,0.25)" : "rgba(255,255,255,0.08)"}`,
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              color: totalLayers > 0 ? "#4ade80" : "#666",
+            }}
+          >
+            <span style={{ fontSize: "1rem" }}>
+              {totalLayers > 0 ? "✓" : "←"}
+            </span>
             <span>
               {design.frontLayers.length && design.backLayers.length
                 ? `${t.studio.front} & ${t.studio.back} — ${t.studio.twoSides}`
@@ -286,23 +580,87 @@ export default function ProductPage() {
             </span>
           </div>
 
-          {error && <p style={{ color: '#f87171', fontSize: '0.875rem', marginBottom: '1rem' }}>{error}</p>}
+          {error && (
+            <p
+              style={{
+                color: "#f87171",
+                fontSize: "0.875rem",
+                marginBottom: "1rem",
+              }}
+            >
+              {error}
+            </p>
+          )}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-            <button type="button" onClick={buyNow} disabled={loading} className="plt-btn-primary" style={{ width: '100%', fontSize: '1rem', padding: '1rem' }}>
-              {loading ? t.cart.redirecting : `${t.product.buyNow} — €${unitPrice.toFixed(2)}`}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.75rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <button
+              type="button"
+              onClick={buyNow}
+              disabled={loading}
+              className="plt-btn-primary"
+              style={{ width: "100%", fontSize: "1rem", padding: "1rem" }}
+            >
+              {loading
+                ? t.cart.redirecting
+                : `${t.product.buyNow} — €${unitPrice.toFixed(2)}`}
             </button>
-            <p style={{ color: '#666', fontSize: '0.72rem', textAlign: 'center', marginTop: '0.6rem', lineHeight: 1.5 }}>{t.shop.legal}</p>
-            <button type="button" onClick={addToCart} disabled={addLoading} className={`plt-btn-secondary${added ? ' plt-btn-cart-added' : ''}`} style={{ width: '100%', padding: '0.9rem', color: added ? '#4ade80' : '#fff' }}>
-              {addLoading ? '...' : added ? `✓ ${t.product.added}` : `+ ${t.product.addCart}`}
+            <p
+              style={{
+                color: "#666",
+                fontSize: "0.72rem",
+                textAlign: "center",
+                marginTop: "0.6rem",
+                lineHeight: 1.5,
+              }}
+            >
+              {t.shop.legal}
+            </p>
+            <button
+              type="button"
+              onClick={addToCart}
+              disabled={addLoading}
+              className={`plt-btn-secondary${added ? " plt-btn-cart-added" : ""}`}
+              style={{
+                width: "100%",
+                padding: "0.9rem",
+                color: added ? "#4ade80" : "#fff",
+              }}
+            >
+              {addLoading
+                ? "..."
+                : added
+                  ? `✓ ${t.product.added}`
+                  : `+ ${t.product.addCart}`}
             </button>
           </div>
 
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.25rem' }}>
+          <div
+            style={{
+              borderTop: "1px solid rgba(255,255,255,0.08)",
+              paddingTop: "1.25rem",
+            }}
+          >
             {t.trust.map(({ key, label, sub }) => (
-              <div key={key} style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.6rem', alignItems: 'center' }}>
+              <div
+                key={key}
+                style={{
+                  display: "flex",
+                  gap: "0.75rem",
+                  marginBottom: "0.6rem",
+                  alignItems: "center",
+                }}
+              >
                 <TrustIcon name={key} size={20} />
-                <span style={{ color: '#666', fontSize: '0.78rem' }}>{label} — {sub}</span>
+                <span style={{ color: "#666", fontSize: "0.78rem" }}>
+                  {label} — {sub}
+                </span>
               </div>
             ))}
           </div>
@@ -310,19 +668,51 @@ export default function ProductPage() {
       </div>
 
       {/* Mobile Sticky Buy Bar */}
-      <div className="mobile-sticky-cta" style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
-        background: 'rgba(10,10,10,0.96)', backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-        padding: '0.85rem 1.25rem',
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
-      }}>
+      <div
+        className="mobile-sticky-cta"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          background: "rgba(10,10,10,0.96)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          padding: "0.85rem 1.25rem",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1rem",
+        }}
+      >
         <div>
-          <p style={{ fontSize: '0.7rem', color: '#666', margin: 0 }}>{productName}</p>
-          <p style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>€{unitPrice.toFixed(2)}</p>
+          <p style={{ fontSize: "0.7rem", color: "#666", margin: 0 }}>
+            {productName}
+          </p>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              fontWeight: 800,
+              color: "#fff",
+              margin: 0,
+            }}
+          >
+            €{unitPrice.toFixed(2)}
+          </p>
         </div>
-        <button type="button" onClick={buyNow} disabled={loading} className="plt-btn-primary" style={{ padding: '0.75rem 1.5rem', fontSize: '0.9rem', flexShrink: 0 }}>
+        <button
+          type="button"
+          onClick={buyNow}
+          disabled={loading}
+          className="plt-btn-primary"
+          style={{
+            padding: "0.75rem 1.5rem",
+            fontSize: "0.9rem",
+            flexShrink: 0,
+          }}
+        >
           {loading ? t.cart.redirecting : t.product.buyNow}
         </button>
       </div>
