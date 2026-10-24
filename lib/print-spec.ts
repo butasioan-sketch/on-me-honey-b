@@ -134,6 +134,17 @@ export function getGarmentProfile(productId: string): GarmentProfile {
   return GARMENT_PROFILES[productId];
 }
 
+/** Fehlende productId wird nicht als Tee gedruckt. Unbekannte IDs wirft getGarmentProfile. */
+export function requireGarmentProductId(
+  productId: string | null | undefined,
+): string {
+  if (!productId) {
+    throw new Error("Design ohne productId");
+  }
+  getGarmentProfile(productId);
+  return productId;
+}
+
 export function getGarmentPhotoSrc(
   side: PrintSide,
   productId: string = "1",

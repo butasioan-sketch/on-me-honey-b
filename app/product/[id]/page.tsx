@@ -84,7 +84,7 @@ export default function ProductPage() {
     return <CatalogProductView product={catalogProduct} />;
   }
 
-  if (!product) return notFound();
+  if (!product || !id) return notFound();
 
   const totalLayers = design.frontLayers.length + design.backLayers.length;
   const unitPrice = calcUnitPriceForProduct(id, totalLayers);
