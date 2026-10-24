@@ -11,12 +11,12 @@ const nextConfig: NextConfig = {
     // Content Security Policy - prevents XSS and injection attacks (INFRA P1 1.6)
     const cspDirectives = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com data:",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
+      "style-src 'self' 'unsafe-inline'",
+      "font-src 'self' data:",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self' https://api.stripe.com https://api.resend.com https://*.neon.tech https://*.amazonaws.com",
-      "frame-src https://js.stripe.com",
+      "connect-src 'self' https://api.stripe.com https://checkout.stripe.com",
+      "frame-src https://js.stripe.com https://checkout.stripe.com https://hooks.stripe.com",
       "worker-src 'self' blob:",
       "object-src 'none'",
       "base-uri 'self'",
@@ -39,16 +39,6 @@ const nextConfig: NextConfig = {
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
-          },
-        ],
-      },
-      {
-        // Immutable caching for GLB models - improves 3D viewer performance (INFRA P1 1.9)
-        source: "/models/:path*.glb",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
           },
         ],
       },
