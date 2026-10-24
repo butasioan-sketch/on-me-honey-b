@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "prepare": "husky",
-    "test": "echo \"no tests\" && exit 0",
+    "test": "playwright test --grep @smoke",
+    "test:all": "playwright test",
     "optimize-glb": "bash scripts/optimize-glb.sh",
     "make-shop-glb": "bash scripts/make-shop-glb.sh"
   },
