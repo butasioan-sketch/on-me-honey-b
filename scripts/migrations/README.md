@@ -1,32 +1,6 @@
-# Database Migrations
+# Migrationen
 
-## How to run migrations
+`000-schema.sql` ist das Schema, das die App schon schreibt: orders, designs, analytics_events, reviews, newsletter_subscribers.
+`001-add-indexes.sql` legt nur Indizes auf diesen Tabellen an.
 
-### Production (Neon Console)
-
-1. Go to https://console.neon.tech
-2. Select your production database
-3. Open SQL Editor
-4. Copy-paste the migration SQL
-5. Execute
-
-### Local (psql)
-
-```bash
-psql $DATABASE_URL < scripts/migrations/001-add-indexes.sql
-```
-
-### Verify
-
-```bash
-psql $DATABASE_URL -c "\d orders"  # Check indexes on orders table
-```
-
-## Migration Files
-
-- `001-add-indexes.sql` - Performance indexes (INFRA P1 4.5)
-
-## Safety
-
-All migrations use `IF NOT EXISTS` / `IF EXISTS` to be idempotent.
-Safe to run multiple times.
+Nicht ausführen, bevor die Dateien gelesen wurden. Auf der bestehenden Datenbank sind die CREATE-Befehle folgenlos, die ALTER-Befehle ergänzen nur fehlende Spalten.

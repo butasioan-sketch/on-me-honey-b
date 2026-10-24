@@ -1,13 +1,6 @@
--- ===================================================================
--- ON ME HONEY B - Initial Database Schema
--- ===================================================================
--- This is a ONE-TIME migration that creates all tables and columns.
--- Run ONCE in production: psql $DATABASE_URL < scripts/migrations/000-schema.sql
---
--- After this migration, initDb() becomes lightweight (see INFRA P1 4.1)
--- ===================================================================
+-- Schema der laufenden App. Entspricht dem früheren initDb().
+-- CREATE und ALTER sind idempotent. Auf der bestehenden Neon-DB ergänzt das nur fehlende Spalten.
 
--- ORDERS TABLE
 CREATE TABLE IF NOT EXISTS orders (
   id TEXT PRIMARY KEY,
   stripe_session_id TEXT UNIQUE,
@@ -20,28 +13,30 @@ CREATE TABLE IF NOT EXISTS orders (
   shipping_country TEXT DEFAULT 'DE',
   design_id TEXT,
   shipping_method TEXT,
-  print_job JSONB,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- DESIGNS TABLE  
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS design_id TEXT;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS shipping_method TEXT;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS print_job JSONB;
+
 CREATE TABLE IF NOT EXISTS designs (
   id TEXT PRIMARY KEY,
   front_image TEXT,
   back_image TEXT,
   product_id TEXT,
-  front_transform JSONB,
-  back_transform JSONB,
-  meta JSONB,
-  frozen_at TIMESTAMPTZ,
-  front_preview TEXT,
-  back_preview TEXT,
-  zones_data TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ANALYTICS TABLE
+ALTER TABLE designs ADD COLUMN IF NOT EXISTS front_transform JSONB;
+ALTER TABLE designs ADD COLUMN IF NOT EXISTS back_transform JSONB;
+ALTER TABLE designs ADD COLUMN IF NOT EXISTS meta JSONB;
+ALTER TABLE designs ADD COLUMN IF NOT EXISTS frozen_at TIMESTAMPTZ;
+ALTER TABLE designs ADD COLUMN IF NOT EXISTS front_preview TEXT;
+ALTER TABLE designs ADD COLUMN IF NOT EXISTS back_preview TEXT;
+ALTER TABLE designs ADD COLUMN IF NOT EXISTS zones_data TEXT;
+
 CREATE TABLE IF NOT EXISTS analytics_events (
   id BIGSERIAL PRIMARY KEY,
   type TEXT NOT NULL,
@@ -52,12 +47,11 @@ CREATE TABLE IF NOT EXISTS analytics_events (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- REVIEWS TABLE
 CREATE TABLE IF NOT EXISTS reviews (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   rating SMALLINT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-  comment TEXT,
+  comment TEXT NOT NULL,
   order_id TEXT,
   locale TEXT DEFAULT 'de',
   status TEXT DEFAULT 'pending',
@@ -65,18 +59,16 @@ CREATE TABLE IF NOT EXISTS reviews (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Create index for reviews status filtering
-CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status);
+CREATE INDEX IF NOT EXISTS reviews_status_idx ON reviews (status, created_at DESC);
 
--- NEWSLETTER TABLE
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
-  email TEXT PRIMARY KEY,
-  confirmed BOOLEAN DEFAULT FALSE,
-  confirmation_token TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  id BIGSERIAL PRIMARY KEY,
+  email TEXT NOT NULL,
+  token TEXT UNIQUE NOT NULL,
+  status TEXT DEFAULT 'pending',
+  locale TEXT DEFAULT 'de',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  confirmed_at TIMESTAMPTZ
 );
 
--- ===================================================================
--- Verification: Check all tables exist
--- ===================================================================
--- SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;
+CREATE UNIQUE INDEX IF NOT EXISTS newsletter_email_idx ON newsletter_subscribers (lower(email));
