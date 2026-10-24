@@ -33,12 +33,8 @@ else
 fi
 
 echo ""
-echo "🚀 Vercel Deployment:"
+echo "🚀 Vercel:"
 echo "   URL: https://on-me-honey-b.vercel.app"
-echo "   Expected commit: $REMOTE_COMMIT"
-echo ""
-echo "💡 To verify Vercel deployment:"
-echo "   1. Check headers: curl -sI https://on-me-honey-b.vercel.app/ | grep 'Content-Security-Policy'"
-echo "   2. Run: ./scripts/health-check.sh --production"
-echo "   3. Vercel Dashboard: https://vercel.com/dashboard"
+echo "   GitHub-Sync ist kein Deploy. Ein Push legt hier kein neues Deployment an."
+echo "   Prüfen: ./scripts/health-check.sh --production"
 echo ""

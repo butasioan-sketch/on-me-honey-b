@@ -53,6 +53,7 @@ check "Product Tee" "$BASE_URL/product/1" "200"
 check "Product Shorts" "$BASE_URL/product/2" "200"
 check "Catalog 001" "$BASE_URL/product/001" "200"
 check "Catalog 015" "$BASE_URL/product/015" "200"
+check "Catalog 051" "$BASE_URL/product/051" "200"
 check "Catalog 133" "$BASE_URL/product/133" "200"
 check "Invalid 999" "$BASE_URL/product/999" "404"
 echo ""
@@ -86,6 +87,15 @@ if [ "$1" = "--production" ]; then
     echo "⚠️  X-Content-Type"
     WARN=$((WARN + 1))
   fi
+
+  acao=$(echo "$headers" | awk 'tolower($1)=="access-control-allow-origin:" { print $2 }' | tr -d '\r')
+  if [ "$acao" = "https://on-me-honey-b.vercel.app" ]; then
+    echo "✅ CORS shop origin"
+    PASS=$((PASS + 1))
+  else
+    echo "❌ CORS: ${acao:-missing}"
+    FAIL=$((FAIL + 1))
+  fi
   echo ""
 fi
 
@@ -94,6 +104,22 @@ echo "📦 Static Assets:"
 check "GLB Tee" "$BASE_URL/models/shirt-white-v2.glb" "200"
 check "GLB Shorts" "$BASE_URL/models/shorts-white-v1.glb" "200"
 check "Image Front" "$BASE_URL/airfit-front.png" "200"
+pillow_headers=$(curl -sI "$BASE_URL/models/pillow-cover-40x40.glb" | tr -d '\r' | tr '[:upper:]' '[:lower:]')
+pillow_len=$(echo "$pillow_headers" | awk '$1=="content-length:" { print $2 }')
+if [ "$pillow_len" = "3687780" ]; then
+  echo "✅ Pillow GLB 3687780"
+  PASS=$((PASS + 1))
+else
+  echo "❌ Pillow GLB bytes: ${pillow_len:-missing}"
+  FAIL=$((FAIL + 1))
+fi
+if echo "$pillow_headers" | grep -q "immutable"; then
+  echo "❌ Pillow cache is immutable"
+  FAIL=$((FAIL + 1))
+else
+  echo "✅ Pillow cache revalidates"
+  PASS=$((PASS + 1))
+fi
 echo ""
 
 # === APIs ===
