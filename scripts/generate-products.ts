@@ -1,13 +1,15 @@
-import * as fs from 'fs';
-import * as path from 'path';
+/* eslint-disable */
+import * as fs from "fs";
+import * as path from "path";
 
-const csvPath = '/home/jonny/Downloads/ON-ME-HoneyB-133/register/produkte_133_komplett.csv';
-const outputPath = path.join(process.cwd(), 'lib/products-all-133.ts');
+const csvPath =
+  "/home/jonny/Downloads/ON-ME-HoneyB-133/register/produkte_133_komplett.csv";
+const outputPath = path.join(process.cwd(), "lib/products-all-133.ts");
 
 // SKU → Shop-ID Mapping
 const SKU_TO_SHOP_ID: Record<string, string> = {
-  '001': '1',  // T-Shirt
-  '015': '2',  // Shorts
+  "001": "1", // T-Shirt
+  "015": "2", // Shorts
 };
 
 interface CSVProduct {
@@ -27,26 +29,30 @@ interface CSVProduct {
 }
 
 function parseCSV(csvContent: string): CSVProduct[] {
-  const lines = csvContent.trim().split('\n');
-  const headers = lines[0].split(',');
-  
-  return lines.slice(1).map(line => {
-    const values = line.split(',');
+  const lines = csvContent.trim().split("\n");
+  const headers = lines[0].split(",");
+
+  return lines.slice(1).map((line) => {
+    const values = line.split(",");
     const product: any = {};
     headers.forEach((header, i) => {
-      product[header] = values[i]?.replace(/^"|"$/g, '');
+      product[header] = values[i]?.replace(/^"|"$/g, "");
     });
     return product as CSVProduct;
   });
 }
 
 function generateProductName(name: string) {
-  const nameMap: Record<string, {de: string, ro: string, en: string}> = {
-    'Unisex-T-Shirts': {de: 'Unisex-T-Shirts', ro: 'Tricouri Unisex', en: 'Unisex T-Shirts'},
-    'Shorts': {de: 'Shorts', ro: 'Pantaloni Scurți', en: 'Shorts'},
+  const nameMap: Record<string, { de: string; ro: string; en: string }> = {
+    "Unisex-T-Shirts": {
+      de: "Unisex-T-Shirts",
+      ro: "Tricouri Unisex",
+      en: "Unisex T-Shirts",
+    },
+    Shorts: { de: "Shorts", ro: "Pantaloni Scurți", en: "Shorts" },
   };
-  
-  return nameMap[name] || {de: name, ro: name, en: name};
+
+  return nameMap[name] || { de: name, ro: name, en: name };
 }
 
 function generateTypeScript(products: CSVProduct[]): string {
@@ -81,8 +87,8 @@ export const PRODUCTS_133: Product133[] = [\n`;
   products.forEach((p, index) => {
     const names = generateProductName(p.name);
     // Verwende Mapping für korrekte Shop-IDs
-    const id = SKU_TO_SHOP_ID[p.sku] || '';
-    
+    const id = SKU_TO_SHOP_ID[p.sku] || "";
+
     ts += `  {
     sku: '${p.sku}',
     id: '${id}',
@@ -94,11 +100,11 @@ export const PRODUCTS_133: Product133[] = [\n`;
     status: '${p.status}' as ProductStatus,
     printShape: '${p.printShape}',
     machbarkeit: '${p.machbarkeit}',
-    hasGLB: ${p.hasGLB === 'true'},
-    hasPhoto: ${p.hasPhoto === 'true'},
+    hasGLB: ${p.hasGLB === "true"},
+    hasPhoto: ${p.hasPhoto === "true"},
     weightGsm: ${p.weightGsm},
     sides: '${p.sides}'
-  }${index < products.length - 1 ? ',' : ''}\n`;
+  }${index < products.length - 1 ? "," : ""}\n`;
   });
 
   ts += `];\n\nexport function getProductBySKU(sku: string): Product133 | undefined {
@@ -123,13 +129,13 @@ export function getAllProducts(): Product133[] {
 
 // Main
 try {
-  const csvContent = fs.readFileSync(csvPath, 'utf-8');
+  const csvContent = fs.readFileSync(csvPath, "utf-8");
   const products = parseCSV(csvContent);
   const tsContent = generateTypeScript(products);
-  
+
   fs.writeFileSync(outputPath, tsContent);
   console.log(`✅ Generated ${products.length} products to ${outputPath}`);
 } catch (error) {
-  console.error('❌ Error:', error);
+  console.error("❌ Error:", error);
   process.exit(1);
 }

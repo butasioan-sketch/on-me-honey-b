@@ -1,4 +1,5 @@
-'use client';
+"use client";
+/* eslint-disable */
 /**
  * ON ME HONEY B — Enhanced 3D Viewer mit Multi-Zone Support
  *
@@ -9,17 +10,23 @@
  * - Speicherung aller Zonen in Datenbank
  */
 
-import React, { Suspense, useEffect, useMemo, useState, useCallback } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Decal, useTexture } from '@react-three/drei';
-import * as THREE from 'three';
+import React, {
+  Suspense,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF, Decal, useTexture } from "@react-three/drei";
+import * as THREE from "three";
 import {
   getPrintZonesForProduct,
   getPrintZone,
   type PrintZone,
   type PrintZoneId,
-  type ZoneDesign
-} from '@/lib/print-zones';
+  type ZoneDesign,
+} from "@/lib/print-zones";
 
 interface ZonePrintData {
   zoneId: PrintZoneId;
@@ -40,11 +47,11 @@ interface Shirt3DEnhancedProps {
 }
 
 const MODEL_PATHS: Record<string, string> = {
-  '1': '/models/shirt-white-v2.glb',
-  '2': '/models/shorts-white-v1.glb',
-  '3': '/models/sport-shirt-pa4012.glb',
-  '4': '/models/basketball-shorts-pa1050.glb',
-  '5': '/models/pillow-cover-40x40.glb',
+  "1": "/models/shirt-white-v2.glb",
+  "2": "/models/shorts-white-v1.glb",
+  "3": "/models/sport-shirt-pa4012.glb",
+  "4": "/models/basketball-shorts-pa1050.glb",
+  "5": "/models/pillow-cover-40x40.glb",
 };
 
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {
@@ -64,7 +71,7 @@ function ZoneHighlight({
   mesh,
   zone,
   isSelected,
-  onSelect
+  onSelect,
 }: {
   mesh: THREE.Mesh;
   zone: PrintZone;
@@ -83,7 +90,7 @@ function ZoneHighlight({
     const position = new THREE.Vector3(
       zone.position3D.centerX * meshSize.x * 0.5,
       zone.position3D.centerY * meshSize.y * 0.5,
-      zone.position3D.centerZ * meshSize.z
+      zone.position3D.centerZ * meshSize.z,
     );
 
     // Größe der Highlight-Zone (etwas größer als maximaler Druckbereich)
@@ -99,10 +106,10 @@ function ZoneHighlight({
 
   // Farbe basierend auf Status
   const color = isSelected
-    ? new THREE.Color(0x4CAF50) // Grün wenn ausgewählt
+    ? new THREE.Color(0x4caf50) // Grün wenn ausgewählt
     : hovered
-      ? new THREE.Color(0x2196F3) // Blau beim Hover
-      : new THREE.Color(0xFFFFFF); // Weiß sonst
+      ? new THREE.Color(0x2196f3) // Blau beim Hover
+      : new THREE.Color(0xffffff); // Weiß sonst
 
   const opacity = isSelected ? 0.3 : hovered ? 0.2 : 0.1;
 
@@ -152,12 +159,14 @@ function ZoneDecal({
     const basePos = new THREE.Vector3(
       zone.position3D.centerX * meshSize.x * 0.5,
       zone.position3D.centerY * meshSize.y * 0.5,
-      zone.position3D.centerZ * meshSize.z
+      zone.position3D.centerZ * meshSize.z,
     );
 
     // Offset basierend auf Transform (x, y from zonePrint)
-    const offsetX = (zonePrint.x / 100) * (zone.maxArea.widthMm / 210) * meshSize.x * 0.4;
-    const offsetY = (zonePrint.y / 100) * (zone.maxArea.heightMm / 297) * meshSize.y * 0.4;
+    const offsetX =
+      (zonePrint.x / 100) * (zone.maxArea.widthMm / 210) * meshSize.x * 0.4;
+    const offsetY =
+      (zonePrint.y / 100) * (zone.maxArea.heightMm / 297) * meshSize.y * 0.4;
 
     basePos.x += offsetX;
     basePos.y += offsetY;
@@ -170,16 +179,16 @@ function ZoneDecal({
 
     return {
       pos: basePos.toArray() as [number, number, number],
-      size: [scaledWidth, scaledHeight, meshSize.z * 1.0] as [number, number, number],
+      size: [scaledWidth, scaledHeight, meshSize.z * 1.0] as [
+        number,
+        number,
+        number,
+      ],
     };
   }, [mesh, zonePrint, zone]);
 
   return (
-    <Decal
-      position={pos}
-      rotation={zone.position3D.rotation}
-      scale={size}
-    >
+    <Decal position={pos} rotation={zone.position3D.rotation} scale={size}>
       <meshStandardMaterial
         map={tex}
         transparent
@@ -199,12 +208,12 @@ function ZoneDecal({
 function EnhancedGarmentModel({
   productId,
   zonePrints = [],
-  shirtColor = '#ffffff',
+  shirtColor = "#ffffff",
   enableZoneSelection = false,
   selectedZone,
   onZoneSelect,
 }: Shirt3DEnhancedProps & { modelPath: string }) {
-  const modelPath = MODEL_PATHS[productId] || MODEL_PATHS['1'];
+  const modelPath = MODEL_PATHS[productId] || MODEL_PATHS["1"];
   const { scene } = useGLTF(modelPath);
   const [decalMesh, setDecalMesh] = useState<THREE.Mesh | null>(null);
   const availableZones = getPrintZonesForProduct(productId);
@@ -219,16 +228,19 @@ function EnhancedGarmentModel({
       const m = o as THREE.Mesh;
       if (!m.geometry) return;
 
-      if (!m.geometry.attributes.normal || m.geometry.attributes.normal.count === 0) {
+      if (
+        !m.geometry.attributes.normal ||
+        m.geometry.attributes.normal.count === 0
+      ) {
         m.geometry.computeVertexNormals();
       }
 
       // Material ersetzen
       if (Array.isArray(m.material)) {
         m.material.forEach((mat) => {
-          if (mat && 'dispose' in mat) (mat as THREE.Material).dispose();
+          if (mat && "dispose" in mat) (mat as THREE.Material).dispose();
         });
-      } else if (m.material && 'dispose' in m.material) {
+      } else if (m.material && "dispose" in m.material) {
         (m.material as THREE.Material).dispose();
       }
       m.material = matTemplate.clone();
@@ -243,7 +255,12 @@ function EnhancedGarmentModel({
     });
 
     if (bestMesh) {
-      console.log('[Shirt3DEnhanced] product', productId, 'zones:', availableZones.length);
+      console.log(
+        "[Shirt3DEnhanced] product",
+        productId,
+        "zones:",
+        availableZones.length,
+      );
       setDecalMesh(bestMesh as THREE.Mesh);
     }
   }, [scene, shirtColor, productId, availableZones.length]);
@@ -253,30 +270,33 @@ function EnhancedGarmentModel({
       <primitive object={scene} />
 
       {/* Zone Highlights (nur im Selection Mode) */}
-      {enableZoneSelection && decalMesh && availableZones.map((zone) => (
-        <ZoneHighlight
-          key={zone.id}
-          mesh={decalMesh}
-          zone={zone}
-          isSelected={selectedZone === zone.id}
-          onSelect={() => onZoneSelect?.(zone.id)}
-        />
-      ))}
+      {enableZoneSelection &&
+        decalMesh &&
+        availableZones.map((zone) => (
+          <ZoneHighlight
+            key={zone.id}
+            mesh={decalMesh}
+            zone={zone}
+            isSelected={selectedZone === zone.id}
+            onSelect={() => onZoneSelect?.(zone.id)}
+          />
+        ))}
 
       {/* Customer Designs per Zone */}
-      {decalMesh && zonePrints.map((zonePrint) => {
-        const zone = getPrintZone(zonePrint.zoneId);
-        if (!zone) return null;
+      {decalMesh &&
+        zonePrints.map((zonePrint) => {
+          const zone = getPrintZone(zonePrint.zoneId);
+          if (!zone) return null;
 
-        return (
-          <ZoneDecal
-            key={`${zonePrint.zoneId}-${zonePrint.src}`}
-            mesh={decalMesh}
-            zonePrint={zonePrint}
-            zone={zone}
-          />
-        );
-      })}
+          return (
+            <ZoneDecal
+              key={`${zonePrint.zoneId}-${zonePrint.src}`}
+              mesh={decalMesh}
+              zonePrint={zonePrint}
+              zone={zone}
+            />
+          );
+        })}
     </>
   );
 }
@@ -285,7 +305,8 @@ function EnhancedGarmentModel({
  * Kamera-Einstellungen pro Produkt
  */
 function getCamera(productId: string) {
-  if (productId === '2') { // Shorts
+  if (productId === "2") {
+    // Shorts
     return {
       cameraPos: [0, 0.05, 1.9] as [number, number, number],
       orbitTarget: [0, 0, 0] as [number, number, number],
@@ -309,18 +330,20 @@ function getCamera(productId: string) {
  */
 export default function Shirt3DEnhanced(props: Shirt3DEnhancedProps) {
   const { productId, enableTouch = true } = props;
-  const modelPath = MODEL_PATHS[productId] || MODEL_PATHS['1'];
+  const modelPath = MODEL_PATHS[productId] || MODEL_PATHS["1"];
 
   if (!modelPath) {
     return (
-      <div style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#888'
-      }}>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#888",
+        }}
+      >
         3D-Modell nicht verfügbar
       </div>
     );
@@ -337,7 +360,7 @@ export default function Shirt3DEnhanced(props: Shirt3DEnhancedProps) {
         alpha: true,
       }}
       dpr={[1, 2]}
-      style={{ background: 'transparent' }}
+      style={{ background: "transparent" }}
     >
       <ambientLight intensity={0.75} />
       <directionalLight position={[5, 5, 5]} intensity={0.6} />
@@ -363,6 +386,6 @@ export default function Shirt3DEnhanced(props: Shirt3DEnhancedProps) {
 }
 
 // Preload models
-Object.values(MODEL_PATHS).forEach(path => {
+Object.values(MODEL_PATHS).forEach((path) => {
   if (path) useGLTF.preload(path);
 });

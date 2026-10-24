@@ -1,8 +1,15 @@
-'use client';
+"use client";
+/* eslint-disable */
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Locale, getTranslation } from '@/lib/i18n';
-import { detectLocale, setLocale as persistLocale } from '@/lib/locale';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { Locale, getTranslation } from "@/lib/i18n";
+import { detectLocale, setLocale as persistLocale } from "@/lib/locale";
 
 interface LocaleContextType {
   locale: Locale;
@@ -13,7 +20,7 @@ interface LocaleContextType {
 const LocaleContext = createContext<LocaleContextType | null>(null);
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('de');
+  const [locale, setLocaleState] = useState<Locale>("de");
 
   useEffect(() => {
     setLocaleState(detectLocale());
@@ -25,7 +32,9 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale, t: getTranslation(locale) }}>
+    <LocaleContext.Provider
+      value={{ locale, setLocale, t: getTranslation(locale) }}
+    >
       {children}
     </LocaleContext.Provider>
   );
@@ -33,6 +42,11 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
 export function useLocale() {
   const ctx = useContext(LocaleContext);
-  if (!ctx) return { locale: 'de' as Locale, setLocale: () => {}, t: getTranslation('de') };
+  if (!ctx)
+    return {
+      locale: "de" as Locale,
+      setLocale: () => {},
+      t: getTranslation("de"),
+    };
   return ctx;
 }

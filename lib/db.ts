@@ -1,5 +1,5 @@
-// Datenbank Abstraktion: nutzt Postgres wenn DATABASE_URL gesetzt,
-// sonst In-Memory Fallback. So läuft alles auch ohne DB-Setup.
+// Datenbank Abstraktion: Postgres wenn DATABASE_URL gesetzt.
+// Ohne DB nur in der Entwicklung In-Memory. In Production wirft der Aufruf.
 
 import { Order, Review, ReviewStatus } from "./types";
 
@@ -448,7 +448,13 @@ export async function trackAnalyticsEvent(
     query: (q: string, p?: unknown[]) => Promise<unknown>;
   } | null;
 
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
+
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     memoryAnalytics.unshift(full);
     if (memoryAnalytics.length > 1000) memoryAnalytics.pop();
     return;
@@ -467,6 +473,11 @@ export async function trackAnalyticsEvent(
     );
   } catch (err) {
     console.error("trackAnalyticsEvent error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to track analytics: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     memoryAnalytics.unshift(full);
   }
 }
@@ -476,7 +487,13 @@ export async function getAnalyticsSummary() {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
 
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL;
+
   if (!sql) {
+    if (isProduction) {
+      throw new Error("Database connection failed in production");
+    }
     const now = Date.now();
     const last24h = memoryAnalytics.filter(
       (e) => now - new Date(e.timestamp).getTime() < 86400000,
@@ -507,6 +524,11 @@ export async function getAnalyticsSummary() {
     return buildAnalyticsSummary(events, last24h);
   } catch (err) {
     console.error("getAnalyticsSummary error:", err);
+    if (isProduction) {
+      throw new Error(
+        `Failed to read analytics: ${err instanceof Error ? err.message : "Unknown error"}`,
+      );
+    }
     const now = Date.now();
     const last24h = memoryAnalytics.filter(
       (e) => now - new Date(e.timestamp).getTime() < 86400000,

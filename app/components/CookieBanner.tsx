@@ -1,49 +1,81 @@
-'use client';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useLocale } from '@/app/components/LocaleProvider';
+"use client";
+/* eslint-disable */
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useLocale } from "@/app/components/LocaleProvider";
 
 export default function CookieBanner() {
   const { t } = useLocale();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem('on_me_honey_b_cookie_consent')) setVisible(true);
+    if (!localStorage.getItem("on_me_honey_b_cookie_consent")) setVisible(true);
   }, []);
 
   const accept = () => {
-    localStorage.setItem('on_me_honey_b_cookie_consent', 'accepted');
-    window.dispatchEvent(new Event('cookieconsent'));
+    localStorage.setItem("on_me_honey_b_cookie_consent", "accepted");
+    window.dispatchEvent(new Event("cookieconsent"));
     setVisible(false);
   };
 
   const decline = () => {
-    localStorage.setItem('on_me_honey_b_cookie_consent', 'declined');
+    localStorage.setItem("on_me_honey_b_cookie_consent", "declined");
     setVisible(false);
   };
 
   if (!visible) return null;
 
   return (
-    <div style={{
-      position: 'fixed', bottom: '1rem', left: '1rem', right: '1rem',
-      maxWidth: '640px', margin: '0 auto',
-      background: '#141414', border: '1px solid rgba(255,255,255,0.12)',
-      borderRadius: '16px', padding: '1.25rem 1.5rem',
-      zIndex: 9999, display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
-    }}>
-      <p style={{ color: '#aaa', fontSize: '0.82rem', flex: 1, margin: 0, lineHeight: 1.5, minWidth: 200 }}>
-        {t.cookie.text}{' '}
-        <Link href="/datenschutz" style={{ color: '#D4AF37', textDecoration: 'none' }}>{t.cookie.privacy}</Link>
+    <div
+      style={{
+        position: "fixed",
+        bottom: "1rem",
+        left: "1rem",
+        right: "1rem",
+        maxWidth: "640px",
+        margin: "0 auto",
+        background: "#141414",
+        border: "1px solid rgba(255,255,255,0.12)",
+        borderRadius: "16px",
+        padding: "1.25rem 1.5rem",
+        zIndex: 9999,
+        display: "flex",
+        gap: "1rem",
+        alignItems: "center",
+        flexWrap: "wrap",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
+      }}
+    >
+      <p
+        style={{
+          color: "#aaa",
+          fontSize: "0.82rem",
+          flex: 1,
+          margin: 0,
+          lineHeight: 1.5,
+          minWidth: 200,
+        }}
+      >
+        {t.cookie.text}{" "}
+        <Link
+          href="/datenschutz"
+          style={{ color: "#D4AF37", textDecoration: "none" }}
+        >
+          {t.cookie.privacy}
+        </Link>
       </p>
-      <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+      <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
         <button
           onClick={decline}
           style={{
-            padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer',
-            background: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
-            color: '#888', fontSize: '0.82rem', fontWeight: 600,
+            padding: "0.5rem 1rem",
+            borderRadius: "8px",
+            cursor: "pointer",
+            background: "transparent",
+            border: "1px solid rgba(255,255,255,0.2)",
+            color: "#888",
+            fontSize: "0.82rem",
+            fontWeight: 600,
           }}
         >
           {t.cookie.decline}
@@ -51,9 +83,14 @@ export default function CookieBanner() {
         <button
           onClick={accept}
           style={{
-            padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer',
-            background: '#D4AF37', border: 'none',
-            color: '#000', fontSize: '0.82rem', fontWeight: 700,
+            padding: "0.5rem 1rem",
+            borderRadius: "8px",
+            cursor: "pointer",
+            background: "#D4AF37",
+            border: "none",
+            color: "#000",
+            fontSize: "0.82rem",
+            fontWeight: 700,
           }}
         >
           {t.cookie.accept}

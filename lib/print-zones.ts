@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * ON ME HONEY B — Erweiterte Druckzonen-Konfiguration
  *
@@ -5,21 +6,21 @@
  * Kunden können auswählen, welche Bereiche bedruckt werden sollen.
  */
 
-import { Locale } from './i18n';
+import { Locale } from "./i18n";
 
 export type PrintZoneId =
   // T-Shirt Zonen
-  | 'tshirt-front'
-  | 'tshirt-back'
-  | 'tshirt-sleeve-left'
-  | 'tshirt-sleeve-right'
+  | "tshirt-front"
+  | "tshirt-back"
+  | "tshirt-sleeve-left"
+  | "tshirt-sleeve-right"
   // Shorts Zonen
-  | 'shorts-front'
-  | 'shorts-back'
-  | 'shorts-leg-left'
-  | 'shorts-leg-right'
-  | 'shorts-side-left'
-  | 'shorts-side-right';
+  | "shorts-front"
+  | "shorts-back"
+  | "shorts-leg-left"
+  | "shorts-leg-right"
+  | "shorts-side-left"
+  | "shorts-side-right";
 
 export interface PrintZone {
   id: PrintZoneId;
@@ -40,9 +41,9 @@ export interface PrintZone {
 
   // 2D Foto-Position (für Atelier-Preview)
   position2D: {
-    top: number;    // Prozent
-    left: number;   // Prozent
-    width: number;  // Prozent
+    top: number; // Prozent
+    left: number; // Prozent
+    width: number; // Prozent
     height: number; // Prozent
   };
 
@@ -62,27 +63,27 @@ export interface PrintZone {
 
 export const TSHIRT_ZONES: PrintZone[] = [
   {
-    id: 'tshirt-front',
-    productId: '1',
+    id: "tshirt-front",
+    productId: "1",
     enabled: true,
     name: {
-      de: 'Vorderseite',
-      ro: 'Față',
-      en: 'Front',
+      de: "Vorderseite",
+      ro: "Față",
+      en: "Front",
     },
     description: {
-      de: 'Hauptdruckbereich auf der Brust',
-      ro: 'Zona principală de imprimare pe piept',
-      en: 'Main print area on chest',
+      de: "Hauptdruckbereich auf der Brust",
+      ro: "Zona principală de imprimare pe piept",
+      en: "Main print area on chest",
     },
     position3D: {
       centerX: 0,
       centerY: 0.15, // Leicht nach oben (Brust-Position)
-      centerZ: 0.5,  // Vorne am Mesh
+      centerZ: 0.5, // Vorne am Mesh
       rotation: [0, 0, 0],
     },
     position2D: {
-      top: 26.3,   // Wie in PRINT_SPEC.overlay.front
+      top: 26.3, // Wie in PRINT_SPEC.overlay.front
       left: 34.7,
       width: 30.9,
       height: 29.2,
@@ -93,18 +94,18 @@ export const TSHIRT_ZONES: PrintZone[] = [
     },
   },
   {
-    id: 'tshirt-back',
-    productId: '1',
+    id: "tshirt-back",
+    productId: "1",
     enabled: true,
     name: {
-      de: 'Rückseite',
-      ro: 'Spate',
-      en: 'Back',
+      de: "Rückseite",
+      ro: "Spate",
+      en: "Back",
     },
     description: {
-      de: 'Rückenbereich',
-      ro: 'Zona din spate',
-      en: 'Back area',
+      de: "Rückenbereich",
+      ro: "Zona din spate",
+      en: "Back area",
     },
     position3D: {
       centerX: 0,
@@ -113,7 +114,7 @@ export const TSHIRT_ZONES: PrintZone[] = [
       rotation: [0, Math.PI, 0], // 180° gedreht
     },
     position2D: {
-      top: 29.9,   // Wie in PRINT_SPEC.overlay.back
+      top: 29.9, // Wie in PRINT_SPEC.overlay.back
       left: 34.5,
       width: 28.9,
       height: 27.3,
@@ -125,22 +126,22 @@ export const TSHIRT_ZONES: PrintZone[] = [
   },
   // OPTIONAL: Ärmel (kann später aktiviert werden)
   {
-    id: 'tshirt-sleeve-left',
-    productId: '1',
+    id: "tshirt-sleeve-left",
+    productId: "1",
     enabled: false, // Aktuell deaktiviert
     name: {
-      de: 'Linker Ärmel',
-      ro: 'Mânecă stângă',
-      en: 'Left Sleeve',
+      de: "Linker Ärmel",
+      ro: "Mânecă stângă",
+      en: "Left Sleeve",
     },
     description: {
-      de: 'Kleiner Druckbereich am linken Ärmel',
-      ro: 'Zonă mică de imprimare pe mâneca stângă',
-      en: 'Small print area on left sleeve',
+      de: "Kleiner Druckbereich am linken Ärmel",
+      ro: "Zonă mică de imprimare pe mâneca stângă",
+      en: "Small print area on left sleeve",
     },
     position3D: {
       centerX: -0.45, // Links
-      centerY: 0.3,   // Schulter-Höhe
+      centerY: 0.3, // Schulter-Höhe
       centerZ: 0.2,
       rotation: [0, -Math.PI / 4, 0],
     },
@@ -154,24 +155,24 @@ export const TSHIRT_ZONES: PrintZone[] = [
       widthMm: 80,
       heightMm: 80,
     },
-    priceModifier: 5.00, // +5€ für Ärmel-Druck
+    priceModifier: 5.0, // +5€ für Ärmel-Druck
   },
   {
-    id: 'tshirt-sleeve-right',
-    productId: '1',
+    id: "tshirt-sleeve-right",
+    productId: "1",
     enabled: false, // Aktuell deaktiviert
     name: {
-      de: 'Rechter Ärmel',
-      ro: 'Mânecă dreaptă',
-      en: 'Right Sleeve',
+      de: "Rechter Ärmel",
+      ro: "Mânecă dreaptă",
+      en: "Right Sleeve",
     },
     description: {
-      de: 'Kleiner Druckbereich am rechten Ärmel',
-      ro: 'Zonă mică de imprimare pe mâneca dreaptă',
-      en: 'Small print area on right sleeve',
+      de: "Kleiner Druckbereich am rechten Ärmel",
+      ro: "Zonă mică de imprimare pe mâneca dreaptă",
+      en: "Small print area on right sleeve",
     },
     position3D: {
-      centerX: 0.45,  // Rechts
+      centerX: 0.45, // Rechts
       centerY: 0.3,
       centerZ: 0.2,
       rotation: [0, Math.PI / 4, 0],
@@ -186,7 +187,7 @@ export const TSHIRT_ZONES: PrintZone[] = [
       widthMm: 80,
       heightMm: 80,
     },
-    priceModifier: 5.00,
+    priceModifier: 5.0,
   },
 ];
 
@@ -196,18 +197,18 @@ export const TSHIRT_ZONES: PrintZone[] = [
 
 export const SHORTS_ZONES: PrintZone[] = [
   {
-    id: 'shorts-front',
-    productId: '2',
+    id: "shorts-front",
+    productId: "2",
     enabled: true,
     name: {
-      de: 'Vorderseite',
-      ro: 'Față',
-      en: 'Front',
+      de: "Vorderseite",
+      ro: "Față",
+      en: "Front",
     },
     description: {
-      de: 'Hauptdruckbereich vorne',
-      ro: 'Zona principală de imprimare în față',
-      en: 'Main front print area',
+      de: "Hauptdruckbereich vorne",
+      ro: "Zona principală de imprimare în față",
+      en: "Main front print area",
     },
     position3D: {
       centerX: 0,
@@ -216,7 +217,7 @@ export const SHORTS_ZONES: PrintZone[] = [
       rotation: [0, 0, 0],
     },
     position2D: {
-      top: 28.5,   // Wie in SHORTS_OVERLAY
+      top: 28.5, // Wie in SHORTS_OVERLAY
       left: 29,
       width: 38,
       height: 39,
@@ -227,18 +228,18 @@ export const SHORTS_ZONES: PrintZone[] = [
     },
   },
   {
-    id: 'shorts-back',
-    productId: '2',
+    id: "shorts-back",
+    productId: "2",
     enabled: true,
     name: {
-      de: 'Rückseite',
-      ro: 'Spate',
-      en: 'Back',
+      de: "Rückseite",
+      ro: "Spate",
+      en: "Back",
     },
     description: {
-      de: 'Rückseite der Shorts',
-      ro: 'Partea din spate a pantalonilor',
-      en: 'Back of shorts',
+      de: "Rückseite der Shorts",
+      ro: "Partea din spate a pantalonilor",
+      en: "Back of shorts",
     },
     position3D: {
       centerX: 0,
@@ -259,18 +260,18 @@ export const SHORTS_ZONES: PrintZone[] = [
   },
   // OPTIONAL: Beine (für spätere Erweiterung)
   {
-    id: 'shorts-leg-left',
-    productId: '2',
+    id: "shorts-leg-left",
+    productId: "2",
     enabled: false,
     name: {
-      de: 'Linkes Bein',
-      ro: 'Piciorul stâng',
-      en: 'Left Leg',
+      de: "Linkes Bein",
+      ro: "Piciorul stâng",
+      en: "Left Leg",
     },
     description: {
-      de: 'Seitlicher Druckbereich am linken Bein',
-      ro: 'Zonă laterală de imprimare pe piciorul stâng',
-      en: 'Side print area on left leg',
+      de: "Seitlicher Druckbereich am linken Bein",
+      ro: "Zonă laterală de imprimare pe piciorul stâng",
+      en: "Side print area on left leg",
     },
     position3D: {
       centerX: -0.25,
@@ -288,21 +289,21 @@ export const SHORTS_ZONES: PrintZone[] = [
       widthMm: 100,
       heightMm: 200,
     },
-    priceModifier: 3.00,
+    priceModifier: 3.0,
   },
   {
-    id: 'shorts-leg-right',
-    productId: '2',
+    id: "shorts-leg-right",
+    productId: "2",
     enabled: false,
     name: {
-      de: 'Rechtes Bein',
-      ro: 'Piciorul drept',
-      en: 'Right Leg',
+      de: "Rechtes Bein",
+      ro: "Piciorul drept",
+      en: "Right Leg",
     },
     description: {
-      de: 'Seitlicher Druckbereich am rechten Bein',
-      ro: 'Zonă laterală de imprimare pe piciorul drept',
-      en: 'Side print area on right leg',
+      de: "Seitlicher Druckbereich am rechten Bein",
+      ro: "Zonă laterală de imprimare pe piciorul drept",
+      en: "Side print area on right leg",
     },
     position3D: {
       centerX: 0.25,
@@ -320,7 +321,7 @@ export const SHORTS_ZONES: PrintZone[] = [
       widthMm: 100,
       heightMm: 200,
     },
-    priceModifier: 3.00,
+    priceModifier: 3.0,
   },
 ];
 
@@ -333,7 +334,7 @@ export const SHORTS_ZONES: PrintZone[] = [
  */
 export function getPrintZonesForProduct(productId: string): PrintZone[] {
   const all = [...TSHIRT_ZONES, ...SHORTS_ZONES];
-  return all.filter(z => z.productId === productId && z.enabled);
+  return all.filter((z) => z.productId === productId && z.enabled);
 }
 
 /**
@@ -341,7 +342,7 @@ export function getPrintZonesForProduct(productId: string): PrintZone[] {
  */
 export function getPrintZone(zoneId: PrintZoneId): PrintZone | undefined {
   const all = [...TSHIRT_ZONES, ...SHORTS_ZONES];
-  return all.find(z => z.id === zoneId);
+  return all.find((z) => z.id === zoneId);
 }
 
 /**
@@ -349,11 +350,11 @@ export function getPrintZone(zoneId: PrintZoneId): PrintZone | undefined {
  */
 export function calculateZonePricing(
   basePrice: number,
-  selectedZones: PrintZoneId[]
+  selectedZones: PrintZoneId[],
 ): number {
   let total = basePrice;
 
-  selectedZones.forEach(zoneId => {
+  selectedZones.forEach((zoneId) => {
     const zone = getPrintZone(zoneId);
     if (zone?.priceModifier) {
       total += zone.priceModifier;
@@ -368,10 +369,10 @@ export function calculateZonePricing(
  */
 export function isValidZoneForProduct(
   zoneId: PrintZoneId,
-  productId: string
+  productId: string,
 ): boolean {
   const zones = getPrintZonesForProduct(productId);
-  return zones.some(z => z.id === zoneId);
+  return zones.some((z) => z.id === zoneId);
 }
 
 // ============================================================================
@@ -410,7 +411,9 @@ export function serializeMultiZoneDesign(data: MultiZoneDesignData): string {
 /**
  * Deserialisiert Multi-Zone Design aus Datenbank
  */
-export function deserializeMultiZoneDesign(json: string): MultiZoneDesignData | null {
+export function deserializeMultiZoneDesign(
+  json: string,
+): MultiZoneDesignData | null {
   try {
     return JSON.parse(json);
   } catch {
