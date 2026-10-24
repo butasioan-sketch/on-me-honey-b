@@ -87,8 +87,8 @@ function estimateVertexCount(gltf) {
 }
 
 function calculateBBox(gltf) {
-  let min = [Infinity, Infinity, Infinity];
-  let max = [-Infinity, -Infinity, -Infinity];
+  const min = [Infinity, Infinity, Infinity];
+  const max = [-Infinity, -Infinity, -Infinity];
 
   if (!gltf.meshes) return { min, max, sizeY: 0 };
 
