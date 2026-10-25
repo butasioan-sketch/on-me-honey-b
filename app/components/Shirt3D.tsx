@@ -8,7 +8,6 @@ import {
   useTexture,
   Html,
   ContactShadows,
-  Environment,
 } from "@react-three/drei";
 import * as THREE from "three";
 import ShirtFlip from "./ShirtFlip";
@@ -134,7 +133,7 @@ function GarmentModel({
   backPrint,
   shirtColor = "#ffffff",
 }: Shirt3DProps & { modelPath: string; productId: string }) {
-  const { scene } = useGLTF(modelPath);
+  const { scene } = useGLTF(modelPath, "/draco/gltf/");
   const [decalMesh, setDecalMesh] = useState<THREE.Mesh | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -338,9 +337,6 @@ export default function Shirt3D({
         />
         <directionalLight position={[-2.5, 2, -2]} intensity={0.5} />
         <directionalLight position={[0, 1, 4]} intensity={0.4} />
-
-        {/* Subtle environment for reflections - premium feel */}
-        <Environment preset="apartment" />
 
         <GarmentModel {...props} modelPath={modelPath} productId={productId} />
 
