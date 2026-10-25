@@ -1,17 +1,27 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { Locale, getTranslation } from '@/lib/i18n';
-import { getAllProducts, getProductName, getProduct, type Product } from '@/lib/products';
-import { PRICE_TEE, PRICE_SHORTS, PRICE_BUNDLE_ESSENTIAL } from '@/lib/pricing';
+import Link from "next/link";
+import Image from "next/image";
+import { Locale, getTranslation } from "@/lib/i18n";
+import {
+  getAllProducts,
+  getProductName,
+  getProduct,
+  type Product,
+} from "@/lib/products";
+import { PRICE_TEE, PRICE_SHORTS, PRICE_BUNDLE_ESSENTIAL } from "@/lib/pricing";
 
-const TEE_HREF = '/product/1';
-const SHORTS_HREF = '/product/2';
+const TEE_HREF = "/product/1";
+const SHORTS_HREF = "/product/2";
 const CARD_HEIGHT = 320;
 
 function ProductCard({
-  href, viewer, badgeLabel, name, price, cta,
+  href,
+  viewer,
+  badgeLabel,
+  name,
+  price,
+  cta,
 }: {
   href: string;
   viewer: React.ReactNode;
@@ -21,17 +31,57 @@ function ProductCard({
   cta: string;
 }) {
   return (
-    <Link href={href} className="plt-card hero-collection-card" style={{ display: 'block', textDecoration: 'none', overflow: 'hidden' }}>
-      <div style={{ position: 'relative' }}>{viewer}</div>
-      <div style={{ padding: '1.25rem' }}>
-        <p style={{ color: '#888', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 0.35rem' }}>
+    <Link
+      href={href}
+      className="plt-card hero-collection-card"
+      style={{ display: "block", textDecoration: "none", overflow: "hidden" }}
+    >
+      <div style={{ position: "relative" }}>{viewer}</div>
+      <div style={{ padding: "1.25rem" }}>
+        <p
+          style={{
+            color: "#888",
+            fontSize: "0.72rem",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            margin: "0 0 0.35rem",
+          }}
+        >
           {badgeLabel}
         </p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.9rem' }}>
-          <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.25rem', margin: 0 }}>{name}</p>
-          <p style={{ color: '#fff', fontWeight: 800, fontSize: '1.25rem', margin: 0 }}>€{price.toFixed(2)}</p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            marginBottom: "0.9rem",
+          }}
+        >
+          <p
+            style={{
+              color: "#fff",
+              fontWeight: 700,
+              fontSize: "1.25rem",
+              margin: 0,
+            }}
+          >
+            {name}
+          </p>
+          <p
+            style={{
+              color: "#fff",
+              fontWeight: 800,
+              fontSize: "1.25rem",
+              margin: 0,
+            }}
+          >
+            €{price.toFixed(2)}
+          </p>
         </div>
-        <span className="plt-btn-primary" style={{ display: 'block', width: '100%', textAlign: 'center' }}>
+        <span
+          className="plt-btn-primary"
+          style={{ display: "block", width: "100%", textAlign: "center" }}
+        >
           {cta}
         </span>
       </div>
@@ -42,99 +92,165 @@ function ProductCard({
 export default function ProductHeroSection({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
   const tee = getAllProducts()[0];
-  const shorts = getProduct('2');
+  const shorts = getProduct("2");
   if (!tee) return null;
 
-  const bundleSavings = (PRICE_TEE + PRICE_SHORTS - PRICE_BUNDLE_ESSENTIAL).toFixed(2);
+  const bundleSavings = (
+    PRICE_TEE +
+    PRICE_SHORTS -
+    PRICE_BUNDLE_ESSENTIAL
+  ).toFixed(2);
 
   return (
-    <section className="hero-product" style={{ padding: '2.5rem 2rem 4rem', maxWidth: '1100px', margin: '0 auto' }}>
-      <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 2.5rem' }}>
-        <p className="plt-label hero-badge" style={{ color: '#D4AF37', margin: '0 0 1rem' }}>
+    <section
+      className="hero-product"
+      style={{
+        padding: "2.5rem 2rem 4rem",
+        maxWidth: "1100px",
+        margin: "0 auto",
+      }}
+    >
+      <div
+        style={{
+          textAlign: "center",
+          maxWidth: "720px",
+          margin: "0 auto 2.5rem",
+        }}
+      >
+        <p
+          className="plt-label hero-badge"
+          style={{ color: "#D4AF37", margin: "0 0 1rem" }}
+        >
           {t.hero.badge}
         </p>
-        <h1 style={{
-          fontSize: 'clamp(2rem, 5vw, 3.4rem)', fontWeight: 900, lineHeight: 1.05,
-          marginBottom: '1rem', letterSpacing: '-0.03em',
-        }}>
-          {t.hero.headline1}<br />
-          <span style={{
-            background: 'linear-gradient(90deg, #D4AF37, #ff5577)',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-          }}>
+        <h1
+          style={{
+            fontSize: "clamp(2rem, 5vw, 3.4rem)",
+            fontWeight: 900,
+            lineHeight: 1.05,
+            marginBottom: "1rem",
+            letterSpacing: "-0.03em",
+          }}
+        >
+          {t.hero.headline1}
+          <br />
+          <span
+            style={{
+              background: "linear-gradient(90deg, #D4AF37, #ff5577)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
             {t.hero.headline2}
           </span>
         </h1>
-        <p style={{ color: '#9a9a9a', fontSize: '1rem', lineHeight: 1.65, marginBottom: '2rem' }}>
+        <p
+          style={{
+            color: "#9a9a9a",
+            fontSize: "1rem",
+            lineHeight: 1.65,
+            marginBottom: "2rem",
+          }}
+        >
           {t.hero.sub}
         </p>
         {/* Primary CTA */}
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           <Link href="/product/1">
-            <button style={{
-              padding: '1.1rem 2.8rem',
-              background: 'linear-gradient(135deg, #D4AF37, #F4D03F)',
-              color: '#000',
-              border: 'none',
-              borderRadius: '12px',
-              fontSize: '1.15rem',
-              fontWeight: 800,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              boxShadow: '0 8px 24px rgba(212, 175, 55, 0.35)',
-              letterSpacing: '0.02em'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 12px 32px rgba(212, 175, 55, 0.45)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(212, 175, 55, 0.35)';
-            }}>
+            <button
+              style={{
+                padding: "1.1rem 2.8rem",
+                background: "linear-gradient(135deg, #D4AF37, #F4D03F)",
+                color: "#000",
+                border: "none",
+                borderRadius: "12px",
+                fontSize: "1.15rem",
+                fontWeight: 800,
+                cursor: "pointer",
+                transition: "all 0.2s",
+                boxShadow: "0 8px 24px rgba(212, 175, 55, 0.35)",
+                letterSpacing: "0.02em",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 32px rgba(212, 175, 55, 0.45)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 24px rgba(212, 175, 55, 0.35)";
+              }}
+            >
               🎨 JETZT GESTALTEN
             </button>
           </Link>
           <button
             onClick={() => {
-              const productsSection = document.querySelector('.hero-collection-grid');
-              productsSection?.scrollIntoView({ behavior: 'smooth' });
+              const productsSection = document.querySelector(
+                ".hero-collection-grid",
+              );
+              productsSection?.scrollIntoView({ behavior: "smooth" });
             }}
             style={{
-              padding: '1.1rem 2rem',
-              background: 'transparent',
-              color: '#D4AF37',
-              border: '2px solid #D4AF37',
-              borderRadius: '12px',
-              fontSize: '1rem',
+              padding: "1.1rem 2rem",
+              background: "transparent",
+              color: "#D4AF37",
+              border: "2px solid #D4AF37",
+              borderRadius: "12px",
+              fontSize: "1rem",
               fontWeight: 700,
-              cursor: 'pointer',
-              transition: 'all 0.2s'
+              cursor: "pointer",
+              transition: "all 0.2s",
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background = 'rgba(212, 175, 55, 0.1)';
-              e.currentTarget.style.borderColor = '#F4D03F';
+              e.currentTarget.style.background = "rgba(212, 175, 55, 0.1)";
+              e.currentTarget.style.borderColor = "#F4D03F";
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.borderColor = '#D4AF37';
-            }}>
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = "#D4AF37";
+            }}
+          >
             Essential Set ansehen
           </button>
         </div>
       </div>
 
       {/* Essential Collection — Tee und Shorts gleichwertig, gleich grosse Karten */}
-      <div className="hero-collection-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+      <div
+        className="hero-collection-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "1.5rem",
+          marginBottom: "1.5rem",
+        }}
+      >
         <ProductCard
           href={TEE_HREF}
           viewer={
-            <div style={{ position: 'relative', width: '100%', height: `${CARD_HEIGHT}px`, background: '#111' }}>
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                height: `${CARD_HEIGHT}px`,
+                background: "#111",
+              }}
+            >
               <Image
-                src="/airfit-tee-front.png"
+                src="/airfit-front-t.png"
                 alt="AirFit Pro T-Shirt"
                 fill
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: "contain" }}
                 priority
               />
             </div>
@@ -148,12 +264,19 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
           <ProductCard
             href={SHORTS_HREF}
             viewer={
-              <div style={{ position: 'relative', width: '100%', height: `${CARD_HEIGHT}px`, background: '#111' }}>
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: `${CARD_HEIGHT}px`,
+                  background: "#111",
+                }}
+              >
                 <Image
                   src="/airfit-shorts-front.png"
                   alt="AirFit Pro Shorts"
                   fill
-                  style={{ objectFit: 'contain' }}
+                  style={{ objectFit: "contain" }}
                   priority
                 />
               </div>
@@ -167,27 +290,80 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
       </div>
 
       {shorts && (
-        <div className="plt-card" style={{ padding: '1.5rem', background: 'rgba(226,0,26,0.06)', border: '1px solid rgba(226,0,26,0.25)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+        <div
+          className="plt-card"
+          style={{
+            padding: "1.5rem",
+            background: "rgba(226,0,26,0.06)",
+            border: "1px solid rgba(226,0,26,0.25)",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1rem",
+          }}
+        >
           <div>
-            <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 0.4rem', fontWeight: 700 }}>
+            <p
+              style={{
+                color: "#D4AF37",
+                fontSize: "0.72rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                margin: "0 0 0.4rem",
+                fontWeight: 700,
+              }}
+            >
               {t.hero.essentialSetLabel}
             </p>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.6rem', marginBottom: '0.3rem' }}>
-              <p style={{ color: '#fff', fontWeight: 800, fontSize: '1.6rem', margin: 0 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: "0.6rem",
+                marginBottom: "0.3rem",
+              }}
+            >
+              <p
+                style={{
+                  color: "#fff",
+                  fontWeight: 800,
+                  fontSize: "1.6rem",
+                  margin: 0,
+                }}
+              >
                 €{PRICE_BUNDLE_ESSENTIAL.toFixed(2)}
               </p>
-              <p style={{ color: '#666', fontSize: '1rem', margin: 0, textDecoration: 'line-through' }}>
+              <p
+                style={{
+                  color: "#666",
+                  fontSize: "1rem",
+                  margin: 0,
+                  textDecoration: "line-through",
+                }}
+              >
                 €{(PRICE_TEE + PRICE_SHORTS).toFixed(2)}
               </p>
-              <p style={{ color: '#4ade80', fontSize: '0.85rem', fontWeight: 600, margin: 0 }}>
+              <p
+                style={{
+                  color: "#4ade80",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  margin: 0,
+                }}
+              >
                 {t.hero.essentialSetSave(bundleSavings)}
               </p>
             </div>
-            <p style={{ color: '#888', fontSize: '0.78rem', margin: 0 }}>
+            <p style={{ color: "#888", fontSize: "0.78rem", margin: 0 }}>
               {t.hero.bundleHint}
             </p>
           </div>
-          <Link href={TEE_HREF} className="plt-btn-secondary" style={{ whiteSpace: 'nowrap' }}>
+          <Link
+            href={TEE_HREF}
+            className="plt-btn-secondary"
+            style={{ whiteSpace: "nowrap" }}
+          >
             {t.hero.cta} →
           </Link>
         </div>

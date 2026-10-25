@@ -90,4 +90,13 @@ test.describe("Smoke Tests", () => {
     const content = await page.content();
     expect(content.toLowerCase()).not.toContain("platypus");
   });
+
+  test("homepage does not ask for the missing tee photo @smoke", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const html = await page.content();
+    expect(html).toContain("airfit-front-t.png");
+    expect(html).not.toContain("airfit-tee-front.png");
+  });
 });
