@@ -368,6 +368,6 @@ export default function Shirt3D({
 // WAVE 4.1: Preload only shop_live families
 getLiveFamilies().forEach((family) => {
   if (family.glbPath) {
-    useGLTF.preload(family.glbPath);
+    useGLTF.preload(family.glbPath, "/draco/gltf/");
   }
 });
