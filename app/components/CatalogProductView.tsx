@@ -34,13 +34,22 @@ export default function CatalogProductView({
       <div
         style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1rem" }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+            gap: "2rem",
+            alignItems: "start",
+          }}
+        >
           {/* Photo */}
           <div
             style={{
               position: "relative",
               width: "100%",
               aspectRatio: "1/1",
+              maxHeight: "600px",
               background: "#111",
               borderRadius: "16px",
               overflow: "hidden",

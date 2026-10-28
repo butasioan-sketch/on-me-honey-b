@@ -438,84 +438,86 @@ export default function ProductPage() {
                 proportional angepasst.
               </p>
             )}
-            <details style={{ marginTop: "0.7rem" }}>
-              <summary
-                style={{
-                  cursor: "pointer",
-                  color: "#888",
-                  fontSize: "0.8rem",
-                  userSelect: "none",
-                }}
-              >
-                📏 {t.product.sizeChart}
-              </summary>
-              <div
-                style={{
-                  marginTop: "0.6rem",
-                  background: "#121212",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: "10px",
-                  padding: "0.9rem",
-                  fontSize: "0.8rem",
-                }}
-              >
-                <table
+            {id === "1" && (
+              <details style={{ marginTop: "0.7rem" }}>
+                <summary
                   style={{
-                    width: "100%",
-                    borderCollapse: "collapse",
-                    color: "#ccc",
+                    cursor: "pointer",
+                    color: "#888",
+                    fontSize: "0.8rem",
+                    userSelect: "none",
                   }}
                 >
-                  <thead>
-                    <tr style={{ color: "#888", textAlign: "left" }}>
-                      <th style={{ padding: "0.3rem 0" }}>
-                        {t.product.sizeCol}
-                      </th>
-                      <th>{t.product.chestCol}</th>
-                      <th>{t.product.lengthCol}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      ["S", "50 cm", "70 cm"],
-                      ["M", "53 cm", "72 cm"],
-                      ["L", "56 cm", "74 cm"],
-                      ["XL", "59 cm", "76 cm"],
-                      ["XXL", "62 cm", "78 cm"],
-                    ].map(([g, b, l]) => (
-                      <tr
-                        key={g}
-                        style={{
-                          borderTop: "1px solid rgba(255,255,255,0.06)",
-                        }}
-                      >
-                        <td
+                  📏 {t.product.sizeChart}
+                </summary>
+                <div
+                  style={{
+                    marginTop: "0.6rem",
+                    background: "#121212",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderRadius: "10px",
+                    padding: "0.9rem",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      color: "#ccc",
+                    }}
+                  >
+                    <thead>
+                      <tr style={{ color: "#888", textAlign: "left" }}>
+                        <th style={{ padding: "0.3rem 0" }}>
+                          {t.product.sizeCol}
+                        </th>
+                        <th>{t.product.chestCol}</th>
+                        <th>{t.product.lengthCol}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["S", "50 cm", "70 cm"],
+                        ["M", "53 cm", "72 cm"],
+                        ["L", "56 cm", "74 cm"],
+                        ["XL", "59 cm", "76 cm"],
+                        ["XXL", "62 cm", "78 cm"],
+                      ].map(([g, b, l]) => (
+                        <tr
+                          key={g}
                           style={{
-                            padding: "0.35rem 0",
-                            fontWeight: 600,
-                            color: "#fff",
+                            borderTop: "1px solid rgba(255,255,255,0.06)",
                           }}
                         >
-                          {g}
-                        </td>
-                        <td>{b}</td>
-                        <td>{l}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <p
-                  style={{
-                    color: "#666",
-                    fontSize: "0.7rem",
-                    marginTop: "0.6rem",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {t.product.sizeNote}
-                </p>
-              </div>
-            </details>
+                          <td
+                            style={{
+                              padding: "0.35rem 0",
+                              fontWeight: 600,
+                              color: "#fff",
+                            }}
+                          >
+                            {g}
+                          </td>
+                          <td>{b}</td>
+                          <td>{l}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p
+                    style={{
+                      color: "#666",
+                      fontSize: "0.7rem",
+                      marginTop: "0.6rem",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {t.product.sizeNote}
+                  </p>
+                </div>
+              </details>
+            )}
           </div>
 
           <div style={{ marginBottom: "1.5rem" }}>

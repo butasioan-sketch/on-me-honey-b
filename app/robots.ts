@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/admin/", "/api/", "/product/test-zones"],
+        disallow: ["/admin", "/admin/", "/api/"],
       },
     ],
     sitemap: "https://on-me-honey-b.vercel.app/sitemap.xml",
