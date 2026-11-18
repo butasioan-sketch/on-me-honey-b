@@ -1,5 +1,5 @@
 import { PRINT_SPEC, type PrintSide } from './print-spec';
-import { getMotifRect, type PrintTransform } from './print-position';
+import { getSheetRect, type PrintTransform } from './print-position';
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -123,7 +123,8 @@ export async function renderPrintSheetMulti(
 
   for (const layer of layers) {
     const img = await loadImage(layer.src);
-    const rect = getMotifRect(side, layer.transform, productId);
+    // Blattkoordinaten: für 051 auf die Standard-Motivfläche umgerechnet, sonst unverändert.
+    const rect = getSheetRect(side, layer.transform, productId);
     const boxX = (rect.left / 100) * widthPx;
     const boxY = (rect.top / 100) * heightPx;
     const boxW = (rect.width / 100) * widthPx;
