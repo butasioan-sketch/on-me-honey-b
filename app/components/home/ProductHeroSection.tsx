@@ -164,64 +164,35 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
             justifyContent: "center",
           }}
         >
-          <Link href="/product/1">
-            <button
-              style={{
-                padding: "1.1rem 2.8rem",
-                background: "linear-gradient(135deg, #D4AF37, #F4D03F)",
-                color: "#000",
-                border: "none",
-                borderRadius: "12px",
-                fontSize: "1.15rem",
-                fontWeight: 800,
-                cursor: "pointer",
-                transition: "all 0.2s",
-                boxShadow: "0 8px 24px rgba(212, 175, 55, 0.35)",
-                letterSpacing: "0.02em",
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 32px rgba(212, 175, 55, 0.45)";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 24px rgba(212, 175, 55, 0.35)";
-              }}
-            >
-              🎨 JETZT GESTALTEN
-            </button>
-          </Link>
-          <button
-            onClick={() => {
-              const productsSection = document.querySelector(
-                ".hero-collection-grid",
-              );
-              productsSection?.scrollIntoView({ behavior: "smooth" });
-            }}
+          <Link
+            href={TEE_HREF}
+            className="plt-btn-primary"
             style={{
               padding: "1.1rem 2rem",
-              background: "transparent",
-              color: "#D4AF37",
-              border: "2px solid #D4AF37",
-              borderRadius: "12px",
-              fontSize: "1rem",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = "rgba(212, 175, 55, 0.1)";
-              e.currentTarget.style.borderColor = "#F4D03F";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.borderColor = "#D4AF37";
+              background: "linear-gradient(135deg, #D4AF37, #F4D03F)",
+              color: "#000",
+              fontSize: "1.05rem",
+              boxShadow: "0 8px 24px rgba(212, 175, 55, 0.35)",
             }}
           >
-            Essential Set ansehen
-          </button>
+            {t.hero.cta}
+          </Link>
+          {shorts && (
+            <a
+              href="#essential-set"
+              className="plt-btn-secondary"
+              style={{
+                padding: "1.1rem 1.6rem",
+                background: "transparent",
+                color: "#D4AF37",
+                borderColor: "#D4AF37",
+                fontSize: "1rem",
+                textDecoration: "none",
+              }}
+            >
+              {t.hero.essentialSetCta}
+            </a>
+          )}
         </div>
       </div>
 
@@ -250,6 +221,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
                 src="/airfit-front-t.png"
                 alt="AirFit Pro T-Shirt"
                 fill
+                sizes="(max-width: 768px) calc(100vw - 4rem), (max-width: 1100px) 45vw, 510px"
                 style={{ objectFit: "contain" }}
                 priority
               />
@@ -276,8 +248,8 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
                   src="/airfit-shorts-front.png"
                   alt="AirFit Pro Shorts"
                   fill
+                  sizes="(max-width: 768px) calc(100vw - 4rem), (max-width: 1100px) 45vw, 510px"
                   style={{ objectFit: "contain" }}
-                  priority
                 />
               </div>
             }
@@ -291,9 +263,11 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
 
       {shorts && (
         <div
+          id="essential-set"
           className="plt-card"
           style={{
             padding: "1.5rem",
+            scrollMarginTop: "6rem",
             background: "rgba(226,0,26,0.06)",
             border: "1px solid rgba(226,0,26,0.25)",
             display: "flex",

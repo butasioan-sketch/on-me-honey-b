@@ -26,6 +26,7 @@ export const translations = {
       shortsCta: 'Shorts entdecken',
       bundleHint: 'Wird im Warenkorb automatisch angewendet.',
       essentialSetLabel: 'Essential Set',
+      essentialSetCta: 'Essential Set ansehen',
       essentialSetSave: (amount: string) => `Du sparst €${amount}`,
     },
     shop: {
@@ -222,6 +223,7 @@ export const translations = {
       shortsCta: 'Descoperă Shorts',
       bundleHint: 'Se aplică automat în coș.',
       essentialSetLabel: 'Essential Set',
+      essentialSetCta: 'Vezi Essential Set',
       essentialSetSave: (amount: string) => `Economisești €${amount}`,
     },
     shop: {
@@ -410,6 +412,7 @@ export const translations = {
       shortsCta: 'Discover Shorts',
       bundleHint: 'Applied automatically in your cart.',
       essentialSetLabel: 'Essential Set',
+      essentialSetCta: 'Explore the Essential Set',
       essentialSetSave: (amount: string) => `You save €${amount}`,
     },
     shop: {

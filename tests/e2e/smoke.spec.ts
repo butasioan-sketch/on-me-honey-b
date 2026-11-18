@@ -6,6 +6,26 @@ test.describe("Smoke Tests", () => {
     await expect(page).toHaveTitle(/ON ME HONEY B|Essential Collection/i);
   });
 
+  test("homepage launch links use the selected language @smoke", async ({
+    page,
+  }) => {
+    await page.addInitScript(() =>
+      localStorage.setItem("on_me_honey_b_locale", "en"),
+    );
+    await page.goto("/");
+    const hero = page.locator(".hero-product");
+    await expect(hero.getByRole("heading", { level: 1 })).toContainText(
+      "YOUR DESIGN.",
+    );
+    await expect(
+      hero.getByRole("link", { name: "Enter the Studio", exact: true }).first(),
+    ).toHaveAttribute("href", "/product/1");
+    await expect(
+      hero.getByRole("link", { name: "Explore the Essential Set" }),
+    ).toHaveAttribute("href", "#essential-set");
+    await expect(page.locator("#essential-set")).toBeVisible();
+  });
+
   test("product page loads with h1 @smoke", async ({ page }) => {
     await page.goto("/product/1");
 
