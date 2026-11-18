@@ -1,8 +1,8 @@
 sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,rohling_referenz,masse_quelle,glb_ziel,glb_stand
-001,Unisex-T-Shirts,A,tee,James & Nicholson JN827,165,front+back,a4_flat,shop_live,public/products/001/front.png,public/product-refs/jn827-tee-1024x1536.png,"Schätzwert M (B&C-Tabelle), am JN827 nachmessen",public/models/sku/001-v1.glb,v1 Claude (blender/001/build_001.py)
-002,Damen-T-Shirts,A,tee,Damen-Tee (offen),165,front+back,a4_flat,anker,public/products/002/front.jpg,,offen,public/models/sku/002-v1.glb,offen
-003,Herren-T-Shirts,A,tee,Herren-Tee (offen),165,front+back,a4_flat,anker,public/products/003/front.jpg,,offen,public/models/sku/003-v1.glb,offen
-004,Kinder-T-Shirts,A,tee,Kinder-Tee (offen),140,front+back,a4_flat,anker,public/products/004/front.jpg,,offen,public/models/sku/004-v1.glb,offen
+001,Unisex-T-Shirts,A,tee,James & Nicholson JN827,165,front+back,a4_flat,shop_live,public/products/001/front.png,public/product-refs/jn827-tee-1024x1536.png,"Schätzwert M (B&C-Tabelle), am JN827 nachmessen",public/models/sku/001-v1.glb,"v1 Claude (blender/001/build_001.py, Generator blender/lib/tee.py)"
+002,Damen-T-Shirts,A,tee,Damen-Tee (offen),165,front+back,a4_flat,anker,public/products/002/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/002-v1.glb,"v1 Claude (blender/002/build_002.py, Generator blender/lib/tee.py)"
+003,Herren-T-Shirts,A,tee,Herren-Tee (offen),165,front+back,a4_flat,anker,public/products/003/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/003-v1.glb,"v1 Claude (blender/003/build_003.py, Generator blender/lib/tee.py)"
+004,Kinder-T-Shirts,A,tee,Kinder-Tee (offen),140,front+back,a4_flat,anker,public/products/004/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/004-v1.glb,"v1 Claude (blender/004/build_004.py, Generator blender/lib/tee.py)"
 005,Baby-Bodys,A,body,Baby-Body (offen),180,front,a4_flat,offen,public/products/005/front.jpg,,offen,public/models/sku/005-v1.glb,offen
 006,Tanktops,A,tank,Tanktop (offen),150,front+back,a4_flat,offen,public/products/006/front.jpg,,offen,public/models/sku/006-v1.glb,offen
 007,Poloshirts,A,polo,Poloshirt (offen),180,front,a4_flat,offen,public/products/007/front.jpg,,offen,public/models/sku/007-v1.glb,offen
@@ -10,7 +10,7 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 009,Sporttrikots,A,jersey,Sporttrikot (offen),140,front+back,a4_flat,offen,public/products/009/front.jpg,,offen,public/models/sku/009-v1.glb,offen
 010,Basketballtrikots,A,jersey,Basketballtrikot (offen),140,front+back,a4_flat,offen,public/products/010/front.jpg,,offen,public/models/sku/010-v1.glb,offen
 011,Fußballtrikots,A,jersey,Fußballtrikot (offen),140,front+back,a4_flat,offen,public/products/011/front.jpg,,offen,public/models/sku/011-v1.glb,offen
-012,Laufshirts,A,tee,Laufshirt (offen),120,front,a4_flat,anker,public/products/012/front.jpg,,offen,public/models/sku/012-v1.glb,offen
+012,Laufshirts,A,tee,Laufshirt (offen),120,front,a4_flat,anker,public/products/012/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/012-v1.glb,"v1 Claude (blender/012/build_012.py, Generator blender/lib/tee.py)"
 013,Fitness-Tops,A,tank,Fitness-Top (offen),140,front,a4_flat,offen,public/products/013/front.jpg,,offen,public/models/sku/013-v1.glb,offen
 014,Sport-BHs,A,bra,Sport-BH (offen),150,front,a4_flat,offen,public/products/014/front.jpg,,offen,public/models/sku/014-v1.glb,offen
 015,Shorts,A,shorts,James & Nicholson JN387,135,front,a4_flat,shop_live,public/products/015/front.png,public/product-refs/jn387-shorts-front-864x1200.png,offen,public/models/sku/015-v1.glb,offen
