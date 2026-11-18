@@ -11,6 +11,8 @@
  */
 
 import { test, expect, type Page } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -74,19 +76,22 @@ test.describe('ON ME HONEY B — Checkout-Flow', () => {
     expect(cart[0].size).toBe('L');
   });
 
-  test('Warenkorb zeigt Thumbnail und Checkout-Button aktiv', async ({ page }) => {
+  test('Warenkorb zeigt Thumbnail und Checkout-Button aktiv', async ({ page, request }) => {
+    const image = await readFile(resolve(__dirname, '../../public/airfit-front-t.png'));
+    const response = await request.post('/api/designs', {
+      data: { front: `data:image/png;base64,${image.toString('base64')}`, productId: '1' },
+    });
+    expect(response.ok()).toBeTruthy();
+    const { id } = await response.json();
+    await page.addInitScript((designId) => {
+      localStorage.setItem('on_me_honey_b_cart', JSON.stringify([
+        { id: '1', name: 'AirFit Pro', price: 44.99, size: 'L', quantity: 1, designId },
+      ]));
+    }, id);
+
     await page.goto(`${BASE_URL}/cart`);
-
-    // Wenn Warenkorb leer → Link zurück zum Atelier sichtbar
-    const isEmpty = await page.locator('text=Noch keine Pieces').isVisible().catch(() => false);
-    if (isEmpty) {
-      test.skip(true, 'Warenkorb leer — vorher Motiv hochladen');
-      return;
-    }
-
-    // Checkout-Button vorhanden und wenn designId = aktiv
-    const btn = page.locator('button:has-text("Zur Kasse")');
-    await expect(btn).toBeVisible();
+    await expect(page.getByRole('img', { name: 'Design-Vorschau' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Zur Kasse' })).toBeEnabled();
   });
 
   test('Cart ohne designId: Auto-Purge beim Laden', async ({ page }) => {

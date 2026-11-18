@@ -100,18 +100,14 @@ test.describe("Visual Quality Check - AirFit Pro T-Shirt", () => {
     await page.getByRole("button", { name: "L", exact: true }).click();
     await uploadTestDesign(page, "front");
 
-    // Zum 3D-Tab wechseln (3. Tab)
-    const tabs = page.locator(".plt-tab");
-    if (await tabs.nth(2).isVisible()) {
-      await tabs.nth(2).click();
-      await page.waitForTimeout(2000);
-
-      // Screenshot 3D-Ansicht
-      await page.screenshot({
-        path: testInfo.outputPath("tshirt-3d-viewer.png"),
-        fullPage: true,
-      });
-    }
+    await page.getByRole("button", { name: "360°" }).click();
+    await expect(page.locator("canvas").first()).toBeVisible({
+      timeout: 20000,
+    });
+    await page.screenshot({
+      path: testInfo.outputPath("tshirt-3d-viewer.png"),
+      fullPage: true,
+    });
   });
 
   test("T-Shirt Design-Positionierung und No-Print-Zonen", async ({
@@ -194,18 +190,14 @@ test.describe("Visual Quality Check - AirFit Pro Shorts", () => {
     await page.getByRole("button", { name: "M", exact: true }).click();
     await uploadTestDesign(page, "front");
 
-    // Zum 3D-Tab wechseln (3. Tab)
-    const tabs = page.locator(".plt-tab");
-    if (await tabs.nth(2).isVisible()) {
-      await tabs.nth(2).click();
-      await page.waitForTimeout(2000);
-
-      // Screenshot 3D-Ansicht
-      await page.screenshot({
-        path: testInfo.outputPath("shorts-3d-viewer.png"),
-        fullPage: true,
-      });
-    }
+    await page.getByRole("button", { name: "360°" }).click();
+    await expect(page.locator("canvas").first()).toBeVisible({
+      timeout: 20000,
+    });
+    await page.screenshot({
+      path: testInfo.outputPath("shorts-3d-viewer.png"),
+      fullPage: true,
+    });
   });
 
   test("Shorts Design-Positionierung und No-Print-Zonen", async ({
