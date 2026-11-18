@@ -41,8 +41,8 @@ def build(config):
     c = dict(DEFAULTS)
     c.update(config)
     mats = [("Polyester weiß", c["color"], 0.80),
-            ("Netz", (0.86, 0.86, 0.87), 0.95),
-            ("Perforation", (0.80, 0.80, 0.82), 0.90),
+            ("Netz", (0.70, 0.71, 0.73), 0.95),  # sichtbar dunkler als der Stoff (Referenz 118)
+            ("Perforation", (0.72, 0.72, 0.74), 0.90),  # Lochfeld wirkt grauer (Referenz 120)
             ("Schnalle", (0.05, 0.05, 0.06), 0.45),
             ("Einfassung", (0.88, 0.88, 0.89), 0.85)]
     M_BODY, M_MESH, M_PERF, M_BUCKLE, M_BIND = range(5)

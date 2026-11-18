@@ -37,6 +37,7 @@ DEFAULTS = dict(
     piping=False,       # Seitenpaspel
     pockets=False,      # Eingrifftaschen vorne
     folds=1.0,
+    square_hip=0.0,     # 0 = elliptische Beinröhre; >0 eckigerer Querschnitt im Hüftbereich (flache Front ohne Mittelkerbe)
     hem_stitch=True,
     fabric=0.0022,
     color=(0.92, 0.92, 0.92),
@@ -117,8 +118,14 @@ def build(config):
                     # schräge Eingrifftasche: von der Bundkante nach außen-unten
                     line = total - 0.02 - (co - 0.1) * 0.20
                     r_s += groove(h - line, 0.0009, 0.0014) / max(rx, 0.03) * smoothstep(total - 0.22, total - 0.18, h)
-                x = cx * s + s * rx * co * r_s
-                d = rz * si * r_s
+                cq, sq = co, si
+                if c["square_hip"] and h > crotch_h * 0.85:
+                    # Superellipse: Exponent wächst zum Bund, Röhren treffen sich in der Mitte mit voller Tiefe
+                    n = 2 + 4 * c["square_hip"] * smoothstep(crotch_h * 0.85, crotch_h + 0.04, h)
+                    cq = math.copysign(abs(co) ** (2 / n), co)
+                    sq = math.copysign(abs(si) ** (2 / n), si)
+                x = cx * s + s * rx * cq * r_s
+                d = rz * sq * r_s
                 ring.append(bm.verts.new(to_blender(x, h, d)))
             rings.append((ring, h))
         for j in range(ROWS):
