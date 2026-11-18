@@ -1,3 +1,4 @@
+import { CATEGORIES } from "./lib/categories";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -52,11 +53,11 @@ const nextConfig: NextConfig = {
     return [
       { source: "/shop", destination: "/", permanent: true },
       { source: "/products", destination: "/", permanent: true },
-      {
-        source: "/categories/bekleidung",
-        destination: "/categories/A",
+      ...CATEGORIES.map((c) => ({
+        source: `/categories/${c.slug}`,
+        destination: `/categories/${c.id}`,
         permanent: true,
-      },
+      })),
       { source: "/konfigurator", destination: "/product/1", permanent: true },
     ];
   },

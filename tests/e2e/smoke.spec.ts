@@ -127,6 +127,43 @@ test.describe("Smoke Tests", () => {
     await expect(page.locator('.live-product-card[href="/product/2"]')).toBeVisible();
   });
 
+  test("every homepage category slug reaches a real category @smoke", async ({
+    page,
+    request,
+  }) => {
+    const categories = [
+      ["bekleidung", "A"],
+      ["taschen", "B"],
+      ["wohnen", "C"],
+      ["geschenke", "D"],
+      ["tassen", "E"],
+      ["caps", "F"],
+      ["teller", "G"],
+      ["stifte", "H"],
+      ["schuhe", "I"],
+    ];
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator(".category-card-link")).toHaveCount(
+      categories.length,
+    );
+    await Promise.all(
+      categories.map(async ([slug, id]) => {
+        const path = `/categories/${slug}`;
+        await expect(
+          page.locator(`.category-card-link[href="${path}"]`),
+        ).toBeVisible();
+        const response = await request.get(path);
+        expect(response.status(), slug).toBe(200);
+        expect(new URL(response.url()).pathname, slug).toBe(
+          `/categories/${id}`,
+        );
+        expect(await response.text(), slug).not.toContain(
+          "Kategorie nicht gefunden",
+        );
+      }),
+    );
+  });
+
   test("homepage does not ask for the missing tee photo @smoke", async ({
     page,
   }) => {
