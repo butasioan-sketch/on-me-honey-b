@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 /* eslint-disable */
 import { getProductBySKU } from "@/lib/products-all-133";
 import { catalogFrontSrc } from "@/lib/catalog/families";
-import { checkReleaseGate } from "@/lib/catalog/release-gate";
+import { checkReleaseGate, LIVE_EXCEPTIONS } from "@/lib/catalog/release-gate";
 import Link from "next/link";
 
 const STATUS_INFO = {
@@ -198,6 +198,11 @@ export default async function ProductDetailPage({
               ? "Alle Prüfungen grün."
               : `${gate.checks.filter((c) => !c.ok).length} von ${gate.checks.length} Prüfungen offen. Status wird nur im Code geändert.`}
           </p>
+          {LIVE_EXCEPTIONS[sku] && (
+            <p className="text-sm mb-4 text-amber-700">
+              Dokumentierte Ausnahme: {LIVE_EXCEPTIONS[sku].reason}
+            </p>
+          )}
           <div className="space-y-2">
             {gate.checks.map((c) => (
               <ChecklistItem key={c.id} done={c.ok} label={`${c.label} — ${c.detail}`} />
