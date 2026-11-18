@@ -6,17 +6,23 @@
  * erscheinen automatisch, sobald ihr Status auf `shop_live` wechselt.
  */
 import { PRODUCTS_133, type Product133 } from "@/lib/products-all-133";
+import type { Locale } from "@/lib/i18n";
 
 export type CampaignSlug = "valentinstag" | "ostern" | "weihnachten";
 
-export interface Campaign {
-  slug: CampaignSlug;
+export interface CampaignCopy {
   name: string;
-  icon: string;
   headline: string;
   intro: string;
   /** Text außerhalb des Saisonfensters. */
   announcement: string;
+}
+
+export interface Campaign extends CampaignCopy {
+  slug: CampaignSlug;
+  icon: string;
+  /** Übersetzungen; Deutsch steht in den Feldern oben. */
+  i18n: Record<Exclude<Locale, "de">, CampaignCopy>;
   /** Kandidaten-SKUs; angezeigt wird nur der `shop_live`-Teil. */
   skus: string[];
   /** Saisonfenster als Berliner Kalendertage (YYYY-MM-DD), beide inklusive. */
@@ -71,6 +77,24 @@ export const CAMPAIGNS: Record<CampaignSlug, Campaign> = {
       "Gestalte ein Einzelstück mit eurem Foto, Datum oder Insider. Maßgefertigt nach deiner Bestellung.",
     announcement:
       "Die Valentinstag-Auswahl startet Mitte Januar. Bis dahin kannst du jedes Stück schon jetzt im Atelier gestalten.",
+    i18n: {
+      ro: {
+        name: "Ziua Îndrăgostiților",
+        headline: "Un motiv pe care doar voi doi îl înțelegeți.",
+        intro:
+          "Creează o piesă unică cu fotografia, data sau gluma voastră. Confecționată la comandă.",
+        announcement:
+          "Selecția de Ziua Îndrăgostiților începe la jumătatea lui ianuarie. Până atunci poți crea orice piesă în Atelier.",
+      },
+      en: {
+        name: "Valentine's Day",
+        headline: "A design only the two of you understand.",
+        intro:
+          "Create a one-off piece with your photo, date or inside joke. Made to order.",
+        announcement:
+          "The Valentine's selection starts in mid-January. Until then you can design any piece in the Studio.",
+      },
+    },
     skus: BASE_GIFT_SKUS,
     window: (year) => ({ start: ymd(year, 1, 15), end: ymd(year, 2, 14) }),
   },
@@ -83,6 +107,24 @@ export const CAMPAIGNS: Record<CampaignSlug, Campaign> = {
       "Ein persönliches Stück statt Schokolade von der Stange. Dein Motiv, maßgefertigt nach Bestellung.",
     announcement:
       "Die Oster-Auswahl startet vier Wochen vor Ostern. Bis dahin kannst du jedes Stück schon jetzt im Atelier gestalten.",
+    i18n: {
+      ro: {
+        name: "Paște",
+        headline: "Cadouri de Paște cu motivul tău.",
+        intro:
+          "O piesă personală în loc de ciocolată de pe raft. Motivul tău, confecționat la comandă.",
+        announcement:
+          "Selecția de Paște începe cu patru săptămâni înainte de Paște. Până atunci poți crea orice piesă în Atelier.",
+      },
+      en: {
+        name: "Easter",
+        headline: "Easter gifts with your own design.",
+        intro:
+          "A personal piece instead of off-the-shelf chocolate. Your design, made to order.",
+        announcement:
+          "The Easter selection starts four weeks before Easter. Until then you can design any piece in the Studio.",
+      },
+    },
     skus: BASE_GIFT_SKUS,
     window: (year) => {
       const easter = easterSunday(year);
@@ -101,6 +143,24 @@ export const CAMPAIGNS: Record<CampaignSlug, Campaign> = {
       "Familienfoto, Vereinslogo oder eigener Spruch: Wir fertigen dein Geschenk nach deiner Bestellung.",
     announcement:
       "Die Weihnachts-Auswahl startet Mitte November. Bis dahin kannst du jedes Stück schon jetzt im Atelier gestalten.",
+    i18n: {
+      ro: {
+        name: "Crăciun",
+        headline: "Cadouri de Crăciun care există o singură dată.",
+        intro:
+          "Fotografie de familie, logo de club sau mesaj propriu: realizăm cadoul tău după comandă.",
+        announcement:
+          "Selecția de Crăciun începe la jumătatea lui noiembrie. Până atunci poți crea orice piesă în Atelier.",
+      },
+      en: {
+        name: "Christmas",
+        headline: "Christmas gifts that exist only once.",
+        intro:
+          "Family photo, club logo or your own line: we make your gift after you order.",
+        announcement:
+          "The Christmas selection starts in mid-November. Until then you can design any piece in the Studio.",
+      },
+    },
     skus: BASE_GIFT_SKUS,
     window: (year) => ({ start: ymd(year, 11, 15), end: ymd(year, 12, 24) }),
   },
@@ -108,6 +168,14 @@ export const CAMPAIGNS: Record<CampaignSlug, Campaign> = {
 
 /** SKUs, die grundsätzlich als Geschenk taugen. */
 export const GIFT_ELIGIBLE_SKUS: readonly string[] = BASE_GIFT_SKUS;
+
+/** Texte aller Sprachen, serialisierbar für Client-Komponenten. */
+export function campaignCopies(
+  campaign: Campaign,
+): Record<Locale, CampaignCopy> {
+  const { name, headline, intro, announcement } = campaign;
+  return { de: { name, headline, intro, announcement }, ...campaign.i18n };
+}
 
 export function getCampaign(slug: string): Campaign | null {
   return (CAMPAIGNS as Record<string, Campaign>)[slug] ?? null;
