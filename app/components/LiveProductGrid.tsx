@@ -1,12 +1,30 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { Product133 } from "@/lib/products-all-133";
 import { catalogFrontSrc } from "@/lib/catalog/families";
+import { useLocale } from "@/app/components/LocaleProvider";
 
-const euro = new Intl.NumberFormat("de-DE", {
-  style: "currency",
-  currency: "EUR",
-});
+const LABELS = {
+  de: {
+    cta: "Jetzt gestalten →",
+    empty: "Die Auswahl wird gerade zusammengestellt.",
+    all: "Alle Produkte ansehen",
+  },
+  ro: {
+    cta: "Creează acum →",
+    empty: "Selecția este în curs de pregătire.",
+    all: "Vezi toate produsele",
+  },
+  en: {
+    cta: "Design now →",
+    empty: "The selection is being put together.",
+    all: "View all products",
+  },
+} as const;
+
+const NUMBER_LOCALE = { de: "de-DE", ro: "ro-RO", en: "en-IE" } as const;
 
 /** Raster für kaufbare Artikel (Saison- und Geschenkseiten). */
 export default function LiveProductGrid({
@@ -14,12 +32,19 @@ export default function LiveProductGrid({
 }: {
   products: Product133[];
 }) {
+  const { locale } = useLocale();
+  const l = LABELS[locale];
+  const euro = new Intl.NumberFormat(NUMBER_LOCALE[locale], {
+    style: "currency",
+    currency: "EUR",
+  });
+
   if (products.length === 0) {
     return (
       <p style={{ color: "#aaa" }}>
-        Die Auswahl wird gerade zusammengestellt.{" "}
+        {l.empty}{" "}
         <Link href="/categories" style={{ color: "#D4AF37" }}>
-          Alle Produkte ansehen
+          {l.all}
         </Link>
       </p>
     );
@@ -52,7 +77,7 @@ export default function LiveProductGrid({
           >
             <Image
               src={catalogFrontSrc(product.sku)}
-              alt={product.name.de}
+              alt={product.name[locale]}
               width={400}
               height={400}
               sizes="(max-width: 600px) 100vw, 300px"
@@ -68,7 +93,7 @@ export default function LiveProductGrid({
                 marginBottom: "0.25rem",
               }}
             >
-              {product.name.de}
+              {product.name[locale]}
             </h3>
             <p style={{ color: "#D4AF37", fontWeight: 700 }}>
               {euro.format(product.price)}
@@ -80,7 +105,7 @@ export default function LiveProductGrid({
                 marginTop: "0.5rem",
               }}
             >
-              Jetzt gestalten →
+              {l.cta}
             </p>
           </div>
         </Link>

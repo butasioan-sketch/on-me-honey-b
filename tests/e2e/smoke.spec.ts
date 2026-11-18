@@ -127,6 +127,21 @@ test.describe("Smoke Tests", () => {
     await expect(page.locator('.live-product-card[href="/product/2"]')).toBeVisible();
   });
 
+  test("season and gift pages follow the chosen locale @smoke", async ({
+    page,
+  }) => {
+    await page.addInitScript(() =>
+      localStorage.setItem("on_me_honey_b_locale", "en"),
+    );
+    await page.goto("/saison/weihnachten");
+    await expect(page.locator("h1")).toContainText("Christmas gifts");
+    await page.goto("/geschenke");
+    await expect(page.locator("h1")).toContainText("Gifts with your design");
+    await expect(page.locator(".live-product-card").first()).toContainText(
+      "Design now",
+    );
+  });
+
   test("homepage does not ask for the missing tee photo @smoke", async ({
     page,
   }) => {
