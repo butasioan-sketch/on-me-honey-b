@@ -52,16 +52,16 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 051,Dekokissenbezüge,C,pillow,BRILDOR Kissenbezug (Kandidat),180,front,a4_flat,pilot,public/products/051/front.jpg,,40×40 cm laut Produkttitel,public/models/sku/051-v1.glb,"Codex (blender/051/build_051.py, feat/glb-051)"
 052,Kopfkissenbezüge,C,pillow,Kopfkissenbezug (offen),180,front,a4_flat,offen,public/products/052/front.jpg,,offen,public/models/sku/052-v1.glb,offen
 053,Zierkissenbezüge,C,pillow,Zierkissenbezug (offen),160,front,a4_flat,offen,public/products/053/front.jpg,,offen,public/models/sku/053-v1.glb,offen
-054,Polyester-Küchentücher,C,towel,Küchentuch (offen),140,front,a4_flat,offen,public/products/054/front.jpg,,offen,public/models/sku/054-v1.glb,offen
-055,Geschirrtücher,C,towel,Geschirrtuch (offen),140,front,a4_flat,offen,public/products/055/front.jpg,,offen,public/models/sku/055-v1.glb,offen
-056,Sporthandtücher Mikrofaser,C,towel,Sporthandtuch (offen),160,front,a4_flat,offen,public/products/056/front.jpg,,offen,public/models/sku/056-v1.glb,offen
-057,Gästehandtücher,C,towel,Gästehandtuch (offen),150,front,a4_flat,offen,public/products/057/front.jpg,,offen,public/models/sku/057-v1.glb,offen
-058,Tischsets,C,table-textile,Tischset (offen),120,front,a4_flat,offen,public/products/058/front.jpg,,offen,public/models/sku/058-v1.glb,offen
-059,Tischläufer,C,table-textile,Tischläufer (offen),140,front,a4_flat,offen,public/products/059/front.jpg,,offen,public/models/sku/059-v1.glb,offen
-060,Stoffservietten,C,table-textile,Stoffserviette (offen),80,front,panel,offen,public/products/060/front.jpg,,offen,public/models/sku/060-v1.glb,offen
-061,Kleine Tischdecken,C,table-textile,Tischdecke (offen),180,front,a4_flat,offen,public/products/061/front.jpg,,offen,public/models/sku/061-v1.glb,offen
-062,Küchen- und Grillschürzen,C,apron,Schürze (offen),160,front,a4_flat,offen,public/products/062/front.jpg,,offen,public/models/sku/062-v1.glb,offen
-063,Topflappen,C,potholder,Topflappen (offen),100,front,panel,offen,public/products/063/front.jpg,,offen,public/models/sku/063-v1.glb,offen
+054,Polyester-Küchentücher,C,towel,Küchentuch (offen),140,front,a4_flat,offen,public/products/054/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/054-v1.glb,"v1 Claude (blender/054/build_054.py, Generator blender/lib/soft.py)"
+055,Geschirrtücher,C,towel,Geschirrtuch (offen),140,front,a4_flat,offen,public/products/055/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/055-v1.glb,"v1 Claude (blender/055/build_055.py, Generator blender/lib/soft.py)"
+056,Sporthandtücher Mikrofaser,C,towel,Sporthandtuch (offen),160,front,a4_flat,offen,public/products/056/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/056-v1.glb,"v1 Claude (blender/056/build_056.py, Generator blender/lib/soft.py)"
+057,Gästehandtücher,C,towel,Gästehandtuch (offen),150,front,a4_flat,offen,public/products/057/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/057-v1.glb,"v1 Claude (blender/057/build_057.py, Generator blender/lib/soft.py)"
+058,Tischsets,C,table-textile,Tischset (offen),120,front,a4_flat,offen,public/products/058/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/058-v1.glb,"v1 Claude (blender/058/build_058.py, Generator blender/lib/soft.py)"
+059,Tischläufer,C,table-textile,Tischläufer (offen),140,front,a4_flat,offen,public/products/059/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/059-v1.glb,"v1 Claude (blender/059/build_059.py, Generator blender/lib/soft.py)"
+060,Stoffservietten,C,table-textile,Stoffserviette (offen),80,front,panel,offen,public/products/060/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/060-v1.glb,"v1 Claude (blender/060/build_060.py, Generator blender/lib/soft.py)"
+061,Kleine Tischdecken,C,table-textile,Tischdecke (offen),180,front,a4_flat,offen,public/products/061/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/061-v1.glb,"v1 Claude (blender/061/build_061.py, Generator blender/lib/soft.py)"
+062,Küchen- und Grillschürzen,C,apron,Schürze (offen),160,front,a4_flat,offen,public/products/062/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/062-v1.glb,"v1 Claude (blender/062/build_062.py, Generator blender/lib/soft.py)"
+063,Topflappen,C,potholder,Topflappen (offen),100,front,panel,offen,public/products/063/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/063-v1.glb,"v1 Claude (blender/063/build_063.py, Generator blender/lib/soft.py)"
 064,Untersetzer MDF,C,coaster,Untersetzer MDF (offen),50,front,panel,offen,public/products/064/front.jpg,,offen,public/models/sku/064-v1.glb,offen
 065,Untersetzer Kork,C,coaster,Untersetzer Kork (offen),40,front,panel,offen,public/products/065/front.jpg,,offen,public/models/sku/065-v1.glb,offen
 066,Untersetzer Aluminium,C,coaster,Untersetzer Alu (offen),60,front,panel,offen,public/products/066/front.jpg,,offen,public/models/sku/066-v1.glb,offen
@@ -73,9 +73,9 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 072,Namensschilder,C,panel,Namensschild (offen),40,front,panel,offen,public/products/072/front.jpg,,offen,public/models/sku/072-v1.glb,offen
 073,Tischschilder,C,panel,Tischschild (offen),50,front,panel,offen,public/products/073/front.jpg,,offen,public/models/sku/073-v1.glb,offen
 074,Wanduhrenrohlinge,C,clock,Wanduhr (offen),100,front,panel,offen,public/products/074/front.jpg,,offen,public/models/sku/074-v1.glb,offen
-075,Kleine Dekofahnen,C,flag,Dekofahne (offen),100,front,a4_flat,offen,public/products/075/front.jpg,,offen,public/models/sku/075-v1.glb,offen
-076,Wimpel,C,flag,Wimpel (offen),80,front,panel,offen,public/products/076/front.jpg,,offen,public/models/sku/076-v1.glb,offen
-077,Kleine Stoffbanner,C,flag,Stoffbanner (offen),120,front,a4_flat,offen,public/products/077/front.jpg,,offen,public/models/sku/077-v1.glb,offen
+075,Kleine Dekofahnen,C,flag,Dekofahne (offen),100,front,a4_flat,offen,public/products/075/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/075-v1.glb,"v1 Claude (blender/075/build_075.py, Generator blender/lib/soft.py)"
+076,Wimpel,C,flag,Wimpel (offen),80,front,panel,offen,public/products/076/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/076-v1.glb,"v1 Claude (blender/076/build_076.py, Generator blender/lib/soft.py)"
+077,Kleine Stoffbanner,C,flag,Stoffbanner (offen),120,front,a4_flat,offen,public/products/077/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/077-v1.glb,"v1 Claude (blender/077/build_077.py, Generator blender/lib/soft.py)"
 078,Mauspads,D,mousepad,Mauspad (offen),80,front,a4_flat,offen,public/products/078/front.jpg,,offen,public/models/sku/078-v1.glb,offen
 079,Gaming-Mauspads,D,mousepad,Gaming-Mauspad (offen),100,front,a4_partial,offen,public/products/079/front.jpg,,offen,public/models/sku/079-v1.glb,offen
 080,Schreibtischunterlagen,D,mousepad,Schreibtischunterlage (offen),120,front,a4_partial,offen,public/products/080/front.jpg,,offen,public/models/sku/080-v1.glb,offen
