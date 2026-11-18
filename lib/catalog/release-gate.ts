@@ -7,9 +7,14 @@
  * `shop_live` gesetzt ist, ohne dass das Gate grün ist.
  */
 import { PRODUCTS_133, type Product133 } from "@/lib/products-all-133";
-import { CATALOG, getAtelierModelPath, PRODUCT_FAMILIES } from "@/lib/catalog/families";
+import {
+  CATALOG,
+  getAtelierModelPath,
+  PRODUCT_FAMILIES,
+} from "@/lib/catalog/families";
 import { GARMENT_PROFILES } from "@/lib/print-spec";
 import { PRODUCT_FLAT } from "@/lib/pricing";
+import { getProduct } from "@/lib/products";
 
 export type GateCheckId =
   | "catalog"
@@ -114,7 +119,7 @@ export function isBlockedSku(sku: string): boolean {
 
 function blankOk(p: Product133): boolean {
   const b = p.blank.trim().toLowerCase();
-  return b.length > 0 && !b.includes("offen");
+  return b.length > 0 && !/offen|kandidat/.test(b);
 }
 
 export function checkReleaseGate(sku: string): GateResult {
@@ -123,6 +128,7 @@ export function checkReleaseGate(sku: string): GateResult {
   const family = rec ? PRODUCT_FAMILIES[rec.familyId] : undefined;
   const shopId = rec?.shopId ?? null;
   const profile = shopId ? GARMENT_PROFILES[shopId] : undefined;
+  const runtimeProduct = shopId ? getProduct(shopId) : undefined;
   const runtimePrice = shopId ? PRODUCT_FLAT[shopId] : undefined;
   const evidence = PRODUCTION_EVIDENCE[sku];
   const atelierPath = rec ? getAtelierModelPath(rec) : null;
@@ -157,17 +163,21 @@ export function checkReleaseGate(sku: string): GateResult {
     },
     {
       id: "runtimeId",
-      label: "Shop-ID im Katalog = Register-ID",
-      ok: !!shopId && reg?.id === shopId,
+      label: "Aktives Laufzeitprodukt mit passender Katalog- und Register-ID",
+      ok: !!runtimeProduct && reg?.id === shopId,
       detail: shopId
-        ? `shopId ${shopId}, Register-ID ${reg?.id || "leer"}`
+        ? `shopId ${shopId}, Register-ID ${reg?.id || "leer"}, Laufzeitprodukt ${runtimeProduct ? "aktiv" : "fehlt"}`
         : "keine shopId",
     },
     {
       id: "price",
-      label: "VK > 0 und gleich dem Checkout-Preis",
-      ok: !!reg && reg.price > 0 && runtimePrice === reg.price,
-      detail: `Register ${reg?.price ?? "—"} €, Checkout ${runtimePrice ?? "fehlt"}`,
+      label: "VK > 0 und gleich Produktseiten- und Checkout-Preis",
+      ok:
+        !!reg &&
+        reg.price > 0 &&
+        runtimePrice === reg.price &&
+        runtimeProduct?.price === reg.price,
+      detail: `Register ${reg?.price ?? "—"} €, Produktseite ${runtimeProduct?.price ?? "fehlt"}, Checkout ${runtimePrice ?? "fehlt"}`,
     },
     {
       id: "printProfile",

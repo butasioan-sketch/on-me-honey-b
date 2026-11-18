@@ -45,6 +45,7 @@ test.describe("Freigabe-Gate shop_live", () => {
     }
     const pillow = checkReleaseGate("051");
     expect(pillow.ok).toBe(false);
+    expect(pillow.checks.find((c) => c.id === "blank")?.ok).toBe(false);
     expect(pillow.checks.find((c) => c.id === "price")?.ok).toBe(false);
     expect(pillow.checks.find((c) => c.id === "jonnyOk")?.ok).toBe(false);
     expect(
