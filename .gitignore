@@ -74,3 +74,7 @@ public/models/library/inactive/
 *ABGLEICH*.md
 *Emblem*.png
 GROK-STATUS*.md
+
+# Blender-Generator-Builds
+__pycache__/
+*.pyc

@@ -441,7 +441,9 @@ def _add_collar(bm, uv_layer, c, top_height, neck_depth, to_blender, mat):
         tip = (x + out.x * fall * (0.70 + 0.35 * point) + math.copysign(0.030 * point, x),
                h + stand - fall * (0.90 + 0.85 * point),
                d + out.y * fall * (0.70 + 0.25 * point) + 0.012 * point)
-        ptsr = (base, top, fold, tip) if fall > 0 else (base, (x + out.x * 0.003, h + stand * 0.5, d + out.y * 0.003), top)
+        # Ansatz 1,5 cm in den Rumpf hinein: deckt die geglättete Halsausschnittkante ab
+        inner = (x * 0.97, h - 0.015, d * 0.97)
+        ptsr = (inner, base, top, fold, tip) if fall > 0 else (inner, base, (x + out.x * 0.003, h + stand * 0.5, d + out.y * 0.003), top)
         rows.append([bm.verts.new(to_blender(*p)) for p in ptsr])
     nseg = len(rows[0]) - 1
     for a, b in zip(rows, rows[1:]):
@@ -495,7 +497,8 @@ def _add_hood(bm, uv_layer, c, top_height, neck_depth, to_blender, mat, rib):
         mx = (x + cx) / 2 + side * hw * 1.9 * fac
         mh = (h + ch) / 2 + 0.03
         md = (d + cd) / 2 - 0.09 * (1 - t) + 0.02 * t
-        row = []
+        # Ansatz 2 cm in den Rumpf hinein, damit hinten keine Lücke zum Rumpf bleibt
+        row = [bm.verts.new(to_blender(x * 0.95, h - 0.02, d * 0.95))]
         for k in range(K + 1):
             u = k / K
             px = (1 - u) ** 2 * x + 2 * (1 - u) * u * mx + u * u * cx
@@ -504,7 +507,7 @@ def _add_hood(bm, uv_layer, c, top_height, neck_depth, to_blender, mat, rib):
             row.append(bm.verts.new(to_blender(px, ph, pd)))
         rows.append(row)
     for i in range(m - 1):
-        for k in range(K):
+        for k in range(K + 1):
             f = bm.faces.new([rows[i][k], rows[i + 1][k], rows[i + 1][k + 1], rows[i][k + 1]])
             f.material_index = rib if i < 1 or i >= m - 2 else mat
             for loop in f.loops:
