@@ -276,7 +276,7 @@ def build(config):
                     mat = M_RIB
                 if c["crotch"] and h < c["crotch"]["leg_h"] and abs(u_c) > 1 - 2.5 / NU:
                     mat = M_RIB  # Einfassung am Beinausschnitt
-                if c["zip"] and front and abs(x) < 0.007:
+                if c["zip"] and front and abs(x) < max(0.007, HW * 2 / NU * 0.55):  # mind. eine Rasterspalte je Seite
                     mat = M_ZIP
                 pk = c["placket"]
                 if pk and front and abs(x) < pk["width"] / 2 and h > top_height(0, True) - pk["length"]:
