@@ -101,10 +101,9 @@ test.describe('ON ME HONEY B — Checkout-Flow', () => {
     await page.reload();
 
     // Nach Reload: Item sollte entfernt worden sein
-    const cart = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]')
-    );
-    expect(cart).toHaveLength(0);
+    await expect.poll(() => page.evaluate(() =>
+      JSON.parse(localStorage.getItem('on_me_honey_b_cart') || '[]').length
+    )).toBe(0);
   });
 
   test('Homepage lädt (smoke test)', async ({ page }) => {

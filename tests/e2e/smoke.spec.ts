@@ -131,11 +131,16 @@ test.describe("Smoke Tests", () => {
     await page.goto("/");
     const desktop = page.locator('header a.plt-nav-link[href="/geschenke"]');
     const burger = page.getByRole("button", { name: /menü|menu/i });
+    await expect(
+      desktop.or(burger).filter({ visible: true }).first(),
+    ).toBeVisible();
     if (await desktop.isVisible()) {
       await expect(desktop).toBeVisible();
     } else {
       await burger.click();
-      await expect(page.locator('.mobile-menu a[href="/geschenke"]')).toBeVisible();
+      await expect(
+        page.locator('.mobile-menu a[href="/geschenke"]'),
+      ).toBeVisible();
     }
   });
 
@@ -143,8 +148,12 @@ test.describe("Smoke Tests", () => {
     await page.goto("/geschenke");
     const cards = page.locator(".live-product-card");
     await expect(cards).toHaveCount(2);
-    await expect(page.locator('.live-product-card[href="/product/1"]')).toBeVisible();
-    await expect(page.locator('.live-product-card[href="/product/2"]')).toBeVisible();
+    await expect(
+      page.locator('.live-product-card[href="/product/1"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('.live-product-card[href="/product/2"]'),
+    ).toBeVisible();
   });
 
   test("every homepage category slug reaches a real category @smoke", async ({
@@ -172,7 +181,7 @@ test.describe("Smoke Tests", () => {
         await expect(
           page.locator(`.category-card-link[href="${path}"]`),
         ).toBeVisible();
-        const response = await request.get(path);
+        const response = await request.get(path, { maxRetries: 1 });
         expect(response.status(), slug).toBe(200);
         expect(new URL(response.url()).pathname, slug).toBe(
           `/categories/${id}`,
