@@ -25,6 +25,12 @@ import {
 import type { DesignRecord } from "./db";
 import type { Order } from "./types";
 
+const printJobTime = new Intl.DateTimeFormat("de-DE", {
+  timeZone: "Europe/Berlin",
+  dateStyle: "short",
+  timeStyle: "medium",
+});
+
 export interface PlacementInfo {
   side: PrintSide;
   percent: { top: number; left: number; width: number; height: number };
@@ -266,7 +272,7 @@ export async function generatePrintPdf(
   drawText(
     cover,
     font,
-    `${order.id} · ${new Date(printJob.frozenAt).toLocaleString("de-DE")}`,
+    `${order.id} · ${printJobTime.format(new Date(printJob.frozenAt))} (Europe/Berlin)`,
     MARGIN,
     y,
     10,
@@ -345,7 +351,7 @@ export async function generatePrintPdf(
   drawText(
     cover,
     font,
-    `Eingefroren am: ${new Date(printJob.frozenAt).toLocaleString("de-DE")} (unveränderlicher Produktions-Snapshot)`,
+    `Eingefroren am: ${printJobTime.format(new Date(printJob.frozenAt))} (Europe/Berlin) (unveränderlicher Produktions-Snapshot)`,
     MARGIN,
     y,
     9,
@@ -584,7 +590,7 @@ export async function generatePrintPdf(
       drawText(
         viewPage,
         font,
-        `${order.id} · ${d.id} · ${new Date(printJob.frozenAt).toLocaleString("de-DE")}`,
+        `${order.id} · ${d.id} · ${printJobTime.format(new Date(printJob.frozenAt))} (Europe/Berlin)`,
         MARGIN,
         MARGIN - 8,
         7.5,

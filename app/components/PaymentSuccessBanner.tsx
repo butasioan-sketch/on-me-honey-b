@@ -18,7 +18,7 @@ const SHARE_TEXT: Record<
   de: {
     title: "Mein neues ON ME Piece",
     text: "Gerade bestellt — mein Motiv auf Performance-Polyester. On me. In your head.",
-    banner: "✓ Zahlung erfolgreich! Bestätigung kommt per E-Mail.",
+    banner: "✓ Zahlung erfolgreich!",
     pending:
       "Die Zahlung ist noch nicht bestätigt. Dein Warenkorb bleibt erhalten.",
     share: "Teilen",
@@ -27,7 +27,7 @@ const SHARE_TEXT: Record<
   ro: {
     title: "Noul meu ON ME",
     text: "Tocmai am comandat — motivul meu pe poliester premium. On me. In your head.",
-    banner: "✓ Plată reușită! Confirmarea vine pe email.",
+    banner: "✓ Plată reușită!",
     pending: "Plata nu a fost încă confirmată. Coșul tău rămâne salvat.",
     share: "Distribuie",
     copied: "Link copiat!",
@@ -35,7 +35,7 @@ const SHARE_TEXT: Record<
   en: {
     title: "My new ON ME piece",
     text: "Just ordered — my design on performance polyester. On me. In your head.",
-    banner: "✓ Payment successful! Confirmation coming via email.",
+    banner: "✓ Payment successful!",
     pending: "Payment is awaiting confirmation. Your cart is still saved.",
     share: "Share",
     copied: "Link copied!",
