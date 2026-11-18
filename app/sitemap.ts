@@ -15,6 +15,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     { url: `${base}/product/1`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${base}/product/2`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${base}/geschenke`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    ...['valentinstag', 'ostern', 'weihnachten'].map((slug) => ({
+      url: `${base}/saison/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
     { url: `${base}/cart`, lastModified: new Date(), changeFrequency: 'always', priority: 0.7 },
     { url: `${base}/faq`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${base}/versand`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },

@@ -122,6 +122,9 @@ export default function SiteHeader() {
         <Link href="/product/2" className="plt-nav-link">
           {t.nav.shorts}
         </Link>
+        <Link href="/geschenke" className="plt-nav-link">
+          {t.nav.gifts}
+        </Link>
         <Link href="/versand" className="plt-nav-link">
           {t.nav.shipping}
         </Link>
@@ -149,6 +152,9 @@ export default function SiteHeader() {
             </Link>
             <Link href="/product/2" onClick={() => setMobileMenuOpen(false)}>
               {t.nav.shorts}
+            </Link>
+            <Link href="/geschenke" onClick={() => setMobileMenuOpen(false)}>
+              {t.nav.gifts}
             </Link>
             <Link href="/versand" onClick={() => setMobileMenuOpen(false)}>
               {t.nav.shipping}
