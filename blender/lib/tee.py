@@ -138,7 +138,7 @@ def build(config):
         chest_h = AH - 0.03
         cr = c["crotch"]
         if cr and h <= cr["leg_h"]:
-            t = smoothstep(0, cr["leg_h"], h) ** 0.55
+            t = smoothstep(0, cr["leg_h"], h) ** 2.2   # konkav: sichtbarer Beinausschnitt von vorne
             return lerp(cr["crotch_w"], c["waist_w"], t)
         if h <= c["waist_h"]:
             return lerp(HEM_W, c["waist_w"], smoothstep(0, c["waist_h"], h))
@@ -276,6 +276,8 @@ def build(config):
                     mat = M_RIB
                 if c["crotch"] and h < c["crotch"]["leg_h"] and abs(u_c) > 1 - 2.5 / NU:
                     mat = M_RIB  # Einfassung am Beinausschnitt
+                if c["crotch"] and h < 0.022:
+                    mat = M_RIB  # Druckknopfblende
                 if c["zip"] and front and abs(x) < max(0.007, HW * 2 / NU * 0.55):  # mind. eine Rasterspalte je Seite
                     mat = M_ZIP
                 pk = c["placket"]
@@ -354,6 +356,11 @@ def build(config):
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     if c["placket"] and c["placket"].get("buttons"):
         _add_buttons(bm, c, top_height, M_RIB)
+    if c["crotch"] and c["crotch"].get("snaps"):
+        n = c["crotch"]["snaps"]
+        w = c["crotch"]["crotch_w"] * 0.6
+        _add_buttons(bm, c, top_height, M_RIB,
+                     points=[(-w + 2 * w * k / max(1, n - 1), 0.011) for k in range(n)], radius=0.0045)
     if c["zip"]:
         _add_zipper(bm, c, top_height, M_ZIP)
     if c["hood_cords"]:
@@ -431,8 +438,8 @@ def _add_collar(bm, uv_layer, c, top_height, neck_depth, to_blender, mat):
         base = (x, h, d)
         top = (x, h + stand, d)
         fold = (x + out.x * 0.006, h + stand + 0.004, d + out.y * 0.006)
-        tip = (x + out.x * fall * (0.70 + 0.25 * point) + math.copysign(0.012 * point, x),
-               h + stand - fall * (0.90 + 0.55 * point),
+        tip = (x + out.x * fall * (0.70 + 0.35 * point) + math.copysign(0.030 * point, x),
+               h + stand - fall * (0.90 + 0.85 * point),
                d + out.y * fall * (0.70 + 0.25 * point) + 0.012 * point)
         ptsr = (base, top, fold, tip) if fall > 0 else (base, (x + out.x * 0.003, h + stand * 0.5, d + out.y * 0.003), top)
         rows.append([bm.verts.new(to_blender(*p)) for p in ptsr])
@@ -571,16 +578,19 @@ def _add_cords(bm, c, top_height, mat):
         cap.material_index = mat
 
 
-def _add_buttons(bm, c, top_height, mat):
+def _add_buttons(bm, c, top_height, mat, points=None, radius=None):
     """Knöpfe auf der Knopfleiste: kleine Scheiben, per Strahl auf die Vorderseite gesetzt."""
     from mathutils.bvhtree import BVHTree
     tree = BVHTree.FromBMesh(bm)
-    pk = c["placket"]
-    top = top_height(0, True)
-    r = pk.get("button_r", 0.0055)
-    for k in range(pk["buttons"]):
-        h = top - 0.022 - k * (pk["length"] - 0.03) / max(1, pk["buttons"] - 1)
-        hit = tree.ray_cast(Vector((0, -1.0, h)), Vector((0, 1, 0)))
+    if points is None:
+        pk = c["placket"]
+        top = top_height(0, True)
+        r = pk.get("button_r", 0.0055)
+        points = [(0.0, top - 0.022 - k * (pk["length"] - 0.03) / max(1, pk["buttons"] - 1)) for k in range(pk["buttons"])]
+    else:
+        r = radius or 0.005
+    for bx, h in points:
+        hit = tree.ray_cast(Vector((bx, -1.0, h)), Vector((0, 1, 0)))
         if hit[0] is None:
             continue
         p, nrm = hit[0], hit[1]

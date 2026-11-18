@@ -11,8 +11,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 import pants  # noqa: E402
 
 pants.build(dict(
-    name="Shorts015", piping=True,
-    waist_w=0.200, hip_w=0.270, hip_d=0.140, rise=0.300, inseam=0.220,
+    name="Shorts015", piping=True, drawcord=True,
+    # Gummibund flach gemessen fast hüftbreit (Referenzfoto)
+    waist_w=0.262, hip_w=0.270, hip_d=0.140, rise=0.300, inseam=0.220,
     thigh_r=0.150, knee_r=0.145, hem_r=0.142, leg_sep=0.150, waistband=0.045, folds=0.3,
     seg=28, rows=26,  # Shorts-Budget des Verifiers: 100 KiB
 ))

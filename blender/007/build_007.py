@@ -16,5 +16,5 @@ tee.build(dict(
     neck_w=0.074, front_drop=0.030, back_drop=0.015, neck_d_front=0.060, neck_d_back=0.058,
     body_d=0.152, fabric=0.0024, folds=0.8,
     sleeve_len=0.200, sleeve_angle=38, cuff_rib=0.025,
-    placket=dict(length=0.140, width=0.034, buttons=3), collar=dict(stand=0.028, fall=0.060),
+    placket=dict(length=0.140, width=0.034, buttons=3), collar=dict(stand=0.028, fall=0.070),
 ))
