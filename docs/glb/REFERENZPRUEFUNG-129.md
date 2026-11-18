@@ -87,7 +87,7 @@ Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, ke
 | 075 | Kleine Dekofahnen | übereinstimmend in Form und Proportion |
 | 076 | Wimpel | übereinstimmend in Form und Proportion |
 | 077 | Kleine Stoffbanner | übereinstimmend in Form und Proportion |
-| 078 | Mauspads | offen – leicht: Referenz-Unterseite schwarz (Gummi), Modell hell; vom Rohling abhängig |
+| 078 | Mauspads | geprüft: Rückansicht in Firefox zeigt die dunkle Gummiunterseite; Rohling und Maße separat bestätigen |
 | 079 | Gaming-Mauspads | übereinstimmend in Form und Proportion |
 | 080 | Schreibtischunterlagen | übereinstimmend in Form und Proportion |
 | 081 | Handyhüllen | übereinstimmend in Form und Proportion |
