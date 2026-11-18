@@ -41,7 +41,7 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 040,Stiftemäppchen,B,pouch,Stiftemäppchen (offen),80,front,a4_flat,offen,public/products/040/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/040-v1.glb,"v1 Claude (blender/040/build_040.py, Generator blender/lib/soft.py)"
 041,Kleine Geldbörsen,B,pouch,Geldbörse (offen),90,front,a4_flat,offen,public/products/041/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/041-v1.glb,"v1 Claude (blender/041/build_041.py, Generator blender/lib/soft.py)"
 042,Brillenetuis,B,pouch,Brillenetui (offen),70,front,a4_flat,offen,public/products/042/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/042-v1.glb,"v1 Claude (blender/042/build_042.py, Generator blender/lib/soft.py)"
-043,Laptop-Hüllen,B,laptop,Laptop-Hülle (offen),140,front,a4_partial,offen,public/products/043/front.jpg,,offen,public/models/sku/043-v1.glb,offen
+043,Laptop-Hüllen,B,laptop,Laptop-Hülle (offen),140,front,a4_partial,offen,public/products/043/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/043-v1.glb,"v1 Claude (blender/043/build_043.py, Generator blender/lib/soft.py/vessel.py)"
 044,Tablet-Hüllen,B,pouch,Tablet-Hülle (offen),100,front,a4_flat,offen,public/products/044/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/044-v1.glb,"v1 Claude (blender/044/build_044.py, Generator blender/lib/soft.py)"
 045,Dokumententaschen,B,pouch,Dokumententasche (offen),110,front,a4_flat,offen,public/products/045/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/045-v1.glb,"v1 Claude (blender/045/build_045.py, Generator blender/lib/soft.py)"
 046,Reisepasshüllen,B,pouch,Reisepasshülle (offen),60,front,panel,offen,public/products/046/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/046-v1.glb,"v1 Claude (blender/046/build_046.py, Generator blender/lib/soft.py)"
@@ -100,21 +100,21 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 099,Kleine Bilderrahmen,D,hard-small,Bilderrahmen (offen),100,front,panel,offen,public/products/099/front.jpg,,offen,public/models/sku/099-v1.glb,offen
 100,Schmuckanhänger,D,hard-small,Schmuckanhänger (offen),20,front,panel,offen,public/products/100/front.jpg,,offen,public/models/sku/100-v1.glb,offen
 101,Kleine Fotokacheln Keramik,D,hard-small,Fotokachel Keramik (offen),80,front,panel,offen,public/products/101/front.jpg,,offen,public/models/sku/101-v1.glb,offen
-102,Keramiktassen 6 oz,E,mug,Keramiktasse 6oz (offen),300,wrap,wrap_cylinder,pruefen,public/products/102/front.jpg,,offen,public/models/sku/102-v1.glb,offen
-103,Keramiktassen 9 oz,E,mug,Keramiktasse 9oz (offen),320,wrap,wrap_cylinder,pruefen,public/products/103/front.jpg,,offen,public/models/sku/103-v1.glb,offen
-104,Keramiktassen 11 oz,E,mug,Keramiktasse 11oz (offen),340,wrap,wrap_cylinder,pruefen,public/products/104/front.jpg,,offen,public/models/sku/104-v1.glb,offen
-105,Keramiktassen 12 oz,E,mug,Keramiktasse 12oz (offen),360,wrap,wrap_cylinder,pruefen,public/products/105/front.jpg,,offen,public/models/sku/105-v1.glb,offen
-106,Zweifarbige Tassen,E,mug,Zweifarbige Tasse (offen),340,wrap,wrap_cylinder,pruefen,public/products/106/front.jpg,,offen,public/models/sku/106-v1.glb,offen
-107,Magic Mugs,E,mug,Magic Mug (offen),340,wrap,wrap_cylinder,pruefen,public/products/107/front.jpg,,offen,public/models/sku/107-v1.glb,offen
-108,Emaillebecher,E,tumbler,Emaillebecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/108/front.jpg,,offen,public/models/sku/108-v1.glb,offen
-109,Metallbecher,E,tumbler,Metallbecher (offen),320,wrap,wrap_cylinder,pruefen,public/products/109/front.jpg,,offen,public/models/sku/109-v1.glb,offen
-110,Edelstahl-Trinkbecher,E,tumbler,Edelstahl-Becher (offen),340,wrap,wrap_cylinder,pruefen,public/products/110/front.jpg,,offen,public/models/sku/110-v1.glb,offen
-111,Thermobecher,E,tumbler,Thermobecher (offen),400,wrap,wrap_cylinder,pruefen,public/products/111/front.jpg,,offen,public/models/sku/111-v1.glb,offen
-112,Trinkflaschen,E,bottle,Trinkflasche (offen),350,wrap,wrap_cylinder,pruefen,public/products/112/front.jpg,,offen,public/models/sku/112-v1.glb,offen
-113,Aluminium-Trinkflaschen,E,bottle,Alu-Trinkflasche (offen),320,wrap,wrap_cylinder,pruefen,public/products/113/front.jpg,,offen,public/models/sku/113-v1.glb,offen
-114,Campingbecher,E,mug,Campingbecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/114/front.jpg,,offen,public/models/sku/114-v1.glb,offen
-115,Kinderbecher,E,mug,Kinderbecher (offen),280,wrap,wrap_cylinder,pruefen,public/products/115/front.jpg,,offen,public/models/sku/115-v1.glb,offen
-116,Stiftehalter in Becherform,E,mug,Stiftehalter (offen),320,wrap,wrap_cylinder,pruefen,public/products/116/front.jpg,,offen,public/models/sku/116-v1.glb,offen
+102,Keramiktassen 6 oz,E,mug,Keramiktasse 6oz (offen),300,wrap,wrap_cylinder,pruefen,public/products/102/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/102-v1.glb,"v1 Claude (blender/102/build_102.py, Generator blender/lib/vessel.py)"
+103,Keramiktassen 9 oz,E,mug,Keramiktasse 9oz (offen),320,wrap,wrap_cylinder,pruefen,public/products/103/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/103-v1.glb,"v1 Claude (blender/103/build_103.py, Generator blender/lib/vessel.py)"
+104,Keramiktassen 11 oz,E,mug,Keramiktasse 11oz (offen),340,wrap,wrap_cylinder,pruefen,public/products/104/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/104-v1.glb,"v1 Claude (blender/104/build_104.py, Generator blender/lib/vessel.py)"
+105,Keramiktassen 12 oz,E,mug,Keramiktasse 12oz (offen),360,wrap,wrap_cylinder,pruefen,public/products/105/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/105-v1.glb,"v1 Claude (blender/105/build_105.py, Generator blender/lib/vessel.py)"
+106,Zweifarbige Tassen,E,mug,Zweifarbige Tasse (offen),340,wrap,wrap_cylinder,pruefen,public/products/106/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/106-v1.glb,"v1 Claude (blender/106/build_106.py, Generator blender/lib/vessel.py)"
+107,Magic Mugs,E,mug,Magic Mug (offen),340,wrap,wrap_cylinder,pruefen,public/products/107/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/107-v1.glb,"v1 Claude (blender/107/build_107.py, Generator blender/lib/vessel.py)"
+108,Emaillebecher,E,tumbler,Emaillebecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/108/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/108-v1.glb,"v1 Claude (blender/108/build_108.py, Generator blender/lib/vessel.py)"
+109,Metallbecher,E,tumbler,Metallbecher (offen),320,wrap,wrap_cylinder,pruefen,public/products/109/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/109-v1.glb,"v1 Claude (blender/109/build_109.py, Generator blender/lib/vessel.py)"
+110,Edelstahl-Trinkbecher,E,tumbler,Edelstahl-Becher (offen),340,wrap,wrap_cylinder,pruefen,public/products/110/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/110-v1.glb,"v1 Claude (blender/110/build_110.py, Generator blender/lib/vessel.py)"
+111,Thermobecher,E,tumbler,Thermobecher (offen),400,wrap,wrap_cylinder,pruefen,public/products/111/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/111-v1.glb,"v1 Claude (blender/111/build_111.py, Generator blender/lib/vessel.py)"
+112,Trinkflaschen,E,bottle,Trinkflasche (offen),350,wrap,wrap_cylinder,pruefen,public/products/112/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/112-v1.glb,"v1 Claude (blender/112/build_112.py, Generator blender/lib/vessel.py)"
+113,Aluminium-Trinkflaschen,E,bottle,Alu-Trinkflasche (offen),320,wrap,wrap_cylinder,pruefen,public/products/113/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/113-v1.glb,"v1 Claude (blender/113/build_113.py, Generator blender/lib/vessel.py)"
+114,Campingbecher,E,mug,Campingbecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/114/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/114-v1.glb,"v1 Claude (blender/114/build_114.py, Generator blender/lib/vessel.py)"
+115,Kinderbecher,E,mug,Kinderbecher (offen),280,wrap,wrap_cylinder,pruefen,public/products/115/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/115-v1.glb,"v1 Claude (blender/115/build_115.py, Generator blender/lib/vessel.py)"
+116,Stiftehalter in Becherform,E,mug,Stiftehalter (offen),320,wrap,wrap_cylinder,pruefen,public/products/116/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/116-v1.glb,"v1 Claude (blender/116/build_116.py, Generator blender/lib/vessel.py)"
 117,Basecaps,F,cap,Basecap (offen),120,front,cap_front,pruefen,public/products/117/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/117-v1.glb,"v1 Claude (blender/117/build_117.py, Generator blender/lib/cap.py)"
 118,Trucker-Caps,F,cap,Trucker-Cap (offen),110,front,cap_front,pruefen,public/products/118/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/118-v1.glb,"v1 Claude (blender/118/build_118.py, Generator blender/lib/cap.py)"
 119,5-Panel-Caps,F,cap,5-Panel-Cap (offen),115,front,cap_front,pruefen,public/products/119/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/119-v1.glb,"v1 Claude (blender/119/build_119.py, Generator blender/lib/cap.py)"
