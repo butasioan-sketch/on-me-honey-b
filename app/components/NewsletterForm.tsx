@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 
-const COPY: Record<string, { placeholder: string; btn: string; success: string; exists: string; error: string; label: string; sub: string }> = {
+const COPY: Record<string, { placeholder: string; email: string; btn: string; success: string; exists: string; error: string; label: string; sub: string }> = {
   de: {
     label: 'NEWSLETTER',
     sub: 'Neue Drops, exklusive Angebote & ON ME Neuigkeiten.',
     placeholder: 'deine@email.de',
+    email: 'E-Mail-Adresse für den Newsletter',
     btn: 'Anmelden',
     success: 'Fast fertig — check deine E-Mails und bestätige die Anmeldung.',
     exists: 'Diese E-Mail ist bereits angemeldet.',
@@ -16,6 +17,7 @@ const COPY: Record<string, { placeholder: string; btn: string; success: string; 
     label: 'NEWSLETTER',
     sub: 'Lansări noi, oferte exclusive și noutăți ON ME.',
     placeholder: 'email@tau.ro',
+    email: 'Adresă de e-mail pentru newsletter',
     btn: 'Abonează-te',
     success: 'Aproape gata — verifică email-ul și confirmă înscrierea.',
     exists: 'Acest email este deja înscris.',
@@ -25,6 +27,7 @@ const COPY: Record<string, { placeholder: string; btn: string; success: string; 
     label: 'NEWSLETTER',
     sub: 'New drops, exclusive deals & ON ME news.',
     placeholder: 'your@email.com',
+    email: 'Email address for the newsletter',
     btn: 'Subscribe',
     success: 'Almost done — check your inbox and confirm your signup.',
     exists: 'This email is already subscribed.',
@@ -72,11 +75,9 @@ export default function NewsletterForm({ locale = 'de' }: { locale: string }) {
             onChange={e => setEmail(e.target.value)}
             placeholder={t.placeholder}
             required
-            style={{
-              flex: 1, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '8px', padding: '0.6rem 0.9rem', color: '#fff', fontSize: '0.82rem', outline: 'none',
-              minWidth: 0,
-            }}
+            className="plt-newsletter-input"
+            aria-label={t.email}
+            autoComplete="email"
           />
           <button
             type="submit"

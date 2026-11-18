@@ -70,3 +70,15 @@ test("purchasable SKU aliases identify the same canonical products @smoke", asyn
     expect(schema?.offers?.url).toMatch(new RegExp(`/product/${shopId}$`));
   }
 });
+
+test("footer newsletter has a labeled keyboard focus target @smoke", async ({
+  page,
+}) => {
+  await page.goto("/product/051");
+  const email = page.getByRole("textbox", {
+    name: "E-Mail-Adresse für den Newsletter",
+  });
+  await email.focus();
+  await expect(email).toBeFocused();
+  await expect(email).toHaveCSS("outline-width", "2px");
+});
