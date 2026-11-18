@@ -218,11 +218,17 @@ def build(sku, output, source=None):
             for x in (-w/2+.014,w/2-.014):cut(obj,circle(.0028,20),x,y)
             if sku==70:
                 line("Aufhängekordel",[(-w/2+.014,y,0),(0,h/2+.066,.004),(w/2-.014,y,0)],.0008,cloth)
-        if sku==68:
-            stand=plate("Rückseitiger Aufsteller",.024,.083,.004,edge,r=.001,pos=(0,-.022,-.021))
+        if sku in {66,68}:
+            # Rückseitiger Aufsteller (Referenzfoto: Platte steht auf einer Stütze)
+            sh=.083 if sku==68 else .060
+            stand=plate("Rückseitiger Aufsteller",.024,sh,.004,edge if sku==68 else metal,r=.001,
+                        pos=(0,-h/2+sh/2-.004,-.004-sh*.5*math.sin(math.radians(30))))
             stand.rotation_euler.x=math.radians(30)
         if sku==72:
-            plate("Ansteckklammer",.048,.010,.004,metal,r=.003,pos=(0,0,-.004))
+            plate("Klammerbasis",.040,.010,.002,metal,r=.003,pos=(.010,.004,-.0025))
+            # Federklammer: über die Oberkante gebogener Bügel (Referenz: Klammer oben rechts)
+            line("Federklammer",[(.024,.004,-.0035),(.024,h/2+.004,-.0035),(.024,h/2+.008,-.0010),
+                                 (.024,h/2+.004,.0015),(.024,h/2-.006,.0022)],.0016,metal)
         if sku==84:
             plate("Magnetrückseite",.049,.049,.002,dark,r=.002,pos=(0,0,-.0027))
         if sku==90:
@@ -248,13 +254,28 @@ def build(sku, output, source=None):
             for i in range(80):
                 a=i*math.tau/80
                 outline.append((.0017*16*math.sin(a)**3,.0017*(13*math.cos(a)-5*math.cos(2*a)-2*math.cos(3*a)-math.cos(4*a))))
-            obj=prism(name,list(reversed(outline)),.009,white,metal,bevel=.002)
+            obj=prism(name,list(reversed(outline)),.004,white,metal,bevel=.0007)
             ring("Anhängeröse",0,.023,0,.006,.0011,metal,1.1)
         else:
+            if sku==49:
+                w,h,d=.024,.090,.0013
+                plate("Band vorne",w,h,d,white,cloth,r=.0015,pos=(0,0,.0016))
+                plate("Band hinten",w,h-.004,d,cloth,cloth,r=.0015,pos=(0,-.002,-.0016))
+                fold=[]
+                for i in range(13):
+                    a=math.pi*i/12
+                    fold.append((0,h/2+.0016*math.sin(a),.0016*math.cos(a)))
+                for x in (-w/2+.002,-w/4,0,w/4,w/2-.002):
+                    line("Schlaufenbogen",[(x,yy,zz) for _,yy,zz in fold],.00075,cloth)
+                plate("Klemmteil",w+.003,.013,.0065,metal,metal,r=.002,pos=(0,-h/2+.004,0))
+                ring("Schlüsselring",0,h/2+.016,0,.016,.0014,metal,0.72)
+                obj=None
             w,h,d,edge={49:(.024,.095,.003,cloth),82:(.033,.065,.004,metal),
                         83:(.039,.055,.005,mdf),85:(.031,.082,.004,metal)}[sku]
-            obj=plate(name,w,h,d,white,edge,r=.005 if sku!=49 else .0015)
-            if sku==85:
+            obj=None if sku==49 else plate(name,w,h,d,white,edge,r=.005)
+            if sku==49:
+                pass
+            elif sku==85:
                 cut(obj,rounded_rect(.020,.025,.005),0,-.022)
                 cut(obj,circle(.0025,20),0,.032)
                 plate("Einleger",.022,.031,.001,white,r=.002,pos=(0,.013,d/2+.0002))
@@ -295,10 +316,13 @@ def build(sku, output, source=None):
             pts=[(w*(t/45-.5),y+.0024*math.sin(8*math.pi*t/45),.00158) for t in range(46)]
             line("Puzzle-Schnittlinie quer",pts,.00022,cardboard)
     elif sku==92:
-        plate("Buchblock",.117,.167,.011,cardboard,r=.002)
-        for depth in (-.0065,.0065):
-            plate("Notizbuchumschlag",.120,.170,.0018,white,r=.003,pos=(0,0,depth))
-        plate("Buchrücken",.005,.170,.014,white,r=.001,pos=(-.058,0,0))
+        pages=material("Papierschnitt cremeweiß",(0.90,0.87,0.80),0.8)
+        for k in range(6):   # Seitenlagen mit feinen Fugen = sichtbarer Buchblock
+            plate("Seitenlage",.114,.164,.0016,pages,pages,r=.0015,pos=(.0015,0,-.0045+k*.0018))
+        for depth in (-.0066,.0066):
+            plate("Notizbuchumschlag",.120,.170,.0016,white,r=.003,pos=(0,0,depth))
+        plate("Buchrücken",.005,.170,.0148,white,r=.001,pos=(-.0585,0,0))
+        plate("Verschlussgummi",.007,.172,.0156,dark,dark,r=.001,pos=(.046,0,0))
     elif sku==95:
         bpy.ops.mesh.primitive_uv_sphere_add(segments=40,ring_count=24,radius=.037)
         obj=bpy.context.object; obj.name=name; obj.data.materials.append(white)
