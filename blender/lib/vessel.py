@@ -98,3 +98,35 @@ def handle(b, r_body, h0, h1, reach=0.032, thick=(0.0055, 0.0035), mat=0, shape=
 
 def finish(b, ortho=None):
     b.finish(thickness=0, smooth=True, ortho=ortho)
+
+
+def revolve_loop(b, loop, seg=72, mat=0, scallop=0, scallop_amp=0.0, scallop_from=0.0):
+    """Rotationskörper aus geschlossenem Querschnitt (r, h), z. B. Teller.
+    scallop: Anzahl Wellen am Rand (r >= scallop_from), Amplitude in m."""
+    rings = []
+    for (r, h) in loop:
+        ring = []
+        for a in range(seg):
+            phi = 2 * math.pi * a / seg
+            rr = r
+            if scallop and r >= scallop_from:
+                k = (r - scallop_from) / max(1e-6, max(rr for rr, _ in loop) - scallop_from)
+                rr = r + scallop_amp * k * math.cos(scallop * phi)
+            ring.append(b.V(rr * math.cos(phi), h, rr * math.sin(phi)))
+        rings.append(ring)
+    rows = b.quad_grid(rings, lambda i, j: mat, closed_u=True)
+    return rows
+
+
+def plate_loop(R, well_r, well_depth, rim_rise, thick=0.004, foot_r=None, n=14):
+    """Querschnitt eines Tellers: Spiegel (flach), ansteigende Fahne, Fuß unten."""
+    foot_r = foot_r or well_r * 0.85
+    top = [(0.0005, well_depth)]
+    top += [(well_r * t, well_depth) for t in [k / 6 for k in range(1, 7)]]
+    top += [(well_r + (R - well_r) * t, well_depth + rim_rise * math.sin(math.pi / 2 * t) ** 1.2 + 0.0) for t in [k / n for k in range(1, n + 1)]]
+    lip = [(R + thick * 0.4, top[-1][1] - thick * 0.5)]
+    bottom = [(r - thick * 0.15, h - thick) for (r, h) in reversed(top[1:])]
+    bottom = [(r, max(h, 0.0)) for (r, h) in bottom]
+    # Standring
+    bottom += [(foot_r + 0.003, 0.0), (foot_r, -0.004), (foot_r - 0.004, -0.004), (foot_r - 0.006, 0.0), (0.0005, 0.0)]
+    return top + lip + bottom

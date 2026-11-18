@@ -121,14 +121,14 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 120,Sportcaps,F,cap,Sportcap (offen),100,front,cap_front,pruefen,public/products/120/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/120-v1.glb,"v1 Claude (blender/120/build_120.py, Generator blender/lib/cap.py)"
 121,Kindercaps,F,cap,Kindercap (offen),90,front,cap_front,pruefen,public/products/121/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/121-v1.glb,"v1 Claude (blender/121/build_121.py, Generator blender/lib/cap.py)"
 122,Visors,F,visor,Visor (offen),80,front,cap_front,pruefen,public/products/122/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/122-v1.glb,"v1 Claude (blender/122/build_122.py, Generator blender/lib/cap.py)"
-123,Runde Sublimationsteller,G,plate,Sublimationsteller rund (offen),400,front,circle,pruefen,public/products/123/front.jpg,,offen,public/models/sku/123-v1.glb,offen
-124,Kleine Dekorationsteller,G,plate,Dekorationsteller klein (offen),300,front,circle,pruefen,public/products/124/front.jpg,,offen,public/models/sku/124-v1.glb,offen
-125,Große Dekorationsteller,G,plate,Dekorationsteller groß (offen),500,front,circle,pruefen,public/products/125/front.jpg,,offen,public/models/sku/125-v1.glb,offen
-126,Unterteller,G,plate,Unterteller (offen),250,front,circle,pruefen,public/products/126/front.jpg,,offen,public/models/sku/126-v1.glb,offen
+123,Runde Sublimationsteller,G,plate,Sublimationsteller rund (offen),400,front,circle,pruefen,public/products/123/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/123-v1.glb,"v1 Claude (blender/123/build_123.py, Generator blender/lib/vessel.py)"
+124,Kleine Dekorationsteller,G,plate,Dekorationsteller klein (offen),300,front,circle,pruefen,public/products/124/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/124-v1.glb,"v1 Claude (blender/124/build_124.py, Generator blender/lib/vessel.py)"
+125,Große Dekorationsteller,G,plate,Dekorationsteller groß (offen),500,front,circle,pruefen,public/products/125/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/125-v1.glb,"v1 Claude (blender/125/build_125.py, Generator blender/lib/vessel.py)"
+126,Unterteller,G,plate,Unterteller (offen),250,front,circle,pruefen,public/products/126/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/126-v1.glb,"v1 Claude (blender/126/build_126.py, Generator blender/lib/vessel.py)"
 127,Kugelschreiber,H,pen,Kugelschreiber (offen),20,wrap,wrap_cylinder,pruefen,public/products/127/front.jpg,,offen,public/models/sku/127-v1.glb,offen
 128,Werbestifte,H,pen,Werbestift (offen),18,wrap,wrap_cylinder,pruefen,public/products/128/front.jpg,,offen,public/models/sku/128-v1.glb,offen
 129,Schreibgeräte hitzefest,H,pen,Schreibgerät hitzefest (offen),22,wrap,wrap_cylinder,pruefen,public/products/129/front.jpg,,offen,public/models/sku/129-v1.glb,offen
-130,Polyester-Sneaker,I,shoe,Polyester-Sneaker (offen),400,panel,shoe,pruefen,public/products/130/front.jpg,,offen,public/models/sku/130-v1.glb,offen
-131,Leichte Stoffschuhe,I,shoe,Stoffschuh (offen),350,panel,shoe,pruefen,public/products/131/front.jpg,,offen,public/models/sku/131-v1.glb,offen
-132,Schuhoberteile,I,shoe,Schuhoberteil (offen),200,panel,shoe,pruefen,public/products/132/front.jpg,,offen,public/models/sku/132-v1.glb,offen
-133,Schuhzungen,I,shoe,Schuhzunge (offen),100,panel,shoe,pruefen,public/products/133/front.jpg,,offen,public/models/sku/133-v1.glb,offen
+130,Polyester-Sneaker,I,shoe,Polyester-Sneaker (offen),400,panel,shoe,pruefen,public/products/130/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/130-v1.glb,"v1 Claude (blender/130/build_130.py, Generator blender/lib/shoe.py/soft.py)"
+131,Leichte Stoffschuhe,I,shoe,Stoffschuh (offen),350,panel,shoe,pruefen,public/products/131/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/131-v1.glb,"v1 Claude (blender/131/build_131.py, Generator blender/lib/shoe.py/soft.py)"
+132,Schuhoberteile,I,shoe,Schuhoberteil (offen),200,panel,shoe,pruefen,public/products/132/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/132-v1.glb,"v1 Claude (blender/132/build_132.py, Generator blender/lib/shoe.py/soft.py)"
+133,Schuhzungen,I,shoe,Schuhzunge (offen),100,panel,shoe,pruefen,public/products/133/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/133-v1.glb,"v1 Claude (blender/133/build_133.py, Generator blender/lib/shoe.py/soft.py)"
