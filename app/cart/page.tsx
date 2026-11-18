@@ -181,7 +181,9 @@ export default function CartPage() {
         // Cart cleared on ?payment=success (PaymentSuccessBanner), NOT before redirect
         window.location.href = data.redirectUrl;
       } else {
-        setError(t.errors.checkout);
+        setError(
+          data.code === "cart_too_large" ? t.errors.cartTooLarge : t.errors.checkout,
+        );
       }
     } catch {
       setError(t.errors.connection);

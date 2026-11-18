@@ -107,6 +107,7 @@ export const translations = {
     errors: {
       addCart: 'Fehler beim Hinzufügen',
       checkout: 'Checkout fehlgeschlagen. Bitte erneut versuchen.',
+      cartTooLarge: 'Zu viele unterschiedliche Artikel für eine Bestellung. Bitte teile deinen Warenkorb auf.',
       connection: 'Verbindungsfehler.',
       saveDesign: 'Motiv konnte nicht gespeichert werden. Bitte erneut versuchen.',
     },
@@ -294,6 +295,7 @@ export const translations = {
     errors: {
       addCart: 'Eroare la adăugare',
       checkout: 'Checkout eșuat. Încearcă din nou.',
+      cartTooLarge: 'Prea multe articole diferite pentru o singură comandă. Împarte coșul în mai multe comenzi.',
       connection: 'Eroare de conexiune.',
       saveDesign: 'Designul nu a putut fi salvat. Încearcă din nou.',
     },
@@ -481,6 +483,7 @@ export const translations = {
     errors: {
       addCart: 'Could not add to cart',
       checkout: 'Checkout failed. Please try again.',
+      cartTooLarge: 'Too many distinct items for one order. Please split your cart into separate orders.',
       connection: 'Connection error.',
       saveDesign: 'Design could not be saved. Please try again.',
     },
