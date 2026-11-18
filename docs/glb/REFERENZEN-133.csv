@@ -4,14 +4,14 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 003,Herren-T-Shirts,A,tee,Herren-Tee (offen),165,front+back,a4_flat,anker,public/products/003/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/003-v1.glb,"v1 Claude (blender/003/build_003.py, Generator blender/lib/tee.py)"
 004,Kinder-T-Shirts,A,tee,Kinder-Tee (offen),140,front+back,a4_flat,anker,public/products/004/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/004-v1.glb,"v1 Claude (blender/004/build_004.py, Generator blender/lib/tee.py)"
 005,Baby-Bodys,A,body,Baby-Body (offen),180,front,a4_flat,offen,public/products/005/front.jpg,,offen,public/models/sku/005-v1.glb,offen
-006,Tanktops,A,tank,Tanktop (offen),150,front+back,a4_flat,offen,public/products/006/front.jpg,,offen,public/models/sku/006-v1.glb,offen
+006,Tanktops,A,tank,Tanktop (offen),150,front+back,a4_flat,offen,public/products/006/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/006-v1.glb,"v1 Claude (blender/006/build_006.py, Generator blender/lib/tee.py)"
 007,Poloshirts,A,polo,Poloshirt (offen),180,front,a4_flat,offen,public/products/007/front.jpg,,offen,public/models/sku/007-v1.glb,offen
 008,Langarmshirts,A,longsleeve,Langarmshirt (offen),170,front,a4_flat,offen,public/products/008/front.jpg,,offen,public/models/sku/008-v1.glb,offen
 009,Sporttrikots,A,jersey,Sporttrikot (offen),140,front+back,a4_flat,offen,public/products/009/front.jpg,,offen,public/models/sku/009-v1.glb,offen
 010,Basketballtrikots,A,jersey,Basketballtrikot (offen),140,front+back,a4_flat,offen,public/products/010/front.jpg,,offen,public/models/sku/010-v1.glb,offen
 011,Fußballtrikots,A,jersey,Fußballtrikot (offen),140,front+back,a4_flat,offen,public/products/011/front.jpg,,offen,public/models/sku/011-v1.glb,offen
 012,Laufshirts,A,tee,Laufshirt (offen),120,front,a4_flat,anker,public/products/012/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/012-v1.glb,"v1 Claude (blender/012/build_012.py, Generator blender/lib/tee.py)"
-013,Fitness-Tops,A,tank,Fitness-Top (offen),140,front,a4_flat,offen,public/products/013/front.jpg,,offen,public/models/sku/013-v1.glb,offen
+013,Fitness-Tops,A,tank,Fitness-Top (offen),140,front,a4_flat,offen,public/products/013/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/013-v1.glb,"v1 Claude (blender/013/build_013.py, Generator blender/lib/tee.py)"
 014,Sport-BHs,A,bra,Sport-BH (offen),150,front,a4_flat,offen,public/products/014/front.jpg,,offen,public/models/sku/014-v1.glb,offen
 015,Shorts,A,shorts,James & Nicholson JN387,135,front,a4_flat,shop_live,public/products/015/front.png,public/product-refs/jn387-shorts-front-864x1200.png,offen,public/models/sku/015-v1.glb,offen
 016,Sporthosen,A,pants,Sporthose (offen),180,front,a4_partial,offen,public/products/016/front.jpg,,offen,public/models/sku/016-v1.glb,offen
@@ -21,7 +21,7 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 020,Trainingsjacken,A,jacket,Trainingsjacke (offen),220,front,a4_partial,offen,public/products/020/front.jpg,,offen,public/models/sku/020-v1.glb,offen
 021,Hoodies,A,hoodie,Hoodie (offen),280,front,a4_partial,offen,public/products/021/front.jpg,,offen,public/models/sku/021-v1.glb,offen
 022,Sweatshirts,A,hoodie,Sweatshirt (offen),260,front,a4_partial,offen,public/products/022/front.jpg,,offen,public/models/sku/022-v1.glb,offen
-023,Unterhemden,A,tee,Unterhemd (offen),140,front,a4_flat,anker,public/products/023/front.jpg,,offen,public/models/sku/023-v1.glb,offen
+023,Unterhemden,A,tee,Unterhemd (offen),140,front,a4_flat,anker,public/products/023/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/023-v1.glb,"v1 Claude (blender/023/build_023.py, Generator blender/lib/tee.py)"
 024,Polyester-Socken,A,socks,Socken (offen),80,front,a4_flat,offen,public/products/024/front.jpg,,offen,public/models/sku/024-v1.glb,offen
 025,Stirnbänder,A,soft-head,Stirnband (offen),60,front,a4_flat,offen,public/products/025/front.jpg,,offen,public/models/sku/025-v1.glb,offen
 026,Schweißbänder,A,soft-head,Schweißband (offen),50,front,a4_flat,offen,public/products/026/front.jpg,,offen,public/models/sku/026-v1.glb,offen

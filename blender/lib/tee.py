@@ -48,6 +48,9 @@ DEFAULTS = dict(
     raglan=False,         # Raglan-Naht vom Hals zur Achsel
     side_seam_lines=False,  # Teilungsnähte vorne (Laufshirt)
     folds=1.0,            # Stärke des Faltenwurfs
+    sleeveless=False,     # Tanktop/Träger: offene Armausschnitte statt Ärmel
+    armhole_h=None,       # Unterkante Armausschnitt (None = armpit_h)
+    armhole_open=0.55,    # Öffnungstiefe des Armausschnitts relativ zur Rumpftiefe
     nu=40, nv=56,         # Raster je Stoffbahn (Budget < 300 KiB)
     seg_a=32, seg_l=18,   # Raster je Ärmel
 )
@@ -104,8 +107,18 @@ def build(config):
             _material("Rippbündchen", c["rib_color"], rough=0.92)]
     M_WHITE, M_CARBON, M_RIB = 0, 1, 2
 
+    AHOLE = c["armhole_h"] if c["armhole_h"] is not None else AH
+
+    def armhole_t(h):
+        """0 an der Unterkante des Armausschnitts, 1 an der Schulternaht."""
+        return min(1.0, max(0.0, (h - AHOLE) / (L - c["shoulder_drop"] - AHOLE)))
+
     def body_width(v):
         h = v * L
+        if c["sleeveless"] and h > AHOLE:
+            # Armausschnitt: schnell nach innen, oben fast senkrechter Träger
+            t = armhole_t(h)
+            return SX + (HW - SX) * (1 - t) ** 3
         chest_h = AH - 0.03
         if h <= c["waist_h"]:
             return lerp(HEM_W, c["waist_w"], smoothstep(0, c["waist_h"], h))
@@ -184,6 +197,11 @@ def build(config):
                 blend = smoothstep(0.84, 1.0, v)
                 d_body = c["body_d"] * superellipse(u) * (1 - 0.12 * smoothstep(0.7, 1.0, v))
                 d = d_body * math.sqrt(max(0.0, 1 - blend)) + neck_depth(x, front) * blend
+                if c["sleeveless"] and h > AHOLE:
+                    # Seitenkanten oberhalb des Armausschnitts bleiben getrennt: offene Öffnung
+                    t = armhole_t(h)
+                    gap = c["body_d"] * c["armhole_open"] * math.sin(math.pi * t) ** 0.8
+                    d = max(d, gap * (1 - superellipse(u)) + d * superellipse(u))
                 seam_fade = superellipse(u) * (1 - blend)
                 if abs(x) < NW * 1.05:
                     below = top - h
@@ -206,6 +224,8 @@ def build(config):
                 mat = M_WHITE
                 if c["carbon"] and h < AH + 0.01 and abs(u_c) > 0.84:
                     mat = M_CARBON
+                if c["sleeveless"] and h > AHOLE and abs(u_c) > 1 - 2.5 / NU:
+                    mat = M_RIB  # Einfassung am Armausschnitt
                 if j >= lower:
                     band_row = j - lower
                     if abs(x) < NW * 1.12:
@@ -221,7 +241,7 @@ def build(config):
 
     SEG_A, SEG_L = c["seg_a"], c["seg_l"]
     (ru0, rd0), (ru1, rd1) = c["sleeve_root"], c["sleeve_cuff"]
-    for side in (-1, 1):
+    for side in (() if c["sleeveless"] else (-1, 1)):
         sh_h = top_height(SX, True)
         c_sh = sh_h - ru0 * math.cos(ang)
         inset = 0.07 * HW / 0.265
