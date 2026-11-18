@@ -13,11 +13,11 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 012,Laufshirts,A,tee,Laufshirt (offen),120,front,a4_flat,anker,public/products/012/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/012-v1.glb,"v1 Claude (blender/012/build_012.py, Generator blender/lib/tee.py)"
 013,Fitness-Tops,A,tank,Fitness-Top (offen),140,front,a4_flat,offen,public/products/013/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/013-v1.glb,"v1 Claude (blender/013/build_013.py, Generator blender/lib/tee.py)"
 014,Sport-BHs,A,bra,Sport-BH (offen),150,front,a4_flat,offen,public/products/014/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/014-v1.glb,"v1 Claude (blender/014/build_014.py, Generator blender/lib/tee.py)"
-015,Shorts,A,shorts,James & Nicholson JN387,135,front,a4_flat,shop_live,public/products/015/front.png,public/product-refs/jn387-shorts-front-864x1200.png,offen,public/models/sku/015-v1.glb,offen
-016,Sporthosen,A,pants,Sporthose (offen),180,front,a4_partial,offen,public/products/016/front.jpg,,offen,public/models/sku/016-v1.glb,offen
-017,Jogginghosen,A,pants,Jogginghose (offen),200,front,a4_partial,offen,public/products/017/front.jpg,,offen,public/models/sku/017-v1.glb,offen
-018,Leggings,A,leggings,Leggings (offen),160,front,a4_flat,offen,public/products/018/front.jpg,,offen,public/models/sku/018-v1.glb,offen
-019,Radlerhosen,A,leggings,Radlerhose (offen),160,front,a4_flat,offen,public/products/019/front.jpg,,offen,public/models/sku/019-v1.glb,offen
+015,Shorts,A,shorts,James & Nicholson JN387,135,front,a4_flat,shop_live,public/products/015/front.png,public/product-refs/jn387-shorts-front-864x1200.png,"Schätzwert M, JN387 nachmessen",public/models/sku/015-v1.glb,"v1 Claude (blender/015/build_015.py, Generator blender/lib/pants.py)"
+016,Sporthosen,A,pants,Sporthose (offen),180,front,a4_partial,offen,public/products/016/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/016-v1.glb,"v1 Claude (blender/016/build_016.py, Generator blender/lib/pants.py)"
+017,Jogginghosen,A,pants,Jogginghose (offen),200,front,a4_partial,offen,public/products/017/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/017-v1.glb,"v1 Claude (blender/017/build_017.py, Generator blender/lib/pants.py)"
+018,Leggings,A,leggings,Leggings (offen),160,front,a4_flat,offen,public/products/018/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/018-v1.glb,"v1 Claude (blender/018/build_018.py, Generator blender/lib/pants.py)"
+019,Radlerhosen,A,leggings,Radlerhose (offen),160,front,a4_flat,offen,public/products/019/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/019-v1.glb,"v1 Claude (blender/019/build_019.py, Generator blender/lib/pants.py)"
 020,Trainingsjacken,A,jacket,Trainingsjacke (offen),220,front,a4_partial,offen,public/products/020/front.jpg,,offen,public/models/sku/020-v1.glb,offen
 021,Hoodies,A,hoodie,Hoodie (offen),280,front,a4_partial,offen,public/products/021/front.jpg,,offen,public/models/sku/021-v1.glb,offen
 022,Sweatshirts,A,hoodie,Sweatshirt (offen),260,front,a4_partial,offen,public/products/022/front.jpg,,offen,public/models/sku/022-v1.glb,offen
