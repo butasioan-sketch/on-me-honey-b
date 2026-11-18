@@ -33,6 +33,26 @@ export function getMotifRect(side: PrintSide, transform: PrintTransform, product
   return { top: cy - height / 2, left: cx - width / 2, width, height };
 }
 
+/**
+ * Motivrechteck auf dem A4-Druckblatt in Prozent (0–100 je Achse).
+ * Profile mit `sheetFromOverlay` (051 Kissen): das Blatt ist die Standard-Motivfläche,
+ * also getMotifRect bei scale 1 / x 0 / y 0. Ein Motiv in Standardgröße füllt das Blatt
+ * (0/0/100/100), Verschieben/Verkleinern wird relativ dazu umgerechnet; Teile außerhalb
+ * werden beim Zeichnen am Blattrand abgeschnitten.
+ * Andere Profile: unverändert die Foto-Prozentwerte (bisheriges Verhalten 001/015).
+ */
+export function getSheetRect(side: PrintSide, transform: PrintTransform, productId: string = '1') {
+  const rect = getMotifRect(side, transform, productId);
+  if (!getGarmentProfile(productId).sheetFromOverlay) return rect;
+  const sheet = getMotifRect(side, { scale: 1, x: 0, y: 0 }, productId);
+  return {
+    left: ((rect.left - sheet.left) / sheet.width) * 100,
+    top: ((rect.top - sheet.top) / sheet.height) * 100,
+    width: (rect.width / sheet.width) * 100,
+    height: (rect.height / sheet.height) * 100,
+  };
+}
+
 /** CSS für das Motiv — absolut positioniert relativ zum Shirt-Foto-Container */
 export function getMotifStyle(side: PrintSide, transform: PrintTransform, productId: string = '1'): CSSProperties {
   const r = getMotifRect(side, transform, productId);

@@ -63,6 +63,11 @@ export interface GarmentProfile {
   mmReferenceHeight: number | null;
   /** Overlay-Kalibrierung verifiziert durch physischen Testdruck (WAVE 6.2) */
   overlayVerified?: boolean;
+  /** Druckblatt-Koordinaten: true = das A4-Blatt entspricht der Standard-Motivfläche
+   *  (Overlay bei scale 1, mittig in der Placement-Zone); Motivpositionen werden darauf
+   *  umgerechnet. Nur für Profile gesetzt, deren Bezug geprüft ist (051 Kissen).
+   *  Ohne Flag bleibt das bisherige Verhalten (Foto-% direkt als Blatt-%). */
+  sheetFromOverlay?: boolean;
 }
 
 const TEE_PROFILE: GarmentProfile = {
@@ -120,6 +125,7 @@ const PILLOW_PROFILE: GarmentProfile = {
   backSrc: "/products/051/front.jpg", // Pillow uses same image for both sides
   mmReferenceHeight: null, // keine Foto-Messung — 40 cm Blank nicht als mm-Referenz erfinden
   overlayVerified: false, // NOT verified - awaiting physical test print
+  sheetFromOverlay: true, // A4-Blatt = Standard-Motivfläche (52,5 × 74,25 % des 40-cm-Bezugs)
 };
 
 export const GARMENT_PROFILES: Record<string, GarmentProfile> = {
