@@ -17,5 +17,5 @@ tee.build(dict(
     body_d=0.170, fabric=0.0035, folds=1.0,
     sleeve_len=0.590, sleeve_angle=64, sleeve_root=(0.108, 0.098), sleeve_cuff=(0.048, 0.042), cuff_rib=0.07,
     hood=dict(w=0.125, h=0.330, d=0.250), hood_cords=True,
-    kangaroo=dict(w_top=0.300, w_bottom=0.360, h0=0.075, h1=0.270), seg_l=30,
+    kangaroo=dict(w_top=0.300, w_bottom=0.360, h0=0.075, h1=0.270), seg_l=22, nu=36, nv=50, seg_a=28,  # Budget < 300 KiB
 ))

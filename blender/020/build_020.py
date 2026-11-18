@@ -16,5 +16,5 @@ tee.build(dict(
     neck_w=0.082, front_drop=0.040, back_drop=0.018, neck_d_front=0.070, neck_d_back=0.062,
     body_d=0.160, fabric=0.0030, folds=1.0,
     sleeve_len=0.600, sleeve_angle=64, sleeve_root=(0.100, 0.092), sleeve_cuff=(0.046, 0.040), cuff_rib=0.07,
-    collar=dict(stand=0.060, fall=0.0, front_gap=0.004), seg_l=30,
+    collar=dict(stand=0.060, fall=0.0, front_gap=0.004), seg_l=22, nu=36, nv=50, seg_a=28,  # Budget < 300 KiB
 ))
