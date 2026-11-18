@@ -1,6 +1,6 @@
 """Original SKU 051 model. Run with Blender in background mode.
 
-blender -b -t 4 --python scripts/model-pillow-051.py -- output.glb [source.blend]
+blender -b -t 4 --python blender/051/build_051.py -- output.glb [source.blend]
 """
 import math
 import sys
