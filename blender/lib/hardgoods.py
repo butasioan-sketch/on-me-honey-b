@@ -276,9 +276,20 @@ def build(sku, output, source=None):
             if sku==49:
                 pass
             elif sku==85:
-                cut(obj,rounded_rect(.020,.025,.005),0,-.022)
+                contour = [
+                    (x * (1.16 if y < -.019 else .88), y)
+                    for x, y in rounded_rect(w, h, .009)
+                ]
+                bpy.data.objects.remove(obj, do_unlink=True)
+                obj = prism(name, contour, d, metal, bevel=.0006)
+                opening = [
+                    (-.008,-.010),(.008,-.010),(.011,-.006),(.011,.005),
+                    (.008,.009),(.004,.009),(.002,.004),(-.003,.004),
+                    (-.005,.009),(-.008,.009),(-.011,.006),(-.011,-.006),
+                ]
+                cut(obj, opening, 0, -.024)
                 cut(obj,circle(.0025,20),0,.032)
-                plate("Einleger",.022,.031,.001,white,r=.002,pos=(0,.013,d/2+.0002))
+                plate("Einleger",.021,.029,.001,white,r=.002,pos=(0,.012,d/2+.0002))
             else:
                 cut(obj,circle(.003,20),0,h/2-.006)
                 ring("Schlüsselring",0,h/2+.012,.001,.016,.0014,metal,0.72)
