@@ -6,12 +6,21 @@ import { trackPurchase } from "@/lib/analytics";
 
 const SHARE_TEXT: Record<
   string,
-  { title: string; text: string; banner: string; share: string; copied: string }
+  {
+    title: string;
+    text: string;
+    banner: string;
+    pending: string;
+    share: string;
+    copied: string;
+  }
 > = {
   de: {
     title: "Mein neues ON ME Piece",
     text: "Gerade bestellt — mein Motiv auf Performance-Polyester. On me. In your head.",
     banner: "✓ Zahlung erfolgreich! Bestätigung kommt per E-Mail.",
+    pending:
+      "Die Zahlung ist noch nicht bestätigt. Dein Warenkorb bleibt erhalten.",
     share: "Teilen",
     copied: "Link kopiert!",
   },
@@ -19,6 +28,7 @@ const SHARE_TEXT: Record<
     title: "Noul meu ON ME",
     text: "Tocmai am comandat — motivul meu pe poliester premium. On me. In your head.",
     banner: "✓ Plată reușită! Confirmarea vine pe email.",
+    pending: "Plata nu a fost încă confirmată. Coșul tău rămâne salvat.",
     share: "Distribuie",
     copied: "Link copiat!",
   },
@@ -26,41 +36,68 @@ const SHARE_TEXT: Record<
     title: "My new ON ME piece",
     text: "Just ordered — my design on performance polyester. On me. In your head.",
     banner: "✓ Payment successful! Confirmation coming via email.",
+    pending: "Payment is awaiting confirmation. Your cart is still saved.",
     share: "Share",
     copied: "Link copied!",
   },
 };
 
 export default function PaymentSuccessBanner() {
-  const [visible, setVisible] = useState(false);
+  const [status, setStatus] = useState<"paid" | "pending" | null>(null);
   const [copied, setCopied] = useState(false);
   const [locale, setLocale] = useState("de");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("payment") !== "success") return;
+    const sessionId = params.get("session_id");
+    if (params.get("payment") !== "success" || !sessionId) return;
 
-    setVisible(true);
-    localStorage.removeItem("on_me_honey_b_cart");
-    window.dispatchEvent(new Event("cart-updated"));
-    window.history.replaceState({}, "", "/");
-
-    const storedTotal = parseFloat(
-      sessionStorage.getItem("plt_pending_purchase") ?? "0",
-    );
-    if (storedTotal > 0) {
-      trackPurchase("unknown", storedTotal, []);
-      sessionStorage.removeItem("plt_pending_purchase");
-    }
-
+    const controller = new AbortController();
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const storedLocale = localStorage.getItem("on_me_honey_b_locale") || "de";
     setLocale(storedLocale);
 
-    const timer = setTimeout(() => setVisible(false), 15000);
-    return () => clearTimeout(timer);
+    async function checkPayment(verifiedSessionId: string) {
+      try {
+        const query = new URLSearchParams({ session_id: verifiedSessionId });
+        const response = await fetch(`/api/payments/checkout-status?${query}`, {
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        const result = response.ok ? await response.json() : null;
+        if (controller.signal.aborted) return;
+        if (result?.paid !== true) {
+          setStatus("pending");
+          return;
+        }
+        setStatus("paid");
+        window.history.replaceState({}, "", "/");
+        const pendingPurchase = JSON.parse(
+          sessionStorage.getItem("plt_pending_purchase") ?? "null",
+        );
+        if (pendingPurchase?.sessionId === verifiedSessionId) {
+          sessionStorage.removeItem("plt_pending_purchase");
+          if (
+            pendingPurchase.cart === localStorage.getItem("on_me_honey_b_cart")
+          ) {
+            localStorage.removeItem("on_me_honey_b_cart");
+            window.dispatchEvent(new Event("cart-updated"));
+          }
+          if (result.amount > 0) trackPurchase("unknown", result.amount, []);
+        }
+        timer = setTimeout(() => setStatus(null), 15000);
+      } catch {
+        if (!controller.signal.aborted) setStatus("pending");
+      }
+    }
+    void checkPayment(sessionId);
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
   }, []);
 
-  if (!visible) return null;
+  if (!status) return null;
 
   const t = SHARE_TEXT[locale] || SHARE_TEXT.de;
   const siteUrl =
@@ -90,7 +127,7 @@ export default function PaymentSuccessBanner() {
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 1000,
-        background: "#16a34a",
+        background: status === "paid" ? "#15803d" : "#854d0e",
         color: "#fff",
         padding: "1rem 1.5rem",
         borderRadius: "14px",
@@ -105,23 +142,25 @@ export default function PaymentSuccessBanner() {
         animation: "plt-fadeInUp 0.4s ease",
       }}
     >
-      <span>{t.banner}</span>
-      <button
-        onClick={handleShare}
-        style={{
-          background: "rgba(255,255,255,0.2)",
-          border: "1px solid rgba(255,255,255,0.3)",
-          borderRadius: "8px",
-          color: "#fff",
-          padding: "0.45rem 1rem",
-          fontSize: "0.8rem",
-          fontWeight: 700,
-          cursor: "pointer",
-          transition: "background 0.15s",
-        }}
-      >
-        {copied ? t.copied : `${t.share} ↗`}
-      </button>
+      <span role="status">{status === "paid" ? t.banner : t.pending}</span>
+      {status === "paid" && (
+        <button
+          onClick={handleShare}
+          style={{
+            background: "rgba(255,255,255,0.2)",
+            border: "1px solid rgba(255,255,255,0.3)",
+            borderRadius: "8px",
+            color: "#fff",
+            padding: "0.45rem 1rem",
+            fontSize: "0.8rem",
+            fontWeight: 700,
+            cursor: "pointer",
+            transition: "background 0.15s",
+          }}
+        >
+          {copied ? t.copied : `${t.share} ↗`}
+        </button>
+      )}
     </div>
   );
 }

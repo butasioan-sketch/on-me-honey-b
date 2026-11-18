@@ -441,7 +441,7 @@ export async function POST(request: Request) {
           },
         },
       ],
-      success_url: `${siteUrl}/?payment=success`,
+      success_url: `${siteUrl}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/?payment=cancel`,
       metadata: {
         reference: body.reference || "",
@@ -469,6 +469,7 @@ export async function POST(request: Request) {
       currency: "EUR",
       reference: body.reference || "",
       redirectUrl: session.url,
+      sessionId: session.id,
       createdAt: new Date().toISOString(),
     });
   } catch (error) {
