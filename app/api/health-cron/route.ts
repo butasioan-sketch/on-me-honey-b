@@ -1,55 +1,67 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import { initDb } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const cronSecret = process.env.CRON_SECRET;
+  if (
+    !cronSecret ||
+    request.headers.get("authorization") !== `Bearer ${cronSecret}`
+  ) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://on-me-honey-b.vercel.app";
   const start = Date.now();
+  const [home, database] = await Promise.allSettled([
+    fetch(siteUrl, {
+      method: "HEAD",
+      redirect: "manual",
+      signal: AbortSignal.timeout(5000),
+    }),
+    initDb(),
+  ]);
+  const homeStatus = home.status === "fulfilled" ? home.value.status : null;
+  const dbOk = database.status === "fulfilled" && database.value;
+  const ok = homeStatus === 200 && dbOk;
+  const report = {
+    ok,
+    home: homeStatus,
+    database: dbOk,
+    ms: Date.now() - start,
+  };
 
-  try {
-    const [homeRes, apiRes] = await Promise.all([
-      fetch(siteUrl, { method: 'HEAD' }),
-      fetch(`${siteUrl}/api/orders?id=health-check`, { method: 'GET' }),
-    ]);
+  if (!ok) await sendAlert(siteUrl, report);
 
-    const ms = Date.now() - start;
-    const homeOk = homeRes.ok || homeRes.status === 404;
-    const apiOk = apiRes.status < 500;
-
-    if (!homeOk || !apiOk) {
-      await sendAlert(siteUrl, { homeStatus: homeRes.status, apiStatus: apiRes.status, ms });
-    }
-
-    return NextResponse.json({
-      ok: homeOk && apiOk,
-      home: homeRes.status,
-      api: apiRes.status,
-      ms,
-      ts: new Date().toISOString(),
-    });
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : 'unknown';
-    await sendAlert(siteUrl, { error: msg });
-    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
-  }
+  return NextResponse.json(report, {
+    status: ok ? 200 : 503,
+    headers: { "Cache-Control": "no-store" },
+  });
 }
 
 async function sendAlert(siteUrl: string, details: Record<string, unknown>) {
   const apiKey = process.env.RESEND_API_KEY;
   const adminEmail = process.env.ADMIN_ALERT_EMAIL || process.env.ADMIN_EMAIL;
-  if (!apiKey || !adminEmail) { console.error('[health-cron] DOWN (kein Alert-Versand, ENV fehlt):', details); return; }
+  if (!apiKey || !adminEmail) {
+    console.error(
+      "[health-cron] DOWN (kein Alert-Versand, ENV fehlt):",
+      details,
+    );
+    return;
+  }
 
-  await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    signal: AbortSignal.timeout(5000),
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      from: 'ON ME HONEY B <onboarding@resend.dev>',
+      from: "ON ME HONEY B <onboarding@resend.dev>",
       to: adminEmail,
       subject: `⚠ ON ME HONEY B DOWN — ${new Date().toISOString()}`,
-      html: `<p style="font-family:monospace">Site or API unresponsive.<br/><br/>${JSON.stringify(details, null, 2).replace(/\n/g, '<br/>')}<br/><br/><a href="${siteUrl}">${siteUrl}</a></p>`,
+      html: `<p style="font-family:monospace">Site or API unresponsive.<br/><br/>${JSON.stringify(details, null, 2).replace(/\n/g, "<br/>")}<br/><br/><a href="${siteUrl}">${siteUrl}</a></p>`,
     }),
   }).catch(console.error);
 }
