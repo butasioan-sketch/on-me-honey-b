@@ -1,24 +1,18 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import SiteHeader from '@/app/components/SiteHeader';
+import { SHIPPING_OPTIONS } from '@/lib/shipping';
 
 export const metadata: Metadata = {
   title: 'Versand & Reklamation | ON ME HONEY B',
   description: 'Versandoptionen für Deutschland, Produktionszeiten und Reklamationsprozess für ON ME Custom-Shirts.',
 };
 
-const shippingDE = [
-  { label: 'Hermes', detail: '€4.49 · 2–4 Werktage nach Produktion' },
-  { label: 'DPD', detail: '€4.79 · 2–4 Werktage nach Produktion' },
-  { label: 'DHL', detail: '€4.99 · 1–3 Werktage nach Produktion' },
-];
-
-// Rumänien-Versand deaktiviert (nur Deutschland aktiv)
-// const shippingRO = [
-//   { label: 'Hermes', detail: '€12.99 · 4–7 Werktage nach Produktion' },
-//   { label: 'DPD', detail: '€13.49 · 4–7 Werktage nach Produktion' },
-//   { label: 'DHL', detail: '€13.99 · 3–5 Werktage nach Produktion' },
-// ];
+const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+const shippingDE = SHIPPING_OPTIONS.map(({ carrier, price, eta }) => ({
+  label: carrier,
+  detail: `${euro.format(price.DE)} · ${eta.DE} nach Produktion`,
+}));
 
 function ShippingCard({ title, rows }: { title: string; rows: { label: string; detail: string }[] }) {
   return (
