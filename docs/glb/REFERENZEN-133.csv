@@ -115,12 +115,12 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 114,Campingbecher,E,mug,Campingbecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/114/front.jpg,,offen,public/models/sku/114-v1.glb,offen
 115,Kinderbecher,E,mug,Kinderbecher (offen),280,wrap,wrap_cylinder,pruefen,public/products/115/front.jpg,,offen,public/models/sku/115-v1.glb,offen
 116,Stiftehalter in Becherform,E,mug,Stiftehalter (offen),320,wrap,wrap_cylinder,pruefen,public/products/116/front.jpg,,offen,public/models/sku/116-v1.glb,offen
-117,Basecaps,F,cap,Basecap (offen),120,front,cap_front,pruefen,public/products/117/front.jpg,,offen,public/models/sku/117-v1.glb,offen
-118,Trucker-Caps,F,cap,Trucker-Cap (offen),110,front,cap_front,pruefen,public/products/118/front.jpg,,offen,public/models/sku/118-v1.glb,offen
-119,5-Panel-Caps,F,cap,5-Panel-Cap (offen),115,front,cap_front,pruefen,public/products/119/front.jpg,,offen,public/models/sku/119-v1.glb,offen
-120,Sportcaps,F,cap,Sportcap (offen),100,front,cap_front,pruefen,public/products/120/front.jpg,,offen,public/models/sku/120-v1.glb,offen
-121,Kindercaps,F,cap,Kindercap (offen),90,front,cap_front,pruefen,public/products/121/front.jpg,,offen,public/models/sku/121-v1.glb,offen
-122,Visors,F,visor,Visor (offen),80,front,cap_front,pruefen,public/products/122/front.jpg,,offen,public/models/sku/122-v1.glb,offen
+117,Basecaps,F,cap,Basecap (offen),120,front,cap_front,pruefen,public/products/117/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/117-v1.glb,"v1 Claude (blender/117/build_117.py, Generator blender/lib/cap.py)"
+118,Trucker-Caps,F,cap,Trucker-Cap (offen),110,front,cap_front,pruefen,public/products/118/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/118-v1.glb,"v1 Claude (blender/118/build_118.py, Generator blender/lib/cap.py)"
+119,5-Panel-Caps,F,cap,5-Panel-Cap (offen),115,front,cap_front,pruefen,public/products/119/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/119-v1.glb,"v1 Claude (blender/119/build_119.py, Generator blender/lib/cap.py)"
+120,Sportcaps,F,cap,Sportcap (offen),100,front,cap_front,pruefen,public/products/120/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/120-v1.glb,"v1 Claude (blender/120/build_120.py, Generator blender/lib/cap.py)"
+121,Kindercaps,F,cap,Kindercap (offen),90,front,cap_front,pruefen,public/products/121/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/121-v1.glb,"v1 Claude (blender/121/build_121.py, Generator blender/lib/cap.py)"
+122,Visors,F,visor,Visor (offen),80,front,cap_front,pruefen,public/products/122/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/122-v1.glb,"v1 Claude (blender/122/build_122.py, Generator blender/lib/cap.py)"
 123,Runde Sublimationsteller,G,plate,Sublimationsteller rund (offen),400,front,circle,pruefen,public/products/123/front.jpg,,offen,public/models/sku/123-v1.glb,offen
 124,Kleine Dekorationsteller,G,plate,Dekorationsteller klein (offen),300,front,circle,pruefen,public/products/124/front.jpg,,offen,public/models/sku/124-v1.glb,offen
 125,Große Dekorationsteller,G,plate,Dekorationsteller groß (offen),500,front,circle,pruefen,public/products/125/front.jpg,,offen,public/models/sku/125-v1.glb,offen
