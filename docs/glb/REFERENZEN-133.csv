@@ -22,13 +22,13 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 021,Hoodies,A,hoodie,Hoodie (offen),280,front,a4_partial,offen,public/products/021/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/021-v1.glb,"v1 Claude (blender/021/build_021.py, Generator blender/lib/tee.py)"
 022,Sweatshirts,A,hoodie,Sweatshirt (offen),260,front,a4_partial,offen,public/products/022/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/022-v1.glb,"v1 Claude (blender/022/build_022.py, Generator blender/lib/tee.py)"
 023,Unterhemden,A,tee,Unterhemd (offen),140,front,a4_flat,anker,public/products/023/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/023-v1.glb,"v1 Claude (blender/023/build_023.py, Generator blender/lib/tee.py)"
-024,Polyester-Socken,A,socks,Socken (offen),80,front,a4_flat,offen,public/products/024/front.jpg,,offen,public/models/sku/024-v1.glb,offen
-025,Stirnbänder,A,soft-head,Stirnband (offen),60,front,a4_flat,offen,public/products/025/front.jpg,,offen,public/models/sku/025-v1.glb,offen
-026,Schweißbänder,A,soft-head,Schweißband (offen),50,front,a4_flat,offen,public/products/026/front.jpg,,offen,public/models/sku/026-v1.glb,offen
-027,Bandanas,A,soft-head,Bandana (offen),70,front,a4_flat,offen,public/products/027/front.jpg,,offen,public/models/sku/027-v1.glb,offen
-028,Schlauchtücher,A,soft-head,Schlauchtuch (offen),90,front,a4_flat,offen,public/products/028/front.jpg,,offen,public/models/sku/028-v1.glb,offen
-029,Halstücher,A,soft-head,Halstuch (offen),80,front,a4_flat,offen,public/products/029/front.jpg,,offen,public/models/sku/029-v1.glb,offen
-030,Polyester-Schals,A,soft-head,Schal (offen),120,front,a4_flat,offen,public/products/030/front.jpg,,offen,public/models/sku/030-v1.glb,offen
+024,Polyester-Socken,A,socks,Socken (offen),80,front,a4_flat,offen,public/products/024/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/024-v1.glb,"v1 Claude (blender/024/build_024.py, Generator blender/lib/soft.py)"
+025,Stirnbänder,A,soft-head,Stirnband (offen),60,front,a4_flat,offen,public/products/025/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/025-v1.glb,"v1 Claude (blender/025/build_025.py, Generator blender/lib/soft.py)"
+026,Schweißbänder,A,soft-head,Schweißband (offen),50,front,a4_flat,offen,public/products/026/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/026-v1.glb,"v1 Claude (blender/026/build_026.py, Generator blender/lib/soft.py)"
+027,Bandanas,A,soft-head,Bandana (offen),70,front,a4_flat,offen,public/products/027/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/027-v1.glb,"v1 Claude (blender/027/build_027.py, Generator blender/lib/soft.py)"
+028,Schlauchtücher,A,soft-head,Schlauchtuch (offen),90,front,a4_flat,offen,public/products/028/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/028-v1.glb,"v1 Claude (blender/028/build_028.py, Generator blender/lib/soft.py)"
+029,Halstücher,A,soft-head,Halstuch (offen),80,front,a4_flat,offen,public/products/029/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/029-v1.glb,"v1 Claude (blender/029/build_029.py, Generator blender/lib/soft.py)"
+030,Polyester-Schals,A,soft-head,Schal (offen),120,front,a4_flat,offen,public/products/030/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/030-v1.glb,"v1 Claude (blender/030/build_030.py, Generator blender/lib/soft.py)"
 031,Stoff-Aufnäher / Patches,A,patch,Aufnäher (offen),100,front,panel,offen,public/products/031/front.jpg,,offen,public/models/sku/031-v1.glb,offen
 032,Stofftragetaschen,B,tote,Stofftasche (offen),140,front,a4_flat,offen,public/products/032/front.jpg,,offen,public/models/sku/032-v1.glb,offen
 033,Einkaufstaschen / Shopper,B,tote,Shopper (offen),140,front,a4_flat,anker,public/products/033/front.jpg,,offen,public/models/sku/033-v1.glb,offen
