@@ -47,7 +47,6 @@ export interface ProductRecord {
   familyId: keyof typeof PRODUCT_FAMILIES | string; // may reference non-existent family for catalog-only
   name: string;
   shop_live: boolean;
-  previewModel?: string;
   atelierModel?: string;
 }
 
@@ -651,7 +650,6 @@ export const CATALOG: Record<string, ProductRecord> = {
     shopId: null, // WAVE 6.4: shopId='3' only after Jonny price + jonnyOk gate
     familyId: "pillow", // WAVE 6.3: now uses pillow family
     name: "Dekokissenbezüge",
-    previewModel: "/models/sku/051-v1.glb",
     shop_live: false, // WAVE 6.4: stays false until gate opens
   },
   "052": {

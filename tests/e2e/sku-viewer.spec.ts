@@ -1,4 +1,16 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
+
+import { CATALOG } from "../../lib/catalog/families";
+
+test("every catalog SKU has a valid GLB header @smoke", () => {
+  for (const sku of Object.keys(CATALOG)) {
+    const file = readFileSync(`public/models/sku/${sku}-v1.glb`);
+    expect(file.toString("ascii", 0, 4), sku).toBe("glTF");
+    expect(file.readUInt32LE(4), sku).toBe(2);
+    expect(file.readUInt32LE(8), sku).toBe(file.length);
+  }
+});
 
 test("051 loads its own model only when requested @smoke", async ({ page }) => {
   const asset = "/models/sku/051-v1.glb";
@@ -22,3 +34,16 @@ test("051 loads its own model only when requested @smoke", async ({ page }) => {
   await page.getByRole("button", { name: "Produktfoto anzeigen" }).click();
   await expect(page.getByAltText("Dekokissenbezüge")).toBeVisible();
 });
+
+for (const sku of ["043", "081", "104", "122", "133"]) {
+  test(`${sku} opens the SKU-specific 360° draft`, async ({ page }) => {
+    const asset = `/models/sku/${sku}-v1.glb`;
+    await page.goto(`/product/${sku}`);
+    const response = page.waitForResponse(
+      (result) => new URL(result.url()).pathname === asset,
+    );
+    await page.getByRole("button", { name: "360°-Entwurf ansehen" }).click();
+    expect((await response).ok()).toBe(true);
+    await expect(page.locator("canvas")).toBeVisible({ timeout: 20000 });
+  });
+}

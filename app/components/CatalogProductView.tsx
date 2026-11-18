@@ -27,6 +27,7 @@ export default function CatalogProductView({
   product,
 }: CatalogProductViewProps) {
   const [showModel, setShowModel] = useState(false);
+  const modelPath = `/models/sku/${product.sku}-v1.glb`;
   const photoPath = catalogFrontSrc(product.sku);
   const category = categoryForSku(product.sku);
 
@@ -65,11 +66,8 @@ export default function CatalogProductView({
               overflow: "hidden",
             }}
           >
-            {showModel && product.previewModel ? (
-              <CatalogModelViewer
-                key={product.previewModel}
-                src={product.previewModel}
-              />
+            {showModel ? (
+              <CatalogModelViewer key={modelPath} src={modelPath} />
             ) : (
               <Image
                 src={photoPath}
@@ -80,16 +78,14 @@ export default function CatalogProductView({
                 priority
               />
             )}
-            {product.previewModel && (
-              <button
-                type="button"
-                className="plt-btn-secondary"
-                style={{ position: "absolute", right: 12, bottom: 12 }}
-                onClick={() => setShowModel(!showModel)}
-              >
-                {showModel ? "Produktfoto anzeigen" : "360°-Entwurf ansehen"}
-              </button>
-            )}
+            <button
+              type="button"
+              className="plt-btn-secondary"
+              style={{ position: "absolute", right: 12, bottom: 12 }}
+              onClick={() => setShowModel(!showModel)}
+            >
+              {showModel ? "Produktfoto anzeigen" : "360°-Entwurf ansehen"}
+            </button>
           </div>
 
           {/* Info */}
