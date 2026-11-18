@@ -2,7 +2,7 @@
 Referenz: public/products/013/front.jpg (Rohling offen)
 Maße: Schätzwerte Damen M (Brust 46 cm halb, Länge 63 cm), Rohling offen.
 
-blender -b --python blender/013/build_013.py -- public/models/sku/013-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/013/build_013.py -- public/models/sku/013-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path

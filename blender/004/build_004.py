@@ -2,7 +2,7 @@
 Referenz: public/products/004/front.jpg (Rohling offen)
 Maße: Schätzwerte Kinder 122/128 (Brust 34 cm halb, Länge 46 cm), Rohling offen.
 
-blender -b --python blender/004/build_004.py -- public/models/sku/004-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/004/build_004.py -- public/models/sku/004-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path

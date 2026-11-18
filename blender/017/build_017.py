@@ -2,7 +2,7 @@
 Referenz: public/products/017/front.jpg (Rohling offen)
 Maße: Schätzwerte M (Hüfte 55 cm halb, Seitenlänge 101 cm).
 
-blender -b --python blender/017/build_017.py -- public/models/sku/017-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/017/build_017.py -- public/models/sku/017-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path

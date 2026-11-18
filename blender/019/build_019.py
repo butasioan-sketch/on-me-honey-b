@@ -2,7 +2,7 @@
 Referenz: public/products/019/front.jpg (Rohling offen)
 Maße: Schätzwerte Damen M (Hüfte 45 cm halb, Seitenlänge 45 cm).
 
-blender -b --python blender/019/build_019.py -- public/models/sku/019-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/019/build_019.py -- public/models/sku/019-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path

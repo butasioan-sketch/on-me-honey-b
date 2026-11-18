@@ -2,7 +2,7 @@
 Referenz: public/product-refs/jn827-tee-1024x1536.png
 Maße: Schätzwerte Größe M (B&C-Tabelle: 53 cm halbe Brust, 72 cm Länge), am JN827 nachmessen.
 
-blender -b --python blender/001/build_001.py -- public/models/sku/001-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/001/build_001.py -- public/models/sku/001-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path

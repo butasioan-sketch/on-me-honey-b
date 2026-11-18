@@ -2,7 +2,7 @@
 Referenz: public/products/014/front.jpg (Rohling offen)
 Maße: Schätzwerte Damen M (Unterbrust 36 cm halb, Länge 30 cm).
 
-blender -b --python blender/014/build_014.py -- public/models/sku/014-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/014/build_014.py -- public/models/sku/014-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path

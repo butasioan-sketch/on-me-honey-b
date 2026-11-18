@@ -1,4 +1,6 @@
-"""Parametrischer T-Shirt-Generator (Blender 4, headless).
+"""Reproduzierbar nur mit einem Thread bauen: blender -b -t 1 … (sonst schwanken Normalen-Bytes).
+
+Parametrischer T-Shirt-Generator (Blender 4, headless).
 
 Aufbau: Vorder- und Rückenteil als eigene Stoffbahnen (Superellipsen-Profil),
 die an Seiten- und Schulternaht zusammenlaufen; Rundhals vorne tiefer als
@@ -59,6 +61,11 @@ DEFAULTS = dict(
     placket=None,         # dict(length, width, buttons) Knopfleiste vorne
     collar=None,          # dict(stand, fall) Polokragen
     crotch=None,          # dict(leg_h, crotch_w, open) Baby-Body: Schritt + Beinausschnitte
+    zip=False,            # durchgehender Reißverschluss vorne mit Zipper
+    hood=None,            # dict(w, h, d) aufgesetzte Kapuze
+    kangaroo=None,        # dict(w_top, w_bottom, h0, h1) Kängurutasche
+    hood_cords=False,     # Kapuzenkordeln vorne
+    straps=None,          # dict(width, x, height) eigene Spaghettiträger (mit neck_style="flat")
     nu=40, nv=56,         # Raster je Stoffbahn (Budget < 300 KiB)
     seg_a=32, seg_l=18,   # Raster je Ärmel
 )
@@ -112,8 +119,9 @@ def build(config):
 
     mats = [_material("Polyester weiß", c["color"]),
             _material("Kontrasteinsatz carbon", c["carbon_color"], rough=0.72),
-            _material("Rippbündchen", c["rib_color"], rough=0.92)]
-    M_WHITE, M_CARBON, M_RIB = 0, 1, 2
+            _material("Rippbündchen", c["rib_color"], rough=0.92),
+            _material("Reißverschluss", (0.62, 0.63, 0.66), rough=0.35, sheen=0.0)]
+    M_WHITE, M_CARBON, M_RIB, M_ZIP = 0, 1, 2, 3
 
     AHOLE = c["armhole_h"] if c["armhole_h"] is not None else AH
 
@@ -146,6 +154,8 @@ def build(config):
         drop = c["front_drop"] if front else c["back_drop"]
         if front and c["neck_style"] == "v":
             return L - drop * (1 - ax / NW) ** 1.1
+        if c["neck_style"] == "flat":
+            return L - drop * (1 - 0.25 * (ax / NW) ** 2)  # gerader, leicht geschwungener Abschluss
         return L - drop * math.sqrt(max(0.0, 1 - (ax / NW) ** 2))
 
     def neck_depth(x, front):
@@ -213,7 +223,7 @@ def build(config):
                     # gerundeter, längerer Rückensaum; an der Seitennaht 0, damit sie schließt
                     h -= c["back_tail"] * superellipse(u) ** 1.5 * (1 - j / lower) ** 2
                 v = max(0.0, h) / top
-                blend = smoothstep(0.84, 1.0, v)
+                blend = 0.0 if c["neck_style"] == "flat" else smoothstep(0.84, 1.0, v)
                 d_body = c["body_d"] * superellipse(u) * (1 - 0.12 * smoothstep(0.7, 1.0, v))
                 d = d_body * math.sqrt(max(0.0, 1 - blend)) + neck_depth(x, front) * blend
                 cr = c["crotch"]
@@ -234,6 +244,17 @@ def build(config):
                 d += folds(x, h, front) * seam_fade
                 d += hem_stitch(h) * seam_fade
                 d += seam_lines(x, h, front) * seam_fade
+                kg = c["kangaroo"]
+                if kg and front:
+                    tk = (h - kg["h0"]) / (kg["h1"] - kg["h0"])
+                    if 0 <= tk <= 1:
+                        half = lerp(kg["w_bottom"], kg["w_top"], tk) / 2
+                        inside = smoothstep(0.004, -0.004, abs(x) - half)
+                        d += 0.0025 * inside * seam_fade
+                        d += groove(abs(x) - half, 0.0008, 0.0014) * seam_fade
+                    d += groove(h - kg["h1"], 0.0008, 0.0014) * seam_fade * smoothstep(0.004, -0.004, abs(x) - kg["w_top"] / 2)
+                if c["zip"] and front:
+                    d += groove(abs(x) - 0.008, 0.0010, 0.0012) * seam_fade
                 row.append(bm.verts.new(to_blender(x, h, sign * d)))
             rows.append(row)
 
@@ -255,6 +276,8 @@ def build(config):
                     mat = M_RIB
                 if c["crotch"] and h < c["crotch"]["leg_h"] and abs(u_c) > 1 - 2.5 / NU:
                     mat = M_RIB  # Einfassung am Beinausschnitt
+                if c["zip"] and front and abs(x) < 0.007:
+                    mat = M_ZIP
                 pk = c["placket"]
                 if pk and front and abs(x) < pk["width"] / 2 and h > top_height(0, True) - pk["length"]:
                     mat = M_RIB
@@ -322,11 +345,19 @@ def build(config):
 
     if c["collar"]:
         _add_collar(bm, uv_layer, c, top_height, neck_depth, to_blender, M_RIB)
+    if c["hood"]:
+        _add_hood(bm, uv_layer, c, top_height, neck_depth, to_blender, M_WHITE, M_RIB)
+    if c["straps"]:
+        _add_straps(bm, uv_layer, c, top_height, neck_depth, to_blender, M_RIB)
 
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0006)
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     if c["placket"] and c["placket"].get("buttons"):
         _add_buttons(bm, c, top_height, M_RIB)
+    if c["zip"]:
+        _add_zipper(bm, c, top_height, M_ZIP)
+    if c["hood_cords"]:
+        _add_cords(bm, c, top_height, M_RIB)
 
     mesh = bpy.data.meshes.new(c["name"])
     bm.to_mesh(mesh)
@@ -391,19 +422,128 @@ def _add_collar(bm, uv_layer, c, top_height, neck_depth, to_blender, mat):
     chain = pts[start:] + pts[:start]
     cy = sum(p[2] for p in pts) / len(pts)
     rows = []
-    for (x, h, d) in chain:
+    nch = len(chain)
+    for idx, (x, h, d) in enumerate(chain):
         out = Vector((x, d - cy)).normalized() if (x, d - cy) != (0, 0) else Vector((0, 1))
+        # Kragenspitzen: an den vorderen Enden länger und nach unten-außen gezogen
+        end = min(idx, nch - 1 - idx)
+        point = math.exp(-(end / 2.5) ** 2) if fall > 0 else 0.0
         base = (x, h, d)
         top = (x, h + stand, d)
         fold = (x + out.x * 0.006, h + stand + 0.004, d + out.y * 0.006)
-        tip = (x + out.x * fall * 0.70, h + stand - fall * 0.90, d + out.y * fall * 0.70)
-        rows.append([bm.verts.new(to_blender(*p)) for p in (base, top, fold, tip)])
+        tip = (x + out.x * fall * (0.70 + 0.25 * point) + math.copysign(0.012 * point, x),
+               h + stand - fall * (0.90 + 0.55 * point),
+               d + out.y * fall * (0.70 + 0.25 * point) + 0.012 * point)
+        ptsr = (base, top, fold, tip) if fall > 0 else (base, (x + out.x * 0.003, h + stand * 0.5, d + out.y * 0.003), top)
+        rows.append([bm.verts.new(to_blender(*p)) for p in ptsr])
+    nseg = len(rows[0]) - 1
     for a, b in zip(rows, rows[1:]):
-        for k in range(3):
+        for k in range(nseg):
             f = bm.faces.new([a[k], b[k], b[k + 1], a[k + 1]])
             f.material_index = mat
             for loop in f.loops:
                 loop[uv_layer].uv = (0.99, 0.99)
+
+
+def _add_hood(bm, uv_layer, c, top_height, neck_depth, to_blender, mat, rib):
+    """Kapuze (aufgestellt): Halbschale über dem Halsausschnitt, vorne Gesichtsöffnung mit Saum."""
+    hw, hh, hd = c["hood"]["w"], c["hood"]["h"], c["hood"]["d"]
+    L = c["length"]
+    base_h = top_height(c["neck_w"], True)
+    cy = -hd * 0.18                     # Schwerpunkt leicht hinten
+    nt, npf = 22, 40
+    rows = []
+    for i in range(nt + 1):
+        th = math.radians(18) + (math.pi - math.radians(18)) * i / nt   # 0 unten … π oben/vorne-umlaufend
+        ring = []
+        for j in range(npf + 1):
+            # Öffnung vorne: phi von +60° bis 300° (hinten herum)
+            ph = math.radians(62) + math.radians(236) * j / npf
+            sx = math.sin(th) * math.sin(ph)
+            sz = math.sin(th) * math.cos(ph)
+            sy = -math.cos(th)
+            x = hw * sx
+            d = cy + hd * 0.5 * sz
+            h = base_h + hh * 0.5 * (1 + sy) * 0.98
+            # unten auf den Halsausschnitt einziehen
+            k = smoothstep(0.0, 0.35, i / nt)
+            x *= lerp(c["neck_w"] / hw * 1.05, 1.0, k)
+            d = lerp(-c["neck_d_back"] * 0.9 * (-math.cos(ph) if math.cos(ph) < 0 else 0.4) + 0.0, d, k)
+            ring.append(bm.verts.new(to_blender(x, h, d)))
+        rows.append(ring)
+    for i in range(nt):
+        for j in range(npf):
+            f = bm.faces.new([rows[i][j], rows[i][j + 1], rows[i + 1][j + 1], rows[i + 1][j]])
+            f.material_index = rib if j < 2 or j >= npf - 2 else mat
+            for loop in f.loops:
+                loop[uv_layer].uv = (0.99, 0.99)
+
+
+def _add_straps(bm, uv_layer, c, top_height, neck_depth, to_blender, mat):
+    """Spaghettiträger: schmale, gerundete Bänder vom vorderen zum hinteren Abschluss über die Schulter."""
+    st = c["straps"]
+    w, xs, rise = st["width"], st["x"], st["height"]
+    for side in (-1, 1):
+        x = side * xs
+        hf, hb = top_height(x, True), top_height(x, False)
+        df, db = neck_depth(x, True) * 0.98, -neck_depth(x, False) * 0.98
+        n = 24
+        rows = []
+        for k in range(n + 1):
+            t = k / n
+            ang = math.pi * t
+            h = lerp(hf, hb, t) + rise * math.sin(ang)
+            d = lerp(df, db, (1 - math.cos(ang)) / 2)
+            # runder Querschnitt: Band leicht gewölbt
+            rows.append([bm.verts.new(to_blender(x + side * w * u, h + 0.0015 * (1 - u * u * 4), d)) for u in (-0.5, -0.25, 0, 0.25, 0.5)])
+        for a, b in zip(rows, rows[1:]):
+            for i in range(4):
+                f = bm.faces.new([a[i], a[i + 1], b[i + 1], b[i]])
+                f.material_index = mat
+                for loop in f.loops:
+                    loop[uv_layer].uv = (0.99, 0.99)
+
+
+def _add_zipper(bm, c, top_height, mat):
+    """Zipper-Schieber oben am Reißverschluss."""
+    from mathutils.bvhtree import BVHTree
+    tree = BVHTree.FromBMesh(bm)
+    h = top_height(0, True) - 0.03
+    hit = tree.ray_cast(Vector((0, -1.0, h)), Vector((0, 1, 0)))
+    if hit[0] is None:
+        return
+    p = hit[0] + Vector((0, -0.002, 0))
+    w, hh, t = 0.006, 0.014, 0.004
+    vs = [bm.verts.new(p + Vector((sx * w, sy * t, sz * hh))) for sx in (-1, 1) for sy in (-1, 0) for sz in (-1, 1)]
+    idx = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 4, 5, 1), (2, 3, 7, 6), (0, 2, 6, 4), (1, 5, 7, 3)]
+    for q in idx:
+        f = bm.faces.new([vs[i] for i in q])
+        f.material_index = mat
+
+
+def _add_cords(bm, c, top_height, mat):
+    """Zwei Kordelenden vorne am Halsausschnitt."""
+    from mathutils.bvhtree import BVHTree
+    tree = BVHTree.FromBMesh(bm)
+    top = top_height(c["neck_w"] * 0.55, True)
+    for side in (-1, 1):
+        x0 = side * c["neck_w"] * 0.55
+        hit = tree.ray_cast(Vector((x0, -1.0, top - 0.01)), Vector((0, 1, 0)))
+        if hit[0] is None:
+            continue
+        start = hit[0] + Vector((0, -0.004, 0))
+        prev = None
+        for k in range(8):
+            p = start + Vector((side * 0.002 * k, -0.0015 * k, -0.030 * k))
+            ring = [bm.verts.new(p + Vector((math.cos(2 * math.pi * a / 8) * 0.0028, math.sin(2 * math.pi * a / 8) * 0.0028, 0))) for a in range(8)]
+            if prev:
+                for a in range(8):
+                    b = (a + 1) % 8
+                    f = bm.faces.new([prev[a], prev[b], ring[b], ring[a]])
+                    f.material_index = mat
+            prev = ring
+        cap = bm.faces.new(prev[::-1])
+        cap.material_index = mat
 
 
 def _add_buttons(bm, c, top_height, mat):

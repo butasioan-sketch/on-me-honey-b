@@ -2,7 +2,7 @@
 Referenz: public/products/006/front.jpg (Rohling offen)
 Maße: Schätzwerte Unisex M (Brust 51 cm halb, Länge 70 cm), Rohling offen.
 
-blender -b --python blender/006/build_006.py -- public/models/sku/006-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/006/build_006.py -- public/models/sku/006-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path

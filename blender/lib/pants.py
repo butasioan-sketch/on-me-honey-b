@@ -1,4 +1,6 @@
-"""Parametrischer Hosen-Generator (Shorts, Jogger, Leggings, Radler).
+"""Reproduzierbar nur mit einem Thread bauen: blender -b -t 1 … (sonst schwanken Normalen-Bytes).
+
+Parametrischer Hosen-Generator (Shorts, Jogger, Leggings, Radler).
 
 Aufbau: zwei Beinröhren, die oberhalb des Schritts leicht überlappen und dort
 die Mittelnaht bilden; darüber ein Rippbund. Optional Kordel mit Ösen,
@@ -151,7 +153,7 @@ def build(config):
             co, si = math.cos(phi), math.sin(phi)
             p = 3.0
             r = (abs(co) ** p + abs(si) ** p) ** (-1 / p)
-            ring.append(bm.verts.new(to_blender(c["waist_w"] * 1.02 * r * co, h, c["hip_d"] * 0.90 * r * si)))
+            ring.append(bm.verts.new(to_blender(c["waist_w"] * 1.006 * r * co, h, c["hip_d"] * 0.885 * r * si)))
         band.append(ring)
     for j in range(wb_rows):
         for a in range(wb_seg):

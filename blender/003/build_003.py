@@ -2,7 +2,7 @@
 Referenz: public/products/003/front.jpg (Rohling offen)
 Maße: Schätzwerte Herren L (Brust 56 cm halb, Länge 75 cm), Rohling offen.
 
-blender -b --python blender/003/build_003.py -- public/models/sku/003-v1.glb [quelle.blend] [render-prefix]
+blender -b -t 1 --python blender/003/build_003.py -- public/models/sku/003-v1.glb [quelle.blend] [render-prefix]
 """
 import sys
 from pathlib import Path
