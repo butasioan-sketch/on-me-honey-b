@@ -96,12 +96,10 @@ def shoe(b, ox=0.0, mirror=1, mats=(0, 1, 2, 3), sole_h=0.026, stations=40, seg=
             ang = math.pi * (j + 0.5) / seg
             gore = 0.50 < t < 0.62 and 2 <= abs(j - half) <= 5
             f.material_index = M_GORE if gore else M_UP
-    # Fersenkappe: hinterer Bogen zur Sohle schließen
+    # Der hintere Bogen ist planar. Eine Fläche schließt ihn ohne interne Nähte.
     back = rows[0]
-    center = bm.verts.new(b.V(ox, sole_h + 0.01, (0 - 0.5) * L))
-    for j in range(seg):
-        q = [back[j + 1], back[j], center] if mirror > 0 else [back[j], back[j + 1], center]
-        f = bm.faces.new(q); f.material_index = M_UP
+    heel = bm.faces.new(back[::-1] if mirror > 0 else back)
+    heel.material_index = M_UP
     # Spitze schließen
     front = rows[-1]
     tip = bm.verts.new(b.V(ox, sole_h + 0.012, 0.5 * L + 0.001))
