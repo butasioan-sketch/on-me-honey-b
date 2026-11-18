@@ -19,6 +19,7 @@ export type GateCheckId =
   | "price"
   | "printProfile"
   | "productionPath"
+  | "physicalTestPrint"
   | "notBlocked"
   | "jonnyOk";
 
@@ -50,6 +51,61 @@ export const RELEASE_APPROVALS: Record<
   "015": { date: "2026-07-21", source: "PREISE-UND-BUNDLE-ESSENTIAL.md" },
 };
 
+export interface Evidence {
+  date: string;
+  source: string;
+}
+
+/**
+ * Belegter Produktionspfad je SKU. Ohne Eintrag kein shop_live.
+ * - "3d": geprüftes GLB der Familie (glb-verify / Live=Git-Messung).
+ * - "2d": validiertes Produktfoto plus Druckvorlage, kein 3D nötig.
+ * physicalTestPrint: echter Testdruck gegen Vorschau/PDF (Pflicht).
+ * blockLifted: nur für 102–133, aufgehobene 11-in-1-Sperre mit Beleg.
+ */
+export interface ProductionEvidence {
+  mode: "3d" | "2d";
+  /** GLB-Pfad (3d) oder Foto/Druckvorlage (2d), relativ zu public/. */
+  asset: string;
+  assetCheck: Evidence;
+  physicalTestPrint?: Evidence;
+  blockLifted?: Evidence;
+}
+
+export const PRODUCTION_EVIDENCE: Record<string, ProductionEvidence> = {
+  "001": {
+    mode: "3d",
+    asset: "/models/shirt-white-v2.glb",
+    assetCheck: {
+      date: "2026-10-23",
+      source: "OPORD 1.4: Live = Git 261040 B",
+    },
+  },
+  "015": {
+    mode: "3d",
+    asset: "/models/shorts-white-v1.glb",
+    assetCheck: { date: "2026-10-23", source: "OPORD 1.4: Live = Git 61780 B" },
+  },
+};
+
+/**
+ * Bekannte Ausnahmen für bereits live geschaltete SKUs. Nur die genannten
+ * Prüfungen dürfen offen sein; jede weitere Lücke lässt den Test scheitern.
+ */
+export const LIVE_EXCEPTIONS: Record<
+  string,
+  { open: GateCheckId[]; reason: string }
+> = {
+  "001": {
+    open: ["physicalTestPrint"],
+    reason: "Live seit 07/2026, physischer Testdruck offen (Projekt-CLAUDE.md)",
+  },
+  "015": {
+    open: ["physicalTestPrint"],
+    reason: "Live seit 07/2026, physischer Testdruck offen (Projekt-CLAUDE.md)",
+  },
+};
+
 /** 11-in-1-Aufsätze (102–133) bleiben laut ROE gesperrt. */
 export function isBlockedSku(sku: string): boolean {
   const n = Number(sku);
@@ -68,6 +124,12 @@ export function checkReleaseGate(sku: string): GateResult {
   const shopId = rec?.shopId ?? null;
   const profile = shopId ? GARMENT_PROFILES[shopId] : undefined;
   const runtimePrice = shopId ? PRODUCT_FLAT[shopId] : undefined;
+  const evidence = PRODUCTION_EVIDENCE[sku];
+  const pathOk =
+    !!evidence &&
+    (evidence.mode === "3d"
+      ? !!family?.glbPath && family.glbPath === evidence.asset
+      : !!reg?.hasPhoto && evidence.asset.length > 0);
 
   const checks: GateCheck[] = [
     {
@@ -118,17 +180,31 @@ export function checkReleaseGate(sku: string): GateResult {
     },
     {
       id: "productionPath",
-      label: "Produktionspfad (Familie mit 3D-Modell)",
-      ok: !!family?.glbPath,
-      detail: family
-        ? (family.glbPath ?? "Familie ohne Modell")
-        : `Familie ${rec?.familyId ?? "—"} unbekannt`,
+      label: "Belegter Produktionspfad (3D geprüft oder Foto + 2D)",
+      ok: pathOk,
+      detail: !evidence
+        ? "kein Nachweis"
+        : evidence.mode === "3d" && family?.glbPath !== evidence.asset
+          ? `3D-Nachweis ${evidence.asset} passt nicht zur Familie (${family?.glbPath ?? "ohne Modell"})`
+          : `${evidence.mode.toUpperCase()} · ${evidence.asset} · ${evidence.assetCheck.date} ${evidence.assetCheck.source}`,
+    },
+    {
+      id: "physicalTestPrint",
+      label: "Physischer Testdruck gegen Vorschau und PDF",
+      ok: !!evidence?.physicalTestPrint,
+      detail: evidence?.physicalTestPrint
+        ? `${evidence.physicalTestPrint.date} · ${evidence.physicalTestPrint.source}`
+        : "fehlt",
     },
     {
       id: "notBlocked",
-      label: "Nicht gesperrt (11-in-1)",
-      ok: !isBlockedSku(sku),
-      detail: isBlockedSku(sku) ? "SKU 102–133 gesperrt" : "ok",
+      label: "Nicht gesperrt (11-in-1) oder Sperre belegt aufgehoben",
+      ok: !isBlockedSku(sku) || !!evidence?.blockLifted,
+      detail: !isBlockedSku(sku)
+        ? "ok"
+        : evidence?.blockLifted
+          ? `aufgehoben ${evidence.blockLifted.date} · ${evidence.blockLifted.source}`
+          : "SKU 102–133 gesperrt",
     },
     {
       id: "jonnyOk",
@@ -149,6 +225,14 @@ export function checkReleaseGate(sku: string): GateResult {
       !!rec?.shop_live ||
       (!!family?.shop_live && !!shopId),
   };
+}
+
+/** Offene Prüfungen, die nicht durch LIVE_EXCEPTIONS gedeckt sind. */
+export function uncoveredGaps(result: GateResult): GateCheckId[] {
+  const allowed = LIVE_EXCEPTIONS[result.sku]?.open ?? [];
+  return result.checks
+    .filter((c) => !c.ok && !allowed.includes(c.id))
+    .map((c) => c.id);
 }
 
 export function releaseReport(): GateResult[] {
