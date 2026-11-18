@@ -1,7 +1,7 @@
 """Eigenes Modell SKU 001: Unisex-T-Shirt auf Basis James & Nicholson JN827
 (white/carbon: Kontraststreifen auf den Schultern, Seiteneinsätze carbon).
 
-blender -b --python scripts/model-tee-001.py -- public/models/catalog/001.glb [quelle.blend] [render-prefix]
+blender -b --python blender/001/build_001.py -- public/models/sku/001-v1.glb [quelle.blend] [render-prefix]
 
 Aufbau: Vorder- und Rückenteil als eigene Stoffbahnen (Superellipsen-Profil),
 die an Seiten- und Schulternaht zusammenlaufen; Rundhals vorne tiefer als

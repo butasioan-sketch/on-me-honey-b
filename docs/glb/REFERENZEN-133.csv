@@ -1,134 +1,134 @@
 sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,rohling_referenz,masse_quelle,glb_ziel,glb_stand
-001,Unisex-T-Shirts,A,tee,James & Nicholson JN827,165,front+back,a4_flat,shop_live,public/products/001/front.png,public/product-refs/jn827-tee-1024x1536.png,"Schätzwert M (B&C-Tabelle), am JN827 nachmessen",public/models/catalog/001.glb,v1 Claude (scripts/model-tee-001.py)
-002,Damen-T-Shirts,A,tee,Damen-Tee (offen),165,front+back,a4_flat,anker,public/products/002/front.jpg,,offen,public/models/catalog/002.glb,offen
-003,Herren-T-Shirts,A,tee,Herren-Tee (offen),165,front+back,a4_flat,anker,public/products/003/front.jpg,,offen,public/models/catalog/003.glb,offen
-004,Kinder-T-Shirts,A,tee,Kinder-Tee (offen),140,front+back,a4_flat,anker,public/products/004/front.jpg,,offen,public/models/catalog/004.glb,offen
-005,Baby-Bodys,A,body,Baby-Body (offen),180,front,a4_flat,offen,public/products/005/front.jpg,,offen,public/models/catalog/005.glb,offen
-006,Tanktops,A,tank,Tanktop (offen),150,front+back,a4_flat,offen,public/products/006/front.jpg,,offen,public/models/catalog/006.glb,offen
-007,Poloshirts,A,polo,Poloshirt (offen),180,front,a4_flat,offen,public/products/007/front.jpg,,offen,public/models/catalog/007.glb,offen
-008,Langarmshirts,A,longsleeve,Langarmshirt (offen),170,front,a4_flat,offen,public/products/008/front.jpg,,offen,public/models/catalog/008.glb,offen
-009,Sporttrikots,A,jersey,Sporttrikot (offen),140,front+back,a4_flat,offen,public/products/009/front.jpg,,offen,public/models/catalog/009.glb,offen
-010,Basketballtrikots,A,jersey,Basketballtrikot (offen),140,front+back,a4_flat,offen,public/products/010/front.jpg,,offen,public/models/catalog/010.glb,offen
-011,Fußballtrikots,A,jersey,Fußballtrikot (offen),140,front+back,a4_flat,offen,public/products/011/front.jpg,,offen,public/models/catalog/011.glb,offen
-012,Laufshirts,A,tee,Laufshirt (offen),120,front,a4_flat,anker,public/products/012/front.jpg,,offen,public/models/catalog/012.glb,offen
-013,Fitness-Tops,A,tank,Fitness-Top (offen),140,front,a4_flat,offen,public/products/013/front.jpg,,offen,public/models/catalog/013.glb,offen
-014,Sport-BHs,A,bra,Sport-BH (offen),150,front,a4_flat,offen,public/products/014/front.jpg,,offen,public/models/catalog/014.glb,offen
-015,Shorts,A,shorts,James & Nicholson JN387,135,front,a4_flat,shop_live,public/products/015/front.png,public/product-refs/jn387-shorts-front-864x1200.png,offen,public/models/catalog/015.glb,offen
-016,Sporthosen,A,pants,Sporthose (offen),180,front,a4_partial,offen,public/products/016/front.jpg,,offen,public/models/catalog/016.glb,offen
-017,Jogginghosen,A,pants,Jogginghose (offen),200,front,a4_partial,offen,public/products/017/front.jpg,,offen,public/models/catalog/017.glb,offen
-018,Leggings,A,leggings,Leggings (offen),160,front,a4_flat,offen,public/products/018/front.jpg,,offen,public/models/catalog/018.glb,offen
-019,Radlerhosen,A,leggings,Radlerhose (offen),160,front,a4_flat,offen,public/products/019/front.jpg,,offen,public/models/catalog/019.glb,offen
-020,Trainingsjacken,A,jacket,Trainingsjacke (offen),220,front,a4_partial,offen,public/products/020/front.jpg,,offen,public/models/catalog/020.glb,offen
-021,Hoodies,A,hoodie,Hoodie (offen),280,front,a4_partial,offen,public/products/021/front.jpg,,offen,public/models/catalog/021.glb,offen
-022,Sweatshirts,A,hoodie,Sweatshirt (offen),260,front,a4_partial,offen,public/products/022/front.jpg,,offen,public/models/catalog/022.glb,offen
-023,Unterhemden,A,tee,Unterhemd (offen),140,front,a4_flat,anker,public/products/023/front.jpg,,offen,public/models/catalog/023.glb,offen
-024,Polyester-Socken,A,socks,Socken (offen),80,front,a4_flat,offen,public/products/024/front.jpg,,offen,public/models/catalog/024.glb,offen
-025,Stirnbänder,A,soft-head,Stirnband (offen),60,front,a4_flat,offen,public/products/025/front.jpg,,offen,public/models/catalog/025.glb,offen
-026,Schweißbänder,A,soft-head,Schweißband (offen),50,front,a4_flat,offen,public/products/026/front.jpg,,offen,public/models/catalog/026.glb,offen
-027,Bandanas,A,soft-head,Bandana (offen),70,front,a4_flat,offen,public/products/027/front.jpg,,offen,public/models/catalog/027.glb,offen
-028,Schlauchtücher,A,soft-head,Schlauchtuch (offen),90,front,a4_flat,offen,public/products/028/front.jpg,,offen,public/models/catalog/028.glb,offen
-029,Halstücher,A,soft-head,Halstuch (offen),80,front,a4_flat,offen,public/products/029/front.jpg,,offen,public/models/catalog/029.glb,offen
-030,Polyester-Schals,A,soft-head,Schal (offen),120,front,a4_flat,offen,public/products/030/front.jpg,,offen,public/models/catalog/030.glb,offen
-031,Stoff-Aufnäher / Patches,A,patch,Aufnäher (offen),100,front,panel,offen,public/products/031/front.jpg,,offen,public/models/catalog/031.glb,offen
-032,Stofftragetaschen,B,tote,Stofftasche (offen),140,front,a4_flat,offen,public/products/032/front.jpg,,offen,public/models/catalog/032.glb,offen
-033,Einkaufstaschen / Shopper,B,tote,Shopper (offen),140,front,a4_flat,anker,public/products/033/front.jpg,,offen,public/models/catalog/033.glb,offen
-034,Turnbeutel,B,drawstring,Turnbeutel (offen),120,front,a4_flat,offen,public/products/034/front.jpg,,offen,public/models/catalog/034.glb,offen
-035,Sportbeutel,B,drawstring,Sportbeutel (offen),120,front,a4_flat,offen,public/products/035/front.jpg,,offen,public/models/catalog/035.glb,offen
-036,Kleine Sporttaschen,B,sportbag,Sporttasche (offen),200,front,a4_partial,offen,public/products/036/front.jpg,,offen,public/models/catalog/036.glb,offen
-037,Kosmetiktaschen,B,pouch,Kosmetiktasche (offen),100,front,a4_flat,offen,public/products/037/front.jpg,,offen,public/models/catalog/037.glb,offen
-038,Kulturbeutel,B,pouch,Kulturbeutel (offen),120,front,a4_flat,offen,public/products/038/front.jpg,,offen,public/models/catalog/038.glb,offen
-039,Federmäppchen,B,pouch,Federmäppchen (offen),80,front,a4_flat,offen,public/products/039/front.jpg,,offen,public/models/catalog/039.glb,offen
-040,Stiftemäppchen,B,pouch,Stiftemäppchen (offen),80,front,a4_flat,offen,public/products/040/front.jpg,,offen,public/models/catalog/040.glb,offen
-041,Kleine Geldbörsen,B,pouch,Geldbörse (offen),90,front,a4_flat,offen,public/products/041/front.jpg,,offen,public/models/catalog/041.glb,offen
-042,Brillenetuis,B,pouch,Brillenetui (offen),70,front,a4_flat,offen,public/products/042/front.jpg,,offen,public/models/catalog/042.glb,offen
-043,Laptop-Hüllen,B,laptop,Laptop-Hülle (offen),140,front,a4_partial,offen,public/products/043/front.jpg,,offen,public/models/catalog/043.glb,offen
-044,Tablet-Hüllen,B,pouch,Tablet-Hülle (offen),100,front,a4_flat,offen,public/products/044/front.jpg,,offen,public/models/catalog/044.glb,offen
-045,Dokumententaschen,B,pouch,Dokumententasche (offen),110,front,a4_flat,offen,public/products/045/front.jpg,,offen,public/models/catalog/045.glb,offen
-046,Reisepasshüllen,B,pouch,Reisepasshülle (offen),60,front,panel,offen,public/products/046/front.jpg,,offen,public/models/catalog/046.glb,offen
-047,Kofferanhänger,B,pouch,Kofferanhänger (offen),50,front,panel,offen,public/products/047/front.jpg,,offen,public/models/catalog/047.glb,offen
-048,Schlüsselbänder / Lanyards,B,patch,Schlüsselband (offen),30,front,panel,offen,public/products/048/front.jpg,,offen,public/models/catalog/048.glb,offen
-049,Schlüsselanhänger Polyester,B,hard-small,Schlüsselanhänger (offen),20,front,panel,offen,public/products/049/front.jpg,,offen,public/models/catalog/049.glb,offen
-050,Kartenetuis,B,pouch,Kartenetui (offen),70,front,a4_flat,offen,public/products/050/front.jpg,,offen,public/models/catalog/050.glb,offen
-051,Dekokissenbezüge,C,pillow,BRILDOR Kissenbezug (Kandidat),180,front,a4_flat,pilot,public/products/051/front.jpg,,40×40 cm laut Produkttitel,public/models/catalog/051.glb,"Codex (scripts/model-pillow-051.py, feat/glb-051)"
-052,Kopfkissenbezüge,C,pillow,Kopfkissenbezug (offen),180,front,a4_flat,offen,public/products/052/front.jpg,,offen,public/models/catalog/052.glb,offen
-053,Zierkissenbezüge,C,pillow,Zierkissenbezug (offen),160,front,a4_flat,offen,public/products/053/front.jpg,,offen,public/models/catalog/053.glb,offen
-054,Polyester-Küchentücher,C,towel,Küchentuch (offen),140,front,a4_flat,offen,public/products/054/front.jpg,,offen,public/models/catalog/054.glb,offen
-055,Geschirrtücher,C,towel,Geschirrtuch (offen),140,front,a4_flat,offen,public/products/055/front.jpg,,offen,public/models/catalog/055.glb,offen
-056,Sporthandtücher Mikrofaser,C,towel,Sporthandtuch (offen),160,front,a4_flat,offen,public/products/056/front.jpg,,offen,public/models/catalog/056.glb,offen
-057,Gästehandtücher,C,towel,Gästehandtuch (offen),150,front,a4_flat,offen,public/products/057/front.jpg,,offen,public/models/catalog/057.glb,offen
-058,Tischsets,C,table-textile,Tischset (offen),120,front,a4_flat,offen,public/products/058/front.jpg,,offen,public/models/catalog/058.glb,offen
-059,Tischläufer,C,table-textile,Tischläufer (offen),140,front,a4_flat,offen,public/products/059/front.jpg,,offen,public/models/catalog/059.glb,offen
-060,Stoffservietten,C,table-textile,Stoffserviette (offen),80,front,panel,offen,public/products/060/front.jpg,,offen,public/models/catalog/060.glb,offen
-061,Kleine Tischdecken,C,table-textile,Tischdecke (offen),180,front,a4_flat,offen,public/products/061/front.jpg,,offen,public/models/catalog/061.glb,offen
-062,Küchen- und Grillschürzen,C,apron,Schürze (offen),160,front,a4_flat,offen,public/products/062/front.jpg,,offen,public/models/catalog/062.glb,offen
-063,Topflappen,C,potholder,Topflappen (offen),100,front,panel,offen,public/products/063/front.jpg,,offen,public/models/catalog/063.glb,offen
-064,Untersetzer MDF,C,coaster,Untersetzer MDF (offen),50,front,panel,offen,public/products/064/front.jpg,,offen,public/models/catalog/064.glb,offen
-065,Untersetzer Kork,C,coaster,Untersetzer Kork (offen),40,front,panel,offen,public/products/065/front.jpg,,offen,public/models/catalog/065.glb,offen
-066,Untersetzer Aluminium,C,coaster,Untersetzer Alu (offen),60,front,panel,offen,public/products/066/front.jpg,,offen,public/models/catalog/066.glb,offen
-067,Kleine Wandbilder Aluminium,C,panel,Wandbild Alu (offen),80,front,panel,offen,public/products/067/front.jpg,,offen,public/models/catalog/067.glb,offen
-068,Fotoschilder,C,panel,Fotoschild (offen),70,front,panel,offen,public/products/068/front.jpg,,offen,public/models/catalog/068.glb,offen
-069,Sublimations-Fotopaneele,C,panel,Fotopaneel (offen),70,front,panel,offen,public/products/069/front.jpg,,offen,public/models/catalog/069.glb,offen
-070,Dekorative MDF-Schilder,C,panel,MDF-Schild (offen),90,front,panel,offen,public/products/070/front.jpg,,offen,public/models/catalog/070.glb,offen
-071,Türschilder,C,panel,Türschild (offen),60,front,panel,offen,public/products/071/front.jpg,,offen,public/models/catalog/071.glb,offen
-072,Namensschilder,C,panel,Namensschild (offen),40,front,panel,offen,public/products/072/front.jpg,,offen,public/models/catalog/072.glb,offen
-073,Tischschilder,C,panel,Tischschild (offen),50,front,panel,offen,public/products/073/front.jpg,,offen,public/models/catalog/073.glb,offen
-074,Wanduhrenrohlinge,C,clock,Wanduhr (offen),100,front,panel,offen,public/products/074/front.jpg,,offen,public/models/catalog/074.glb,offen
-075,Kleine Dekofahnen,C,flag,Dekofahne (offen),100,front,a4_flat,offen,public/products/075/front.jpg,,offen,public/models/catalog/075.glb,offen
-076,Wimpel,C,flag,Wimpel (offen),80,front,panel,offen,public/products/076/front.jpg,,offen,public/models/catalog/076.glb,offen
-077,Kleine Stoffbanner,C,flag,Stoffbanner (offen),120,front,a4_flat,offen,public/products/077/front.jpg,,offen,public/models/catalog/077.glb,offen
-078,Mauspads,D,mousepad,Mauspad (offen),80,front,a4_flat,offen,public/products/078/front.jpg,,offen,public/models/catalog/078.glb,offen
-079,Gaming-Mauspads,D,mousepad,Gaming-Mauspad (offen),100,front,a4_partial,offen,public/products/079/front.jpg,,offen,public/models/catalog/079.glb,offen
-080,Schreibtischunterlagen,D,mousepad,Schreibtischunterlage (offen),120,front,a4_partial,offen,public/products/080/front.jpg,,offen,public/models/catalog/080.glb,offen
-081,Handyhüllen,D,phone,Handyhülle (offen),40,front,panel,offen,public/products/081/front.jpg,,offen,public/models/catalog/081.glb,offen
-082,Schlüsselanhänger Metall,D,hard-small,Schlüsselanhänger Metall (offen),30,front,panel,offen,public/products/082/front.jpg,,offen,public/models/catalog/082.glb,offen
-083,Schlüsselanhänger MDF,D,hard-small,Schlüsselanhänger MDF (offen),20,front,panel,offen,public/products/083/front.jpg,,offen,public/models/catalog/083.glb,offen
-084,Kühlschrankmagnete,D,hard-small,Kühlschrankmagnet (offen),20,front,panel,offen,public/products/084/front.jpg,,offen,public/models/catalog/084.glb,offen
-085,Flaschenöffner,D,hard-small,Flaschenöffner (offen),40,front,panel,offen,public/products/085/front.jpg,,offen,public/models/catalog/085.glb,offen
-086,Lesezeichen Aluminium,D,hard-small,Lesezeichen Alu (offen),30,front,panel,offen,public/products/086/front.jpg,,offen,public/models/catalog/086.glb,offen
-087,Foto-Puzzles bis A4,D,puzzle,Foto-Puzzle (offen),200,front,a4_flat,offen,public/products/087/front.jpg,,offen,public/models/catalog/087.glb,offen
-088,Untersetzer-Sets,D,coaster,Untersetzer-Set (offen),50,front,panel,offen,public/products/088/front.jpg,,offen,public/models/catalog/088.glb,offen
-089,Visitenkarten Metall,D,hard-small,Visitenkarte Metall (offen),30,front,panel,offen,public/products/089/front.jpg,,offen,public/models/catalog/089.glb,offen
-090,Kleine Ausweisschilder,D,hard-small,Ausweisschild (offen),30,front,panel,offen,public/products/090/front.jpg,,offen,public/models/catalog/090.glb,offen
-091,Namensplaketten,D,hard-small,Namensplakette (offen),40,front,panel,offen,public/products/091/front.jpg,,offen,public/models/catalog/091.glb,offen
-092,Notizbücher,D,notebook,Notizbuch (offen),200,front,a4_flat,offen,public/products/092/front.jpg,,offen,public/models/catalog/092.glb,offen
-093,Dekorative Fototafeln,D,panel,Fototafel (offen),100,front,panel,offen,public/products/093/front.jpg,,offen,public/models/catalog/093.glb,offen
-094,Weihnachtsanhänger,D,hard-small,Weihnachtsanhänger (offen),20,front,panel,offen,public/products/094/front.jpg,,offen,public/models/catalog/094.glb,offen
-095,Weihnachtsbaum-Ornamente,D,hard-small,Weihnachtsornament (offen),25,front,panel,offen,public/products/095/front.jpg,,offen,public/models/catalog/095.glb,offen
-096,Geschenkanhänger,D,hard-small,Geschenkanhänger (offen),15,front,panel,offen,public/products/096/front.jpg,,offen,public/models/catalog/096.glb,offen
-097,Hundemarken,D,hard-small,Hundemarke (offen),30,front,panel,offen,public/products/097/front.jpg,,offen,public/models/catalog/097.glb,offen
-098,Haustier-Namensschilder,D,hard-small,Haustier-Namensschild (offen),30,front,panel,offen,public/products/098/front.jpg,,offen,public/models/catalog/098.glb,offen
-099,Kleine Bilderrahmen,D,hard-small,Bilderrahmen (offen),100,front,panel,offen,public/products/099/front.jpg,,offen,public/models/catalog/099.glb,offen
-100,Schmuckanhänger,D,hard-small,Schmuckanhänger (offen),20,front,panel,offen,public/products/100/front.jpg,,offen,public/models/catalog/100.glb,offen
-101,Kleine Fotokacheln Keramik,D,hard-small,Fotokachel Keramik (offen),80,front,panel,offen,public/products/101/front.jpg,,offen,public/models/catalog/101.glb,offen
-102,Keramiktassen 6 oz,E,mug,Keramiktasse 6oz (offen),300,wrap,wrap_cylinder,pruefen,public/products/102/front.jpg,,offen,public/models/catalog/102.glb,offen
-103,Keramiktassen 9 oz,E,mug,Keramiktasse 9oz (offen),320,wrap,wrap_cylinder,pruefen,public/products/103/front.jpg,,offen,public/models/catalog/103.glb,offen
-104,Keramiktassen 11 oz,E,mug,Keramiktasse 11oz (offen),340,wrap,wrap_cylinder,pruefen,public/products/104/front.jpg,,offen,public/models/catalog/104.glb,offen
-105,Keramiktassen 12 oz,E,mug,Keramiktasse 12oz (offen),360,wrap,wrap_cylinder,pruefen,public/products/105/front.jpg,,offen,public/models/catalog/105.glb,offen
-106,Zweifarbige Tassen,E,mug,Zweifarbige Tasse (offen),340,wrap,wrap_cylinder,pruefen,public/products/106/front.jpg,,offen,public/models/catalog/106.glb,offen
-107,Magic Mugs,E,mug,Magic Mug (offen),340,wrap,wrap_cylinder,pruefen,public/products/107/front.jpg,,offen,public/models/catalog/107.glb,offen
-108,Emaillebecher,E,tumbler,Emaillebecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/108/front.jpg,,offen,public/models/catalog/108.glb,offen
-109,Metallbecher,E,tumbler,Metallbecher (offen),320,wrap,wrap_cylinder,pruefen,public/products/109/front.jpg,,offen,public/models/catalog/109.glb,offen
-110,Edelstahl-Trinkbecher,E,tumbler,Edelstahl-Becher (offen),340,wrap,wrap_cylinder,pruefen,public/products/110/front.jpg,,offen,public/models/catalog/110.glb,offen
-111,Thermobecher,E,tumbler,Thermobecher (offen),400,wrap,wrap_cylinder,pruefen,public/products/111/front.jpg,,offen,public/models/catalog/111.glb,offen
-112,Trinkflaschen,E,bottle,Trinkflasche (offen),350,wrap,wrap_cylinder,pruefen,public/products/112/front.jpg,,offen,public/models/catalog/112.glb,offen
-113,Aluminium-Trinkflaschen,E,bottle,Alu-Trinkflasche (offen),320,wrap,wrap_cylinder,pruefen,public/products/113/front.jpg,,offen,public/models/catalog/113.glb,offen
-114,Campingbecher,E,mug,Campingbecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/114/front.jpg,,offen,public/models/catalog/114.glb,offen
-115,Kinderbecher,E,mug,Kinderbecher (offen),280,wrap,wrap_cylinder,pruefen,public/products/115/front.jpg,,offen,public/models/catalog/115.glb,offen
-116,Stiftehalter in Becherform,E,mug,Stiftehalter (offen),320,wrap,wrap_cylinder,pruefen,public/products/116/front.jpg,,offen,public/models/catalog/116.glb,offen
-117,Basecaps,F,cap,Basecap (offen),120,front,cap_front,pruefen,public/products/117/front.jpg,,offen,public/models/catalog/117.glb,offen
-118,Trucker-Caps,F,cap,Trucker-Cap (offen),110,front,cap_front,pruefen,public/products/118/front.jpg,,offen,public/models/catalog/118.glb,offen
-119,5-Panel-Caps,F,cap,5-Panel-Cap (offen),115,front,cap_front,pruefen,public/products/119/front.jpg,,offen,public/models/catalog/119.glb,offen
-120,Sportcaps,F,cap,Sportcap (offen),100,front,cap_front,pruefen,public/products/120/front.jpg,,offen,public/models/catalog/120.glb,offen
-121,Kindercaps,F,cap,Kindercap (offen),90,front,cap_front,pruefen,public/products/121/front.jpg,,offen,public/models/catalog/121.glb,offen
-122,Visors,F,visor,Visor (offen),80,front,cap_front,pruefen,public/products/122/front.jpg,,offen,public/models/catalog/122.glb,offen
-123,Runde Sublimationsteller,G,plate,Sublimationsteller rund (offen),400,front,circle,pruefen,public/products/123/front.jpg,,offen,public/models/catalog/123.glb,offen
-124,Kleine Dekorationsteller,G,plate,Dekorationsteller klein (offen),300,front,circle,pruefen,public/products/124/front.jpg,,offen,public/models/catalog/124.glb,offen
-125,Große Dekorationsteller,G,plate,Dekorationsteller groß (offen),500,front,circle,pruefen,public/products/125/front.jpg,,offen,public/models/catalog/125.glb,offen
-126,Unterteller,G,plate,Unterteller (offen),250,front,circle,pruefen,public/products/126/front.jpg,,offen,public/models/catalog/126.glb,offen
-127,Kugelschreiber,H,pen,Kugelschreiber (offen),20,wrap,wrap_cylinder,pruefen,public/products/127/front.jpg,,offen,public/models/catalog/127.glb,offen
-128,Werbestifte,H,pen,Werbestift (offen),18,wrap,wrap_cylinder,pruefen,public/products/128/front.jpg,,offen,public/models/catalog/128.glb,offen
-129,Schreibgeräte hitzefest,H,pen,Schreibgerät hitzefest (offen),22,wrap,wrap_cylinder,pruefen,public/products/129/front.jpg,,offen,public/models/catalog/129.glb,offen
-130,Polyester-Sneaker,I,shoe,Polyester-Sneaker (offen),400,panel,shoe,pruefen,public/products/130/front.jpg,,offen,public/models/catalog/130.glb,offen
-131,Leichte Stoffschuhe,I,shoe,Stoffschuh (offen),350,panel,shoe,pruefen,public/products/131/front.jpg,,offen,public/models/catalog/131.glb,offen
-132,Schuhoberteile,I,shoe,Schuhoberteil (offen),200,panel,shoe,pruefen,public/products/132/front.jpg,,offen,public/models/catalog/132.glb,offen
-133,Schuhzungen,I,shoe,Schuhzunge (offen),100,panel,shoe,pruefen,public/products/133/front.jpg,,offen,public/models/catalog/133.glb,offen
+001,Unisex-T-Shirts,A,tee,James & Nicholson JN827,165,front+back,a4_flat,shop_live,public/products/001/front.png,public/product-refs/jn827-tee-1024x1536.png,"Schätzwert M (B&C-Tabelle), am JN827 nachmessen",public/models/sku/001-v1.glb,v1 Claude (blender/001/build_001.py)
+002,Damen-T-Shirts,A,tee,Damen-Tee (offen),165,front+back,a4_flat,anker,public/products/002/front.jpg,,offen,public/models/sku/002-v1.glb,offen
+003,Herren-T-Shirts,A,tee,Herren-Tee (offen),165,front+back,a4_flat,anker,public/products/003/front.jpg,,offen,public/models/sku/003-v1.glb,offen
+004,Kinder-T-Shirts,A,tee,Kinder-Tee (offen),140,front+back,a4_flat,anker,public/products/004/front.jpg,,offen,public/models/sku/004-v1.glb,offen
+005,Baby-Bodys,A,body,Baby-Body (offen),180,front,a4_flat,offen,public/products/005/front.jpg,,offen,public/models/sku/005-v1.glb,offen
+006,Tanktops,A,tank,Tanktop (offen),150,front+back,a4_flat,offen,public/products/006/front.jpg,,offen,public/models/sku/006-v1.glb,offen
+007,Poloshirts,A,polo,Poloshirt (offen),180,front,a4_flat,offen,public/products/007/front.jpg,,offen,public/models/sku/007-v1.glb,offen
+008,Langarmshirts,A,longsleeve,Langarmshirt (offen),170,front,a4_flat,offen,public/products/008/front.jpg,,offen,public/models/sku/008-v1.glb,offen
+009,Sporttrikots,A,jersey,Sporttrikot (offen),140,front+back,a4_flat,offen,public/products/009/front.jpg,,offen,public/models/sku/009-v1.glb,offen
+010,Basketballtrikots,A,jersey,Basketballtrikot (offen),140,front+back,a4_flat,offen,public/products/010/front.jpg,,offen,public/models/sku/010-v1.glb,offen
+011,Fußballtrikots,A,jersey,Fußballtrikot (offen),140,front+back,a4_flat,offen,public/products/011/front.jpg,,offen,public/models/sku/011-v1.glb,offen
+012,Laufshirts,A,tee,Laufshirt (offen),120,front,a4_flat,anker,public/products/012/front.jpg,,offen,public/models/sku/012-v1.glb,offen
+013,Fitness-Tops,A,tank,Fitness-Top (offen),140,front,a4_flat,offen,public/products/013/front.jpg,,offen,public/models/sku/013-v1.glb,offen
+014,Sport-BHs,A,bra,Sport-BH (offen),150,front,a4_flat,offen,public/products/014/front.jpg,,offen,public/models/sku/014-v1.glb,offen
+015,Shorts,A,shorts,James & Nicholson JN387,135,front,a4_flat,shop_live,public/products/015/front.png,public/product-refs/jn387-shorts-front-864x1200.png,offen,public/models/sku/015-v1.glb,offen
+016,Sporthosen,A,pants,Sporthose (offen),180,front,a4_partial,offen,public/products/016/front.jpg,,offen,public/models/sku/016-v1.glb,offen
+017,Jogginghosen,A,pants,Jogginghose (offen),200,front,a4_partial,offen,public/products/017/front.jpg,,offen,public/models/sku/017-v1.glb,offen
+018,Leggings,A,leggings,Leggings (offen),160,front,a4_flat,offen,public/products/018/front.jpg,,offen,public/models/sku/018-v1.glb,offen
+019,Radlerhosen,A,leggings,Radlerhose (offen),160,front,a4_flat,offen,public/products/019/front.jpg,,offen,public/models/sku/019-v1.glb,offen
+020,Trainingsjacken,A,jacket,Trainingsjacke (offen),220,front,a4_partial,offen,public/products/020/front.jpg,,offen,public/models/sku/020-v1.glb,offen
+021,Hoodies,A,hoodie,Hoodie (offen),280,front,a4_partial,offen,public/products/021/front.jpg,,offen,public/models/sku/021-v1.glb,offen
+022,Sweatshirts,A,hoodie,Sweatshirt (offen),260,front,a4_partial,offen,public/products/022/front.jpg,,offen,public/models/sku/022-v1.glb,offen
+023,Unterhemden,A,tee,Unterhemd (offen),140,front,a4_flat,anker,public/products/023/front.jpg,,offen,public/models/sku/023-v1.glb,offen
+024,Polyester-Socken,A,socks,Socken (offen),80,front,a4_flat,offen,public/products/024/front.jpg,,offen,public/models/sku/024-v1.glb,offen
+025,Stirnbänder,A,soft-head,Stirnband (offen),60,front,a4_flat,offen,public/products/025/front.jpg,,offen,public/models/sku/025-v1.glb,offen
+026,Schweißbänder,A,soft-head,Schweißband (offen),50,front,a4_flat,offen,public/products/026/front.jpg,,offen,public/models/sku/026-v1.glb,offen
+027,Bandanas,A,soft-head,Bandana (offen),70,front,a4_flat,offen,public/products/027/front.jpg,,offen,public/models/sku/027-v1.glb,offen
+028,Schlauchtücher,A,soft-head,Schlauchtuch (offen),90,front,a4_flat,offen,public/products/028/front.jpg,,offen,public/models/sku/028-v1.glb,offen
+029,Halstücher,A,soft-head,Halstuch (offen),80,front,a4_flat,offen,public/products/029/front.jpg,,offen,public/models/sku/029-v1.glb,offen
+030,Polyester-Schals,A,soft-head,Schal (offen),120,front,a4_flat,offen,public/products/030/front.jpg,,offen,public/models/sku/030-v1.glb,offen
+031,Stoff-Aufnäher / Patches,A,patch,Aufnäher (offen),100,front,panel,offen,public/products/031/front.jpg,,offen,public/models/sku/031-v1.glb,offen
+032,Stofftragetaschen,B,tote,Stofftasche (offen),140,front,a4_flat,offen,public/products/032/front.jpg,,offen,public/models/sku/032-v1.glb,offen
+033,Einkaufstaschen / Shopper,B,tote,Shopper (offen),140,front,a4_flat,anker,public/products/033/front.jpg,,offen,public/models/sku/033-v1.glb,offen
+034,Turnbeutel,B,drawstring,Turnbeutel (offen),120,front,a4_flat,offen,public/products/034/front.jpg,,offen,public/models/sku/034-v1.glb,offen
+035,Sportbeutel,B,drawstring,Sportbeutel (offen),120,front,a4_flat,offen,public/products/035/front.jpg,,offen,public/models/sku/035-v1.glb,offen
+036,Kleine Sporttaschen,B,sportbag,Sporttasche (offen),200,front,a4_partial,offen,public/products/036/front.jpg,,offen,public/models/sku/036-v1.glb,offen
+037,Kosmetiktaschen,B,pouch,Kosmetiktasche (offen),100,front,a4_flat,offen,public/products/037/front.jpg,,offen,public/models/sku/037-v1.glb,offen
+038,Kulturbeutel,B,pouch,Kulturbeutel (offen),120,front,a4_flat,offen,public/products/038/front.jpg,,offen,public/models/sku/038-v1.glb,offen
+039,Federmäppchen,B,pouch,Federmäppchen (offen),80,front,a4_flat,offen,public/products/039/front.jpg,,offen,public/models/sku/039-v1.glb,offen
+040,Stiftemäppchen,B,pouch,Stiftemäppchen (offen),80,front,a4_flat,offen,public/products/040/front.jpg,,offen,public/models/sku/040-v1.glb,offen
+041,Kleine Geldbörsen,B,pouch,Geldbörse (offen),90,front,a4_flat,offen,public/products/041/front.jpg,,offen,public/models/sku/041-v1.glb,offen
+042,Brillenetuis,B,pouch,Brillenetui (offen),70,front,a4_flat,offen,public/products/042/front.jpg,,offen,public/models/sku/042-v1.glb,offen
+043,Laptop-Hüllen,B,laptop,Laptop-Hülle (offen),140,front,a4_partial,offen,public/products/043/front.jpg,,offen,public/models/sku/043-v1.glb,offen
+044,Tablet-Hüllen,B,pouch,Tablet-Hülle (offen),100,front,a4_flat,offen,public/products/044/front.jpg,,offen,public/models/sku/044-v1.glb,offen
+045,Dokumententaschen,B,pouch,Dokumententasche (offen),110,front,a4_flat,offen,public/products/045/front.jpg,,offen,public/models/sku/045-v1.glb,offen
+046,Reisepasshüllen,B,pouch,Reisepasshülle (offen),60,front,panel,offen,public/products/046/front.jpg,,offen,public/models/sku/046-v1.glb,offen
+047,Kofferanhänger,B,pouch,Kofferanhänger (offen),50,front,panel,offen,public/products/047/front.jpg,,offen,public/models/sku/047-v1.glb,offen
+048,Schlüsselbänder / Lanyards,B,patch,Schlüsselband (offen),30,front,panel,offen,public/products/048/front.jpg,,offen,public/models/sku/048-v1.glb,offen
+049,Schlüsselanhänger Polyester,B,hard-small,Schlüsselanhänger (offen),20,front,panel,offen,public/products/049/front.jpg,,offen,public/models/sku/049-v1.glb,offen
+050,Kartenetuis,B,pouch,Kartenetui (offen),70,front,a4_flat,offen,public/products/050/front.jpg,,offen,public/models/sku/050-v1.glb,offen
+051,Dekokissenbezüge,C,pillow,BRILDOR Kissenbezug (Kandidat),180,front,a4_flat,pilot,public/products/051/front.jpg,,40×40 cm laut Produkttitel,public/models/sku/051-v1.glb,"Codex (blender/051/build_051.py, feat/glb-051)"
+052,Kopfkissenbezüge,C,pillow,Kopfkissenbezug (offen),180,front,a4_flat,offen,public/products/052/front.jpg,,offen,public/models/sku/052-v1.glb,offen
+053,Zierkissenbezüge,C,pillow,Zierkissenbezug (offen),160,front,a4_flat,offen,public/products/053/front.jpg,,offen,public/models/sku/053-v1.glb,offen
+054,Polyester-Küchentücher,C,towel,Küchentuch (offen),140,front,a4_flat,offen,public/products/054/front.jpg,,offen,public/models/sku/054-v1.glb,offen
+055,Geschirrtücher,C,towel,Geschirrtuch (offen),140,front,a4_flat,offen,public/products/055/front.jpg,,offen,public/models/sku/055-v1.glb,offen
+056,Sporthandtücher Mikrofaser,C,towel,Sporthandtuch (offen),160,front,a4_flat,offen,public/products/056/front.jpg,,offen,public/models/sku/056-v1.glb,offen
+057,Gästehandtücher,C,towel,Gästehandtuch (offen),150,front,a4_flat,offen,public/products/057/front.jpg,,offen,public/models/sku/057-v1.glb,offen
+058,Tischsets,C,table-textile,Tischset (offen),120,front,a4_flat,offen,public/products/058/front.jpg,,offen,public/models/sku/058-v1.glb,offen
+059,Tischläufer,C,table-textile,Tischläufer (offen),140,front,a4_flat,offen,public/products/059/front.jpg,,offen,public/models/sku/059-v1.glb,offen
+060,Stoffservietten,C,table-textile,Stoffserviette (offen),80,front,panel,offen,public/products/060/front.jpg,,offen,public/models/sku/060-v1.glb,offen
+061,Kleine Tischdecken,C,table-textile,Tischdecke (offen),180,front,a4_flat,offen,public/products/061/front.jpg,,offen,public/models/sku/061-v1.glb,offen
+062,Küchen- und Grillschürzen,C,apron,Schürze (offen),160,front,a4_flat,offen,public/products/062/front.jpg,,offen,public/models/sku/062-v1.glb,offen
+063,Topflappen,C,potholder,Topflappen (offen),100,front,panel,offen,public/products/063/front.jpg,,offen,public/models/sku/063-v1.glb,offen
+064,Untersetzer MDF,C,coaster,Untersetzer MDF (offen),50,front,panel,offen,public/products/064/front.jpg,,offen,public/models/sku/064-v1.glb,offen
+065,Untersetzer Kork,C,coaster,Untersetzer Kork (offen),40,front,panel,offen,public/products/065/front.jpg,,offen,public/models/sku/065-v1.glb,offen
+066,Untersetzer Aluminium,C,coaster,Untersetzer Alu (offen),60,front,panel,offen,public/products/066/front.jpg,,offen,public/models/sku/066-v1.glb,offen
+067,Kleine Wandbilder Aluminium,C,panel,Wandbild Alu (offen),80,front,panel,offen,public/products/067/front.jpg,,offen,public/models/sku/067-v1.glb,offen
+068,Fotoschilder,C,panel,Fotoschild (offen),70,front,panel,offen,public/products/068/front.jpg,,offen,public/models/sku/068-v1.glb,offen
+069,Sublimations-Fotopaneele,C,panel,Fotopaneel (offen),70,front,panel,offen,public/products/069/front.jpg,,offen,public/models/sku/069-v1.glb,offen
+070,Dekorative MDF-Schilder,C,panel,MDF-Schild (offen),90,front,panel,offen,public/products/070/front.jpg,,offen,public/models/sku/070-v1.glb,offen
+071,Türschilder,C,panel,Türschild (offen),60,front,panel,offen,public/products/071/front.jpg,,offen,public/models/sku/071-v1.glb,offen
+072,Namensschilder,C,panel,Namensschild (offen),40,front,panel,offen,public/products/072/front.jpg,,offen,public/models/sku/072-v1.glb,offen
+073,Tischschilder,C,panel,Tischschild (offen),50,front,panel,offen,public/products/073/front.jpg,,offen,public/models/sku/073-v1.glb,offen
+074,Wanduhrenrohlinge,C,clock,Wanduhr (offen),100,front,panel,offen,public/products/074/front.jpg,,offen,public/models/sku/074-v1.glb,offen
+075,Kleine Dekofahnen,C,flag,Dekofahne (offen),100,front,a4_flat,offen,public/products/075/front.jpg,,offen,public/models/sku/075-v1.glb,offen
+076,Wimpel,C,flag,Wimpel (offen),80,front,panel,offen,public/products/076/front.jpg,,offen,public/models/sku/076-v1.glb,offen
+077,Kleine Stoffbanner,C,flag,Stoffbanner (offen),120,front,a4_flat,offen,public/products/077/front.jpg,,offen,public/models/sku/077-v1.glb,offen
+078,Mauspads,D,mousepad,Mauspad (offen),80,front,a4_flat,offen,public/products/078/front.jpg,,offen,public/models/sku/078-v1.glb,offen
+079,Gaming-Mauspads,D,mousepad,Gaming-Mauspad (offen),100,front,a4_partial,offen,public/products/079/front.jpg,,offen,public/models/sku/079-v1.glb,offen
+080,Schreibtischunterlagen,D,mousepad,Schreibtischunterlage (offen),120,front,a4_partial,offen,public/products/080/front.jpg,,offen,public/models/sku/080-v1.glb,offen
+081,Handyhüllen,D,phone,Handyhülle (offen),40,front,panel,offen,public/products/081/front.jpg,,offen,public/models/sku/081-v1.glb,offen
+082,Schlüsselanhänger Metall,D,hard-small,Schlüsselanhänger Metall (offen),30,front,panel,offen,public/products/082/front.jpg,,offen,public/models/sku/082-v1.glb,offen
+083,Schlüsselanhänger MDF,D,hard-small,Schlüsselanhänger MDF (offen),20,front,panel,offen,public/products/083/front.jpg,,offen,public/models/sku/083-v1.glb,offen
+084,Kühlschrankmagnete,D,hard-small,Kühlschrankmagnet (offen),20,front,panel,offen,public/products/084/front.jpg,,offen,public/models/sku/084-v1.glb,offen
+085,Flaschenöffner,D,hard-small,Flaschenöffner (offen),40,front,panel,offen,public/products/085/front.jpg,,offen,public/models/sku/085-v1.glb,offen
+086,Lesezeichen Aluminium,D,hard-small,Lesezeichen Alu (offen),30,front,panel,offen,public/products/086/front.jpg,,offen,public/models/sku/086-v1.glb,offen
+087,Foto-Puzzles bis A4,D,puzzle,Foto-Puzzle (offen),200,front,a4_flat,offen,public/products/087/front.jpg,,offen,public/models/sku/087-v1.glb,offen
+088,Untersetzer-Sets,D,coaster,Untersetzer-Set (offen),50,front,panel,offen,public/products/088/front.jpg,,offen,public/models/sku/088-v1.glb,offen
+089,Visitenkarten Metall,D,hard-small,Visitenkarte Metall (offen),30,front,panel,offen,public/products/089/front.jpg,,offen,public/models/sku/089-v1.glb,offen
+090,Kleine Ausweisschilder,D,hard-small,Ausweisschild (offen),30,front,panel,offen,public/products/090/front.jpg,,offen,public/models/sku/090-v1.glb,offen
+091,Namensplaketten,D,hard-small,Namensplakette (offen),40,front,panel,offen,public/products/091/front.jpg,,offen,public/models/sku/091-v1.glb,offen
+092,Notizbücher,D,notebook,Notizbuch (offen),200,front,a4_flat,offen,public/products/092/front.jpg,,offen,public/models/sku/092-v1.glb,offen
+093,Dekorative Fototafeln,D,panel,Fototafel (offen),100,front,panel,offen,public/products/093/front.jpg,,offen,public/models/sku/093-v1.glb,offen
+094,Weihnachtsanhänger,D,hard-small,Weihnachtsanhänger (offen),20,front,panel,offen,public/products/094/front.jpg,,offen,public/models/sku/094-v1.glb,offen
+095,Weihnachtsbaum-Ornamente,D,hard-small,Weihnachtsornament (offen),25,front,panel,offen,public/products/095/front.jpg,,offen,public/models/sku/095-v1.glb,offen
+096,Geschenkanhänger,D,hard-small,Geschenkanhänger (offen),15,front,panel,offen,public/products/096/front.jpg,,offen,public/models/sku/096-v1.glb,offen
+097,Hundemarken,D,hard-small,Hundemarke (offen),30,front,panel,offen,public/products/097/front.jpg,,offen,public/models/sku/097-v1.glb,offen
+098,Haustier-Namensschilder,D,hard-small,Haustier-Namensschild (offen),30,front,panel,offen,public/products/098/front.jpg,,offen,public/models/sku/098-v1.glb,offen
+099,Kleine Bilderrahmen,D,hard-small,Bilderrahmen (offen),100,front,panel,offen,public/products/099/front.jpg,,offen,public/models/sku/099-v1.glb,offen
+100,Schmuckanhänger,D,hard-small,Schmuckanhänger (offen),20,front,panel,offen,public/products/100/front.jpg,,offen,public/models/sku/100-v1.glb,offen
+101,Kleine Fotokacheln Keramik,D,hard-small,Fotokachel Keramik (offen),80,front,panel,offen,public/products/101/front.jpg,,offen,public/models/sku/101-v1.glb,offen
+102,Keramiktassen 6 oz,E,mug,Keramiktasse 6oz (offen),300,wrap,wrap_cylinder,pruefen,public/products/102/front.jpg,,offen,public/models/sku/102-v1.glb,offen
+103,Keramiktassen 9 oz,E,mug,Keramiktasse 9oz (offen),320,wrap,wrap_cylinder,pruefen,public/products/103/front.jpg,,offen,public/models/sku/103-v1.glb,offen
+104,Keramiktassen 11 oz,E,mug,Keramiktasse 11oz (offen),340,wrap,wrap_cylinder,pruefen,public/products/104/front.jpg,,offen,public/models/sku/104-v1.glb,offen
+105,Keramiktassen 12 oz,E,mug,Keramiktasse 12oz (offen),360,wrap,wrap_cylinder,pruefen,public/products/105/front.jpg,,offen,public/models/sku/105-v1.glb,offen
+106,Zweifarbige Tassen,E,mug,Zweifarbige Tasse (offen),340,wrap,wrap_cylinder,pruefen,public/products/106/front.jpg,,offen,public/models/sku/106-v1.glb,offen
+107,Magic Mugs,E,mug,Magic Mug (offen),340,wrap,wrap_cylinder,pruefen,public/products/107/front.jpg,,offen,public/models/sku/107-v1.glb,offen
+108,Emaillebecher,E,tumbler,Emaillebecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/108/front.jpg,,offen,public/models/sku/108-v1.glb,offen
+109,Metallbecher,E,tumbler,Metallbecher (offen),320,wrap,wrap_cylinder,pruefen,public/products/109/front.jpg,,offen,public/models/sku/109-v1.glb,offen
+110,Edelstahl-Trinkbecher,E,tumbler,Edelstahl-Becher (offen),340,wrap,wrap_cylinder,pruefen,public/products/110/front.jpg,,offen,public/models/sku/110-v1.glb,offen
+111,Thermobecher,E,tumbler,Thermobecher (offen),400,wrap,wrap_cylinder,pruefen,public/products/111/front.jpg,,offen,public/models/sku/111-v1.glb,offen
+112,Trinkflaschen,E,bottle,Trinkflasche (offen),350,wrap,wrap_cylinder,pruefen,public/products/112/front.jpg,,offen,public/models/sku/112-v1.glb,offen
+113,Aluminium-Trinkflaschen,E,bottle,Alu-Trinkflasche (offen),320,wrap,wrap_cylinder,pruefen,public/products/113/front.jpg,,offen,public/models/sku/113-v1.glb,offen
+114,Campingbecher,E,mug,Campingbecher (offen),300,wrap,wrap_cylinder,pruefen,public/products/114/front.jpg,,offen,public/models/sku/114-v1.glb,offen
+115,Kinderbecher,E,mug,Kinderbecher (offen),280,wrap,wrap_cylinder,pruefen,public/products/115/front.jpg,,offen,public/models/sku/115-v1.glb,offen
+116,Stiftehalter in Becherform,E,mug,Stiftehalter (offen),320,wrap,wrap_cylinder,pruefen,public/products/116/front.jpg,,offen,public/models/sku/116-v1.glb,offen
+117,Basecaps,F,cap,Basecap (offen),120,front,cap_front,pruefen,public/products/117/front.jpg,,offen,public/models/sku/117-v1.glb,offen
+118,Trucker-Caps,F,cap,Trucker-Cap (offen),110,front,cap_front,pruefen,public/products/118/front.jpg,,offen,public/models/sku/118-v1.glb,offen
+119,5-Panel-Caps,F,cap,5-Panel-Cap (offen),115,front,cap_front,pruefen,public/products/119/front.jpg,,offen,public/models/sku/119-v1.glb,offen
+120,Sportcaps,F,cap,Sportcap (offen),100,front,cap_front,pruefen,public/products/120/front.jpg,,offen,public/models/sku/120-v1.glb,offen
+121,Kindercaps,F,cap,Kindercap (offen),90,front,cap_front,pruefen,public/products/121/front.jpg,,offen,public/models/sku/121-v1.glb,offen
+122,Visors,F,visor,Visor (offen),80,front,cap_front,pruefen,public/products/122/front.jpg,,offen,public/models/sku/122-v1.glb,offen
+123,Runde Sublimationsteller,G,plate,Sublimationsteller rund (offen),400,front,circle,pruefen,public/products/123/front.jpg,,offen,public/models/sku/123-v1.glb,offen
+124,Kleine Dekorationsteller,G,plate,Dekorationsteller klein (offen),300,front,circle,pruefen,public/products/124/front.jpg,,offen,public/models/sku/124-v1.glb,offen
+125,Große Dekorationsteller,G,plate,Dekorationsteller groß (offen),500,front,circle,pruefen,public/products/125/front.jpg,,offen,public/models/sku/125-v1.glb,offen
+126,Unterteller,G,plate,Unterteller (offen),250,front,circle,pruefen,public/products/126/front.jpg,,offen,public/models/sku/126-v1.glb,offen
+127,Kugelschreiber,H,pen,Kugelschreiber (offen),20,wrap,wrap_cylinder,pruefen,public/products/127/front.jpg,,offen,public/models/sku/127-v1.glb,offen
+128,Werbestifte,H,pen,Werbestift (offen),18,wrap,wrap_cylinder,pruefen,public/products/128/front.jpg,,offen,public/models/sku/128-v1.glb,offen
+129,Schreibgeräte hitzefest,H,pen,Schreibgerät hitzefest (offen),22,wrap,wrap_cylinder,pruefen,public/products/129/front.jpg,,offen,public/models/sku/129-v1.glb,offen
+130,Polyester-Sneaker,I,shoe,Polyester-Sneaker (offen),400,panel,shoe,pruefen,public/products/130/front.jpg,,offen,public/models/sku/130-v1.glb,offen
+131,Leichte Stoffschuhe,I,shoe,Stoffschuh (offen),350,panel,shoe,pruefen,public/products/131/front.jpg,,offen,public/models/sku/131-v1.glb,offen
+132,Schuhoberteile,I,shoe,Schuhoberteil (offen),200,panel,shoe,pruefen,public/products/132/front.jpg,,offen,public/models/sku/132-v1.glb,offen
+133,Schuhzungen,I,shoe,Schuhzunge (offen),100,panel,shoe,pruefen,public/products/133/front.jpg,,offen,public/models/sku/133-v1.glb,offen
