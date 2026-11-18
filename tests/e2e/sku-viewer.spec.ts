@@ -47,3 +47,26 @@ for (const sku of ["043", "081", "104", "122", "133"]) {
     await expect(page.locator("canvas")).toBeVisible({ timeout: 20000 });
   });
 }
+
+test("purchasable SKU aliases identify the same canonical products @smoke", async ({
+  page,
+}) => {
+  for (const [sku, shopId] of [
+    ["001", "1"],
+    ["015", "2"],
+  ]) {
+    await page.goto(`/product/${sku}`);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      new RegExp(`/product/${shopId}$`),
+    );
+    const data = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    const schema = data
+      .map((value) => JSON.parse(value))
+      .find((item) => item.sku === sku);
+    expect(schema?.image).toMatch(new RegExp(`/products/${sku}/front\\.png$`));
+    expect(schema?.offers?.url).toMatch(new RegExp(`/product/${shopId}$`));
+  }
+});

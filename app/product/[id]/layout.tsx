@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { siteUrl } from "@/lib/site-url";
 import {
   CATALOG,
+  catalogFrontSrc,
   getProductById,
   type ProductRecord,
 } from "@/lib/catalog/families";
@@ -18,7 +19,10 @@ type Params = Promise<{ id: string }>;
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const ids = new Set<string>(["1", "2", ...Object.keys(CATALOG)]);
+  const ids = new Set(Object.keys(CATALOG));
+  for (const { shopId } of Object.values(CATALOG)) {
+    if (shopId) ids.add(shopId);
+  }
   return [...ids].map((id) => ({ id }));
 }
 
@@ -92,7 +96,7 @@ export default async function Layout({
     ? {
         "@context": "https://schema.org",
         "@type": "Product",
-        name: `${getProductName(shop, "de")} — ON ME Custom ${shop.id === "2" ? "Shorts" : "Shirt"}`,
+        name: getProductName(shop, "de"),
         description: `${getProductDescription(shop, "de")} Maßgefertigt auf Bestellung.`,
         brand: { "@type": "Brand", name: "ON ME HONEY B" },
         offers: {
@@ -104,7 +108,7 @@ export default async function Layout({
           seller: { "@type": "Organization", name: "ON ME HONEY B" },
         },
         sku: catalog.sku,
-        image: `${siteUrl}/products/${catalog.sku}/front.png`,
+        image: new URL(catalogFrontSrc(catalog.sku), siteUrl).href,
       }
     : {
         "@context": "https://schema.org",
