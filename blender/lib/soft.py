@@ -141,35 +141,53 @@ class Builder:
             pts.append(row)
         return self.quad_grid(pts, mat_fn)
 
-    def folded(self, w, d_depth, layers, layer_h, origin=(0, 0, 0), mat=0, bulge=0.004, nu=24, nv=16):
-        """Gefalteter Stapel (Draufsicht w × d_depth), Lagen mit runden Faltkanten vorne."""
+    def folded(self, w, d_depth, layers, layer_h, origin=(0, 0, 0), mat=0, bulge=0.004, nu=20, nv=14):
+        """Gefalteter Stapel (Draufsicht w × d_depth), Lagen mit runden Kanten ringsum.
+
+        Faltkante abwechselnd vorne/hinten, Seiten und offene Kante als eng anliegende
+        Stoffkanten: zwischen den Lagen bleibt kein offener Schlitz. Welligkeit und
+        Wölbung laufen zum Rand auf null aus, damit Lage und Kante bündig treffen.
+        """
         ox, oh, od = origin
-        for k in range(layers):
-            h0 = oh + k * layer_h
+        r = layer_h / 2
+
+        def lay(h0, wave_k):
             pts = []
             for j in range(nv + 1):
                 row = []
                 for i in range(nu + 1):
                     u, v = i / nu, j / nv
-                    x = ox + (u - 0.5) * w
-                    dd = od + (v - 0.5) * d_depth
-                    hh = h0 + layer_h + bulge * math.sin(math.pi * u) * math.sin(math.pi * v) + 0.0015 * math.sin(9 * u + 5 * v + k)
-                    row.append(self.V(x, hh, dd))
+                    edge = math.sin(math.pi * u) * math.sin(math.pi * v)
+                    hh = h0 + bulge * edge + 0.0015 * math.sin(9 * u + 5 * v + wave_k) * edge
+                    row.append(self.V(ox + (u - 0.5) * w, hh, od + (v - 0.5) * d_depth))
                 pts.append(row)
             self.quad_grid(pts, lambda i, j: mat)
-            # runde Faltkante, abwechselnd vorne und hinten (wie echt gefaltete Wäsche)
-            side = 1 if k % 2 == 0 else -1
-            pts = []
-            for a in range(9):
-                ang = math.pi * a / 8
-                row = []
-                for i in range(nu + 1):
-                    u = i / nu
-                    x = ox + (u - 0.5) * w
-                    r = layer_h / 2
-                    row.append(self.V(x, h0 + r - r * math.cos(ang), od + side * (d_depth / 2 + r * math.sin(ang))))
-                pts.append(row)
-            self.quad_grid(pts, lambda i, j: mat)
+
+        lay(oh, -1)  # Unterseite des Stapels
+        for k in range(layers):
+            h0 = oh + k * layer_h
+            lay(h0 + layer_h, k)
+            # Kanten vorne/hinten über die Breite (Faltkante oder offene Kante)
+            for side in (1, -1):
+                bulge_out = 1.0 if (side == 1) == (k % 2 == 0) else 0.45  # Faltkante runder als Stoffkante
+                pts = []
+                for a in range(7):
+                    ang = math.pi * a / 6
+                    pts.append([self.V(ox + (i / nu - 0.5) * w, h0 + r - r * math.cos(ang),
+                                       od + side * (d_depth / 2 + bulge_out * r * math.sin(ang))) for i in range(nu + 1)])
+                if side < 0:
+                    pts.reverse()
+                self.quad_grid(pts, lambda i, j: mat)
+            # Seitenkanten links/rechts über die Tiefe
+            for side in (1, -1):
+                pts = []
+                for a in range(7):
+                    ang = math.pi * a / 6
+                    pts.append([self.V(ox + side * (w / 2 + 0.45 * r * math.sin(ang)), h0 + r - r * math.cos(ang),
+                                       od + (j / nv - 0.5) * d_depth) for j in range(nv + 1)])
+                if side > 0:
+                    pts.reverse()
+                self.quad_grid(pts, lambda i, j: mat)
 
     def sock(self, leg_len, foot_len, r_leg, r_ankle, r_foot, cuff, mat_body=0, mat_rib=1, mat_heel=0, seg=32):
         """Socke: Schaft senkrecht, Ferse als Bogen, Fuß nach vorne, runde Spitze."""
@@ -236,6 +254,22 @@ def _loft(b, rings, mat_fn=None, cap_bottom=True, cap_top=False, cap_mat=None):
         f = b.bm.faces.new(rows[-1])
         f.material_index = cap_mat if cap_mat is not None else 0
     return rows
+
+
+def smooth_path(path, per=8):
+    """Catmull-Rom durch die Stützpunkte: weiche Kordeln/Bügel statt Knicken an jedem Punkt."""
+    P = [Vector(p) for p in path]
+    out = []
+    for k in range(len(P) - 1):
+        p0, p1, p2 = P[max(k - 1, 0)], P[k], P[k + 1]
+        p3 = P[min(k + 2, len(P) - 1)]
+        for s in range(per):
+            t = s / per
+            t2, t3 = t * t, t * t * t
+            q = 0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3)
+            out.append((q.x, q.y, q.z))
+    out.append(tuple(P[-1]))
+    return out
 
 
 def path_tube(b, path, r, seg=10, mat=0, flat=1.0):
