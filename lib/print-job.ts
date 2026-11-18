@@ -282,6 +282,19 @@ export async function generatePrintPdf(
     10,
     rgb(0.4, 0.4, 0.4),
   );
+  if (order.stripeSessionId) {
+    y -= 15;
+    drawText(
+      cover,
+      font,
+      order.shippingAddress
+        ? "Lieferanschrift: siehe Bestellungen im Shop-Admin."
+        : "Lieferanschrift fehlt: vor dem Versand im Shop-Admin prüfen.",
+      MARGIN,
+      y,
+      10,
+    );
+  }
   y -= 30;
 
   drawText(cover, bold, "Artikel", MARGIN, y, 12);
@@ -323,27 +336,6 @@ export async function generatePrintPdf(
     cover,
     font,
     `Epson SC-F100: Papier A4, „Actual size" / 100 % — kein Fit-to-Page`,
-    MARGIN,
-    y,
-    10,
-  );
-  y -= 25;
-
-  // Drucker-Specs (Procolored K13 Lite für DTF)
-  drawText(cover, bold, "Drucker-Spezifikationen", MARGIN, y, 12);
-  y -= 18;
-  drawText(cover, font, "Procolored K13 Lite (DTF-Drucker)", MARGIN, y, 10);
-  y -= 15;
-  drawText(cover, font, "Max. Druckfläche: 329 × 483 mm (A3+)", MARGIN, y, 10);
-  y -= 15;
-  drawText(cover, font, "Auflösung: 1440 dpi", MARGIN, y, 10);
-  y -= 15;
-  drawText(cover, font, "Farben: CMYK + Weiß", MARGIN, y, 10);
-  y -= 15;
-  drawText(
-    cover,
-    font,
-    "Empfohlene Upload-Auflösung: mind. 300 dpi",
     MARGIN,
     y,
     10,
