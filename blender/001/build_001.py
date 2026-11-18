@@ -31,7 +31,7 @@ output.parent.mkdir(parents=True, exist_ok=True)
 LENGTH = 0.72        # hoher Schulterpunkt bis Saum
 HALF_W = 0.265       # halbe Brustweite (53 cm)
 WAIST_W = 0.256
-SHOULDER_X = 0.232   # halbe Schulterbreite
+SHOULDER_X = 0.226   # halbe Schulterbreite
 ARMPIT_H = 0.50      # Höhe Achsel über Saum
 NECK_W = 0.086       # halbe Halsausschnittbreite
 FRONT_DROP = 0.085   # vordere Halsausschnitttiefe
@@ -44,6 +44,7 @@ SLEEVE_ANGLE = math.radians(38)
 FABRIC = 0.0022
 
 NU, NV = 44, 62      # Raster je Stoffbahn
+BAND_ROWS = 4        # eigene Rasterzeilen für Schulterstreifen/Ripp: Kanten folgen einer Gitterlinie
 P_SE = 2.7           # Superellipsen-Exponent (eckiger als Ellipse)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -108,6 +109,14 @@ def neck_depth(x, front):
     return d * math.sqrt(max(0.0, 1 - (ax / NECK_W) ** 2))
 
 
+BAND = 0.040  # oberes Band, gleich hoch vorne/hinten, damit die Seitennaht schließt
+
+
+def band_height(x, front):
+    """4 Zeilen à 1 cm: Rücken 4 cm Carbon, vorne 1 cm Carbon, Hals 2 cm Ripp."""
+    return BAND
+
+
 def superellipse(u):
     return max(0.0, 1 - abs(u) ** P_SE) ** (1 / P_SE)
 
@@ -143,14 +152,21 @@ grids = {}
 for front in (True, False):
     sign = 1 if front else -1
     rows = []
+    lower = NV - BAND_ROWS
     for j in range(NV + 1):
-        v = j / NV
+        v_guess = j / NV
         row = []
         for i in range(NU + 1):
             u = -1 + 2 * i / NU
-            w = body_width(v)
+            w = body_width(v_guess)
             x = u * w
-            h = v * top_height(x, front)
+            top = top_height(x, front)
+            band = band_height(x, front)
+            if j <= lower:
+                h = (j / lower) * (top - band)
+            else:
+                h = top - band + band * (j - lower) / BAND_ROWS
+            v = h / top
             # Schulter rundet erst kurz vor der Naht über (senkrechte Tangente an der Naht)
             blend = smoothstep(0.84, 1.0, v)
             d_body = BODY_D * superellipse(u) * (1 - 0.12 * smoothstep(0.7, 1.0, v))
@@ -180,14 +196,17 @@ for front in (True, False):
             # Seiteneinsatz carbon: Achsel bis Saum, entlang der Seitennaht
             if h < ARMPIT_H + 0.01 and abs(u_c) > 0.84:
                 mat = M_CARBON
-            # Schulterstreifen carbon: Kragen bis Schulterpunkt, Rücken + Kante vorne
-            top = top_height(x, front)
-            band = 0.040 if not front else 0.007
-            if NECK_W * 1.08 < abs(x) < SHOULDER_X + 0.01 and h > top - band:
-                mat = M_CARBON
-            # Rippbündchen am Halsausschnitt
-            if abs(x) < NECK_W * 1.18 and h > top_height(x, front) - 0.020 and v_c > 0.85:
-                mat = M_RIB
+            # Oberes Band (eigene Rasterzeilen): Ripp am Hals, sonst Carbon-Schulterstreifen
+            if j >= lower:
+                band_row = j - lower  # 0 unten … BAND_ROWS-1 an der Naht
+                if abs(x) < NECK_W * 1.12:
+                    if band_row >= BAND_ROWS - 2:
+                        mat = M_RIB
+                elif front:
+                    if band_row == BAND_ROWS - 1:
+                        mat = M_CARBON
+                else:
+                    mat = M_CARBON
             f.material_index = mat
             for loop in f.loops:
                 lx, lh = loop.vert.co.x, loop.vert.co.z
