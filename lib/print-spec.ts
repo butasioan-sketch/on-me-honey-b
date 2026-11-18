@@ -104,7 +104,8 @@ const SHORTS_PROFILE: GarmentProfile = {
 
 // WAVE 6.2: Pillow profile (Phase 6 - after Jonny price + gate)
 // Overlay Start values - NOT verified by physical test print yet
-const PILLOW_OVERLAY = { top: 15, left: 15, width: 70, height: 70 };
+// A4-Clamp: 52.5% × 400mm = 210mm ✓, 74.25% × 400mm = 297mm ✓
+const PILLOW_OVERLAY = { top: 12.875, left: 23.75, width: 52.5, height: 74.25 };
 const PILLOW_PLACEMENT = { top: 10, left: 10, width: 80, height: 80 };
 
 const PILLOW_PROFILE: GarmentProfile = {

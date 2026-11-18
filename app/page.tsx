@@ -1,28 +1,33 @@
-import type { Metadata } from 'next';
-import PaymentSuccessBanner from '@/app/components/PaymentSuccessBanner';
-import SiteHeader from '@/app/components/SiteHeader';
-import HomeView from '@/app/components/home/HomeView';
-import HomeLocaleGate from '@/app/components/home/HomeLocaleGate';
+import type { Metadata } from "next";
+import PaymentSuccessBanner from "@/app/components/PaymentSuccessBanner";
+import SiteHeader from "@/app/components/SiteHeader";
+import HomeView from "@/app/components/home/HomeView";
+import HomeLocaleGate from "@/app/components/home/HomeLocaleGate";
 
 export const metadata: Metadata = {
-  title: 'ON ME HONEY B - Individuell bedruckbare Premium-Sportbekleidung',
-  description: '133 individuell bedruckbare Produkte - von Bekleidung bis Wohnaccessoires. 2 Produkte sofort verfügbar, 131 in Vorbereitung. Premium AirFit Performance Fabric.',
+  title: "ON ME HONEY B - Individuell bedruckbare Premium-Sportbekleidung",
+  description:
+    "133 individuell bedruckbare Produkte - von Bekleidung bis Wohnaccessoires. 2 Produkte sofort verfügbar, 131 in Vorbereitung. Premium AirFit Performance Fabric.",
   openGraph: {
-    title: 'ON ME HONEY B - Personalisierte Textilien',
-    description: '133 individuell bedruckbare Produkte - Premium AirFit Performance Fabric',
-    type: 'website',
-    url: 'https://on-me-honey-b.vercel.app',
+    title: "ON ME HONEY B - Personalisierte Textilien",
+    description:
+      "133 individuell bedruckbare Produkte - Premium AirFit Performance Fabric",
+    type: "website",
+    url: "https://on-me-honey-b.vercel.app",
   },
 };
 
 export default function HomePage() {
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'radial-gradient(1200px 600px at 50% -10%, rgba(226,0,26,0.10), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)',
-      color: '#fff',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-    }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(1200px 600px at 50% -10%, rgba(226,0,26,0.10), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)",
+        color: "#fff",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
       <PaymentSuccessBanner />
       <style>{`
         .hero-product-grid {
@@ -46,15 +51,17 @@ export default function HomePage() {
         .btn-primary { transition: background 0.2s, transform 0.2s; }
         .hero-product-card:hover { border-color: rgba(226,0,26,0.35) !important; }
         .hero-product-card { transition: border-color 0.2s ease; }
-        .trust-grid, .outdoor-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+        .trust-grid, .outdoor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+        @media (max-width: 480px) {
+          .trust-grid { grid-template-columns: 1fr; }
+        }
         @media (min-width: 768px) {
-          .trust-grid { grid-template-columns: repeat(4, 1fr); }
-          .outdoor-grid { grid-template-columns: repeat(4, 1fr); }
+          .trust-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+          .outdoor-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         }
         @media (max-width: 640px) {
           .site-header { padding: 0.85rem 1rem !important; }
           .site-header nav { gap: 0.75rem !important; }
-          .brand-text { display: none; }
           .hero-badge { letter-spacing: 0.08em !important; font-size: 0.68rem !important; }
           .outdoor-sub { padding: 0 0.5rem; }
         }

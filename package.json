@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "node scripts/validate-print-area.mjs",
     "start": "next start",
     "lint": "eslint",
     "prepare": "husky",

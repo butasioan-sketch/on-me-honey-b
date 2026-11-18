@@ -9,6 +9,7 @@ export const translations = {
     nav: {
       cart: 'Warenkorb',
       shipping: 'Versand',
+      gifts: 'Geschenke',
       about: 'Über uns',
       shirt: 'Shirt',
       shorts: 'Shorts',
@@ -203,6 +204,7 @@ export const translations = {
     nav: {
       cart: 'Coș',
       shipping: 'Livrare',
+      gifts: 'Cadouri',
       about: 'Despre noi',
       shirt: 'Tricou',
       shorts: 'Pantaloni scurți',
@@ -389,6 +391,7 @@ export const translations = {
     nav: {
       cart: 'Cart',
       shipping: 'Shipping',
+      gifts: 'Gifts',
       about: 'About',
       shirt: 'Shirt',
       shorts: 'Shorts',

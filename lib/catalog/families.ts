@@ -1021,6 +1021,12 @@ export function getProductBySku(sku: string): ProductRecord | null {
   return CATALOG[sku] || null;
 }
 
+/** Katalogfoto. 001 und 015 sind PNG, alle anderen SKUs sind JPG. */
+export function catalogFrontSrc(sku: string): string {
+  const ext = sku === "001" || sku === "015" ? "png" : "jpg";
+  return `/products/${sku}/front.${ext}`;
+}
+
 /**
  * Get product record by shopId
  */
