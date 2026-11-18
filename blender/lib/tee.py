@@ -446,35 +446,60 @@ def _add_collar(bm, uv_layer, c, top_height, neck_depth, to_blender, mat):
 
 
 def _add_hood(bm, uv_layer, c, top_height, neck_depth, to_blender, mat, rib):
-    """Kapuze (aufgestellt): Halbschale über dem Halsausschnitt, vorne Gesichtsöffnung mit Saum."""
+    """Kapuze (aufgestellt) wie genäht: Von jedem Punkt des Halsausschnitts läuft eine Bahn
+    hoch zur Mittelnaht (x = 0); links und rechts treffen sich dort. Vorne bleibt die
+    Gesichtsöffnung frei, ihr Rand bekommt einen Saum."""
     hw, hh, hd = c["hood"]["w"], c["hood"]["h"], c["hood"]["d"]
-    L = c["length"]
-    base_h = top_height(c["neck_w"], True)
-    cy = -hd * 0.18                     # Schwerpunkt leicht hinten
-    nt, npf = 22, 40
+    NW = c["neck_w"]
+    gap = 0.018
+    n = 30
+    chain = []                               # vorne links -> hinten -> vorne rechts
+    for i in range(n + 1):
+        x = -NW + 2 * NW * i / n             # vorne, links nach rechts (ohne Mitte)
+        if abs(x) < gap:
+            continue
+    left = [(-NW + (NW - gap) * i / (n // 2), True) for i in range(n // 2 + 1)]
+    back = [(-NW + 2 * NW * i / n, False) for i in range(n + 1)]
+    pts = []
+    for x, fr in left:                       # vorne links von der Mitte nach außen
+        xx = -(gap + (NW - gap) * (1 - (x + NW) / (NW - gap)))
+        pts.append((xx, top_height(xx, True), neck_depth(xx, True)))
+    pts = pts[::-1][::-1]
+    pts = sorted(pts, key=lambda p: -p[0])  # von innen (nahe Mitte) nach außen links
+    pts = pts[::-1]
+    back_pts = [(x, top_height(x, False), -neck_depth(x, False)) for x, _ in back]
+    right = [(-p[0], p[1], p[2]) for p in pts[::-1]]
+    chain = pts[::-1] + back_pts[1:-1] + right
+    # Kronenlinie in der Mittelebene: vorne über der Stirn, hinten am Hinterkopf
+    base = top_height(NW, True)
+    def crown(t):                            # t: 0 hinten unten … 1 vorne oben
+        ang = math.pi * (0.10 + 0.80 * t)
+        return (0.0, base + 0.04 + hh * math.sin(ang) * 0.92, -hd * 0.55 * math.cos(ang) - 0.02)
+    m = len(chain)
+    K = 14
     rows = []
-    for i in range(nt + 1):
-        th = math.radians(18) + (math.pi - math.radians(18)) * i / nt   # 0 unten … π oben/vorne-umlaufend
-        ring = []
-        for j in range(npf + 1):
-            # Öffnung vorne: phi von +60° bis 300° (hinten herum)
-            ph = math.radians(62) + math.radians(236) * j / npf
-            sx = math.sin(th) * math.sin(ph)
-            sz = math.sin(th) * math.cos(ph)
-            sy = -math.cos(th)
-            x = hw * sx
-            d = cy + hd * 0.5 * sz
-            h = base_h + hh * 0.5 * (1 + sy) * 0.98
-            # unten auf den Halsausschnitt einziehen
-            k = smoothstep(0.0, 0.35, i / nt)
-            x *= lerp(c["neck_w"] / hw * 1.05, 1.0, k)
-            d = lerp(-c["neck_d_back"] * 0.9 * (-math.cos(ph) if math.cos(ph) < 0 else 0.4) + 0.0, d, k)
-            ring.append(bm.verts.new(to_blender(x, h, d)))
-        rows.append(ring)
-    for i in range(nt):
-        for j in range(npf):
-            f = bm.faces.new([rows[i][j], rows[i][j + 1], rows[i + 1][j + 1], rows[i + 1][j]])
-            f.material_index = rib if j < 2 or j >= npf - 2 else mat
+    for i, (x, h, d) in enumerate(chain):
+        a = i / (m - 1)                      # 0 vorne links, 0.5 hinten, 1 vorne rechts
+        t = min(1.0, abs(a - 0.5) * 2)       # 0 hinten, 1 vorne
+        cx, ch, cd = crown(t)
+        side = -1 if a < 0.5 else 1
+        # Kontrollpunkt: seitlich nach außen gewölbt (Kopfvolumen), hinten nach hinten
+        fac = math.sin(math.pi * min(1.0, t * 1.12)) ** 0.7 + 0.30 * t
+        mx = (x + cx) / 2 + side * hw * 1.9 * fac
+        mh = (h + ch) / 2 + 0.03
+        md = (d + cd) / 2 - 0.09 * (1 - t) + 0.02 * t
+        row = []
+        for k in range(K + 1):
+            u = k / K
+            px = (1 - u) ** 2 * x + 2 * (1 - u) * u * mx + u * u * cx
+            ph = (1 - u) ** 2 * h + 2 * (1 - u) * u * mh + u * u * ch
+            pd = (1 - u) ** 2 * d + 2 * (1 - u) * u * md + u * u * cd
+            row.append(bm.verts.new(to_blender(px, ph, pd)))
+        rows.append(row)
+    for i in range(m - 1):
+        for k in range(K):
+            f = bm.faces.new([rows[i][k], rows[i + 1][k], rows[i + 1][k + 1], rows[i][k + 1]])
+            f.material_index = rib if i < 1 or i >= m - 2 else mat
             for loop in f.loops:
                 loop[uv_layer].uv = (0.99, 0.99)
 

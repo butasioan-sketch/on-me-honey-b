@@ -18,9 +18,9 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 017,Jogginghosen,A,pants,Jogginghose (offen),200,front,a4_partial,offen,public/products/017/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/017-v1.glb,"v1 Claude (blender/017/build_017.py, Generator blender/lib/pants.py)"
 018,Leggings,A,leggings,Leggings (offen),160,front,a4_flat,offen,public/products/018/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/018-v1.glb,"v1 Claude (blender/018/build_018.py, Generator blender/lib/pants.py)"
 019,Radlerhosen,A,leggings,Radlerhose (offen),160,front,a4_flat,offen,public/products/019/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/019-v1.glb,"v1 Claude (blender/019/build_019.py, Generator blender/lib/pants.py)"
-020,Trainingsjacken,A,jacket,Trainingsjacke (offen),220,front,a4_partial,offen,public/products/020/front.jpg,,offen,public/models/sku/020-v1.glb,offen
-021,Hoodies,A,hoodie,Hoodie (offen),280,front,a4_partial,offen,public/products/021/front.jpg,,offen,public/models/sku/021-v1.glb,offen
-022,Sweatshirts,A,hoodie,Sweatshirt (offen),260,front,a4_partial,offen,public/products/022/front.jpg,,offen,public/models/sku/022-v1.glb,offen
+020,Trainingsjacken,A,jacket,Trainingsjacke (offen),220,front,a4_partial,offen,public/products/020/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/020-v1.glb,"v1 Claude (blender/020/build_020.py, Generator blender/lib/tee.py)"
+021,Hoodies,A,hoodie,Hoodie (offen),280,front,a4_partial,offen,public/products/021/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/021-v1.glb,"v1 Claude (blender/021/build_021.py, Generator blender/lib/tee.py)"
+022,Sweatshirts,A,hoodie,Sweatshirt (offen),260,front,a4_partial,offen,public/products/022/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/022-v1.glb,"v1 Claude (blender/022/build_022.py, Generator blender/lib/tee.py)"
 023,Unterhemden,A,tee,Unterhemd (offen),140,front,a4_flat,anker,public/products/023/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/023-v1.glb,"v1 Claude (blender/023/build_023.py, Generator blender/lib/tee.py)"
 024,Polyester-Socken,A,socks,Socken (offen),80,front,a4_flat,offen,public/products/024/front.jpg,,offen,public/models/sku/024-v1.glb,offen
 025,Stirnbänder,A,soft-head,Stirnband (offen),60,front,a4_flat,offen,public/products/025/front.jpg,,offen,public/models/sku/025-v1.glb,offen
