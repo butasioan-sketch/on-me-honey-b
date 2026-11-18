@@ -12,6 +12,7 @@
     "prebuild": "node scripts/validate-print-area.mjs",
     "start": "next start",
     "lint": "eslint",
+    "generate:products": "node scripts/generate-products.mjs",
     "prepare": "husky",
     "test": "playwright test --grep @smoke",
     "test:all": "playwright test",

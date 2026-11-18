@@ -23,6 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Catalog source check
+        run: npm run generate:products -- --check
       - name: TypeScript Check
         run: npx tsc --noEmit
       
