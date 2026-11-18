@@ -20,8 +20,8 @@ rings = []
 for k in range(21):
     t = k / 20
     x = -0.20 + 0.40 * t
-    s = 1 - 0.06 * (2 * t - 1) ** 6
-    ring = [(x, 0.125 + 0.12 * s * c[0] / 0.1, 0.10 * s * c[2] / 0.1) for c in se_ring(0.1, 0.1, 2.6, 40)]
+    s = 1 - 0.02 * (2 * t - 1) ** 10   # flache Stirnseiten
+    ring = [(x, 0.125 + 0.12 * s * c[0] / 0.1, 0.10 * s * c[2] / 0.1) for c in se_ring(0.1, 0.1, 5.0, 40)]  # rechteckiger Querschnitt wie Referenz
     rings.append(ring)
 _loft(b, rings, mat_fn=lambda i, j: 2 if i in (39, 0) and 2 <= j <= 17 else 0, cap_bottom=True, cap_top=True, cap_mat=0)  # Reißverschluss oben entlang
 for side in (-1, 1):

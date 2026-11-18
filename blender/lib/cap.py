@@ -77,7 +77,7 @@ def build(config):
         return M_BODY
 
     if not c["visor"]:
-        NT, NP = 18, 64
+        NT, NP = 14, 48   # Cap-Budget 80 KiB
         rows = []
         for i in range(NT + 1):
             theta = (math.pi / 2) * (0.02 + 0.98 * i / NT)
@@ -132,7 +132,7 @@ def build(config):
         path_tube(bld, [(bx - 0.008, 0.015, bd), (bx + 0.008, 0.015, bd)], 0.011, seg=4, mat=M_BUCKLE, flat=0.35)
 
     # Schirm: gebogen, vorne angesetzt
-    NU, NV = 28, 10
+    NU, NV = 22, 8
     L, W = c["brim_len"], c["brim_w"]
     top_rows, bot_rows = [], []
     for jv in range(NV + 1):
@@ -143,8 +143,8 @@ def build(config):
             phi = math.pi / 2 - u * math.radians(62)
             rx, rd = A * math.cos(phi), B * math.sin(phi)
             reach = L * (0.22 + 0.78 * math.sqrt(max(0.0, 1 - u * u)) ** 0.7) * v   # abgerundete Ecken
-            x = rx * (1 + 0.15 * v) + u * W * 0.25 * v
-            d = rd + reach
+            x = rx * (0.975 + 0.175 * v) + u * W * 0.25 * v   # Ansatz leicht innerhalb der Krone
+            d = rd * 0.975 + reach
             # Seiten biegen nach unten, proportional zur Schirmlänge an dieser Stelle (keine Steilklappen)
             h = 0.004 - c["brim_curve"] * (u * u) * (reach / L) * 0.6 - 0.010 * v * v
             row_t.append(bld.bm.verts.new(bld.V(x, h, d)))

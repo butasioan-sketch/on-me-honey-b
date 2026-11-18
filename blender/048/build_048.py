@@ -12,7 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 from soft import Builder, arc, lerp, path_tube, pouch, se_ring, slab, smoothstep, _loft  # noqa: E402,F401
 
 WHITE = ("Polyester weiß", (0.93, 0.93, 0.93), 0.85)
-b = Builder("Lanyard048", [WHITE])
+METAL = ("Karabiner Metall", (0.72, 0.73, 0.76), 0.25)
+b = Builder("Lanyard048", [WHITE, METAL])
 pts = []
 turns, r0, r1 = 3.2, 0.030, 0.045
 n = 120
@@ -26,4 +27,10 @@ rows = []
 for (x, h, d) in pts:
     rows.append([b.V(x, 0.0, d), b.V(x, 0.02, d)])
 b.quad_grid([[r[0] for r in rows], [r[1] for r in rows]])
+# Metallkarabiner am Bandende: Ring + Haken
+ex, ed = pts[-1][0], pts[-1][2]
+ring = [(ex + 0.006 + 0.008 * math.cos(2 * math.pi * k / 20), 0.010 + 0.008 * math.sin(2 * math.pi * k / 20), ed + 0.004) for k in range(21)]
+path_tube(b, ring, 0.0012, seg=6, mat=1)
+hook = [(ex + 0.016, 0.010 + 0.012 * math.cos(math.pi * k / 12) - 0.0, ed + 0.004 + 0.012 * math.sin(math.pi * k / 12)) for k in range(13)]
+path_tube(b, [(ex + 0.014, 0.004, ed + 0.004), (ex + 0.03, 0.004, ed + 0.004), (ex + 0.04, 0.010, ed + 0.004), (ex + 0.03, 0.016, ed + 0.004), (ex + 0.014, 0.016, ed + 0.004)], 0.0016, seg=6, mat=1)
 b.finish(thickness=0.0008, rim_only=False)

@@ -151,22 +151,23 @@ class Builder:
                 row = []
                 for i in range(nu + 1):
                     u, v = i / nu, j / nv
-                    x = ox + (u - 0.5) * w * (1 - 0.01 * k)
-                    dd = od + (v - 0.5) * d_depth * (1 - 0.015 * k)
+                    x = ox + (u - 0.5) * w
+                    dd = od + (v - 0.5) * d_depth
                     hh = h0 + layer_h + bulge * math.sin(math.pi * u) * math.sin(math.pi * v) + 0.0015 * math.sin(9 * u + 5 * v + k)
                     row.append(self.V(x, hh, dd))
                 pts.append(row)
             self.quad_grid(pts, lambda i, j: mat)
-            # vordere runde Faltkante
+            # runde Faltkante, abwechselnd vorne und hinten (wie echt gefaltete Wäsche)
+            side = 1 if k % 2 == 0 else -1
             pts = []
             for a in range(9):
                 ang = math.pi * a / 8
                 row = []
                 for i in range(nu + 1):
                     u = i / nu
-                    x = ox + (u - 0.5) * w * (1 - 0.01 * k)
+                    x = ox + (u - 0.5) * w
                     r = layer_h / 2
-                    row.append(self.V(x, h0 + r - r * math.cos(ang), od + d_depth * (1 - 0.015 * k) / 2 + r * math.sin(ang)))
+                    row.append(self.V(x, h0 + r - r * math.cos(ang), od + side * (d_depth / 2 + r * math.sin(ang))))
                 pts.append(row)
             self.quad_grid(pts, lambda i, j: mat)
 
