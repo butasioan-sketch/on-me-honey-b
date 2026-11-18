@@ -8,12 +8,14 @@ export const metadata: Metadata = {
   title: "ON ME HONEY B - Individuell bedruckbare Premium-Sportbekleidung",
   description:
     "133 individuell bedruckbare Produkte - von Bekleidung bis Wohnaccessoires. 2 Produkte sofort verfügbar, 131 in Vorbereitung. Premium AirFit Performance Fabric.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "ON ME HONEY B - Personalisierte Textilien",
     description:
       "133 individuell bedruckbare Produkte - Premium AirFit Performance Fabric",
     type: "website",
-    url: "https://on-me-honey-b.vercel.app",
+    url: "/",
+    images: ["/og.png"],
   },
 };
 

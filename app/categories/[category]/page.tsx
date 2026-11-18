@@ -40,14 +40,16 @@ export async function generateMetadata({
   }
 
   const info = CATEGORY_INFO[categoryUpper];
-  const products = getProductsByCategory(categoryUpper);
+  const url = `/categories/${categoryUpper}`;
 
   return {
+    alternates: { canonical: url },
     title: `${info.name} - ON ME HONEY B`,
-    description: `${products.length} individuell bedruckbare ${info.name} Produkte. Premium AirFit Performance Fabric. Jetzt entdecken!`,
+    description: `${info.name} im Katalog von ON ME HONEY B. Entdecke Produkte zur Personalisierung und sieh, welche bereits verfügbar sind.`,
     openGraph: {
       title: `${info.name} - ON ME HONEY B`,
-      description: `${products.length} individuell bedruckbare Produkte`,
+      description: `${info.name} im Katalog von ON ME HONEY B.`,
+      url,
       type: "website",
     },
   };
