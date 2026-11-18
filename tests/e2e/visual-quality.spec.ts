@@ -337,7 +337,7 @@ test.describe("Visual Quality Check - Homepage & Navigation", () => {
   });
 
   test("Navigation zwischen Produkten", async ({ page }) => {
-    await page.goto(BASE_URL);
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
 
     // Klick auf T-Shirt
     await page.locator('.hero-collection-grid a[href="/product/1"]').click();
@@ -345,7 +345,7 @@ test.describe("Visual Quality Check - Homepage & Navigation", () => {
     await expect(page.locator("h1").first()).toContainText("AirFit Pro");
 
     // Zurück zur Homepage
-    await page.goto(BASE_URL);
+    await page.goBack({ waitUntil: "domcontentloaded" });
 
     // Klick auf Shorts
     const shortsLink = page.locator(
