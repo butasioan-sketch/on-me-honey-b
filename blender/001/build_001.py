@@ -43,7 +43,7 @@ SLEEVE_LEN = 0.185
 SLEEVE_ANGLE = math.radians(38)
 FABRIC = 0.0022
 
-NU, NV = 44, 62      # Raster je Stoffbahn
+NU, NV = 40, 56      # Raster je Stoffbahn (Budget < 300 KiB)
 BAND_ROWS = 4        # eigene Rasterzeilen für Schulterstreifen/Ripp: Kanten folgen einer Gitterlinie
 P_SE = 2.7           # Superellipsen-Exponent (eckiger als Ellipse)
 
@@ -213,7 +213,7 @@ for front in (True, False):
                 loop[uv_layer].uv = ((lx / 0.62 + 0.5) * 0.5 + (0.0 if front else 0.5), lh / LENGTH)
 
 # --- Ärmel: eingesetzte Röhren ---------------------------------------------
-SEG_A, SEG_L = 36, 22
+SEG_A, SEG_L = 32, 18
 for side in (-1, 1):
     # Ärmeloberkante läuft durch den Schulterpunkt (SHOULDER_X, Schulterhöhe)
     sh_h = top_height(SHOULDER_X, True)
