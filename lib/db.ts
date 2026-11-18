@@ -56,50 +56,51 @@ export async function initDb() {
   }
 }
 
-export async function createOrder(order: Order): Promise<Order> {
+export async function createOrder(
+  order: Order,
+  printJob?: unknown,
+): Promise<boolean> {
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
-  const isProduction =
-    process.env.NODE_ENV === "production" || process.env.VERCEL;
-
   if (!sql) {
-    if (isProduction) {
+    if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
       throw new Error("Database connection failed in production");
     }
-    memoryStore.unshift(order);
-    return order;
-  }
-
-  try {
-    await sql.query(
-      `INSERT INTO orders (id, stripe_session_id, customer_email, amount_total, currency, status, items, locale, shipping_country, design_id, shipping_method)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-       ON CONFLICT (stripe_session_id) DO NOTHING`,
-      [
-        order.id,
-        order.stripeSessionId,
-        order.customerEmail,
-        order.amountTotal,
-        order.currency,
-        order.status,
-        JSON.stringify(order.items),
-        order.locale,
-        order.shippingCountry,
-        order.designId || null,
-        order.shippingMethod || null,
-      ],
-    );
-  } catch (err) {
-    console.error("createOrder error:", err);
-    if (isProduction) {
-      throw new Error(
-        `Failed to create order: ${err instanceof Error ? err.message : "Unknown error"}`,
-      );
+    if (
+      order.stripeSessionId &&
+      memoryStore.some(
+        (existing) => existing.stripeSessionId === order.stripeSessionId,
+      )
+    ) {
+      return false;
     }
     memoryStore.unshift(order);
+    return true;
   }
-  return order;
+
+  const inserted = await sql.query(
+    `INSERT INTO orders (id, stripe_session_id, customer_email, amount_total, currency, status, items, locale, shipping_country, design_id, shipping_method, print_job, shipping_address)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+     ON CONFLICT (stripe_session_id) DO NOTHING
+     RETURNING id`,
+    [
+      order.id,
+      order.stripeSessionId,
+      order.customerEmail,
+      order.amountTotal,
+      order.currency,
+      order.status,
+      JSON.stringify(order.items),
+      order.locale,
+      order.shippingCountry,
+      order.designId || null,
+      order.shippingMethod || null,
+      printJob ? JSON.stringify(printJob) : null,
+      order.shippingAddress ? JSON.stringify(order.shippingAddress) : null,
+    ],
+  );
+  return inserted.length > 0;
 }
 
 export async function getOrders(status?: string, limit = 50): Promise<Order[]> {
@@ -265,38 +266,12 @@ export async function freezeDesign(id: string): Promise<DesignRecord | null> {
   const sql = (await getPg()) as {
     query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
   } | null;
-  if (!sql) return null;
-  try {
-    const rows = await sql.query(
-      `UPDATE designs SET frozen_at=COALESCE(frozen_at, NOW()) WHERE id=$1 RETURNING *`,
-      [id],
-    );
-    return rows.length ? mapDesignRow(rows[0]) : null;
-  } catch (err) {
-    console.error("freezeDesign error:", err);
-    return null;
-  }
-}
-
-/** Speichert den eingefrorenen Druckauftrags-Snapshot (Transforms + PrintSpec zum Zahlungszeitpunkt) an der Order. */
-export async function updateOrderPrintJob(
-  id: string,
-  printJob: unknown,
-): Promise<boolean> {
-  const sql = (await getPg()) as {
-    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
-  } | null;
-  if (!sql) return false;
-  try {
-    await sql.query(`UPDATE orders SET print_job=$1 WHERE id=$2`, [
-      JSON.stringify(printJob),
-      id,
-    ]);
-    return true;
-  } catch (err) {
-    console.error("updateOrderPrintJob error:", err);
-    return false;
-  }
+  if (!sql) throw new Error("Database connection failed while freezing design");
+  const rows = await sql.query(
+    `UPDATE designs SET frozen_at=COALESCE(frozen_at, NOW()) WHERE id=$1 RETURNING *`,
+    [id],
+  );
+  return rows.length ? mapDesignRow(rows[0]) : null;
 }
 
 export async function getOrderPrintJob(
@@ -501,6 +476,8 @@ function mapRow(row: Record<string, unknown>): Order {
     locale: row.locale as string,
     shippingCountry: row.shipping_country as string,
     shippingMethod: (row.shipping_method as string) || undefined,
+    shippingAddress:
+      (row.shipping_address as Order["shippingAddress"]) || undefined,
     designId: (row.design_id as string) || null,
     createdAt: new Date(row.created_at as string).toISOString(),
     updatedAt: new Date(row.updated_at as string).toISOString(),

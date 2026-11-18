@@ -428,6 +428,7 @@ export async function POST(request: Request) {
       allow_promotion_codes: true,
       payment_method_types: ["card", "paypal", "klarna", "sepa_debit", "link"],
       line_items: buildLineItems(priced, applyBundle),
+      shipping_address_collection: { allowed_countries: [country] },
       shipping_options: [
         {
           shipping_rate_data: {

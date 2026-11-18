@@ -41,9 +41,12 @@ export async function notifyAdminOrderIssue(
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
 
   try {
-    await fetch(`${siteUrl}/api/email`, {
+    const response = await fetch(`${siteUrl}/api/email`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-internal-key': process.env.INTERNAL_API_KEY || '',
+      },
       body: JSON.stringify({
         type: 'admin_alert',
         orderId: order.id,
@@ -55,6 +58,7 @@ export async function notifyAdminOrderIssue(
         missingDesign: orderMissingDesign(order),
       }),
     });
+    if (!response.ok) console.error('[admin-alert] Versand fehlgeschlagen:', response.status);
   } catch (err) {
     console.error('[admin-alert] Versand fehlgeschlagen:', err);
   }

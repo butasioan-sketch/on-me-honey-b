@@ -57,7 +57,9 @@ export async function POST(request: NextRequest) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    await createOrder(order);
+    if (!(await createOrder(order))) {
+      return NextResponse.json({ error: 'Bestellung existiert bereits' }, { status: 409 });
+    }
     if (missing) {
       await notifyAdminOrderIssue(order, 'missing_design');
     }
