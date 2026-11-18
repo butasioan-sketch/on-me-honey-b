@@ -13,8 +13,11 @@ from soft import Builder, arc, lerp, path_tube, pouch, se_ring, slab, smoothstep
 
 WHITE = ("Polyester weiß", (0.93, 0.93, 0.93), 0.85)
 WIN = ("Sichtfenster", (0.80, 0.84, 0.88), 0.15)
-b = Builder("Tag047", [WHITE, WIN])
+BLACK = ("Schnalle schwarz", (0.05, 0.05, 0.06), 0.5)
+b = Builder("Tag047", [WHITE, WIN, BLACK])
 slab(b, 0.065, 0.10, 0.004, r=0.008, mat=0)
-slab(b, 0.050, 0.055, 0.0008, r=0.004, mat=1, h0=0.012, d0=-0.0025)   # Sichtfenster hinten
-path_tube(b, arc((-0.008, 0.098, 0.0), (0.008, 0.098, 0.0), 0.11, n=20, bulge_d=0.03), 0.006, seg=6, mat=0, flat=0.25)
+slab(b, 0.050, 0.055, 0.0008, r=0.004, mat=1, h0=0.012, d0=0.0025)   # Sichtfenster vorne unten (Referenz)
+# Riemenschlaufe wie Referenz: ca. 2 cm breiter Gurt, Schlaufe gut 5 cm über dem Anhänger, schwarze Schnalle
+path_tube(b, arc((0.0, 0.094, 0.004), (0.0, 0.094, -0.034), 0.040, n=24), 0.010, seg=8, mat=0, flat=0.22)
+slab(b, 0.026, 0.011, 0.006, r=0.002, mat=2, h0=0.094 + 0.040 - 0.004, d0=-0.015)
 b.finish(thickness=0, smooth=False)

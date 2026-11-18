@@ -4,7 +4,7 @@ Stand 18.11.2026 · Claude · Zweig `fix/glb-masse-jn`. 130–133 ausgenommen (G
 
 **Methode:** Jedes GLB aus `public/models/sku/` mit Cycles gerendert (Schrägansicht, bei Verdacht zusätzlich hinten/unten) und neben `public/products/<sku>/front.jpg` gelegt; zusätzlich Codex' Firefox-Fotos (`00_Xena/.../Testnachweise/Firefox-133`) für 035/036/048/055/057/059/060/061. Sichtprüfung auf Form, Proportion, sichtbare Bauteile, Öffnungen/Schichtkanten. Maße nur für 001/015 (Hersteller-Maßblatt) und 051 (BRILDOR) geprüft; alle anderen Maße bleiben Schätzwerte (siehe Kopf der jeweiligen `build_<sku>.py`).
 
-**Ergebnis:** 129 SKUs geprüft · 14 korrigiert · 9 mit offener, benannter Abweichung · Rest übereinstimmend.
+**Ergebnis:** 129 SKUs geprüft · 15 korrigiert · 8 mit offener, benannter Abweichung · Rest übereinstimmend.
 
 Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, keine Draco-Kompression; unveränderte SKUs sind byte-gleich.
 
@@ -56,7 +56,7 @@ Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, ke
 | 044 | Tablet-Hüllen | übereinstimmend in Form und Proportion |
 | 045 | Dokumententaschen | übereinstimmend in Form und Proportion |
 | 046 | Reisepasshüllen | übereinstimmend in Form und Proportion |
-| 047 | Kofferanhänger | offen – mittel: Gurt im Verhältnis zu lang, Anhängerkörper zu klein |
+| 047 | Kofferanhänger | korrigiert (047-Commit): Gurtschlaufe ca. 2 cm breit / gut 4 cm hoch mit schwarzer Schnalle, Sichtfenster vorne unten |
 | 048 | Schlüsselbänder / Lanyards | korrigiert (Faltlagen-Commit): Karabiner oval mit Schnapper, Ausreißer-Vertex entfernt |
 | 049 | Schlüsselanhänger Polyester | übereinstimmend in Form und Proportion |
 | 050 | Kartenetuis | übereinstimmend in Form und Proportion |
@@ -94,7 +94,7 @@ Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, ke
 | 082 | Schlüsselanhänger Metall | übereinstimmend in Form und Proportion |
 | 083 | Schlüsselanhänger MDF | übereinstimmend in Form und Proportion |
 | 084 | Kühlschrankmagnete | übereinstimmend in Form und Proportion |
-| 085 | Flaschenöffner | offen – mittel: Referenz Metallöffner mit Öffnung am Ende, Modell rechteckige Aussparungen |
+| 085 | Flaschenöffner | offen – mittel: Referenz Metallöffner mit Öffnung am Ende, Modell rechteckige Aussparungen (Generator hardgoods/Codex, nicht von Claude geändert) |
 | 086 | Lesezeichen Aluminium | übereinstimmend in Form und Proportion |
 | 087 | Foto-Puzzles bis A4 | übereinstimmend in Form und Proportion |
 | 088 | Untersetzer-Sets | übereinstimmend in Form und Proportion |
