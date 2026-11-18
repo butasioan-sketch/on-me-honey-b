@@ -210,3 +210,100 @@ class Builder:
         def mat_fn(i, j):
             return mat_rib if zones[j] == "rib" else (mat_heel if zones[j] in ("heel", "toe") else mat_body)
         self.quad_grid(pts, mat_fn, closed_u=True)
+
+
+# ---------------------------------------------------------------- Taschen-Bausteine
+def se_ring(w, d, p=3.0, n=48, h=0.0, cx=0.0, cd=0.0):
+    """Superellipsen-Querschnitt (halbe Breite w, halbe Tiefe d) in Höhe h, als (x, h, d)-Tupel."""
+    pts = []
+    for a in range(n):
+        phi = 2 * math.pi * a / n
+        co, si = math.cos(phi), math.sin(phi)
+        r = (abs(co) ** p + abs(si) ** p) ** (-1 / p) if p != 2 else 1.0
+        pts.append((cx + w * r * co, h, cd + d * r * si))
+    return pts
+
+
+def _loft(b, rings, mat_fn=None, cap_bottom=True, cap_top=False, cap_mat=None):
+    """rings: Liste geschlossener Ringe aus (x, h, d); gleiche Punktzahl je Ring."""
+    pts = [[b.V(*p) for p in ring] for ring in rings]
+    rows = b.quad_grid(pts, mat_fn, closed_u=True)
+    if cap_bottom:
+        f = b.bm.faces.new(rows[0][::-1])
+        f.material_index = cap_mat if cap_mat is not None else (mat_fn(0, 0) if mat_fn else 0)
+    if cap_top:
+        f = b.bm.faces.new(rows[-1])
+        f.material_index = cap_mat if cap_mat is not None else 0
+    return rows
+
+
+def path_tube(b, path, r, seg=10, mat=0, flat=1.0):
+    """Röhre entlang eines Pfads (Liste (x, h, d)), z. B. Griffe, Kordeln. flat < 1 = Gurtband."""
+    vs = [Vector((x, h, d)) for (x, h, d) in path]
+    rings = []
+    for k, p in enumerate(vs):
+        t = (vs[min(k + 1, len(vs) - 1)] - vs[max(k - 1, 0)]).normalized()
+        ref = Vector((0, 0, 1)) if abs(t.z) < 0.9 else Vector((1, 0, 0))
+        n1 = t.cross(ref).normalized()
+        n2 = t.cross(n1).normalized()
+        ring = []
+        for a in range(seg):
+            phi = 2 * math.pi * a / seg
+            q = p + n1 * math.cos(phi) * r + n2 * math.sin(phi) * r * flat
+            ring.append(b.V(q.x, q.y, q.z))
+        rings.append(ring)
+    rows = b.quad_grid(rings, lambda i, j: mat, closed_u=True)
+    for end, rev in ((rows[0], True), (rows[-1], False)):
+        f = b.bm.faces.new(end[::-1] if rev else end)
+        f.material_index = mat
+
+
+def arc(p0, p1, height, n=16, bulge_d=0.0):
+    """Bogen von p0 nach p1 mit Scheitelhöhe height über der Verbindungslinie."""
+    out = []
+    for k in range(n + 1):
+        t = k / n
+        x = lerp(p0[0], p1[0], t)
+        h = lerp(p0[1], p1[1], t) + height * math.sin(math.pi * t)
+        d = lerp(p0[2], p1[2], t) + bulge_d * math.sin(math.pi * t)
+        out.append((x, h, d))
+    return out
+
+
+def pouch(b, w, h, d, top_d=0.004, p=3.0, rows=16, n=48, mat=0, zip_mat=None, bulge=0.0, w_top=None, cap_top=True):
+    """Weiche Tasche: Breite w, Höhe h, Tiefe d unten, oben auf top_d zusammenlaufend (Reißverschluss)."""
+    rings = []
+    w_top = w if w_top is None else w_top
+    for j in range(rows + 1):
+        t = j / rows
+        ww = lerp(w, w_top, t) / 2
+        dd = lerp(d / 2, top_d / 2, smoothstep(0.0, 1.0, t) ** 0.8) + bulge * math.sin(math.pi * t)
+        rings.append(se_ring(ww, dd, p, n, t * h))
+    zr = rows - 1
+
+    def mf(i, j):
+        return zip_mat if (zip_mat is not None and j >= zr) else mat
+    return _loft(b, rings, mf, cap_bottom=True, cap_top=cap_top, cap_mat=zip_mat if zip_mat is not None else mat)
+
+
+def slab(b, w, h, t, r=0.01, n_corner=6, mat=0, edge_mat=None, h0=0.0, d0=0.0, bulge=0.0):
+    """Abgerundete Platte (w × h, Stärke t) stehend in der x-h-Ebene, Vorderseite +Tiefe."""
+    outline = []
+    for cx, ch, a0 in ((w / 2 - r, h - r, 0), (-w / 2 + r, h - r, 90), (-w / 2 + r, r, 180), (w / 2 - r, r, 270)):
+        for k in range(n_corner + 1):
+            ang = math.radians(a0 + 90 * k / n_corner)
+            outline.append((cx + r * math.cos(ang), ch + r * math.sin(ang)))
+    front = [b.bm.verts.new(b.V(x, h0 + hh, d0 + t / 2)) for x, hh in outline]
+    back = [b.bm.verts.new(b.V(x, h0 + hh, d0 - t / 2)) for x, hh in outline]
+    ff = b.bm.faces.new(front)
+    ff.material_index = mat
+    fb = b.bm.faces.new(back[::-1])
+    fb.material_index = mat
+    m = len(outline)
+    for i in range(m):
+        j = (i + 1) % m
+        f = b.bm.faces.new([front[i], back[i], back[j], front[j]])
+        f.material_index = edge_mat if edge_mat is not None else mat
+    if bulge:
+        for v in front:
+            pass

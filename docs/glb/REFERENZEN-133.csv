@@ -29,15 +29,15 @@ sku,name_de,kategorie,familie,rohling,g_m2,seiten,druckform,status,katalogfoto,r
 028,Schlauchtücher,A,soft-head,Schlauchtuch (offen),90,front,a4_flat,offen,public/products/028/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/028-v1.glb,"v1 Claude (blender/028/build_028.py, Generator blender/lib/soft.py)"
 029,Halstücher,A,soft-head,Halstuch (offen),80,front,a4_flat,offen,public/products/029/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/029-v1.glb,"v1 Claude (blender/029/build_029.py, Generator blender/lib/soft.py)"
 030,Polyester-Schals,A,soft-head,Schal (offen),120,front,a4_flat,offen,public/products/030/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/030-v1.glb,"v1 Claude (blender/030/build_030.py, Generator blender/lib/soft.py)"
-031,Stoff-Aufnäher / Patches,A,patch,Aufnäher (offen),100,front,panel,offen,public/products/031/front.jpg,,offen,public/models/sku/031-v1.glb,offen
-032,Stofftragetaschen,B,tote,Stofftasche (offen),140,front,a4_flat,offen,public/products/032/front.jpg,,offen,public/models/sku/032-v1.glb,offen
-033,Einkaufstaschen / Shopper,B,tote,Shopper (offen),140,front,a4_flat,anker,public/products/033/front.jpg,,offen,public/models/sku/033-v1.glb,offen
-034,Turnbeutel,B,drawstring,Turnbeutel (offen),120,front,a4_flat,offen,public/products/034/front.jpg,,offen,public/models/sku/034-v1.glb,offen
-035,Sportbeutel,B,drawstring,Sportbeutel (offen),120,front,a4_flat,offen,public/products/035/front.jpg,,offen,public/models/sku/035-v1.glb,offen
-036,Kleine Sporttaschen,B,sportbag,Sporttasche (offen),200,front,a4_partial,offen,public/products/036/front.jpg,,offen,public/models/sku/036-v1.glb,offen
-037,Kosmetiktaschen,B,pouch,Kosmetiktasche (offen),100,front,a4_flat,offen,public/products/037/front.jpg,,offen,public/models/sku/037-v1.glb,offen
-038,Kulturbeutel,B,pouch,Kulturbeutel (offen),120,front,a4_flat,offen,public/products/038/front.jpg,,offen,public/models/sku/038-v1.glb,offen
-039,Federmäppchen,B,pouch,Federmäppchen (offen),80,front,a4_flat,offen,public/products/039/front.jpg,,offen,public/models/sku/039-v1.glb,offen
+031,Stoff-Aufnäher / Patches,A,patch,Aufnäher (offen),100,front,panel,offen,public/products/031/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/031-v1.glb,"v1 Claude (blender/031/build_031.py, Generator blender/lib/soft.py)"
+032,Stofftragetaschen,B,tote,Stofftasche (offen),140,front,a4_flat,offen,public/products/032/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/032-v1.glb,"v1 Claude (blender/032/build_032.py, Generator blender/lib/soft.py)"
+033,Einkaufstaschen / Shopper,B,tote,Shopper (offen),140,front,a4_flat,anker,public/products/033/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/033-v1.glb,"v1 Claude (blender/033/build_033.py, Generator blender/lib/soft.py)"
+034,Turnbeutel,B,drawstring,Turnbeutel (offen),120,front,a4_flat,offen,public/products/034/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/034-v1.glb,"v1 Claude (blender/034/build_034.py, Generator blender/lib/soft.py)"
+035,Sportbeutel,B,drawstring,Sportbeutel (offen),120,front,a4_flat,offen,public/products/035/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/035-v1.glb,"v1 Claude (blender/035/build_035.py, Generator blender/lib/soft.py)"
+036,Kleine Sporttaschen,B,sportbag,Sporttasche (offen),200,front,a4_partial,offen,public/products/036/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/036-v1.glb,"v1 Claude (blender/036/build_036.py, Generator blender/lib/soft.py)"
+037,Kosmetiktaschen,B,pouch,Kosmetiktasche (offen),100,front,a4_flat,offen,public/products/037/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/037-v1.glb,"v1 Claude (blender/037/build_037.py, Generator blender/lib/soft.py)"
+038,Kulturbeutel,B,pouch,Kulturbeutel (offen),120,front,a4_flat,offen,public/products/038/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/038-v1.glb,"v1 Claude (blender/038/build_038.py, Generator blender/lib/soft.py)"
+039,Federmäppchen,B,pouch,Federmäppchen (offen),80,front,a4_flat,offen,public/products/039/front.jpg,,"Schätzwert, Rohling offen",public/models/sku/039-v1.glb,"v1 Claude (blender/039/build_039.py, Generator blender/lib/soft.py)"
 040,Stiftemäppchen,B,pouch,Stiftemäppchen (offen),80,front,a4_flat,offen,public/products/040/front.jpg,,offen,public/models/sku/040-v1.glb,offen
 041,Kleine Geldbörsen,B,pouch,Geldbörse (offen),90,front,a4_flat,offen,public/products/041/front.jpg,,offen,public/models/sku/041-v1.glb,offen
 042,Brillenetuis,B,pouch,Brillenetui (offen),70,front,a4_flat,offen,public/products/042/front.jpg,,offen,public/models/sku/042-v1.glb,offen
