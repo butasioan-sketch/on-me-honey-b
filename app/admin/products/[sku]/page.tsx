@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 /* eslint-disable */
 import { getProductBySKU } from "@/lib/products-all-133";
+import { catalogFrontSrc } from "@/lib/catalog/families";
 import Link from "next/link";
 
 const STATUS_INFO = {
@@ -99,22 +100,11 @@ export default async function ProductDetailPage({
           <h2 className="text-lg font-bold mb-4">Produktbild</h2>
           <div className="aspect-square max-w-md mx-auto bg-gray-50 rounded-lg overflow-hidden">
             <img
-              src={
-                product.sku === "001"
-                  ? "/airfit-front-t.png"
-                  : product.sku === "015"
-                    ? "/airfit-shorts-front.png"
-                    : "/products/placeholder/coming-soon.svg"
-              }
+              src={catalogFrontSrc(product.sku)}
               alt={product.name.de}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
-          {product.sku !== "001" && product.sku !== "015" && (
-            <p className="text-center text-gray-500 mt-4">
-              ⚠️ Platzhalter-Bild — Echtes Foto fehlt
-            </p>
-          )}
         </div>
 
         {/* Product Details */}
