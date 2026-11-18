@@ -49,7 +49,7 @@ sku,name,category,family,blank,preis_vk,status,printShape,machbarkeit,hasGLB,has
 048,Schlüsselbänder / Lanyards,B,patch,"Schlüsselband (offen)",,offen,panel,bedingt,false,true,30,front
 049,Schlüsselanhänger Polyester,B,hard-small,"Schlüsselanhänger (offen)",,offen,panel,bedingt,false,true,20,front
 050,Kartenetuis,B,pouch,"Kartenetui (offen)",,offen,a4_flat,bedingt,false,true,70,front
-051,Dekokissenbezüge,C,pillow,"BRILDOR Kissenbezug (Kandidat)",,pilot,a4_flat,bedingt,false,true,180,front
+051,Dekokissenbezüge,C,pillow,"BRILDOR Kissenbezug (Kandidat)",,pilot,a4_flat,bedingt,false,true,180,front+back
 052,Kopfkissenbezüge,C,pillow,"Kopfkissenbezug (offen)",,offen,a4_flat,bedingt,false,true,180,front
 053,Zierkissenbezüge,C,pillow,"Zierkissenbezug (offen)",,offen,a4_flat,bedingt,false,true,160,front
 054,Polyester-Küchentücher,C,towel,"Küchentuch (offen)",,offen,a4_flat,bedingt,false,true,140,front

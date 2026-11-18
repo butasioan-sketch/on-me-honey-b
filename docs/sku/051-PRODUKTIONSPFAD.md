@@ -35,7 +35,7 @@ Quelle: `Sublimierbare Mikrofaser-Kissenbezüge _ BRILDOR ®.pdf` (Repo-Wurzel, 
 | `lib/print-spec.ts` `PILLOW_OVERLAY` | 52,5 % × 74,25 % (= A4 auf 40 cm) | passt zur A4-Technik | beibehalten |
 | `lib/print-spec.ts` `PILLOW_PLACEMENT` | 80 % × 80 % (= 32 × 32 cm) | größer als A4-Transfer | auf A4-Fläche begrenzen oder größeres Transfersystem beschaffen |
 | `PILLOW_PROFILE.overlayVerified` | `false` | kein Testdruck | bleibt `false` bis Testdruck |
-| `lib/products-all-133.ts` 051 `sides` | `'front'` | Hersteller: beidseitig | Entscheidung Jonny: Rückseite anbieten (2. Pressgang) ja/nein |
+| Katalogregister 051 `sides` | `'front+back'` | Hersteller bestätigt beide Seiten. Jonny möchte Vorder- und Rückseite anbieten. | Separate Pressgänge und beide Seiten physisch prüfen. |
 | `lib/products-all-133.ts` 051 `hasGLB` | `false` | GLB existiert: `public/models/sku/051-v1.glb` (Codex, Blender-Quelle) | nach GLB-Abnahme auf `true` |
 | `lib/products-all-133.ts` 051 `blank` | „BRILDOR Kissenbezug (Kandidat)“ | Artikel jetzt eindeutig | „BRILDOR Ref. 037944“ nach Bestellentscheidung |
 
@@ -56,8 +56,8 @@ Quelle: `Sublimierbare Mikrofaser-Kissenbezüge _ BRILDOR ®.pdf` (Repo-Wurzel, 
 
 ## 5. Reihenfolge bis zur Freigabe
 
-1. Jonny: VK festlegen, Rohling bestellen (Ref. 037944, ggf. Füllung 000098), Rückseite ja/nein.
-2. Code: `PILLOW_PLACEMENT` auf A4 begrenzen; Register 051 (`blank`, `hasGLB`, `sides`) aktualisieren; `PRODUCT_FLAT['3']` = VK.
-3. Physischer Testdruck mit 180 °C / 60 s; Ergebnis in `PRODUCTION_EVIDENCE['051'].physicalTestPrint` mit Datum/Quelle.
+1. Jonny: VK festlegen, Rohling bestätigen (Ref. 037944, ggf. Füllung 000098).
+2. Code: `PILLOW_PLACEMENT` auf A4 begrenzen; Register 051 (`blank`, `hasGLB`) aktualisieren; `PRODUCT_FLAT['3']` = VK.
+3. Physischer Testdruck auf beiden Seiten mit 180 °C / 60 s je Pressgang; Ergebnis in `PRODUCTION_EVIDENCE['051'].physicalTestPrint` mit Datum/Quelle.
 4. Gate-Test grün, dann `shopId '3'`, `shop_live: true`, `RELEASE_APPROVALS['051']` mit Jonny-Beleg.
 5. Preview-Test: Atelier, Checkout (Stripe TEST), PDF, danach Produktion nach Gesamtabnahme.

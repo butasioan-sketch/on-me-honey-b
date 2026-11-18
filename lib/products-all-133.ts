@@ -839,7 +839,7 @@ export const PRODUCTS_133: Product133[] = [
     hasGLB: false,
     hasPhoto: true,
     weightGsm: 180,
-    sides: 'front'
+    sides: 'front+back'
   },
   {
     sku: '052',
