@@ -1,46 +1,48 @@
 /* ── ON ME HONEY B Design Tokens ── */
 :root {
   /* Backgrounds */
-  --plt-bg:            #0a0a0a;
-  --plt-bg-sub:        #0f0d0a;
-  --plt-surface:       #1a1510;
-  --plt-surface-raised:#1f1812;
-  --plt-surface-high:  #252015;
+  --plt-bg: #0a0a0a;
+  --plt-bg-sub: #0f0d0a;
+  --plt-surface: #1a1510;
+  --plt-surface-raised: #1f1812;
+  --plt-surface-high: #252015;
 
   /* Brand - Gold/Honig wie Logo */
-  --plt-brand:         #D4AF37;
-  --plt-brand-hover:   #F4D03F;
-  --plt-brand-glow:    rgba(212, 175, 55, 0.35);
-  --plt-brand-dim:     rgba(212, 175, 55, 0.15);
-  --plt-brand-muted:   rgba(212, 175, 55, 0.25);
+  --plt-brand: #d4af37;
+  --plt-brand-hover: #f4d03f;
+  --plt-brand-glow: rgba(212, 175, 55, 0.35);
+  --plt-brand-dim: rgba(212, 175, 55, 0.15);
+  --plt-brand-muted: rgba(212, 175, 55, 0.25);
 
   /* Text */
-  --plt-text:          #ffffff;
-  --plt-text-secondary:#e8d7b8;
-  --plt-text-muted:    #a89968;
-  --plt-text-faint:    #6b5d3f;
-  --plt-text-ghost:    #3d3520;
+  --plt-text: #ffffff;
+  --plt-text-secondary: #e8d7b8;
+  --plt-text-muted: #a89968;
+  --plt-text-faint: #6b5d3f;
+  --plt-text-ghost: #3d3520;
 
   /* Borders */
-  --plt-border:        rgba(212, 175, 55, 0.12);
+  --plt-border: rgba(212, 175, 55, 0.12);
   --plt-border-subtle: rgba(212, 175, 55, 0.08);
-  --plt-border-mid:    rgba(212, 175, 55, 0.18);
-  --plt-border-brand:  rgba(212, 175, 55, 0.4);
+  --plt-border-mid: rgba(212, 175, 55, 0.18);
+  --plt-border-brand: rgba(212, 175, 55, 0.4);
 
   /* Radius */
-  --plt-r-xs:  6px;
-  --plt-r-sm:  8px;
-  --plt-r-md:  12px;
-  --plt-r-lg:  16px;
-  --plt-r-xl:  20px;
-  --plt-r-full:999px;
+  --plt-r-xs: 6px;
+  --plt-r-sm: 8px;
+  --plt-r-md: 12px;
+  --plt-r-lg: 16px;
+  --plt-r-xl: 20px;
+  --plt-r-full: 999px;
 
   /* Transitions */
-  --plt-t-fast:  0.15s ease;
-  --plt-t-base:  0.2s ease;
+  --plt-t-fast: 0.15s ease;
+  --plt-t-base: 0.2s ease;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -52,11 +54,19 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    sans-serif;
   background: #0a0a0a;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
+  background-image: radial-gradient(
+      circle at 20% 30%,
+      rgba(212, 175, 55, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(212, 175, 55, 0.02) 0%,
+      transparent 50%
+    );
   color: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,7 +74,9 @@ body {
 
 button {
   font-family: inherit;
-  transition: opacity 0.15s, transform 0.1s;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
 }
 
 button:hover:not(:disabled) {
@@ -127,13 +139,17 @@ a:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: inherit;
 }
 
@@ -155,11 +171,17 @@ input, select, textarea {
   border-radius: 3px;
 }
 
-.mobile-sticky-cta { display: none; }
+.mobile-sticky-cta {
+  display: none;
+}
 
 @media (max-width: 768px) {
-  .desktop-only { display: none !important; }
-  .mobile-sticky-cta { display: flex !important; }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-sticky-cta {
+    display: flex !important;
+  }
   .product-grid {
     grid-template-columns: 1fr !important;
     padding: 1rem !important;
@@ -177,6 +199,12 @@ input, select, textarea {
   }
 }
 
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
 /* Header lief bei Telefonbreiten (~390px) ueber die Viewport-Kante (5 Nav-Items +
    Logo + "Warenkorb"-Textlabel passten nicht in eine Zeile, Rest der Seite betroffen
    von horizontalem Scroll). Eigener, engerer Breakpoint als die generelle 768px-Grenze,
@@ -184,22 +212,93 @@ input, select, textarea {
 @media (max-width: 600px) {
   .plt-header {
     padding: 0.8rem 0.85rem !important;
+    position: relative;
   }
   .site-header-nav {
-    gap: 0.55rem !important;
+    display: none !important;
   }
-  .site-header .brand-text {
-    display: none;
+  .brand-text {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.1rem;
   }
   /* "Warenkorb"/€-Preis-Text im Cart-Button war mit Abstand der groesste Platzfresser
      (~130px) — auf Telefonbreite nur Icon + Anzahl-Badge, wie in vielen Shop-Headern üblich. */
   .cart-label-text {
     display: none;
   }
+  .mobile-menu-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 80px;
+}
+
+.mobile-menu {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 200px;
+}
+
+.mobile-menu a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.mobile-menu a:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Chat-Widget auf Mobile zur Seite schieben, damit "Jetzt bestellen" Button sichtbar bleibt */
+@media (max-width: 600px) {
+  .category-card-photo {
+    max-height: 220px;
+  }
+  .chat-toggle-button {
+    left: 1.5rem !important;
+    right: auto !important;
+  }
+  .chat-window {
+    left: 1.5rem !important;
+    right: auto !important;
+    width: calc(100vw - 3rem) !important;
+    max-width: 340px !important;
+  }
 }
 
 @media (min-width: 769px) {
-  .mobile-only { display: none !important; }
+  .mobile-only {
+    display: none !important;
+  }
 }
 
 /* ── PLATYPUS Design System ── */
@@ -226,13 +325,16 @@ input, select, textarea {
   background: var(--plt-surface);
   border: 1px solid var(--plt-border);
   border-radius: var(--plt-r-lg);
-  transition: border-color var(--plt-t-base), box-shadow var(--plt-t-base), transform var(--plt-t-base);
+  transition:
+    border-color var(--plt-t-base),
+    box-shadow var(--plt-t-base),
+    transform var(--plt-t-base);
 }
 
 .plt-card:hover {
   border-color: var(--plt-brand-muted);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .plt-btn-primary {
@@ -251,7 +353,10 @@ input, select, textarea {
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0 8px 24px var(--plt-brand-glow);
-  transition: background var(--plt-t-base), transform var(--plt-t-base), box-shadow var(--plt-t-base);
+  transition:
+    background var(--plt-t-base),
+    transform var(--plt-t-base),
+    box-shadow var(--plt-t-base);
 }
 
 .plt-btn-primary:hover:not(:disabled) {
@@ -283,7 +388,9 @@ input, select, textarea {
   font-weight: 600;
   font-size: 0.78rem;
   cursor: pointer;
-  transition: border-color var(--plt-t-fast), color var(--plt-t-fast);
+  transition:
+    border-color var(--plt-t-fast),
+    color var(--plt-t-fast);
 }
 
 .plt-btn-secondary:hover:not(:disabled) {
@@ -386,14 +493,23 @@ input, select, textarea {
 }
 
 @keyframes plt-size-pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* design status indicator — transition on inline style changes */
 .plt-design-status {
-  transition: background var(--plt-t-base), border-color var(--plt-t-base), color var(--plt-t-base);
+  transition:
+    background var(--plt-t-base),
+    border-color var(--plt-t-base),
+    color var(--plt-t-base);
 }
 
 /* ── Layout Utilities ── */
@@ -429,7 +545,9 @@ input, select, textarea {
   border: 1px solid var(--plt-border-mid);
   color: var(--plt-text-muted);
   text-decoration: none;
-  transition: color var(--plt-t-fast), border-color var(--plt-t-fast);
+  transition:
+    color var(--plt-t-fast),
+    border-color var(--plt-t-fast);
 }
 
 .plt-footer-social-btn:hover {
@@ -448,7 +566,9 @@ input, select, textarea {
   font-size: 0.82rem;
   font-weight: 500;
   background: rgba(255, 255, 255, 0.03);
-  transition: color var(--plt-t-fast), border-color var(--plt-t-fast);
+  transition:
+    color var(--plt-t-fast),
+    border-color var(--plt-t-fast);
 }
 
 .plt-footer-link:hover {
@@ -471,17 +591,30 @@ input, select, textarea {
 
 /* ── Micro-animation helpers ── */
 @keyframes plt-cart-success {
-  0%   { transform: scale(1); }
-  25%  { transform: scale(1.05); }
-  60%  { transform: scale(0.97); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  60% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* 3D-Viewer Lade-Skeleton (Shirt3D) — Puls statt starrem Platzhalter, damit sofort
    erkennbar ist "es laedt", nicht "kaputt/schwarz". */
 @keyframes plt-glb-pulse {
-  0%, 100% { opacity: 0.6; }
-  50%      { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .plt-btn-cart-added {
@@ -489,8 +622,14 @@ input, select, textarea {
 }
 
 @keyframes plt-fadeInUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .plt-fade-in-up {
