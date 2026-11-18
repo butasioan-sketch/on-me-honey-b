@@ -38,7 +38,7 @@ export default function CatalogModelViewer({ src }: { src: string }) {
         aria-label="Interaktive 360°-Vorschau"
         camera={{ position: [1, 0.65, 2], fov: 38 }}
         dpr={[1, 1.75]}
-        fallback={<p role="status">{unavailable}</p>}
+        fallback={<p aria-hidden="true">{unavailable}</p>}
         frameloop="demand"
       >
         <ambientLight intensity={0.9} />

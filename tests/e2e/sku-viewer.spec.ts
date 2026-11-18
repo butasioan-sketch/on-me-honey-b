@@ -3,6 +3,8 @@ import { expect, test } from "@playwright/test";
 
 import { CATALOG } from "../../lib/catalog/families";
 
+test.use({ serviceWorkers: "block" });
+
 test("every catalog SKU has a valid GLB header @smoke", () => {
   for (const sku of Object.keys(CATALOG)) {
     const file = readFileSync(`public/models/sku/${sku}-v1.glb`);
@@ -31,6 +33,11 @@ test("051 loads its own model only when requested @smoke", async ({ page }) => {
   await page.getByRole("button", { name: "360°-Entwurf ansehen" }).click();
   expect((await response).ok()).toBe(true);
   await expect(page.locator("canvas")).toBeVisible({ timeout: 20000 });
+  await expect(
+    page
+      .getByRole("status")
+      .filter({ hasText: "360°-Ansicht nicht verfügbar" }),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Produktfoto anzeigen" }).click();
   await expect(page.getByAltText("Dekokissenbezüge")).toBeVisible();
 });
@@ -81,4 +88,25 @@ test("footer newsletter has a labeled keyboard focus target @smoke", async ({
   await email.focus();
   await expect(email).toBeFocused();
   await expect(email).toHaveCSS("outline-width", "2px");
+});
+
+test("failed 360° model is announced and the photo stays accessible", async ({
+  page,
+}) => {
+  await page.route("**/models/sku/051-v1.glb", (route) =>
+    route.fulfill({ status: 404, body: "Missing model" }),
+  );
+  const response = page.waitForResponse(
+    (result) => new URL(result.url()).pathname === "/models/sku/051-v1.glb",
+  );
+  await page.goto("/product/051");
+  await page.getByRole("button", { name: "360°-Entwurf ansehen" }).click();
+  expect((await response).status()).toBe(404);
+  await expect(
+    page
+      .getByRole("status")
+      .filter({ hasText: "360°-Ansicht nicht verfügbar" }),
+  ).toBeVisible({ timeout: 20000 });
+  await page.getByRole("button", { name: "Produktfoto anzeigen" }).click();
+  await expect(page.getByAltText("Dekokissenbezüge")).toBeVisible();
 });
