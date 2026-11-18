@@ -54,7 +54,9 @@ jobs:
         run: npx playwright install --with-deps
       
       - name: Run Playwright tests
-        run: npm test
+        run: xvfb-run -a npm test
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
       
       - name: Upload test results
         if: always()
