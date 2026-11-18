@@ -103,7 +103,7 @@ function getFallbackResponse(message: string, locale: string): string {
   const responses: Record<string, Record<string, string>> = {
     de: {
       groesse: 'Unsere Größen: S (XS-S), M (M), L (L-XL), XL (XL-XXL), XXL (XXL+). Bei Unsicherheit empfehlen wir eine Größe größer.',
-      versand: 'Deutschland: ab €4.49 (Hermes), €4.79 (DPD) oder €4.99 (DHL), 3–5 Werktage. Rumänien: ab €12.99, 5–7 Werktage.',
+      versand: 'Deutschland: ab €4.49 (Hermes), €4.79 (DPD) oder €4.99 (DHL), 2–5 Werktage je nach Paketdienst.',
       rueckgabe: 'Da jedes Shirt individuell bedruckt wird, ist ein Widerruf gesetzlich ausgeschlossen (§ 312g BGB). Bei Druckfehlern oder Beschädigung ersetzen wir dein Shirt kostenlos — schreib uns einfach eine E-Mail mit Foto.',
       zahlung: 'Wir akzeptieren alle Kreditkarten über Stripe. 100% sichere Verbindung.',
       produktion: 'Jedes Piece wird maßgefertigt nach deiner Bestellung — kein Lagerware-Print-on-Demand. Fertigung: 2–3 Werktage.',
@@ -115,7 +115,7 @@ function getFallbackResponse(message: string, locale: string): string {
     },
     ro: {
       groesse: 'Mărimi: S (XS-S), M (M), L (L-XL), XL (XL-XXL), XXL (XXL+). La nesiguranță, comandați o mărime mai mare.',
-      versand: 'România: de la €12.99, 5–7 zile. Germania: de la €4.49, 3–5 zile.',
+      versand: 'Germania: de la 4,49 €, 2–5 zile lucrătoare.',
       rueckgabe: 'Deoarece fiecare tricou este imprimat individual, retragerea este exclusă legal. La defecte de imprimare sau deteriorare, înlocuim tricoul gratuit — trimiteți-ne un email cu o poză.',
       zahlung: 'Acceptăm toate cardurile prin Stripe. Conexiune 100% sigură.',
       produktion: 'Fiecare tricou este produs individual după comanda ta — nu e marfă de stoc. Timp de producție: 2–3 zile.',
@@ -127,7 +127,7 @@ function getFallbackResponse(message: string, locale: string): string {
     },
     en: {
       groesse: 'Sizes: S (XS-S), M (M), L (L-XL), XL (XL-XXL), XXL (XXL+). When in doubt, size up.',
-      versand: 'Germany: from €4.49, 3–5 business days. Romania: from €12.99, 5–7 business days.',
+      versand: 'Germany: from €4.49, 2–5 business days.',
       rueckgabe: 'Since every shirt is individually printed, returns are legally excluded. For print defects or damage we replace your shirt free of charge — just email us a photo.',
       zahlung: 'We accept all credit cards via Stripe. 100% secure connection.',
       produktion: 'Each shirt is individually made to order — no stock print-on-demand. Production time: 2–3 days.',
