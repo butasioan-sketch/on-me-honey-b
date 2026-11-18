@@ -47,6 +47,8 @@ export interface ProductRecord {
   familyId: keyof typeof PRODUCT_FAMILIES | string; // may reference non-existent family for catalog-only
   name: string;
   shop_live: boolean;
+  previewModel?: string;
+  atelierModel?: string;
 }
 
 /**
@@ -649,6 +651,7 @@ export const CATALOG: Record<string, ProductRecord> = {
     shopId: null, // WAVE 6.4: shopId='3' only after Jonny price + jonnyOk gate
     familyId: "pillow", // WAVE 6.3: now uses pillow family
     name: "Dekokissenbezüge",
+    previewModel: "/models/sku/051-v1.glb",
     shop_live: false, // WAVE 6.4: stays false until gate opens
   },
   "052": {
@@ -1032,6 +1035,11 @@ export function catalogFrontSrc(sku: string): string {
  */
 export function getProductByShopId(shopId: string): ProductRecord | null {
   return Object.values(CATALOG).find((r) => r.shopId === shopId) || null;
+}
+
+/** Per-SKU atelier models are set after print and viewer calibration. */
+export function getAtelierModelPath(record: ProductRecord): string | null {
+  return record.atelierModel ?? PRODUCT_FAMILIES[record.familyId]?.glbPath ?? null;
 }
 
 /**

@@ -7,7 +7,7 @@
  * `shop_live` gesetzt ist, ohne dass das Gate grün ist.
  */
 import { PRODUCTS_133, type Product133 } from "@/lib/products-all-133";
-import { CATALOG, PRODUCT_FAMILIES } from "@/lib/catalog/families";
+import { CATALOG, getAtelierModelPath, PRODUCT_FAMILIES } from "@/lib/catalog/families";
 import { GARMENT_PROFILES } from "@/lib/print-spec";
 import { PRODUCT_FLAT } from "@/lib/pricing";
 
@@ -125,10 +125,11 @@ export function checkReleaseGate(sku: string): GateResult {
   const profile = shopId ? GARMENT_PROFILES[shopId] : undefined;
   const runtimePrice = shopId ? PRODUCT_FLAT[shopId] : undefined;
   const evidence = PRODUCTION_EVIDENCE[sku];
+  const atelierPath = rec ? getAtelierModelPath(rec) : null;
   const pathOk =
     !!evidence &&
     (evidence.mode === "3d"
-      ? !!family?.glbPath && family.glbPath === evidence.asset
+      ? atelierPath === evidence.asset
       : !!reg?.hasPhoto && evidence.asset.length > 0);
 
   const checks: GateCheck[] = [
@@ -184,8 +185,8 @@ export function checkReleaseGate(sku: string): GateResult {
       ok: pathOk,
       detail: !evidence
         ? "kein Nachweis"
-        : evidence.mode === "3d" && family?.glbPath !== evidence.asset
-          ? `3D-Nachweis ${evidence.asset} passt nicht zur Familie (${family?.glbPath ?? "ohne Modell"})`
+        : evidence.mode === "3d" && atelierPath !== evidence.asset
+          ? `3D-Nachweis ${evidence.asset} passt nicht zum Atelier-Modell (${atelierPath ?? "ohne Modell"})`
           : `${evidence.mode.toUpperCase()} · ${evidence.asset} · ${evidence.assetCheck.date} ${evidence.assetCheck.source}`,
     },
     {

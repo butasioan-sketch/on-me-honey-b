@@ -1,8 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { useState } from "react";
 import SiteHeader from "./SiteHeader";
-import { categoryForSku, type ProductRecord } from "@/lib/catalog/families";
+import {
+  catalogFrontSrc,
+  categoryForSku,
+  type ProductRecord,
+} from "@/lib/catalog/families";
+
+const CatalogModelViewer = dynamic(() => import("./CatalogModelViewer"), {
+  ssr: false,
+  loading: () => <p role="status">360°-Modell lädt …</p>,
+});
 
 interface CatalogProductViewProps {
   product: ProductRecord;
@@ -15,9 +26,8 @@ interface CatalogProductViewProps {
 export default function CatalogProductView({
   product,
 }: CatalogProductViewProps) {
-  // 001 und 015 sind PNG, alle anderen Katalogfotos JPG.
-  const ext = product.sku === "001" || product.sku === "015" ? "png" : "jpg";
-  const photoPath = `/products/${product.sku}/front.${ext}`;
+  const [showModel, setShowModel] = useState(false);
+  const photoPath = catalogFrontSrc(product.sku);
   const category = categoryForSku(product.sku);
 
   return (
@@ -55,13 +65,31 @@ export default function CatalogProductView({
               overflow: "hidden",
             }}
           >
-            <Image
-              src={photoPath}
-              alt={product.name}
-              fill
-              style={{ objectFit: "contain" }}
-              priority
-            />
+            {showModel && product.previewModel ? (
+              <CatalogModelViewer
+                key={product.previewModel}
+                src={product.previewModel}
+              />
+            ) : (
+              <Image
+                src={photoPath}
+                alt={product.name}
+                fill
+                sizes="(max-width: 900px) calc(100vw - 32px), 520px"
+                style={{ objectFit: "contain" }}
+                priority
+              />
+            )}
+            {product.previewModel && (
+              <button
+                type="button"
+                className="plt-btn-secondary"
+                style={{ position: "absolute", right: 12, bottom: 12 }}
+                onClick={() => setShowModel(!showModel)}
+              >
+                {showModel ? "Produktfoto anzeigen" : "360°-Entwurf ansehen"}
+              </button>
+            )}
           </div>
 
           {/* Info */}
@@ -124,8 +152,8 @@ export default function CatalogProductView({
               }}
             >
               Dieses Produkt befindet sich in Vorbereitung und kann noch nicht
-              bestellt werden. Alle Artikel werden vollständig personalisierbar
-              sein mit deinem eigenen Design per Sublimationsdruck.
+              bestellt werden. Die Angaben zur Personalisierung folgen mit der
+              Produktfreigabe.
             </p>
 
             {/* Back to catalog */}
