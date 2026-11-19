@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { addNewsletterSubscriber, confirmNewsletterSubscriber, initDb } from '@/lib/db';
+import { emailFrom } from "@/lib/email-from";
 
 let initialized = false;
 async function ensureInit() {
@@ -58,7 +59,7 @@ async function sendConfirmationEmail(email: string, token: string, locale: strin
     method: 'POST',
     headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: 'ON ME HONEY B <onboarding@resend.dev>',
+      from: emailFrom(),
       to: email,
       subject: t.subject,
       html,
