@@ -4,7 +4,12 @@ import {
   notifyAdminWebhookError,
   notifyAdminOrderIssue,
 } from "@/lib/admin-alert";
-import { createOrder, freezeDesign } from "@/lib/db";
+import {
+  claimConfirmationEmail,
+  createOrder,
+  freezeDesign,
+  releaseConfirmationEmail,
+} from "@/lib/db";
 import type { Order } from "@/lib/types";
 import { buildPrintJobPayload } from "@/lib/print-job";
 import { readEmailDelivery } from "@/lib/email-delivery";
@@ -129,19 +134,26 @@ export async function POST(request: NextRequest) {
         : buildPrintJobPayload(orderId, designs);
 
       // Store the snapshot with the order so a retry cannot observe a paid order without its print job.
-      if (!(await createOrder(order, printJob))) {
-        return NextResponse.json({ received: true });
-      }
-      if (order.status === "on_hold") {
+      const created = await createOrder(order, printJob);
+      if (created && order.status === "on_hold") {
         await notifyAdminOrderIssue(
           order,
           missingDesign ? "missing_design" : "on_hold",
         ).catch(() => {});
       }
 
-      // Bestätigungs-E-Mail senden (fehlertolerant - darf Bestellung nie kaputtmachen)
+      // Bestätigungs-E-Mail senden (fehlertolerant - darf Bestellung nie kaputtmachen).
+      // Die Reservierung in der DB sorgt dafür, dass ein Stripe-Retry eine gescheiterte
+      // E-Mail nachholt und parallele Zustellungen nicht doppelt senden.
+      let claimedOrderId: string | null = null;
       try {
-        if (customerEmail) {
+        const claim = customerEmail
+          ? await claimConfirmationEmail(session.id)
+          : null;
+        // Ohne Datenbank (lokale Entwicklung) gibt es keine Reservierung: nur beim ersten Anlegen senden.
+        const mailOrderId = claim?.id ?? (created ? orderId : null);
+        claimedOrderId = claim?.id ?? null;
+        if (customerEmail && mailOrderId) {
           const response = await fetch(`${siteUrl}/api/email`, {
             method: "POST",
             redirect: "manual",
@@ -150,7 +162,7 @@ export async function POST(request: NextRequest) {
               "x-internal-key": process.env.INTERNAL_API_KEY || "",
             },
             body: JSON.stringify({
-              orderId,
+              orderId: mailOrderId,
               email: customerEmail,
               total: (session.amount_total || 0) / 100,
               items: parsedItems,
@@ -160,13 +172,18 @@ export async function POST(request: NextRequest) {
             }),
           });
           const delivery = await readEmailDelivery(response);
-          if (!delivery.accepted)
+          if (!delivery.accepted) {
+            if (claimedOrderId)
+              await releaseConfirmationEmail(claimedOrderId).catch(() => {});
             console.error(
               "[stripe-webhook] Bestätigungs-E-Mail nicht versendet (Bestellung bleibt gültig):",
-              { orderId, reason: delivery.reason, status: delivery.status },
+              { orderId: mailOrderId, reason: delivery.reason, status: delivery.status },
             );
+          }
         }
       } catch (mailErr) {
+        if (claimedOrderId)
+          await releaseConfirmationEmail(claimedOrderId).catch(() => {});
         console.error(
           "[stripe-webhook] Bestätigungs-E-Mail nicht versendet (Bestellung bleibt gültig):",
           {
@@ -180,6 +197,54 @@ export async function POST(request: NextRequest) {
       console.error("Order Erstellung fehlgeschlagen:", err);
       await notifyAdminWebhookError(session.id, err).catch(() => {});
       return NextResponse.json({ received: false }, { status: 500 });
+    }
+  }
+
+  if (event.type === "checkout.session.async_payment_failed") {
+    // Lastschrift/Klarna später abgelehnt: Es wurde keine Bestellung angelegt (payment_status war
+    // nicht "paid"). Kunde bekommt einen klaren Hinweis statt Funkstille.
+    const session = event.data.object as Stripe.Checkout.Session;
+    const customerEmail =
+      session.customer_details?.email ?? session.customer_email;
+    console.warn("[stripe-webhook] Asynchrone Zahlung fehlgeschlagen:", {
+      eventId: event.id,
+      sessionId: session.id,
+    });
+    if (customerEmail) {
+      try {
+        const siteUrl =
+          process.env.NEXT_PUBLIC_SITE_URL ||
+          "https://on-me-honey-b.vercel.app";
+        const response = await fetch(`${siteUrl}/api/email`, {
+          method: "POST",
+          redirect: "manual",
+          headers: {
+            "Content-Type": "application/json",
+            "x-internal-key": process.env.INTERNAL_API_KEY || "",
+          },
+          body: JSON.stringify({
+            type: "payment_failed",
+            email: customerEmail,
+            orderId: session.id.slice(-12),
+            total: (session.amount_total || 0) / 100,
+            locale: session.metadata?.locale || "de",
+            items: [],
+          }),
+        });
+        const delivery = await readEmailDelivery(response);
+        if (!delivery.accepted)
+          console.error("[stripe-webhook] Zahlungsfehler-E-Mail nicht versendet:", {
+            eventId: event.id,
+            reason: delivery.reason,
+            status: delivery.status,
+          });
+      } catch (err) {
+        console.error("[stripe-webhook] Zahlungsfehler-E-Mail nicht versendet:", {
+          eventId: event.id,
+          reason: "fetch_error",
+          error: err instanceof Error ? err.name : "unknown",
+        });
+      }
     }
   }
 
