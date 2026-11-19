@@ -32,9 +32,13 @@ def lathe(b, profile, wall=0.004, seg=64, mat_out=0, mat_in=None, mat_rim=None, 
             a2 = (a + 1) % seg
             f = bm.faces.new([outer[j][a], outer[j][a2], outer[j + 1][a2], outer[j + 1][a]])
             f.material_index = mat_out
-            if uv_wrap:
-                for loop, (aa, jj) in zip(f.loops, ((a, j), (a + 1, j), (a + 1, j + 1), (a, j + 1))):
-                    loop[uv].uv = (aa / seg, profile[jj][1] / h_max)
+    if uv_wrap:
+        # Abwicklung der Außenwand (u = Umfang, v = Höhe) als Vertex-UV registrieren, damit
+        # Builder.finish() sie nicht durch die Planarprojektion überschreibt.
+        b.uv_grid = getattr(b, "uv_grid", None) or {}
+        for j, row in enumerate(outer):
+            for a, vert in enumerate(row):
+                b.uv_grid[vert] = (a / seg, profile[j][1] / h_max)
     if bottom:
         f = bm.faces.new(outer[0][::-1])
         f.material_index = mat_out
