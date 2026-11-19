@@ -13,7 +13,8 @@ export async function POST(request: NextRequest) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!key?.startsWith("sk_")) {
-    return NextResponse.json({ received: true, warning: "no stripe key" });
+    console.error("[stripe-webhook] STRIPE_SECRET_KEY fehlt oder ist ungültig");
+    return NextResponse.json({ received: false }, { status: 503 });
   }
 
   const stripe = new Stripe(key);
