@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { hasOrderForStripeSession } from "@/lib/db";
 
 export async function GET(request: Request) {
   const id = new URL(request.url).searchParams.get("session_id") ?? "";
@@ -21,8 +22,12 @@ export async function GET(request: Request) {
       session.status === "complete" &&
       (session.payment_status === "paid" ||
         session.payment_status === "no_payment_required");
+    // Stripe can report paid before the webhook has stored the shop order.
+    const orderSaved = paid
+      ? await hasOrderForStripeSession(id).catch(() => false)
+      : false;
     return NextResponse.json(
-      { paid, amount: paid ? (session.amount_total ?? 0) / 100 : 0 },
+      { paid, orderSaved, amount: paid ? (session.amount_total ?? 0) / 100 : 0 },
       { headers: { "Cache-Control": "private, no-store" } },
     );
   } catch (error) {

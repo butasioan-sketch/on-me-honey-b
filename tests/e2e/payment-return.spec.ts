@@ -1,34 +1,64 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-for (const paid of [false, true]) {
-  test(`checkout return preserves cart until payment is confirmed (paid=${paid}) @smoke`, async ({
+async function seedPendingPurchase(page: Page) {
+  await page.addInitScript(() => {
+    const cart = JSON.stringify([{ id: "1", designId: "test" }]);
+    localStorage.setItem("on_me_honey_b_cart", cart);
+    sessionStorage.setItem(
+      "plt_pending_purchase",
+      JSON.stringify({
+        sessionId: "cs_test_fixture",
+        cart,
+      }),
+    );
+    localStorage.setItem("on_me_honey_b_locale", "de");
+  });
+}
+
+const readCart = (page: Page) =>
+  page.evaluate(() => localStorage.getItem("on_me_honey_b_cart"));
+
+const cases = [
+  { name: "unpaid", paid: false, orderSaved: false, text: "noch nicht bestätigt", cleared: false },
+  { name: "paid-without-order", paid: true, orderSaved: false, text: "Auftrag wird verarbeitet", cleared: false },
+  { name: "paid-with-order", paid: true, orderSaved: true, text: "Zahlung erfolgreich", cleared: true },
+];
+
+for (const c of cases) {
+  test(`checkout return keeps cart until the order is stored (${c.name}) @smoke`, async ({
     page,
   }) => {
-    await page.addInitScript(() => {
-      const cart = JSON.stringify([{ id: "1", designId: "test" }]);
-      localStorage.setItem("on_me_honey_b_cart", cart);
-      sessionStorage.setItem(
-        "plt_pending_purchase",
-        JSON.stringify({
-          sessionId: "cs_test_fixture",
-          cart,
-        }),
-      );
-      localStorage.setItem("on_me_honey_b_locale", "de");
-    });
+    await seedPendingPurchase(page);
     await page.route("**/api/payments/checkout-status?*", (route) =>
-      route.fulfill({ json: { paid, amount: 49.48 } }),
+      route.fulfill({
+        json: { paid: c.paid, orderSaved: c.orderSaved, amount: 49.48 },
+      }),
     );
     await page.goto("/?payment=success&session_id=cs_test_fixture");
     await expect(
-      page.getByRole("status").filter({
-        hasText: paid ? "Zahlung erfolgreich" : "noch nicht bestätigt",
-      }),
+      page.getByRole("status").filter({ hasText: c.text }),
     ).toBeVisible({ timeout: 20000 });
-    expect(
-      (await page.evaluate(() =>
-        localStorage.getItem("on_me_honey_b_cart"),
-      )) === null,
-    ).toBe(paid);
+    expect((await readCart(page)) === null).toBe(c.cleared);
   });
 }
+
+test("checkout return confirms once the webhook has stored the order @smoke", async ({
+  page,
+}) => {
+  await seedPendingPurchase(page);
+  let calls = 0;
+  await page.route("**/api/payments/checkout-status?*", (route) =>
+    route.fulfill({
+      json: { paid: true, orderSaved: ++calls > 1, amount: 49.48 },
+    }),
+  );
+  await page.goto("/?payment=success&session_id=cs_test_fixture");
+  await expect(
+    page.getByRole("status").filter({ hasText: "Auftrag wird verarbeitet" }),
+  ).toBeVisible({ timeout: 20000 });
+  expect(await readCart(page)).not.toBeNull();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Zahlung erfolgreich" }),
+  ).toBeVisible({ timeout: 20000 });
+  expect(await readCart(page)).toBeNull();
+});

@@ -10,6 +10,7 @@ const SHARE_TEXT: Record<
     title: string;
     text: string;
     banner: string;
+    processing: string;
     pending: string;
     share: string;
     copied: string;
@@ -19,6 +20,7 @@ const SHARE_TEXT: Record<
     title: "Mein neues ON ME Piece",
     text: "Gerade bestellt — mein Motiv auf Performance-Polyester. On me. In your head.",
     banner: "✓ Zahlung erfolgreich!",
+    processing: "✓ Zahlung bestätigt – dein Auftrag wird verarbeitet.",
     pending:
       "Die Zahlung ist noch nicht bestätigt. Dein Warenkorb bleibt erhalten.",
     share: "Teilen",
@@ -28,6 +30,7 @@ const SHARE_TEXT: Record<
     title: "Noul meu ON ME",
     text: "Tocmai am comandat — motivul meu pe poliester premium. On me. In your head.",
     banner: "✓ Plată reușită!",
+    processing: "✓ Plată confirmată – comanda ta este în procesare.",
     pending: "Plata nu a fost încă confirmată. Coșul tău rămâne salvat.",
     share: "Distribuie",
     copied: "Link copiat!",
@@ -36,14 +39,19 @@ const SHARE_TEXT: Record<
     title: "My new ON ME piece",
     text: "Just ordered — my design on performance polyester. On me. In your head.",
     banner: "✓ Payment successful!",
+    processing: "✓ Payment confirmed – your order is being processed.",
     pending: "Payment is awaiting confirmation. Your cart is still saved.",
     share: "Share",
     copied: "Link copied!",
   },
 };
 
+const MAX_ORDER_CHECKS = 20;
+
 export default function PaymentSuccessBanner() {
-  const [status, setStatus] = useState<"paid" | "pending" | null>(null);
+  const [status, setStatus] = useState<
+    "paid" | "processing" | "pending" | null
+  >(null);
   const [copied, setCopied] = useState(false);
   const [locale, setLocale] = useState("de");
 
@@ -54,6 +62,7 @@ export default function PaymentSuccessBanner() {
 
     const controller = new AbortController();
     let timer: ReturnType<typeof setTimeout> | undefined;
+    let attempts = 0;
     const storedLocale = localStorage.getItem("on_me_honey_b_locale") || "de";
     setLocale(storedLocale);
 
@@ -66,9 +75,16 @@ export default function PaymentSuccessBanner() {
         });
         const result = response.ok ? await response.json() : null;
         if (controller.signal.aborted) return;
+        // A failed poll after Stripe confirmed payment keeps "processing".
+        if (result === null && attempts > 0) return retryOrderCheck();
         if (result?.paid !== true) {
           setStatus("pending");
           return;
+        }
+        if (result.orderSaved !== true) {
+          // Paid at Stripe, but the webhook has not stored the order yet.
+          setStatus("processing");
+          return retryOrderCheck();
         }
         setStatus("paid");
         window.history.replaceState({}, "", "/");
@@ -87,7 +103,14 @@ export default function PaymentSuccessBanner() {
         }
         timer = setTimeout(() => setStatus(null), 15000);
       } catch {
-        if (!controller.signal.aborted) setStatus("pending");
+        if (controller.signal.aborted) return;
+        if (attempts > 0) retryOrderCheck();
+        else setStatus("pending");
+      }
+    }
+    function retryOrderCheck() {
+      if (++attempts < MAX_ORDER_CHECKS) {
+        timer = setTimeout(() => void checkPayment(sessionId!), 3000);
       }
     }
     void checkPayment(sessionId);
@@ -127,7 +150,12 @@ export default function PaymentSuccessBanner() {
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 1000,
-        background: status === "paid" ? "#15803d" : "#854d0e",
+        background:
+          status === "paid"
+            ? "#15803d"
+            : status === "processing"
+              ? "#1d4ed8"
+              : "#854d0e",
         color: "#fff",
         padding: "1rem 1.5rem",
         borderRadius: "14px",
@@ -142,7 +170,13 @@ export default function PaymentSuccessBanner() {
         animation: "plt-fadeInUp 0.4s ease",
       }}
     >
-      <span role="status">{status === "paid" ? t.banner : t.pending}</span>
+      <span role="status">
+        {status === "paid"
+          ? t.banner
+          : status === "processing"
+            ? t.processing
+            : t.pending}
+      </span>
       {status === "paid" && (
         <button
           onClick={handleShare}

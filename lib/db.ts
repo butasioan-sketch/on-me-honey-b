@@ -171,6 +171,25 @@ export async function getOrderById(id: string): Promise<Order | null> {
   }
 }
 
+export async function hasOrderForStripeSession(
+  stripeSessionId: string,
+): Promise<boolean> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  if (!sql) {
+    if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+      throw new Error("Database connection failed in production");
+    }
+    return memoryStore.some((o) => o.stripeSessionId === stripeSessionId);
+  }
+  const rows = await sql.query(
+    `SELECT 1 FROM orders WHERE stripe_session_id=$1 LIMIT 1`,
+    [stripeSessionId],
+  );
+  return rows.length > 0;
+}
+
 export async function updateOrderStatus(
   id: string,
   status: string,
