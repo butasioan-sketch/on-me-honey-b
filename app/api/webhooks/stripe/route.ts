@@ -7,6 +7,7 @@ import {
 import { createOrder, freezeDesign } from "@/lib/db";
 import type { Order } from "@/lib/types";
 import { buildPrintJobPayload } from "@/lib/print-job";
+import { readEmailDelivery } from "@/lib/email-delivery";
 
 export async function POST(request: NextRequest) {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -143,6 +144,7 @@ export async function POST(request: NextRequest) {
         if (customerEmail) {
           const response = await fetch(`${siteUrl}/api/email`, {
             method: "POST",
+            redirect: "manual",
             headers: {
               "Content-Type": "application/json",
               "x-internal-key": process.env.INTERNAL_API_KEY || "",
@@ -157,16 +159,21 @@ export async function POST(request: NextRequest) {
               designIds: session.metadata?.designIds || "",
             }),
           });
-          if (!response.ok)
+          const delivery = await readEmailDelivery(response);
+          if (!delivery.accepted)
             console.error(
-              "Bestätigungs-E-Mail fehlgeschlagen:",
-              response.status,
+              "[stripe-webhook] Bestätigungs-E-Mail nicht versendet (Bestellung bleibt gültig):",
+              { orderId, reason: delivery.reason, status: delivery.status },
             );
         }
       } catch (mailErr) {
         console.error(
-          "E-Mail-Versand fehlgeschlagen (Bestellung bleibt gültig):",
-          mailErr,
+          "[stripe-webhook] Bestätigungs-E-Mail nicht versendet (Bestellung bleibt gültig):",
+          {
+            orderId,
+            reason: "fetch_error",
+            error: mailErr instanceof Error ? mailErr.name : "unknown",
+          },
         );
       }
     } catch (err) {
@@ -189,8 +196,9 @@ export async function POST(request: NextRequest) {
         const locale = session.metadata?.locale || "de";
         const total = (session.amount_total || 0) / 100;
 
-        await fetch(`${siteUrl}/api/email`, {
+        const response = await fetch(`${siteUrl}/api/email`, {
           method: "POST",
+          redirect: "manual",
           headers: {
             "Content-Type": "application/json",
             "x-internal-key": process.env.INTERNAL_API_KEY || "",
@@ -204,9 +212,19 @@ export async function POST(request: NextRequest) {
             items: [],
           }),
         });
-        console.log("Abandoned cart email sent to:", customerEmail);
+        const delivery = await readEmailDelivery(response);
+        if (!delivery.accepted)
+          console.error("[stripe-webhook] Abandoned-Cart-E-Mail nicht versendet:", {
+            eventId: event.id,
+            reason: delivery.reason,
+            status: delivery.status,
+          });
       } catch (err) {
-        console.error("Abandoned cart email failed:", err);
+        console.error("[stripe-webhook] Abandoned-Cart-E-Mail nicht versendet:", {
+          eventId: event.id,
+          reason: "fetch_error",
+          error: err instanceof Error ? err.name : "unknown",
+        });
       }
     }
   }
