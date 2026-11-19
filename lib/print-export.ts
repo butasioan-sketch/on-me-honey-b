@@ -42,14 +42,18 @@ function drawCover(
   boxH: number,
 ) {
   const renderScale = Math.max(boxW / img.width, boxH / img.height);
-  const renderW = img.width * renderScale;
-  const renderH = img.height * renderScale;
+  const cropW = boxW / renderScale;
+  const cropH = boxH / renderScale;
   ctx.drawImage(
     img,
-    boxX + (boxW - renderW) / 2,
-    boxY + (boxH - renderH) / 2,
-    renderW,
-    renderH,
+    (img.width - cropW) / 2,
+    (img.height - cropH) / 2,
+    cropW,
+    cropH,
+    boxX,
+    boxY,
+    boxW,
+    boxH,
   );
 }
 
