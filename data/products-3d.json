@@ -1,7 +1,7 @@
 {
   "version": 2,
   "generated_from": "lib/print-spec.ts",
-  "generated_at": "2026-10-29T12:24:44.978Z",
+  "generated_at": "2026-11-19T12:44:42.224Z",
   "a4": {
     "widthMm": 210,
     "heightMm": 297
@@ -17,9 +17,17 @@
         "height": 850
       },
       "camera": {
-        "position": [0, 0.4, 2.2],
+        "position": [
+          0,
+          0.4,
+          2.2
+        ],
         "fov": 35,
-        "target": [0, 0.4, 0]
+        "target": [
+          0,
+          0.4,
+          0
+        ]
       },
       "animation": {
         "rotateSpeedRadPerSec": 0.4,
@@ -52,9 +60,17 @@
         "height": 600
       },
       "camera": {
-        "position": [0, 0.2, 1.8],
+        "position": [
+          0,
+          0.2,
+          1.8
+        ],
         "fov": 35,
-        "target": [0, 0.2, 0]
+        "target": [
+          0,
+          0.2,
+          0
+        ]
       },
       "animation": {
         "rotateSpeedRadPerSec": 0.5,
@@ -63,6 +79,12 @@
       },
       "overlay": {
         "front": {
+          "y": 28.5,
+          "x": 29,
+          "h": 39,
+          "w": 38
+        },
+        "back": {
           "y": 28.5,
           "x": 29,
           "h": 39,
@@ -81,9 +103,17 @@
         "height": 400
       },
       "camera": {
-        "position": [0, 0, 1.6],
+        "position": [
+          0,
+          0,
+          1.6
+        ],
         "fov": 40,
-        "target": [0, 0, 0]
+        "target": [
+          0,
+          0,
+          0
+        ]
       },
       "animation": {
         "rotateSpeedRadPerSec": 0.3,
@@ -92,6 +122,12 @@
       },
       "overlay": {
         "front": {
+          "y": 12.875,
+          "x": 23.75,
+          "h": 74.25,
+          "w": 52.5
+        },
+        "back": {
           "y": 12.875,
           "x": 23.75,
           "h": 74.25,

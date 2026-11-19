@@ -96,6 +96,12 @@ const config = {
           x: parseFloat(shortsOverlayMatch[2]),
           h: parseFloat(shortsOverlayMatch[4]),
           w: parseFloat(shortsOverlayMatch[3])
+        },
+        back: {
+          y: parseFloat(shortsOverlayMatch[1]),
+          x: parseFloat(shortsOverlayMatch[2]),
+          h: parseFloat(shortsOverlayMatch[4]),
+          w: parseFloat(shortsOverlayMatch[3])
         }
       },
       shopLive: true
@@ -118,6 +124,12 @@ const config = {
       },
       overlay: {
         front: {
+          y: parseFloat(pillowOverlayMatch[1]),
+          x: parseFloat(pillowOverlayMatch[2]),
+          h: parseFloat(pillowOverlayMatch[4]),
+          w: parseFloat(pillowOverlayMatch[3])
+        },
+        back: {
           y: parseFloat(pillowOverlayMatch[1]),
           x: parseFloat(pillowOverlayMatch[2]),
           h: parseFloat(pillowOverlayMatch[4]),

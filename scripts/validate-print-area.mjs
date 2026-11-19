@@ -26,18 +26,23 @@ let failed = 0;
 for (const [key, p] of Object.entries(cfg.products)) {
   if (only && key !== only) continue;
 
-  for (const [side, ov] of Object.entries(p.overlay || {})) {
-    if (!ov) continue;
+  for (const side of ['front', 'back']) {
+    const ov = p.overlay?.[side];
+    if (!ov) {
+      failed++;
+      console.error(`❌ ${key}/${side}: Druckfläche fehlt`);
+      continue;
+    }
 
-    const wMm = +((ov.w / 100) * p.physicalMm.width).toFixed(1);
-    const hMm = +((ov.h / 100) * p.physicalMm.height).toFixed(1);
-    const ok = wMm <= A4.widthMm + 0.5 && hMm <= A4.heightMm + 0.5;
+    const wMm = ov.w * p.physicalMm.width / 100;
+    const hMm = ov.h * p.physicalMm.height / 100;
+    const ok = wMm > 0 && hMm > 0 && wMm <= A4.widthMm && hMm <= A4.heightMm;
 
-    console.log(`${ok ? '✅' : '❌'} ${key}/${side}: ${wMm} × ${hMm} mm  (A4 max ${A4.widthMm} × ${A4.heightMm})`);
+    console.log(`${ok ? '✅' : '❌'} ${key}/${side}: ${wMm.toFixed(2)} × ${hMm.toFixed(2)} mm  (A4 max ${A4.widthMm} × ${A4.heightMm})`);
 
     if (!ok) {
       failed++;
-      console.error(`   → ÜBERSCHREITUNG: ${wMm > A4.widthMm ? 'Breite' : 'Höhe'}`);
+      console.error('   → Druckmaß ungültig oder größer als A4');
     }
   }
 }
@@ -45,7 +50,7 @@ for (const [key, p] of Object.entries(cfg.products)) {
 if (failed === 0) {
   console.log('\n✅ Alle Overlays A4-konform!');
 } else {
-  console.error(`\n❌ ${failed} Overlay(s) überschreiten A4!`);
+  console.error(`\n❌ ${failed} Overlay(s) fehlen oder überschreiten A4!`);
 }
 
 process.exit(failed ? 1 : 0);

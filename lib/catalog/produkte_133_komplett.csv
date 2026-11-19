@@ -13,7 +13,7 @@ sku,name,category,family,blank,preis_vk,status,printShape,machbarkeit,hasGLB,has
 012,Laufshirts,A,tee,"Laufshirt (offen)",,anker,a4_flat,bedingt,false,true,120,front
 013,Fitness-Tops,A,tank,"Fitness-Top (offen)",,offen,a4_flat,bedingt,false,true,140,front
 014,Sport-BHs,A,bra,"Sport-BH (offen)",,offen,a4_flat,bedingt,false,true,150,front
-015,Shorts,A,shorts,"James & Nicholson JN387",39.99,shop_live,a4_flat,bedingt,true,true,135,front
+015,Shorts,A,shorts,"James & Nicholson JN387",39.99,shop_live,a4_flat,bedingt,true,true,135,front+back
 016,Sporthosen,A,pants,"Sporthose (offen)",,offen,a4_partial,eingeschraenkt,false,true,180,front
 017,Jogginghosen,A,pants,"Jogginghose (offen)",,offen,a4_partial,eingeschraenkt,false,true,200,front
 018,Leggings,A,leggings,"Leggings (offen)",,offen,a4_flat,bedingt,false,true,160,front
