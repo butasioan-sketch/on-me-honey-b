@@ -63,5 +63,19 @@ async function sendAlert(siteUrl: string, details: Record<string, unknown>) {
       subject: `⚠ ON ME HONEY B DOWN — ${new Date().toISOString()}`,
       html: `<p style="font-family:monospace">Site or API unresponsive.<br/><br/>${JSON.stringify(details, null, 2).replace(/\n/g, "<br/>")}<br/><br/><a href="${siteUrl}">${siteUrl}</a></p>`,
     }),
-  }).catch(console.error);
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.error(
+          "[health-cron] Resend hat den Alarm abgelehnt:",
+          response.status,
+        );
+      }
+    })
+    .catch((error: unknown) => {
+      console.error(
+        "[health-cron] Alarmversand fehlgeschlagen:",
+        error instanceof Error ? error.name : "Unbekannter Fehler",
+      );
+    });
 }
