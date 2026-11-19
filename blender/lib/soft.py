@@ -56,12 +56,14 @@ class Builder:
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
         # UV planar Vorderansicht
         xs = [v.co.x for v in bm.verts]
+        ys = [v.co.y for v in bm.verts]
         zs = [v.co.z for v in bm.verts]
         x0, x1, z0, z1 = min(xs), max(xs), min(zs), max(zs)
-        sx, sz = max(x1 - x0, 1e-6), max(z1 - z0, 1e-6)
+        y0, y1 = min(ys), max(ys)
+        sx, sz, sy = max(x1 - x0, 1e-6), max(z1 - z0, 1e-6), max(y1 - y0, 1e-6)
         grid = getattr(self, "uv_grid", None) or {}
         for f in bm.faces:
-            if grid and all(l.vert in grid for l in f.loops):
+            if grid and abs(f.normal.z) <= 0.7 and all(l.vert in grid for l in f.loops):
                 # Abgewickelte Röhre (z. B. Socke): u = Umfang, v = Länge entlang der Mittellinie
                 uvs = [list(grid[l.vert]) for l in f.loops]
                 if max(u for u, _ in uvs) - min(u for u, _ in uvs) > 0.5:  # Naht schließen
@@ -70,6 +72,21 @@ class Builder:
                             uv[0] += 1.0
                 for l, uv in zip(f.loops, uvs):
                     l[self.uv].uv = (uv[0], uv[1])
+                continue
+            if abs(f.normal.z) > 0.7:
+                # Waagerechte Fläche (Teller-Spiegel, Boden, Deckel): Draufsicht statt Vorderansicht,
+                # sonst fällt sie in der Projektion auf eine Linie zusammen (UV-Fläche 0).
+                top = f.normal.z > 0
+                for loop in f.loops:
+                    u = (loop.vert.co.x - x0) / sx
+                    loop[self.uv].uv = (u * 0.5 + (0.0 if top else 0.5), (loop.vert.co.y - y0) / sy)
+                continue
+            if abs(f.normal.x) > 0.7:
+                # Seitlich zeigende Fläche (Stirnseiten von Taschen/Mäppchen): Seitenansicht
+                right = f.normal.x > 0
+                for loop in f.loops:
+                    u = (loop.vert.co.y - y0) / sy
+                    loop[self.uv].uv = (u * 0.5 + (0.0 if right else 0.5), (loop.vert.co.z - z0) / sz)
                 continue
             back = f.normal.y > 0.3
             for loop in f.loops:
