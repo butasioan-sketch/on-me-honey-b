@@ -21,6 +21,7 @@ GORE = ("Gummizug", (0.86, 0.86, 0.87), 0.9)
 LIN = ("Futter", (0.90, 0.90, 0.90), 0.9)
 HOLE = ("Öse/Loch", (0.25, 0.25, 0.27), 0.5)
 
+shoe.L = 0.26  # Gr. 40 laut Kopfkommentar (der Generator steht sonst auf 28 cm wie 130)
 b = Builder("Canvas131", [CANVAS, RUBBER, GORE, LIN])
 shoe.shoe(b, ox=0.0, mirror=1, sole_h=0.018)
 finish(b)
