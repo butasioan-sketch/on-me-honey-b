@@ -52,7 +52,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 165,
     sides: 'front+back'
@@ -68,7 +68,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 165,
     sides: 'front+back'
@@ -84,7 +84,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front+back'
@@ -100,7 +100,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 180,
     sides: 'front'
@@ -116,7 +116,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 150,
     sides: 'front+back'
@@ -132,7 +132,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 180,
     sides: 'front'
@@ -148,7 +148,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 170,
     sides: 'front'
@@ -164,7 +164,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front+back'
@@ -180,7 +180,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front+back'
@@ -196,7 +196,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front+back'
@@ -212,7 +212,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -228,7 +228,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -244,7 +244,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 150,
     sides: 'front'
@@ -276,7 +276,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 180,
     sides: 'front'
@@ -292,7 +292,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 200,
     sides: 'front'
@@ -308,7 +308,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 160,
     sides: 'front'
@@ -324,7 +324,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 160,
     sides: 'front'
@@ -340,7 +340,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 220,
     sides: 'front'
@@ -356,7 +356,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 280,
     sides: 'front'
@@ -372,7 +372,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 260,
     sides: 'front'
@@ -388,7 +388,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -404,7 +404,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -420,7 +420,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 60,
     sides: 'front'
@@ -436,7 +436,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 50,
     sides: 'front'
@@ -452,7 +452,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 70,
     sides: 'front'
@@ -468,7 +468,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 90,
     sides: 'front'
@@ -484,7 +484,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -500,7 +500,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -516,7 +516,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -532,7 +532,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -548,7 +548,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'anker' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -564,7 +564,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -580,7 +580,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -596,7 +596,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 200,
     sides: 'front'
@@ -612,7 +612,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -628,7 +628,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -644,7 +644,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -660,7 +660,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -676,7 +676,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 90,
     sides: 'front'
@@ -692,7 +692,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 70,
     sides: 'front'
@@ -708,7 +708,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -724,7 +724,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -740,7 +740,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 110,
     sides: 'front'
@@ -756,7 +756,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 60,
     sides: 'front'
@@ -772,7 +772,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 50,
     sides: 'front'
@@ -788,7 +788,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 30,
     sides: 'front'
@@ -804,7 +804,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 20,
     sides: 'front'
@@ -820,7 +820,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 70,
     sides: 'front'
@@ -836,7 +836,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pilot' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 180,
     sides: 'front+back'
@@ -852,7 +852,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 180,
     sides: 'front'
@@ -868,7 +868,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 160,
     sides: 'front'
@@ -884,7 +884,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -900,7 +900,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -916,7 +916,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 160,
     sides: 'front'
@@ -932,7 +932,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 150,
     sides: 'front'
@@ -948,7 +948,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -964,7 +964,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 140,
     sides: 'front'
@@ -980,7 +980,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -996,7 +996,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 180,
     sides: 'front'
@@ -1012,7 +1012,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 160,
     sides: 'front'
@@ -1028,7 +1028,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -1044,7 +1044,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 50,
     sides: 'front'
@@ -1060,7 +1060,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 40,
     sides: 'front'
@@ -1076,7 +1076,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 60,
     sides: 'front'
@@ -1092,7 +1092,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -1108,7 +1108,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 70,
     sides: 'front'
@@ -1124,7 +1124,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 70,
     sides: 'front'
@@ -1140,7 +1140,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 90,
     sides: 'front'
@@ -1156,7 +1156,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 60,
     sides: 'front'
@@ -1172,7 +1172,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 40,
     sides: 'front'
@@ -1188,7 +1188,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 50,
     sides: 'front'
@@ -1204,7 +1204,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -1220,7 +1220,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -1236,7 +1236,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -1252,7 +1252,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -1268,7 +1268,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -1284,7 +1284,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -1300,7 +1300,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_partial',
     machbarkeit: 'eingeschraenkt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -1316,7 +1316,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 40,
     sides: 'front'
@@ -1332,7 +1332,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 30,
     sides: 'front'
@@ -1348,7 +1348,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 20,
     sides: 'front'
@@ -1364,7 +1364,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 20,
     sides: 'front'
@@ -1380,7 +1380,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 40,
     sides: 'front'
@@ -1396,7 +1396,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 30,
     sides: 'front'
@@ -1412,7 +1412,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 200,
     sides: 'front'
@@ -1428,7 +1428,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 50,
     sides: 'front'
@@ -1444,7 +1444,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 30,
     sides: 'front'
@@ -1460,7 +1460,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 30,
     sides: 'front'
@@ -1476,7 +1476,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 40,
     sides: 'front'
@@ -1492,7 +1492,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'a4_flat',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 200,
     sides: 'front'
@@ -1508,7 +1508,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -1524,7 +1524,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 20,
     sides: 'front'
@@ -1540,7 +1540,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 25,
     sides: 'front'
@@ -1556,7 +1556,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 15,
     sides: 'front'
@@ -1572,7 +1572,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 30,
     sides: 'front'
@@ -1588,7 +1588,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 30,
     sides: 'front'
@@ -1604,7 +1604,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -1620,7 +1620,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 20,
     sides: 'front'
@@ -1636,7 +1636,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'offen' as ProductStatus,
     printShape: 'panel',
     machbarkeit: 'bedingt',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -1652,7 +1652,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 300,
     sides: 'wrap'
@@ -1668,7 +1668,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 320,
     sides: 'wrap'
@@ -1684,7 +1684,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 340,
     sides: 'wrap'
@@ -1700,7 +1700,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 360,
     sides: 'wrap'
@@ -1716,7 +1716,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 340,
     sides: 'wrap'
@@ -1732,7 +1732,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 340,
     sides: 'wrap'
@@ -1748,7 +1748,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 300,
     sides: 'wrap'
@@ -1764,7 +1764,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 320,
     sides: 'wrap'
@@ -1780,7 +1780,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 340,
     sides: 'wrap'
@@ -1796,7 +1796,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 400,
     sides: 'wrap'
@@ -1812,7 +1812,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 350,
     sides: 'wrap'
@@ -1828,7 +1828,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 320,
     sides: 'wrap'
@@ -1844,7 +1844,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 300,
     sides: 'wrap'
@@ -1860,7 +1860,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 280,
     sides: 'wrap'
@@ -1876,7 +1876,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 320,
     sides: 'wrap'
@@ -1892,7 +1892,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'cap_front',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 120,
     sides: 'front'
@@ -1908,7 +1908,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'cap_front',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 110,
     sides: 'front'
@@ -1924,7 +1924,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'cap_front',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 115,
     sides: 'front'
@@ -1940,7 +1940,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'cap_front',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'front'
@@ -1956,7 +1956,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'cap_front',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 90,
     sides: 'front'
@@ -1972,7 +1972,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'cap_front',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 80,
     sides: 'front'
@@ -1988,7 +1988,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'circle',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 400,
     sides: 'front'
@@ -2004,7 +2004,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'circle',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 300,
     sides: 'front'
@@ -2020,7 +2020,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'circle',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 500,
     sides: 'front'
@@ -2036,7 +2036,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'circle',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 250,
     sides: 'front'
@@ -2052,7 +2052,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 20,
     sides: 'wrap'
@@ -2068,7 +2068,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 18,
     sides: 'wrap'
@@ -2084,7 +2084,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'wrap_cylinder',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 22,
     sides: 'wrap'
@@ -2100,7 +2100,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'shoe',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 400,
     sides: 'panel'
@@ -2116,7 +2116,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'shoe',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 350,
     sides: 'panel'
@@ -2132,7 +2132,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'shoe',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 200,
     sides: 'panel'
@@ -2148,7 +2148,7 @@ export const PRODUCTS_133: Product133[] = [
     status: 'pruefen' as ProductStatus,
     printShape: 'shoe',
     machbarkeit: 'pruefen',
-    hasGLB: false,
+    hasGLB: true,
     hasPhoto: true,
     weightGsm: 100,
     sides: 'panel'

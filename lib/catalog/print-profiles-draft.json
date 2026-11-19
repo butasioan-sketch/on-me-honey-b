@@ -1,0 +1,913 @@
+{
+  "hinweis": "Vorläufige Druckprofile Bekleidung vorne + hinten (max. DIN A4). Nicht testgedruckt.",
+  "erzeugtMit": "blender/lib/render_print_views.py + scripts/build-print-profiles-draft.mjs",
+  "a4": {
+    "widthMm": 210,
+    "heightMm": 297
+  },
+  "profiles": [
+    {
+      "sku": "002",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1082.4,
+      "overlay": {
+        "front": {
+          "top": 29.24,
+          "left": 35.45,
+          "width": 29.1,
+          "height": 27.44,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 27.39,
+          "left": 35.45,
+          "width": 29.1,
+          "height": 27.44,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 29.24,
+          "left": 31.45,
+          "width": 37.1,
+          "height": 33.44
+        },
+        "back": {
+          "top": 27.39,
+          "left": 31.45,
+          "width": 37.1,
+          "height": 33.44
+        }
+      },
+      "frontSrc": "/products/002/render-front.png",
+      "backSrc": "/products/002/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "003",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1485.8,
+      "overlay": {
+        "front": {
+          "top": 31.21,
+          "left": 39.4,
+          "width": 21.2,
+          "height": 19.99,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 29.87,
+          "left": 39.4,
+          "width": 21.2,
+          "height": 19.99,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 31.21,
+          "left": 35.4,
+          "width": 29.2,
+          "height": 25.99
+        },
+        "back": {
+          "top": 29.87,
+          "left": 35.4,
+          "width": 29.2,
+          "height": 25.99
+        }
+      },
+      "frontSrc": "/products/003/render-front.png",
+      "backSrc": "/products/003/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "004",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 889.7,
+      "overlay": {
+        "front": {
+          "top": 34.73,
+          "left": 32.3,
+          "width": 35.41,
+          "height": 33.38,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 32.49,
+          "left": 32.3,
+          "width": 35.41,
+          "height": 33.38,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 34.73,
+          "left": 28.3,
+          "width": 43.41,
+          "height": 39.38
+        },
+        "back": {
+          "top": 32.49,
+          "left": 28.3,
+          "width": 43.41,
+          "height": 39.38
+        }
+      },
+      "frontSrc": "/products/004/render-front.png",
+      "backSrc": "/products/004/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "005",
+      "kind": "body",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 639.9,
+      "overlay": {
+        "front": {
+          "top": 28.67,
+          "left": 34.6,
+          "width": 30.8,
+          "height": 29.04,
+          "widthMm": 131.4,
+          "heightMm": 185.8
+        },
+        "back": {
+          "top": 28.67,
+          "left": 34.6,
+          "width": 30.8,
+          "height": 29.04,
+          "widthMm": 131.4,
+          "heightMm": 185.8
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 28.67,
+          "left": 30.6,
+          "width": 38.8,
+          "height": 35.04
+        },
+        "back": {
+          "top": 28.67,
+          "left": 30.6,
+          "width": 38.8,
+          "height": 35.04
+        }
+      },
+      "frontSrc": "/products/005/render-front.png",
+      "backSrc": "/products/005/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "006",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 812.1,
+      "overlay": {
+        "front": {
+          "top": 18.79,
+          "left": 30.6,
+          "width": 38.79,
+          "height": 36.57,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 16.33,
+          "left": 30.6,
+          "width": 38.79,
+          "height": 36.57,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 18.79,
+          "left": 26.6,
+          "width": 46.79,
+          "height": 42.57
+        },
+        "back": {
+          "top": 16.33,
+          "left": 26.6,
+          "width": 46.79,
+          "height": 42.57
+        }
+      },
+      "frontSrc": "/products/006/render-front.png",
+      "backSrc": "/products/006/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "007",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1399.3,
+      "overlay": {
+        "front": {
+          "top": 29.7,
+          "left": 38.74,
+          "width": 22.51,
+          "height": 21.23,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 28.28,
+          "left": 38.74,
+          "width": 22.51,
+          "height": 21.23,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 29.7,
+          "left": 34.74,
+          "width": 30.51,
+          "height": 27.23
+        },
+        "back": {
+          "top": 28.28,
+          "left": 34.74,
+          "width": 30.51,
+          "height": 27.23
+        }
+      },
+      "frontSrc": "/products/007/render-front.png",
+      "backSrc": "/products/007/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "008",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1417.8,
+      "overlay": {
+        "front": {
+          "top": 31.34,
+          "left": 38.89,
+          "width": 22.22,
+          "height": 20.95,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 29.93,
+          "left": 38.89,
+          "width": 22.22,
+          "height": 20.95,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 31.34,
+          "left": 34.89,
+          "width": 30.22,
+          "height": 26.95
+        },
+        "back": {
+          "top": 29.93,
+          "left": 34.89,
+          "width": 30.22,
+          "height": 26.95
+        }
+      },
+      "frontSrc": "/products/008/render-front.png",
+      "backSrc": "/products/008/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "009",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1393.1,
+      "overlay": {
+        "front": {
+          "top": 30.92,
+          "left": 38.69,
+          "width": 22.61,
+          "height": 21.32,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 29.48,
+          "left": 38.69,
+          "width": 22.61,
+          "height": 21.32,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 30.92,
+          "left": 34.69,
+          "width": 30.61,
+          "height": 27.32
+        },
+        "back": {
+          "top": 29.48,
+          "left": 34.69,
+          "width": 30.61,
+          "height": 27.32
+        }
+      },
+      "frontSrc": "/products/009/render-front.png",
+      "backSrc": "/products/009/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "010",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 866.3,
+      "overlay": {
+        "front": {
+          "top": 14.65,
+          "left": 31.82,
+          "width": 36.36,
+          "height": 34.28,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 12.34,
+          "left": 31.82,
+          "width": 36.36,
+          "height": 34.28,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 14.65,
+          "left": 27.82,
+          "width": 44.36,
+          "height": 40.28
+        },
+        "back": {
+          "top": 12.34,
+          "left": 27.82,
+          "width": 44.36,
+          "height": 40.28
+        }
+      },
+      "frontSrc": "/products/010/render-front.png",
+      "backSrc": "/products/010/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "011",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1354.7,
+      "overlay": {
+        "front": {
+          "top": 30.44,
+          "left": 38.37,
+          "width": 23.25,
+          "height": 21.92,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 28.97,
+          "left": 38.37,
+          "width": 23.25,
+          "height": 21.92,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 30.44,
+          "left": 34.37,
+          "width": 31.25,
+          "height": 27.92
+        },
+        "back": {
+          "top": 28.97,
+          "left": 34.37,
+          "width": 31.25,
+          "height": 27.92
+        }
+      },
+      "frontSrc": "/products/011/render-front.png",
+      "backSrc": "/products/011/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "012",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1304,
+      "overlay": {
+        "front": {
+          "top": 30.47,
+          "left": 37.92,
+          "width": 24.16,
+          "height": 22.78,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 28.94,
+          "left": 37.92,
+          "width": 24.16,
+          "height": 22.78,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 30.47,
+          "left": 33.92,
+          "width": 32.16,
+          "height": 28.78
+        },
+        "back": {
+          "top": 28.94,
+          "left": 33.92,
+          "width": 32.16,
+          "height": 28.78
+        }
+      },
+      "frontSrc": "/products/012/render-front.png",
+      "backSrc": "/products/012/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "013",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1053.3,
+      "overlay": {
+        "front": {
+          "top": 29.15,
+          "left": 35.05,
+          "width": 29.91,
+          "height": 28.2,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 27.25,
+          "left": 35.05,
+          "width": 29.91,
+          "height": 28.2,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 29.15,
+          "left": 31.05,
+          "width": 37.91,
+          "height": 34.2
+        },
+        "back": {
+          "top": 27.25,
+          "left": 31.05,
+          "width": 37.91,
+          "height": 34.2
+        }
+      },
+      "frontSrc": "/products/013/render-front.png",
+      "backSrc": "/products/013/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "014",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 600.6,
+      "overlay": {
+        "front": {
+          "top": 43.92,
+          "left": 36.26,
+          "width": 27.48,
+          "height": 25.91,
+          "widthMm": 110,
+          "heightMm": 155.6
+        },
+        "back": {
+          "top": 53.91,
+          "left": 40.76,
+          "width": 18.47,
+          "height": 17.42,
+          "widthMm": 74,
+          "heightMm": 104.6
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 43.92,
+          "left": 32.26,
+          "width": 35.48,
+          "height": 31.91
+        },
+        "back": {
+          "top": 53.91,
+          "left": 36.76,
+          "width": 26.47,
+          "height": 23.42
+        }
+      },
+      "frontSrc": "/products/014/render-front.png",
+      "backSrc": "/products/014/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "016",
+      "kind": "bottom",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1069.2,
+      "overlay": {
+        "front": {
+          "top": 11.19,
+          "left": 56.33,
+          "width": 16.81,
+          "height": 15.85,
+          "widthMm": 119.8,
+          "heightMm": 169.4
+        },
+        "back": {
+          "top": 11.19,
+          "left": 56.33,
+          "width": 16.81,
+          "height": 15.85,
+          "widthMm": 119.8,
+          "heightMm": 169.4
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 11.19,
+          "left": 52.33,
+          "width": 24.81,
+          "height": 21.85
+        },
+        "back": {
+          "top": 11.19,
+          "left": 52.33,
+          "width": 24.81,
+          "height": 21.85
+        }
+      },
+      "frontSrc": "/products/016/render-front.png",
+      "backSrc": "/products/016/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "017",
+      "kind": "bottom",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1080,
+      "overlay": {
+        "front": {
+          "top": 11.11,
+          "left": 55.58,
+          "width": 20.8,
+          "height": 19.61,
+          "widthMm": 149.7,
+          "heightMm": 211.8
+        },
+        "back": {
+          "top": 11.11,
+          "left": 55.58,
+          "width": 20.8,
+          "height": 19.61,
+          "widthMm": 149.7,
+          "heightMm": 211.8
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 11.11,
+          "left": 51.58,
+          "width": 28.8,
+          "height": 25.61
+        },
+        "back": {
+          "top": 11.11,
+          "left": 51.58,
+          "width": 28.8,
+          "height": 25.61
+        }
+      },
+      "frontSrc": "/products/017/render-front.png",
+      "backSrc": "/products/017/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "018",
+      "kind": "bottom",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 982.8,
+      "overlay": {
+        "front": {
+          "top": 11.84,
+          "left": 56.34,
+          "width": 13.28,
+          "height": 12.52,
+          "widthMm": 87,
+          "heightMm": 123.1
+        },
+        "back": {
+          "top": 11.84,
+          "left": 56.34,
+          "width": 13.28,
+          "height": 12.52,
+          "widthMm": 87,
+          "heightMm": 123.1
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 11.84,
+          "left": 52.34,
+          "width": 21.28,
+          "height": 18.52
+        },
+        "back": {
+          "top": 11.84,
+          "left": 52.34,
+          "width": 21.28,
+          "height": 18.52
+        }
+      },
+      "frontSrc": "/products/018/render-front.png",
+      "backSrc": "/products/018/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "019",
+      "kind": "bottom",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 776.7,
+      "overlay": {
+        "front": {
+          "top": 31.98,
+          "left": 55.5,
+          "width": 32.51,
+          "height": 30.65,
+          "widthMm": 168.4,
+          "heightMm": 238.1
+        },
+        "back": {
+          "top": 31.98,
+          "left": 55.5,
+          "width": 32.51,
+          "height": 30.65,
+          "widthMm": 168.4,
+          "heightMm": 238.1
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 31.98,
+          "left": 51.5,
+          "width": 40.51,
+          "height": 36.65
+        },
+        "back": {
+          "top": 31.98,
+          "left": 51.5,
+          "width": 40.51,
+          "height": 36.65
+        }
+      },
+      "frontSrc": "/products/019/render-front.png",
+      "backSrc": "/products/019/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "020",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1445.5,
+      "overlay": {
+        "front": {
+          "top": 30.43,
+          "left": 56.19,
+          "width": 18.47,
+          "height": 17.41,
+          "widthMm": 178,
+          "heightMm": 251.7
+        },
+        "back": {
+          "top": 29.04,
+          "left": 39.1,
+          "width": 21.79,
+          "height": 20.55,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 30.43,
+          "left": 52.19,
+          "width": 26.47,
+          "height": 23.41
+        },
+        "back": {
+          "top": 29.04,
+          "left": 35.1,
+          "width": 29.79,
+          "height": 26.55
+        }
+      },
+      "frontSrc": "/products/020/render-front.png",
+      "backSrc": "/products/020/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "021",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1446.4,
+      "overlay": {
+        "front": {
+          "top": 41.26,
+          "left": 39.11,
+          "width": 21.78,
+          "height": 20.53,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 41.95,
+          "left": 39.11,
+          "width": 21.78,
+          "height": 20.53,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 41.26,
+          "left": 35.11,
+          "width": 29.78,
+          "height": 26.53
+        },
+        "back": {
+          "top": 41.95,
+          "left": 35.11,
+          "width": 29.78,
+          "height": 26.53
+        }
+      },
+      "frontSrc": "/products/021/render-front.png",
+      "backSrc": "/products/021/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "022",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 1450.1,
+      "overlay": {
+        "front": {
+          "top": 33.18,
+          "left": 39.14,
+          "width": 21.72,
+          "height": 20.48,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 31.8,
+          "left": 39.14,
+          "width": 21.72,
+          "height": 20.48,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 33.18,
+          "left": 35.14,
+          "width": 29.72,
+          "height": 26.48
+        },
+        "back": {
+          "top": 31.8,
+          "left": 35.14,
+          "width": 29.72,
+          "height": 26.48
+        }
+      },
+      "frontSrc": "/products/022/render-front.png",
+      "backSrc": "/products/022/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    },
+    {
+      "sku": "023",
+      "kind": "top",
+      "photoWidth": 1024,
+      "photoHeight": 1536,
+      "frameHeightMm": 725.5,
+      "overlay": {
+        "front": {
+          "top": 43.74,
+          "left": 28.29,
+          "width": 43.42,
+          "height": 40.93,
+          "widthMm": 210,
+          "heightMm": 297
+        },
+        "back": {
+          "top": 43.74,
+          "left": 28.29,
+          "width": 43.42,
+          "height": 40.93,
+          "widthMm": 210,
+          "heightMm": 297
+        }
+      },
+      "placement": {
+        "front": {
+          "top": 43.74,
+          "left": 24.29,
+          "width": 51.42,
+          "height": 46.93
+        },
+        "back": {
+          "top": 43.74,
+          "left": 24.29,
+          "width": 51.42,
+          "height": 46.93
+        }
+      },
+      "frontSrc": "/products/023/render-front.png",
+      "backSrc": "/products/023/render-back.png",
+      "status": "vorlaeufig",
+      "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
+    }
+  ]
+}
