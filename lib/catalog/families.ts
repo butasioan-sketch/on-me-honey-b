@@ -47,6 +47,7 @@ export interface ProductRecord {
   familyId: keyof typeof PRODUCT_FAMILIES | string; // may reference non-existent family for catalog-only
   name: string;
   shop_live: boolean;
+  atelierModel?: string;
 }
 
 /**
@@ -1021,11 +1022,22 @@ export function getProductBySku(sku: string): ProductRecord | null {
   return CATALOG[sku] || null;
 }
 
+/** Katalogfoto. 001 und 015 sind PNG, alle anderen SKUs sind JPG. */
+export function catalogFrontSrc(sku: string): string {
+  const ext = sku === "001" || sku === "015" ? "png" : "jpg";
+  return `/products/${sku}/front.${ext}`;
+}
+
 /**
  * Get product record by shopId
  */
 export function getProductByShopId(shopId: string): ProductRecord | null {
   return Object.values(CATALOG).find((r) => r.shopId === shopId) || null;
+}
+
+/** Per-SKU atelier models are set after print and viewer calibration. */
+export function getAtelierModelPath(record: ProductRecord): string | null {
+  return record.atelierModel ?? PRODUCT_FAMILIES[record.familyId]?.glbPath ?? null;
 }
 
 /**

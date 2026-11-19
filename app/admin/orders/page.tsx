@@ -261,6 +261,28 @@ export default function AdminOrdersPage() {
                           ? " · " + order.shippingMethod
                           : ""}
                       </p>
+                      {order.shippingAddress && (
+                        <address
+                          style={{
+                            color: "#aaa",
+                            fontSize: "0.8rem",
+                            fontStyle: "normal",
+                          }}
+                        >
+                          {order.shippingAddress.name}
+                          <br />
+                          {order.shippingAddress.line1}
+                          <br />
+                          {order.shippingAddress.line2 && (
+                            <>
+                              {order.shippingAddress.line2}
+                              <br />
+                            </>
+                          )}
+                          {order.shippingAddress.postalCode}{" "}
+                          {order.shippingAddress.city}
+                        </address>
+                      )}
                     </div>
                     <div style={{ textAlign: "right" }}>
                       <p style={{ fontWeight: 800, fontSize: "1.25rem" }}>

@@ -150,7 +150,7 @@ export default function CartPage() {
       total,
       items.map((i) => ({ id: i.id, name: i.name, price: i.price })),
     );
-    sessionStorage.setItem("plt_pending_purchase", String(total));
+    const checkoutCart = localStorage.getItem("on_me_honey_b_cart");
     try {
       const res = await fetch("/api/payments/create-checkout", {
         method: "POST",
@@ -178,10 +178,17 @@ export default function CartPage() {
       });
       const data = await res.json();
       if (data.redirectUrl) {
-        // Cart cleared on ?payment=success (PaymentSuccessBanner), NOT before redirect
+        if (typeof data.sessionId === "string") {
+          sessionStorage.setItem("plt_pending_purchase", JSON.stringify({
+            sessionId: data.sessionId,
+            cart: checkoutCart,
+          }));
+        }
         window.location.href = data.redirectUrl;
       } else {
-        setError(t.errors.checkout);
+        setError(
+          data.code === "cart_too_large" ? t.errors.cartTooLarge : t.errors.checkout,
+        );
       }
     } catch {
       setError(t.errors.connection);

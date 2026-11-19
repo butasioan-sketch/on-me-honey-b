@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 /* eslint-disable */
 import { getProductBySKU } from "@/lib/products-all-133";
+import { catalogFrontSrc } from "@/lib/catalog/families";
+import { checkReleaseGate, LIVE_EXCEPTIONS } from "@/lib/catalog/release-gate";
 import Link from "next/link";
 
 const STATUS_INFO = {
@@ -42,6 +44,7 @@ export default async function ProductDetailPage({
   if (!product) {
     notFound();
   }
+  const gate = checkReleaseGate(sku);
 
   const statusInfo = STATUS_INFO[product.status];
 
@@ -99,22 +102,11 @@ export default async function ProductDetailPage({
           <h2 className="text-lg font-bold mb-4">Produktbild</h2>
           <div className="aspect-square max-w-md mx-auto bg-gray-50 rounded-lg overflow-hidden">
             <img
-              src={
-                product.sku === "001"
-                  ? "/airfit-front-t.png"
-                  : product.sku === "015"
-                    ? "/airfit-shorts-front.png"
-                    : "/products/placeholder/coming-soon.svg"
-              }
+              src={catalogFrontSrc(product.sku)}
               alt={product.name.de}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           </div>
-          {product.sku !== "001" && product.sku !== "015" && (
-            <p className="text-center text-gray-500 mt-4">
-              ⚠️ Platzhalter-Bild — Echtes Foto fehlt
-            </p>
-          )}
         </div>
 
         {/* Product Details */}
@@ -198,31 +190,23 @@ export default async function ProductDetailPage({
           </div>
         </div>
 
-        {/* Ready for Live Checklist */}
+        {/* Freigabe-Gate (lib/catalog/release-gate.ts) */}
         <div className="p-8 border-t-2 border-gray-100">
-          <h3 className="text-lg font-bold mb-4">Ready for Live Checkliste</h3>
+          <h3 className="text-lg font-bold mb-1">Freigabe-Gate shop_live</h3>
+          <p className={`text-sm mb-4 ${gate.ok ? "text-green-700" : "text-gray-600"}`}>
+            {gate.ok
+              ? "Alle Prüfungen grün."
+              : `${gate.checks.filter((c) => !c.ok).length} von ${gate.checks.length} Prüfungen offen. Status wird nur im Code geändert.`}
+          </p>
+          {LIVE_EXCEPTIONS[sku] && (
+            <p className="text-sm mb-4 text-amber-700">
+              Dokumentierte Ausnahme: {LIVE_EXCEPTIONS[sku].reason}
+            </p>
+          )}
           <div className="space-y-2">
-            <ChecklistItem
-              done={!!product.blank && !product.blank.includes("(offen)")}
-              label="Blank-Artikel gesourct"
-            />
-            <ChecklistItem
-              done={product.hasPhoto}
-              label="Produktfoto vorhanden"
-            />
-            <ChecklistItem
-              done={product.hasGLB || product.printShape !== "a4_flat"}
-              label="3D-Modell oder 2D-only"
-            />
-            <ChecklistItem
-              done={product.status === "shop_live"}
-              label="Status = shop_live"
-            />
-            <ChecklistItem done={!!product.id} label="Shop-ID vergeben" />
-            <ChecklistItem
-              done={product.machbarkeit !== "pruefen"}
-              label="Machbarkeit bestätigt"
-            />
+            {gate.checks.map((c) => (
+              <ChecklistItem key={c.id} done={c.ok} label={`${c.label} — ${c.detail}`} />
+            ))}
           </div>
         </div>
       </div>

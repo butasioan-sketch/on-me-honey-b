@@ -16,7 +16,7 @@ import Analytics from './components/Analytics';
 import CookieBanner from './components/CookieBanner';
 import FloatingActionButtons from './components/FloatingActionButtons';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
+import { siteUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

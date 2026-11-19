@@ -1,0 +1,134 @@
+sku,name,category,family,blank,preis_vk,status,printShape,machbarkeit,hasGLB,hasPhoto,weightGsm,sides
+001,Unisex-T-Shirts,A,tee,"James & Nicholson JN827",44.99,shop_live,a4_flat,bedingt,true,true,165,front+back
+002,Damen-T-Shirts,A,tee,"Damen-Tee (offen)",,anker,a4_flat,bedingt,false,true,165,front+back
+003,Herren-T-Shirts,A,tee,"Herren-Tee (offen)",,anker,a4_flat,bedingt,false,true,165,front+back
+004,Kinder-T-Shirts,A,tee,"Kinder-Tee (offen)",,anker,a4_flat,bedingt,false,true,140,front+back
+005,Baby-Bodys,A,body,"Baby-Body (offen)",,offen,a4_flat,bedingt,false,true,180,front
+006,Tanktops,A,tank,"Tanktop (offen)",,offen,a4_flat,bedingt,false,true,150,front+back
+007,Poloshirts,A,polo,"Poloshirt (offen)",,offen,a4_flat,bedingt,false,true,180,front
+008,Langarmshirts,A,longsleeve,"Langarmshirt (offen)",,offen,a4_flat,bedingt,false,true,170,front
+009,Sporttrikots,A,jersey,"Sporttrikot (offen)",,offen,a4_flat,bedingt,false,true,140,front+back
+010,Basketballtrikots,A,jersey,"Basketballtrikot (offen)",,offen,a4_flat,bedingt,false,true,140,front+back
+011,Fußballtrikots,A,jersey,"Fußballtrikot (offen)",,offen,a4_flat,bedingt,false,true,140,front+back
+012,Laufshirts,A,tee,"Laufshirt (offen)",,anker,a4_flat,bedingt,false,true,120,front
+013,Fitness-Tops,A,tank,"Fitness-Top (offen)",,offen,a4_flat,bedingt,false,true,140,front
+014,Sport-BHs,A,bra,"Sport-BH (offen)",,offen,a4_flat,bedingt,false,true,150,front
+015,Shorts,A,shorts,"James & Nicholson JN387",39.99,shop_live,a4_flat,bedingt,true,true,135,front+back
+016,Sporthosen,A,pants,"Sporthose (offen)",,offen,a4_partial,eingeschraenkt,false,true,180,front
+017,Jogginghosen,A,pants,"Jogginghose (offen)",,offen,a4_partial,eingeschraenkt,false,true,200,front
+018,Leggings,A,leggings,"Leggings (offen)",,offen,a4_flat,bedingt,false,true,160,front
+019,Radlerhosen,A,leggings,"Radlerhose (offen)",,offen,a4_flat,bedingt,false,true,160,front
+020,Trainingsjacken,A,jacket,"Trainingsjacke (offen)",,offen,a4_partial,eingeschraenkt,false,true,220,front
+021,Hoodies,A,hoodie,"Hoodie (offen)",,offen,a4_partial,eingeschraenkt,false,true,280,front
+022,Sweatshirts,A,hoodie,"Sweatshirt (offen)",,offen,a4_partial,eingeschraenkt,false,true,260,front
+023,Unterhemden,A,tee,"Unterhemd (offen)",,anker,a4_flat,bedingt,false,true,140,front
+024,Polyester-Socken,A,socks,"Socken (offen)",,offen,a4_flat,bedingt,false,true,80,front
+025,Stirnbänder,A,soft-head,"Stirnband (offen)",,offen,a4_flat,bedingt,false,true,60,front
+026,Schweißbänder,A,soft-head,"Schweißband (offen)",,offen,a4_flat,bedingt,false,true,50,front
+027,Bandanas,A,soft-head,"Bandana (offen)",,offen,a4_flat,bedingt,false,true,70,front
+028,Schlauchtücher,A,soft-head,"Schlauchtuch (offen)",,offen,a4_flat,bedingt,false,true,90,front
+029,Halstücher,A,soft-head,"Halstuch (offen)",,offen,a4_flat,bedingt,false,true,80,front
+030,Polyester-Schals,A,soft-head,"Schal (offen)",,offen,a4_flat,bedingt,false,true,120,front
+031,Stoff-Aufnäher / Patches,A,patch,"Aufnäher (offen)",,offen,panel,bedingt,false,true,100,front
+032,Stofftragetaschen,B,tote,"Stofftasche (offen)",,offen,a4_flat,bedingt,false,true,140,front
+033,Einkaufstaschen / Shopper,B,tote,"Shopper (offen)",,anker,a4_flat,bedingt,false,true,140,front
+034,Turnbeutel,B,drawstring,"Turnbeutel (offen)",,offen,a4_flat,bedingt,false,true,120,front
+035,Sportbeutel,B,drawstring,"Sportbeutel (offen)",,offen,a4_flat,bedingt,false,true,120,front
+036,Kleine Sporttaschen,B,sportbag,"Sporttasche (offen)",,offen,a4_partial,eingeschraenkt,false,true,200,front
+037,Kosmetiktaschen,B,pouch,"Kosmetiktasche (offen)",,offen,a4_flat,bedingt,false,true,100,front
+038,Kulturbeutel,B,pouch,"Kulturbeutel (offen)",,offen,a4_flat,bedingt,false,true,120,front
+039,Federmäppchen,B,pouch,"Federmäppchen (offen)",,offen,a4_flat,bedingt,false,true,80,front
+040,Stiftemäppchen,B,pouch,"Stiftemäppchen (offen)",,offen,a4_flat,bedingt,false,true,80,front
+041,Kleine Geldbörsen,B,pouch,"Geldbörse (offen)",,offen,a4_flat,bedingt,false,true,90,front
+042,Brillenetuis,B,pouch,"Brillenetui (offen)",,offen,a4_flat,bedingt,false,true,70,front
+043,Laptop-Hüllen,B,laptop,"Laptop-Hülle (offen)",,offen,a4_partial,eingeschraenkt,false,true,140,front
+044,Tablet-Hüllen,B,pouch,"Tablet-Hülle (offen)",,offen,a4_flat,bedingt,false,true,100,front
+045,Dokumententaschen,B,pouch,"Dokumententasche (offen)",,offen,a4_flat,bedingt,false,true,110,front
+046,Reisepasshüllen,B,pouch,"Reisepasshülle (offen)",,offen,panel,bedingt,false,true,60,front
+047,Kofferanhänger,B,pouch,"Kofferanhänger (offen)",,offen,panel,bedingt,false,true,50,front
+048,Schlüsselbänder / Lanyards,B,patch,"Schlüsselband (offen)",,offen,panel,bedingt,false,true,30,front
+049,Schlüsselanhänger Polyester,B,hard-small,"Schlüsselanhänger (offen)",,offen,panel,bedingt,false,true,20,front
+050,Kartenetuis,B,pouch,"Kartenetui (offen)",,offen,a4_flat,bedingt,false,true,70,front
+051,Dekokissenbezüge,C,pillow,"BRILDOR Kissenbezug (Kandidat)",,pilot,a4_flat,bedingt,false,true,180,front+back
+052,Kopfkissenbezüge,C,pillow,"Kopfkissenbezug (offen)",,offen,a4_flat,bedingt,false,true,180,front
+053,Zierkissenbezüge,C,pillow,"Zierkissenbezug (offen)",,offen,a4_flat,bedingt,false,true,160,front
+054,Polyester-Küchentücher,C,towel,"Küchentuch (offen)",,offen,a4_flat,bedingt,false,true,140,front
+055,Geschirrtücher,C,towel,"Geschirrtuch (offen)",,offen,a4_flat,bedingt,false,true,140,front
+056,Sporthandtücher Mikrofaser,C,towel,"Sporthandtuch (offen)",,offen,a4_flat,bedingt,false,true,160,front
+057,Gästehandtücher,C,towel,"Gästehandtuch (offen)",,offen,a4_flat,bedingt,false,true,150,front
+058,Tischsets,C,table-textile,"Tischset (offen)",,offen,a4_flat,bedingt,false,true,120,front
+059,Tischläufer,C,table-textile,"Tischläufer (offen)",,offen,a4_flat,bedingt,false,true,140,front
+060,Stoffservietten,C,table-textile,"Stoffserviette (offen)",,offen,panel,bedingt,false,true,80,front
+061,Kleine Tischdecken,C,table-textile,"Tischdecke (offen)",,offen,a4_flat,bedingt,false,true,180,front
+062,Küchen- und Grillschürzen,C,apron,"Schürze (offen)",,offen,a4_flat,bedingt,false,true,160,front
+063,Topflappen,C,potholder,"Topflappen (offen)",,offen,panel,bedingt,false,true,100,front
+064,Untersetzer MDF,C,coaster,"Untersetzer MDF (offen)",,offen,panel,bedingt,false,true,50,front
+065,Untersetzer Kork,C,coaster,"Untersetzer Kork (offen)",,offen,panel,bedingt,false,true,40,front
+066,Untersetzer Aluminium,C,coaster,"Untersetzer Alu (offen)",,offen,panel,bedingt,false,true,60,front
+067,Kleine Wandbilder Aluminium,C,panel,"Wandbild Alu (offen)",,offen,panel,bedingt,false,true,80,front
+068,Fotoschilder,C,panel,"Fotoschild (offen)",,offen,panel,bedingt,false,true,70,front
+069,Sublimations-Fotopaneele,C,panel,"Fotopaneel (offen)",,offen,panel,bedingt,false,true,70,front
+070,Dekorative MDF-Schilder,C,panel,"MDF-Schild (offen)",,offen,panel,bedingt,false,true,90,front
+071,Türschilder,C,panel,"Türschild (offen)",,offen,panel,bedingt,false,true,60,front
+072,Namensschilder,C,panel,"Namensschild (offen)",,offen,panel,bedingt,false,true,40,front
+073,Tischschilder,C,panel,"Tischschild (offen)",,offen,panel,bedingt,false,true,50,front
+074,Wanduhrenrohlinge,C,clock,"Wanduhr (offen)",,offen,panel,bedingt,false,true,100,front
+075,Kleine Dekofahnen,C,flag,"Dekofahne (offen)",,offen,a4_flat,bedingt,false,true,100,front
+076,Wimpel,C,flag,"Wimpel (offen)",,offen,panel,bedingt,false,true,80,front
+077,Kleine Stoffbanner,C,flag,"Stoffbanner (offen)",,offen,a4_flat,bedingt,false,true,120,front
+078,Mauspads,D,mousepad,"Mauspad (offen)",,offen,a4_flat,bedingt,false,true,80,front
+079,Gaming-Mauspads,D,mousepad,"Gaming-Mauspad (offen)",,offen,a4_partial,eingeschraenkt,false,true,100,front
+080,Schreibtischunterlagen,D,mousepad,"Schreibtischunterlage (offen)",,offen,a4_partial,eingeschraenkt,false,true,120,front
+081,Handyhüllen,D,phone,"Handyhülle (offen)",,offen,panel,bedingt,false,true,40,front
+082,Schlüsselanhänger Metall,D,hard-small,"Schlüsselanhänger Metall (offen)",,offen,panel,bedingt,false,true,30,front
+083,Schlüsselanhänger MDF,D,hard-small,"Schlüsselanhänger MDF (offen)",,offen,panel,bedingt,false,true,20,front
+084,Kühlschrankmagnete,D,hard-small,"Kühlschrankmagnet (offen)",,offen,panel,bedingt,false,true,20,front
+085,Flaschenöffner,D,hard-small,"Flaschenöffner (offen)",,offen,panel,bedingt,false,true,40,front
+086,Lesezeichen Aluminium,D,hard-small,"Lesezeichen Alu (offen)",,offen,panel,bedingt,false,true,30,front
+087,Foto-Puzzles bis A4,D,puzzle,"Foto-Puzzle (offen)",,offen,a4_flat,bedingt,false,true,200,front
+088,Untersetzer-Sets,D,coaster,"Untersetzer-Set (offen)",,offen,panel,bedingt,false,true,50,front
+089,Visitenkarten Metall,D,hard-small,"Visitenkarte Metall (offen)",,offen,panel,bedingt,false,true,30,front
+090,Kleine Ausweisschilder,D,hard-small,"Ausweisschild (offen)",,offen,panel,bedingt,false,true,30,front
+091,Namensplaketten,D,hard-small,"Namensplakette (offen)",,offen,panel,bedingt,false,true,40,front
+092,Notizbücher,D,notebook,"Notizbuch (offen)",,offen,a4_flat,bedingt,false,true,200,front
+093,Dekorative Fototafeln,D,panel,"Fototafel (offen)",,offen,panel,bedingt,false,true,100,front
+094,Weihnachtsanhänger,D,hard-small,"Weihnachtsanhänger (offen)",,offen,panel,bedingt,false,true,20,front
+095,Weihnachtsbaum-Ornamente,D,hard-small,"Weihnachtsornament (offen)",,offen,panel,bedingt,false,true,25,front
+096,Geschenkanhänger,D,hard-small,"Geschenkanhänger (offen)",,offen,panel,bedingt,false,true,15,front
+097,Hundemarken,D,hard-small,"Hundemarke (offen)",,offen,panel,bedingt,false,true,30,front
+098,Haustier-Namensschilder,D,hard-small,"Haustier-Namensschild (offen)",,offen,panel,bedingt,false,true,30,front
+099,Kleine Bilderrahmen,D,hard-small,"Bilderrahmen (offen)",,offen,panel,bedingt,false,true,100,front
+100,Schmuckanhänger,D,hard-small,"Schmuckanhänger (offen)",,offen,panel,bedingt,false,true,20,front
+101,Kleine Fotokacheln Keramik,D,hard-small,"Fotokachel Keramik (offen)",,offen,panel,bedingt,false,true,80,front
+102,Keramiktassen 6 oz,E,mug,"Keramiktasse 6oz (offen)",,pruefen,wrap_cylinder,pruefen,false,true,300,wrap
+103,Keramiktassen 9 oz,E,mug,"Keramiktasse 9oz (offen)",,pruefen,wrap_cylinder,pruefen,false,true,320,wrap
+104,Keramiktassen 11 oz,E,mug,"Keramiktasse 11oz (offen)",,pruefen,wrap_cylinder,pruefen,false,true,340,wrap
+105,Keramiktassen 12 oz,E,mug,"Keramiktasse 12oz (offen)",,pruefen,wrap_cylinder,pruefen,false,true,360,wrap
+106,Zweifarbige Tassen,E,mug,"Zweifarbige Tasse (offen)",,pruefen,wrap_cylinder,pruefen,false,true,340,wrap
+107,Magic Mugs,E,mug,"Magic Mug (offen)",,pruefen,wrap_cylinder,pruefen,false,true,340,wrap
+108,Emaillebecher,E,tumbler,"Emaillebecher (offen)",,pruefen,wrap_cylinder,pruefen,false,true,300,wrap
+109,Metallbecher,E,tumbler,"Metallbecher (offen)",,pruefen,wrap_cylinder,pruefen,false,true,320,wrap
+110,Edelstahl-Trinkbecher,E,tumbler,"Edelstahl-Becher (offen)",,pruefen,wrap_cylinder,pruefen,false,true,340,wrap
+111,Thermobecher,E,tumbler,"Thermobecher (offen)",,pruefen,wrap_cylinder,pruefen,false,true,400,wrap
+112,Trinkflaschen,E,bottle,"Trinkflasche (offen)",,pruefen,wrap_cylinder,pruefen,false,true,350,wrap
+113,Aluminium-Trinkflaschen,E,bottle,"Alu-Trinkflasche (offen)",,pruefen,wrap_cylinder,pruefen,false,true,320,wrap
+114,Campingbecher,E,mug,"Campingbecher (offen)",,pruefen,wrap_cylinder,pruefen,false,true,300,wrap
+115,Kinderbecher,E,mug,"Kinderbecher (offen)",,pruefen,wrap_cylinder,pruefen,false,true,280,wrap
+116,Stiftehalter in Becherform,E,mug,"Stiftehalter (offen)",,pruefen,wrap_cylinder,pruefen,false,true,320,wrap
+117,Basecaps,F,cap,"Basecap (offen)",,pruefen,cap_front,pruefen,false,true,120,front
+118,Trucker-Caps,F,cap,"Trucker-Cap (offen)",,pruefen,cap_front,pruefen,false,true,110,front
+119,5-Panel-Caps,F,cap,"5-Panel-Cap (offen)",,pruefen,cap_front,pruefen,false,true,115,front
+120,Sportcaps,F,cap,"Sportcap (offen)",,pruefen,cap_front,pruefen,false,true,100,front
+121,Kindercaps,F,cap,"Kindercap (offen)",,pruefen,cap_front,pruefen,false,true,90,front
+122,Visors,F,visor,"Visor (offen)",,pruefen,cap_front,pruefen,false,true,80,front
+123,Runde Sublimationsteller,G,plate,"Sublimationsteller rund (offen)",,pruefen,circle,pruefen,false,true,400,front
+124,Kleine Dekorationsteller,G,plate,"Dekorationsteller klein (offen)",,pruefen,circle,pruefen,false,true,300,front
+125,Große Dekorationsteller,G,plate,"Dekorationsteller groß (offen)",,pruefen,circle,pruefen,false,true,500,front
+126,Unterteller,G,plate,"Unterteller (offen)",,pruefen,circle,pruefen,false,true,250,front
+127,Kugelschreiber,H,pen,"Kugelschreiber (offen)",,pruefen,wrap_cylinder,pruefen,false,true,20,wrap
+128,Werbestifte,H,pen,"Werbestift (offen)",,pruefen,wrap_cylinder,pruefen,false,true,18,wrap
+129,Schreibgeräte hitzefest,H,pen,"Schreibgerät hitzefest (offen)",,pruefen,wrap_cylinder,pruefen,false,true,22,wrap
+130,Polyester-Sneaker,I,shoe,"Polyester-Sneaker (offen)",,pruefen,shoe,pruefen,false,true,400,panel
+131,Leichte Stoffschuhe,I,shoe,"Stoffschuh (offen)",,pruefen,shoe,pruefen,false,true,350,panel
+132,Schuhoberteile,I,shoe,"Schuhoberteil (offen)",,pruefen,shoe,pruefen,false,true,200,panel
+133,Schuhzungen,I,shoe,"Schuhzunge (offen)",,pruefen,shoe,pruefen,false,true,100,panel

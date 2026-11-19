@@ -25,6 +25,12 @@ import {
 import type { DesignRecord } from "./db";
 import type { Order } from "./types";
 
+const printJobTime = new Intl.DateTimeFormat("de-DE", {
+  timeZone: "Europe/Berlin",
+  dateStyle: "short",
+  timeStyle: "medium",
+});
+
 export interface PlacementInfo {
   side: PrintSide;
   percent: { top: number; left: number; width: number; height: number };
@@ -266,7 +272,7 @@ export async function generatePrintPdf(
   drawText(
     cover,
     font,
-    `${order.id} · ${new Date(printJob.frozenAt).toLocaleString("de-DE")}`,
+    `${order.id} · ${printJobTime.format(new Date(printJob.frozenAt))} (Europe/Berlin)`,
     MARGIN,
     y,
     10,
@@ -282,6 +288,19 @@ export async function generatePrintPdf(
     10,
     rgb(0.4, 0.4, 0.4),
   );
+  if (order.stripeSessionId) {
+    y -= 15;
+    drawText(
+      cover,
+      font,
+      order.shippingAddress
+        ? "Lieferanschrift: siehe Bestellungen im Shop-Admin."
+        : "Lieferanschrift fehlt: vor dem Versand im Shop-Admin prüfen.",
+      MARGIN,
+      y,
+      10,
+    );
+  }
   y -= 30;
 
   drawText(cover, bold, "Artikel", MARGIN, y, 12);
@@ -329,31 +348,10 @@ export async function generatePrintPdf(
   );
   y -= 25;
 
-  // Drucker-Specs (Procolored K13 Lite für DTF)
-  drawText(cover, bold, "Drucker-Spezifikationen", MARGIN, y, 12);
-  y -= 18;
-  drawText(cover, font, "Procolored K13 Lite (DTF-Drucker)", MARGIN, y, 10);
-  y -= 15;
-  drawText(cover, font, "Max. Druckfläche: 329 × 483 mm (A3+)", MARGIN, y, 10);
-  y -= 15;
-  drawText(cover, font, "Auflösung: 1440 dpi", MARGIN, y, 10);
-  y -= 15;
-  drawText(cover, font, "Farben: CMYK + Weiß", MARGIN, y, 10);
-  y -= 15;
   drawText(
     cover,
     font,
-    "Empfohlene Upload-Auflösung: mind. 300 dpi",
-    MARGIN,
-    y,
-    10,
-  );
-  y -= 25;
-
-  drawText(
-    cover,
-    font,
-    `Eingefroren am: ${new Date(printJob.frozenAt).toLocaleString("de-DE")} (unveränderlicher Produktions-Snapshot)`,
+    `Eingefroren am: ${printJobTime.format(new Date(printJob.frozenAt))} (Europe/Berlin) (unveränderlicher Produktions-Snapshot)`,
     MARGIN,
     y,
     9,
@@ -592,7 +590,7 @@ export async function generatePrintPdf(
       drawText(
         viewPage,
         font,
-        `${order.id} · ${d.id} · ${new Date(printJob.frozenAt).toLocaleString("de-DE")}`,
+        `${order.id} · ${d.id} · ${printJobTime.format(new Date(printJob.frozenAt))} (Europe/Berlin)`,
         MARGIN,
         MARGIN - 8,
         7.5,

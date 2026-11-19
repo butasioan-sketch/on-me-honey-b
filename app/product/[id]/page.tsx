@@ -430,92 +430,93 @@ export default function ProductPage() {
                 style={{
                   marginTop: "0.5rem",
                   fontSize: "0.75rem",
-                  color: "#666",
+                  color: "#8f8f8f",
                   lineHeight: 1.5,
                 }}
               >
-                Das Druckbild ist für Größe L kalibriert — auf {size} wirkt es
-                proportional angepasst.
+                {t.product.sizeCalibrationNote.replace("{size}", size)}
               </p>
             )}
-            <details style={{ marginTop: "0.7rem" }}>
-              <summary
-                style={{
-                  cursor: "pointer",
-                  color: "#888",
-                  fontSize: "0.8rem",
-                  userSelect: "none",
-                }}
-              >
-                📏 {t.product.sizeChart}
-              </summary>
-              <div
-                style={{
-                  marginTop: "0.6rem",
-                  background: "#121212",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: "10px",
-                  padding: "0.9rem",
-                  fontSize: "0.8rem",
-                }}
-              >
-                <table
+            {id === "1" && (
+              <details style={{ marginTop: "0.7rem" }}>
+                <summary
                   style={{
-                    width: "100%",
-                    borderCollapse: "collapse",
-                    color: "#ccc",
+                    cursor: "pointer",
+                    color: "#888",
+                    fontSize: "0.8rem",
+                    userSelect: "none",
                   }}
                 >
-                  <thead>
-                    <tr style={{ color: "#888", textAlign: "left" }}>
-                      <th style={{ padding: "0.3rem 0" }}>
-                        {t.product.sizeCol}
-                      </th>
-                      <th>{t.product.chestCol}</th>
-                      <th>{t.product.lengthCol}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      ["S", "50 cm", "70 cm"],
-                      ["M", "53 cm", "72 cm"],
-                      ["L", "56 cm", "74 cm"],
-                      ["XL", "59 cm", "76 cm"],
-                      ["XXL", "62 cm", "78 cm"],
-                    ].map(([g, b, l]) => (
-                      <tr
-                        key={g}
-                        style={{
-                          borderTop: "1px solid rgba(255,255,255,0.06)",
-                        }}
-                      >
-                        <td
+                  📏 {t.product.sizeChart}
+                </summary>
+                <div
+                  style={{
+                    marginTop: "0.6rem",
+                    background: "#121212",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderRadius: "10px",
+                    padding: "0.9rem",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  <table
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      color: "#ccc",
+                    }}
+                  >
+                    <thead>
+                      <tr style={{ color: "#888", textAlign: "left" }}>
+                        <th style={{ padding: "0.3rem 0" }}>
+                          {t.product.sizeCol}
+                        </th>
+                        <th>{t.product.chestCol}</th>
+                        <th>{t.product.lengthCol}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["S", "50 cm", "70 cm"],
+                        ["M", "53 cm", "72 cm"],
+                        ["L", "56 cm", "74 cm"],
+                        ["XL", "59 cm", "76 cm"],
+                        ["XXL", "62 cm", "78 cm"],
+                      ].map(([g, b, l]) => (
+                        <tr
+                          key={g}
                           style={{
-                            padding: "0.35rem 0",
-                            fontWeight: 600,
-                            color: "#fff",
+                            borderTop: "1px solid rgba(255,255,255,0.06)",
                           }}
                         >
-                          {g}
-                        </td>
-                        <td>{b}</td>
-                        <td>{l}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <p
-                  style={{
-                    color: "#666",
-                    fontSize: "0.7rem",
-                    marginTop: "0.6rem",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {t.product.sizeNote}
-                </p>
-              </div>
-            </details>
+                          <td
+                            style={{
+                              padding: "0.35rem 0",
+                              fontWeight: 600,
+                              color: "#fff",
+                            }}
+                          >
+                            {g}
+                          </td>
+                          <td>{b}</td>
+                          <td>{l}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p
+                    style={{
+                      color: "#8f8f8f",
+                      fontSize: "0.7rem",
+                      marginTop: "0.6rem",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {t.product.sizeNote}
+                  </p>
+                </div>
+              </details>
+            )}
           </div>
 
           <div style={{ marginBottom: "1.5rem" }}>
@@ -563,7 +564,7 @@ export default function ProductPage() {
               border: `1px solid ${totalLayers > 0 ? "rgba(74,222,128,0.25)" : "rgba(255,255,255,0.08)"}`,
               fontSize: "0.78rem",
               fontWeight: 600,
-              color: totalLayers > 0 ? "#4ade80" : "#666",
+              color: totalLayers > 0 ? "#4ade80" : "#8f8f8f",
             }}
           >
             <span style={{ fontSize: "1rem" }}>
@@ -582,6 +583,7 @@ export default function ProductPage() {
 
           {error && (
             <p
+              role="alert"
               style={{
                 color: "#f87171",
                 fontSize: "0.875rem",
@@ -613,7 +615,7 @@ export default function ProductPage() {
             </button>
             <p
               style={{
-                color: "#666",
+                color: "#8f8f8f",
                 fontSize: "0.72rem",
                 textAlign: "center",
                 marginTop: "0.6rem",
@@ -658,7 +660,7 @@ export default function ProductPage() {
                 }}
               >
                 <TrustIcon name={key} size={20} />
-                <span style={{ color: "#666", fontSize: "0.78rem" }}>
+                <span style={{ color: "#8f8f8f", fontSize: "0.78rem" }}>
                   {label} — {sub}
                 </span>
               </div>
@@ -688,7 +690,7 @@ export default function ProductPage() {
         }}
       >
         <div>
-          <p style={{ fontSize: "0.7rem", color: "#666", margin: 0 }}>
+          <p style={{ fontSize: "0.7rem", color: "#8f8f8f", margin: 0 }}>
             {productName}
           </p>
           <p

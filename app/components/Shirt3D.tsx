@@ -3,6 +3,7 @@ import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { Canvas, createPortal } from "@react-three/fiber";
 import {
   OrbitControls,
+  Bounds,
   useGLTF,
   Decal,
   useTexture,
@@ -14,7 +15,11 @@ import ShirtFlip from "./ShirtFlip";
 import StaticShirtPreview from "./StaticShirtPreview";
 import { getDecalDimensions, getDecalPosition } from "@/lib/print-position";
 import { getViewerAspect } from "@/lib/print-spec";
-import { getFamilyByShopId, getLiveFamilies } from "@/lib/catalog/families";
+import {
+  getAtelierModelPath,
+  getLiveFamilies,
+  getProductByShopId,
+} from "@/lib/catalog/families";
 
 interface PrintData {
   src: string;
@@ -33,22 +38,7 @@ interface Shirt3DProps {
   productId?: string;
 }
 
-/**
- * GLEICHE Architektur für Tee und Shorts (Jonny 22.07.2026 — Schluss mit Sonderwegen):
- * - weißes Blank-Mesh
- * - ALLE Sub-Meshes weiß (nie nur das größte)
- * - Kundenmotiv = Decal
- * - gleiches Licht, gleiche Material-Parameter
- * - productId steuert nur Modellpfad + Kamera-Framing
- *
- * WAVE 4.1: MODEL_PATHS replaced by families.ts
- */
-function getModelPath(productId?: string): string | null {
-  if (!productId) return null;
-  const family = getFamilyByShopId(productId);
-  return family?.glbPath ?? null;
-}
-
+// The original shop meshes use the legacy tint. Calibrated SKU models carry their own materials.
 function makeWhiteMaterial(color: string): THREE.MeshStandardMaterial {
   return new THREE.MeshStandardMaterial({
     color: new THREE.Color(color),
@@ -132,20 +122,29 @@ function GarmentModel({
   frontPrint,
   backPrint,
   shirtColor = "#ffffff",
-}: Shirt3DProps & { modelPath: string; productId: string }) {
-  const { scene } = useGLTF(modelPath, "/draco/gltf/");
+  preserveMaterials,
+}: Shirt3DProps & {
+  modelPath: string;
+  productId: string;
+  preserveMaterials: boolean;
+}) {
+  const { scene: source } = useGLTF(modelPath, "/draco/gltf/");
+  const scene = useMemo(() => source.clone(true), [source]);
   const [decalMesh, setDecalMesh] = useState<THREE.Mesh | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     // Entrance animation
-    setTimeout(() => setVisible(true), 100);
+    const timer = setTimeout(() => setVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     let bestMesh: THREE.Mesh | null = null;
     let bestCount = 0;
-    const matTemplate = makeWhiteMaterial(shirtColor);
+    const matTemplate = preserveMaterials
+      ? null
+      : makeWhiteMaterial(shirtColor);
 
     scene.traverse((o) => {
       if (!(o as THREE.Mesh).isMesh) return;
@@ -159,14 +158,7 @@ function GarmentModel({
         m.geometry.computeVertexNormals();
       }
 
-      if (Array.isArray(m.material)) {
-        m.material.forEach((mat) => {
-          if (mat && "dispose" in mat) (mat as THREE.Material).dispose();
-        });
-      } else if (m.material && "dispose" in m.material) {
-        (m.material as THREE.Material).dispose();
-      }
-      m.material = matTemplate.clone();
+      if (matTemplate) m.material = matTemplate;
       m.castShadow = true;
       m.receiveShadow = true;
 
@@ -191,10 +183,14 @@ function GarmentModel({
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setDecalMesh(b);
     }
-  }, [scene, shirtColor, productId]);
+    return () => matTemplate?.dispose();
+  }, [scene, shirtColor, productId, preserveMaterials]);
 
   return (
-    <group scale={visible ? 1 : 0.8} position={[0, visible ? 0 : -0.3, 0]}>
+    <group
+      scale={preserveMaterials || visible ? 1 : 0.8}
+      position={[0, preserveMaterials || visible ? 0 : -0.3, 0]}
+    >
       <primitive object={scene} />
       {decalMesh &&
         visible &&
@@ -285,7 +281,9 @@ export default function Shirt3D({
   ...props
 }: Shirt3DProps) {
   const requestedId = props.productId;
-  const modelPath = getModelPath(requestedId);
+  const record = requestedId ? getProductByShopId(requestedId) : null;
+  const modelPath = record ? getAtelierModelPath(record) : null;
+  const preserveMaterials = !!record?.atelierModel;
 
   if (!requestedId || !modelPath) {
     if (fallback === "static") {
@@ -338,7 +336,23 @@ export default function Shirt3D({
         <directionalLight position={[-2.5, 2, -2]} intensity={0.5} />
         <directionalLight position={[0, 1, 4]} intensity={0.4} />
 
-        <GarmentModel {...props} modelPath={modelPath} productId={productId} />
+        {preserveMaterials ? (
+          <Bounds fit clip margin={1.2}>
+            <GarmentModel
+              {...props}
+              modelPath={modelPath}
+              productId={productId}
+              preserveMaterials
+            />
+          </Bounds>
+        ) : (
+          <GarmentModel
+            {...props}
+            modelPath={modelPath}
+            productId={productId}
+            preserveMaterials={false}
+          />
+        )}
 
         {/* Soft contact shadows - realistic ground contact */}
         <ContactShadows
@@ -349,6 +363,7 @@ export default function Shirt3D({
           far={2}
         />
         <OrbitControls
+          makeDefault={preserveMaterials}
           enablePan={false}
           minDistance={cam.minDistance}
           maxDistance={cam.maxDistance}

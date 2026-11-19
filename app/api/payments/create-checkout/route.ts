@@ -410,16 +410,17 @@ export async function POST(request: Request) {
       d: p.designId ?? "",
       pid: p.productId,
     }));
-    let itemsMeta = JSON.stringify(itemsAbbrev);
-    if (itemsMeta.length > 490) {
-      for (let count = itemsAbbrev.length - 1; count >= 1; count--) {
-        const partial = JSON.stringify(itemsAbbrev.slice(0, count));
-        if (partial.length <= 490) {
-          itemsMeta = partial;
-          break;
-        }
-        if (count === 1) itemsMeta = "[]";
-      }
+    const itemsMeta = JSON.stringify(itemsAbbrev);
+    // shortcut: Stripe metadata bounds cart size, move the complete order snapshot to the database to support larger carts.
+    if (itemsMeta.length > 500) {
+      return NextResponse.json(
+        {
+          ok: false,
+          code: "cart_too_large",
+          error: "Bitte teile die Bestellung auf.",
+        },
+        { status: 422 },
+      );
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -427,6 +428,7 @@ export async function POST(request: Request) {
       allow_promotion_codes: true,
       payment_method_types: ["card", "paypal", "klarna", "sepa_debit", "link"],
       line_items: buildLineItems(priced, applyBundle),
+      shipping_address_collection: { allowed_countries: [country] },
       shipping_options: [
         {
           shipping_rate_data: {
@@ -439,7 +441,7 @@ export async function POST(request: Request) {
           },
         },
       ],
-      success_url: `${siteUrl}/?payment=success`,
+      success_url: `${siteUrl}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/?payment=cancel`,
       metadata: {
         reference: body.reference || "",
@@ -467,6 +469,7 @@ export async function POST(request: Request) {
       currency: "EUR",
       reference: body.reference || "",
       redirectUrl: session.url,
+      sessionId: session.id,
       createdAt: new Date().toISOString(),
     });
   } catch (error) {

@@ -6,6 +6,26 @@ test.describe("Smoke Tests", () => {
     await expect(page).toHaveTitle(/ON ME HONEY B|Essential Collection/i);
   });
 
+  test("homepage launch links use the selected language @smoke", async ({
+    page,
+  }) => {
+    await page.addInitScript(() =>
+      localStorage.setItem("on_me_honey_b_locale", "en"),
+    );
+    await page.goto("/");
+    const hero = page.locator(".hero-product");
+    await expect(hero.getByRole("heading", { level: 1 })).toContainText(
+      "YOUR DESIGN.",
+    );
+    await expect(
+      hero.getByRole("link", { name: "Enter the Studio", exact: true }).first(),
+    ).toHaveAttribute("href", "/product/1");
+    await expect(
+      hero.getByRole("link", { name: "Explore the Essential Set" }),
+    ).toHaveAttribute("href", "#essential-set");
+    await expect(page.locator("#essential-set")).toBeVisible();
+  });
+
   test("product page loads with h1 @smoke", async ({ page }) => {
     await page.goto("/product/1");
 
@@ -89,6 +109,103 @@ test.describe("Smoke Tests", () => {
     await page.goto("/");
     const content = await page.content();
     expect(content.toLowerCase()).not.toContain("platypus");
+  });
+
+  test("season pages and /geschenke return 200, unknown season 404 @smoke", async ({
+    request,
+  }) => {
+    for (const path of [
+      "/saison/valentinstag",
+      "/saison/ostern",
+      "/saison/weihnachten",
+      "/geschenke",
+    ]) {
+      const response = await request.get(path);
+      expect(response.status(), path).toBe(200);
+    }
+    const unknown = await request.get("/saison/fasching");
+    expect(unknown.status()).toBe(404);
+  });
+
+  test("header links to /geschenke @smoke", async ({ page }) => {
+    await page.goto("/");
+    const desktop = page.locator('header a.plt-nav-link[href="/geschenke"]');
+    const burger = page.getByRole("button", { name: /menü|menu/i });
+    await expect(
+      desktop.or(burger).filter({ visible: true }).first(),
+    ).toBeVisible();
+    if (await desktop.isVisible()) {
+      await expect(desktop).toBeVisible();
+    } else {
+      await burger.click();
+      await expect(
+        page.locator('.mobile-menu a[href="/geschenke"]'),
+      ).toBeVisible();
+    }
+  });
+
+  test("/geschenke lists only buyable products @smoke", async ({ page }) => {
+    await page.goto("/geschenke");
+    const cards = page.locator(".live-product-card");
+    await expect(cards).toHaveCount(2);
+    await expect(
+      page.locator('.live-product-card[href="/product/1"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('.live-product-card[href="/product/2"]'),
+    ).toBeVisible();
+  });
+
+  test("every homepage category slug reaches a real category @smoke", async ({
+    page,
+    request,
+  }) => {
+    const categories = [
+      ["bekleidung", "A"],
+      ["taschen", "B"],
+      ["wohnen", "C"],
+      ["geschenke", "D"],
+      ["tassen", "E"],
+      ["caps", "F"],
+      ["teller", "G"],
+      ["stifte", "H"],
+      ["schuhe", "I"],
+    ];
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator(".category-card-link")).toHaveCount(
+      categories.length,
+    );
+    await Promise.all(
+      categories.map(async ([slug, id]) => {
+        const path = `/categories/${slug}`;
+        await expect(
+          page.locator(`.category-card-link[href="${path}"]`),
+        ).toBeVisible();
+        const response = await request.get(path, { maxRetries: 1 });
+        expect(response.status(), slug).toBe(200);
+        expect(new URL(response.url()).pathname, slug).toBe(
+          `/categories/${id}`,
+        );
+        expect(await response.text(), slug).not.toContain(
+          "Kategorie nicht gefunden",
+        );
+      }),
+    );
+  });
+
+  test("season and gift pages follow the chosen locale @smoke", async ({
+    page,
+  }) => {
+    await page.addInitScript(() =>
+      localStorage.setItem("on_me_honey_b_locale", "en"),
+    );
+    await page.goto("/saison/weihnachten");
+    await expect(page.locator("h1")).toContainText("Christmas gifts");
+    await page.goto("/geschenke");
+    await expect(page.locator("h1")).toContainText("Gifts with your design");
+    await expect(page.locator(".live-product-card").first()).toContainText(
+      "Design now",
+    );
   });
 
   test("homepage does not ask for the missing tee photo @smoke", async ({

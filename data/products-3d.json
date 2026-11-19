@@ -1,0 +1,141 @@
+{
+  "version": 2,
+  "generated_from": "lib/print-spec.ts",
+  "generated_at": "2026-11-19T12:44:42.224Z",
+  "a4": {
+    "widthMm": 210,
+    "heightMm": 297
+  },
+  "products": {
+    "tee": {
+      "sku": "001",
+      "shopId": "1",
+      "label": "AirFit Pro T-Shirt",
+      "modelPath": "/models/shirt-white-v2.glb",
+      "physicalMm": {
+        "width": 500,
+        "height": 850
+      },
+      "camera": {
+        "position": [
+          0,
+          0.4,
+          2.2
+        ],
+        "fov": 35,
+        "target": [
+          0,
+          0.4,
+          0
+        ]
+      },
+      "animation": {
+        "rotateSpeedRadPerSec": 0.4,
+        "floatAmpM": 0.02,
+        "floatFreqHz": 1.2
+      },
+      "overlay": {
+        "front": {
+          "y": 26.3,
+          "x": 34.7,
+          "h": 29.2,
+          "w": 30.9
+        },
+        "back": {
+          "y": 29.9,
+          "x": 34.5,
+          "h": 27.3,
+          "w": 28.9
+        }
+      },
+      "shopLive": true
+    },
+    "shorts": {
+      "sku": "015",
+      "shopId": "2",
+      "label": "AirFit Pro Shorts",
+      "modelPath": "/models/shorts-white-v1.glb",
+      "physicalMm": {
+        "width": 500,
+        "height": 600
+      },
+      "camera": {
+        "position": [
+          0,
+          0.2,
+          1.8
+        ],
+        "fov": 35,
+        "target": [
+          0,
+          0.2,
+          0
+        ]
+      },
+      "animation": {
+        "rotateSpeedRadPerSec": 0.5,
+        "floatAmpM": 0,
+        "floatFreqHz": 0
+      },
+      "overlay": {
+        "front": {
+          "y": 28.5,
+          "x": 29,
+          "h": 39,
+          "w": 38
+        },
+        "back": {
+          "y": 28.5,
+          "x": 29,
+          "h": 39,
+          "w": 38
+        }
+      },
+      "shopLive": true
+    },
+    "pillow": {
+      "sku": "051",
+      "shopId": "051",
+      "label": "Dekokissenbezüge",
+      "modelPath": "/models/pillow-cover-40x40.glb",
+      "physicalMm": {
+        "width": 400,
+        "height": 400
+      },
+      "camera": {
+        "position": [
+          0,
+          0,
+          1.6
+        ],
+        "fov": 40,
+        "target": [
+          0,
+          0,
+          0
+        ]
+      },
+      "animation": {
+        "rotateSpeedRadPerSec": 0.3,
+        "floatAmpM": 0.03,
+        "floatFreqHz": 0.8
+      },
+      "overlay": {
+        "front": {
+          "y": 12.875,
+          "x": 23.75,
+          "h": 74.25,
+          "w": 52.5
+        },
+        "back": {
+          "y": 12.875,
+          "x": 23.75,
+          "h": 74.25,
+          "w": 52.5
+        }
+      },
+      "shopLive": false,
+      "note": "A4-Clamp applied from print-spec.ts master values"
+    }
+  }
+}

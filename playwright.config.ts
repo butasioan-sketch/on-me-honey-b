@@ -18,6 +18,14 @@ export default defineConfig({
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile-chrome", use: { ...devices["Pixel 5"] } },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        // Firefox needs a display for WebGL on the Linux CI runner.
+        headless: !process.env.CI,
+      },
+    },
   ],
   /* Run your local dev server before starting the tests */
   ...(process.env.BASE_URL

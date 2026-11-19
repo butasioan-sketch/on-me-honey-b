@@ -10,6 +10,8 @@ interface ShirtPrintOverlayProps {
   layers: DesignLayer[];
   selectedId?: string | null;
   onLayerPointerDown?: (e: React.MouseEvent | React.TouchEvent, layer: DesignLayer) => void;
+  /** Tastaturbedienung (WCAG 2.1.1/2.5.7): Pfeiltasten verschieben das Motiv in Prozentpunkten. */
+  onLayerNudge?: (layer: DesignLayer, dx: number, dy: number) => void;
   productId?: string;
 }
 
@@ -21,6 +23,7 @@ export default function ShirtPrintOverlay({
   layers,
   selectedId = null,
   onLayerPointerDown,
+  onLayerNudge,
   productId = '1',
 }: ShirtPrintOverlayProps) {
   const { t } = useLocale();
@@ -57,13 +60,28 @@ export default function ShirtPrintOverlay({
   return (
     <>
       <div style={overlayStyle} />
-      {layers.map((layer) => {
+      {layers.map((layer, i) => {
         const isSelected = layer.id === selectedId;
         return (
           <img
             key={layer.id}
             src={layer.src}
-            alt={side === 'front' ? t.studio.front : t.studio.back}
+            alt={`Motiv ${i + 1}`}
+            title="Pfeiltasten verschieben das Motiv, Umschalt für größere Schritte"
+            tabIndex={onLayerNudge ? 0 : undefined}
+            role={onLayerNudge ? 'button' : undefined}
+            aria-pressed={onLayerNudge ? isSelected : undefined}
+            onKeyDown={(e) => {
+              if (!onLayerNudge) return;
+              const step = e.shiftKey ? 5 : 1;
+              const moves: Record<string, [number, number]> = {
+                ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step],
+              };
+              const m = moves[e.key];
+              if (!m) return;
+              e.preventDefault();
+              onLayerNudge(layer, m[0], m[1]);
+            }}
             draggable={false}
             onMouseDown={(e) => onLayerPointerDown?.(e, layer)}
             onTouchStart={(e) => onLayerPointerDown?.(e, layer)}

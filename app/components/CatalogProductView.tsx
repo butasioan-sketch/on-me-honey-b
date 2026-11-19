@@ -1,8 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { useState } from "react";
 import SiteHeader from "./SiteHeader";
-import { categoryForSku, type ProductRecord } from "@/lib/catalog/families";
+import {
+  catalogFrontSrc,
+  categoryForSku,
+  type ProductRecord,
+} from "@/lib/catalog/families";
+
+const CatalogModelViewer = dynamic(() => import("./CatalogModelViewer"), {
+  ssr: false,
+  loading: () => <p role="status">360°-Modell lädt …</p>,
+});
 
 interface CatalogProductViewProps {
   product: ProductRecord;
@@ -15,9 +26,9 @@ interface CatalogProductViewProps {
 export default function CatalogProductView({
   product,
 }: CatalogProductViewProps) {
-  // 001 und 015 sind PNG, alle anderen Katalogfotos JPG.
-  const ext = product.sku === "001" || product.sku === "015" ? "png" : "jpg";
-  const photoPath = `/products/${product.sku}/front.${ext}`;
+  const [showModel, setShowModel] = useState(false);
+  const modelPath = `/models/sku/${product.sku}-v1.glb`;
+  const photoPath = catalogFrontSrc(product.sku);
   const category = categoryForSku(product.sku);
 
   return (
@@ -34,25 +45,47 @@ export default function CatalogProductView({
       <div
         style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1rem" }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+            gap: "2rem",
+            alignItems: "start",
+          }}
+        >
           {/* Photo */}
           <div
             style={{
               position: "relative",
               width: "100%",
               aspectRatio: "1/1",
+              maxHeight: "600px",
               background: "#111",
               borderRadius: "16px",
               overflow: "hidden",
             }}
           >
-            <Image
-              src={photoPath}
-              alt={product.name}
-              fill
-              style={{ objectFit: "contain" }}
-              priority
-            />
+            {showModel ? (
+              <CatalogModelViewer key={modelPath} src={modelPath} />
+            ) : (
+              <Image
+                src={photoPath}
+                alt={product.name}
+                fill
+                sizes="(max-width: 900px) calc(100vw - 32px), 520px"
+                style={{ objectFit: "contain" }}
+                priority
+              />
+            )}
+            <button
+              type="button"
+              className="plt-btn-secondary"
+              style={{ position: "absolute", right: 12, bottom: 12 }}
+              onClick={() => setShowModel(!showModel)}
+            >
+              {showModel ? "Produktfoto anzeigen" : "360°-Entwurf ansehen"}
+            </button>
           </div>
 
           {/* Info */}
@@ -115,8 +148,8 @@ export default function CatalogProductView({
               }}
             >
               Dieses Produkt befindet sich in Vorbereitung und kann noch nicht
-              bestellt werden. Alle Artikel werden vollständig personalisierbar
-              sein mit deinem eigenen Design per Sublimationsdruck.
+              bestellt werden. Die Angaben zur Personalisierung folgen mit der
+              Produktfreigabe.
             </p>
 
             {/* Back to catalog */}

@@ -176,6 +176,16 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
 
   const endDrag = () => { setDragging(false); dragStart.current = null; };
 
+  const nudgeLayer = (layer: DesignLayer, dx: number, dy: number) => {
+    selectLayer(layer.id);
+    const limit = PRINT_SPEC.maxOffsetPercent;
+    setCurrentLayers((prev) => prev.map((l) => (l.id === layer.id
+      ? { ...l, transform: { ...l.transform,
+          x: Math.max(-limit, Math.min(limit, l.transform.x + dx)),
+          y: Math.max(-limit, Math.min(limit, l.transform.y + dy)) } }
+      : l)));
+  };
+
   const setSelectedScale = (v: number) => {
     if (!selectedLayer) return;
     const id = selectedLayer.id;
@@ -194,7 +204,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
   const atLimit = currentLayers.length >= MAX_LAYERS_PER_SIDE;
 
   const miniBtnStyle: React.CSSProperties = {
-    width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center',
     background: 'transparent', border: 'none', color: '#999', cursor: 'pointer', fontSize: '0.75rem', borderRadius: '4px',
   };
 
@@ -229,7 +239,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
               fallback="flip"
             />
           </div>
-          <p className="plt-label" style={{ textAlign: 'center', margin: '0 0 1rem', color: '#555', fontSize: '0.68rem' }}>
+          <p className="plt-label" style={{ textAlign: 'center', margin: '0 0 1rem', color: '#8f8f8f', fontSize: '0.68rem' }}>
             {t.studio.preview360Note}
           </p>
         </>
@@ -258,13 +268,14 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
             layers={currentLayers}
             selectedId={selectedId}
             onLayerPointerDown={startDrag}
+            onLayerNudge={nudgeLayer}
             productId={productId}
           />
         </div>
       )}
 
       {!preview360 && photoIsCalibrationPreview && (
-        <p className="plt-label" style={{ textAlign: 'center', margin: '-0.6rem 0 1rem', color: '#555', fontSize: '0.68rem' }}>
+        <p className="plt-label" style={{ textAlign: 'center', margin: '-0.6rem 0 1rem', color: '#8f8f8f', fontSize: '0.68rem' }}>
           {t.studio.calibrationPhotoNote.replace('{blank}', profile.blank).replace('{gsm}', String(profile.weightGsm))}
         </p>
       )}
@@ -275,7 +286,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
         <button type="button" className="plt-btn-primary" style={{ width: '100%' }} onClick={() => fileRef.current?.click()} disabled={atLimit}>
           {t.studio.addImage} — {sideLabel}
         </button>
-        {atLimit && <p style={{ color: '#666', fontSize: '0.68rem', margin: '0.4rem 0 0', textAlign: 'center' }}>{t.studio.layerLimit}</p>}
+        {atLimit && <p style={{ color: '#8f8f8f', fontSize: '0.68rem', margin: '0.4rem 0 0', textAlign: 'center' }}>{t.studio.layerLimit}</p>}
       </div>
 
       {currentLayers.length > 0 && (
@@ -283,20 +294,26 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
           {currentLayers.map((layer, idx) => (
             <div
               key={layer.id}
-              onClick={() => selectLayer(layer.id)}
               style={{
-                display: 'flex', alignItems: 'center', gap: '0.3rem', padding: '0.25rem 0.4rem', borderRadius: '8px', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '0.3rem', padding: '0.25rem 0.4rem', borderRadius: '8px',
                 background: layer.id === selectedId ? 'rgba(226,0,26,0.15)' : 'rgba(255,255,255,0.05)',
                 border: layer.id === selectedId ? '1px solid #D4AF37' : '1px solid rgba(255,255,255,0.1)',
               }}
             >
-              <img src={layer.src} alt="" style={{ width: 18, height: 18, objectFit: 'cover', borderRadius: 4 }} />
-              <span style={{ fontSize: '0.68rem', color: '#ccc', maxWidth: 70, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                Bild {idx + 1}
-              </span>
-              <button type="button" title={t.studio.moveBackward} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'backward'); }} disabled={idx === 0} style={miniBtnStyle}>↓</button>
-              <button type="button" title={t.studio.moveForward} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'forward'); }} disabled={idx === currentLayers.length - 1} style={miniBtnStyle}>↑</button>
-              <button type="button" title={t.studio.remove} onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} style={{ ...miniBtnStyle, color: '#f87171' }}>×</button>
+              <button
+                type="button"
+                aria-pressed={layer.id === selectedId}
+                onClick={() => selectLayer(layer.id)}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+              >
+                <img src={layer.src} alt="" style={{ width: 18, height: 18, objectFit: 'cover', borderRadius: 4 }} />
+                <span style={{ fontSize: '0.68rem', color: '#ccc', maxWidth: 70, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {t.studio.layerName.replace('{n}', String(idx + 1))}
+                </span>
+              </button>
+              <button type="button" title={t.studio.moveBackward} aria-label={`${t.studio.moveBackward}: ${t.studio.layerName.replace('{n}', String(idx + 1))}`} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'backward'); }} disabled={idx === 0} style={miniBtnStyle}><span aria-hidden="true">↓</span></button>
+              <button type="button" title={t.studio.moveForward} aria-label={`${t.studio.moveForward}: ${t.studio.layerName.replace('{n}', String(idx + 1))}`} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'forward'); }} disabled={idx === currentLayers.length - 1} style={miniBtnStyle}><span aria-hidden="true">↑</span></button>
+              <button type="button" title={t.studio.remove} aria-label={`${t.studio.remove}: ${t.studio.layerName.replace('{n}', String(idx + 1))}`} onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} style={{ ...miniBtnStyle, color: '#f87171' }}><span aria-hidden="true">×</span></button>
             </div>
           ))}
         </div>
@@ -306,10 +323,10 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-              <span className="plt-label">{t.studio.zoom}</span>
-              <span style={{ color: '#666', fontSize: '0.72rem' }}>{Math.round(selectedLayer.transform.scale * 100)}%</span>
+              <label htmlFor="plt-zoom" className="plt-label">{t.studio.zoom}</label>
+              <span style={{ color: '#8f8f8f', fontSize: '0.72rem' }}>{Math.round(selectedLayer.transform.scale * 100)}%</span>
             </div>
-            <input type="range" min={PRINT_SPEC.scaleMin} max={PRINT_SPEC.scaleMax} step="0.05" value={selectedLayer.transform.scale}
+            <input id="plt-zoom" type="range" aria-valuetext={`${Math.round(selectedLayer.transform.scale * 100)} %`} min={PRINT_SPEC.scaleMin} max={PRINT_SPEC.scaleMax} step="0.05" value={selectedLayer.transform.scale}
               onChange={(e) => setSelectedScale(Number(e.target.value))}
               style={{ width: '100%', accentColor: '#D4AF37', cursor: 'pointer' }} />
           </div>
@@ -320,10 +337,13 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
           {uploadHint && (
             <p style={{ color: '#fbbf24', fontSize: '0.68rem', lineHeight: 1.45, margin: 0, textAlign: 'center' }}>{uploadHint}</p>
           )}
-          <p className="plt-label" style={{ textAlign: 'center', margin: 0, color: '#555' }}>
+          <p className="plt-label" style={{ textAlign: 'center', margin: 0, color: '#8f8f8f' }}>
             {t.studio.dragHint.replace('{size}', formatSizeMm())}
           </p>
-          <p className="plt-label" style={{ textAlign: 'center', margin: 0, color: '#444', fontSize: '0.65rem' }}>
+          <p style={{ color: '#aaa', fontSize: '0.75rem', lineHeight: 1.45, margin: 0 }}>
+            {t.studio.cropHint}
+          </p>
+          <p className="plt-label" style={{ textAlign: 'center', margin: 0, color: '#8f8f8f', fontSize: '0.75rem' }}>
             {getNoPrintNote(productId)}
           </p>
         </div>

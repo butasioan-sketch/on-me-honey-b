@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { siteUrl } from "@/lib/site-url";
 import {
   CATALOG,
+  catalogFrontSrc,
   getProductById,
   type ProductRecord,
 } from "@/lib/catalog/families";
@@ -14,12 +16,13 @@ import {
 
 type Params = Promise<{ id: string }>;
 
-const SITE = "https://on-me-honey-b.vercel.app";
-
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const ids = new Set<string>(["1", "2", ...Object.keys(CATALOG)]);
+  const ids = new Set(Object.keys(CATALOG));
+  for (const { shopId } of Object.values(CATALOG)) {
+    if (shopId) ids.add(shopId);
+  }
   return [...ids].map((id) => ({ id }));
 }
 
@@ -45,13 +48,14 @@ export async function generateMetadata({
   if (!resolved) return notFound();
 
   const { catalog, shop } = resolved;
-  const url = `${SITE}/product/${id}`;
+  const url = `/product/${shop?.id ?? catalog.sku}`;
 
   if (shop) {
     const name = getProductName(shop, "de");
     const desc = getProductDescription(shop, "de");
     const price = `${shop.price.toFixed(2)} €`;
     return {
+      alternates: { canonical: url },
       title: `${name} — Dein Design | ON ME HONEY B`,
       description: `${name} (${price}) — ${desc}. Lade dein Motiv hoch und gestalte dein Statement-Piece.`,
       openGraph: {
@@ -64,6 +68,7 @@ export async function generateMetadata({
   }
 
   return {
+    alternates: { canonical: url },
     title: `${catalog.name} — ON ME HONEY B`,
     description: `${catalog.name} (SKU ${catalog.sku}) — bald verfügbar bei ON ME HONEY B.`,
     openGraph: {
@@ -91,7 +96,7 @@ export default async function Layout({
     ? {
         "@context": "https://schema.org",
         "@type": "Product",
-        name: `${getProductName(shop, "de")} — ON ME Custom ${shop.id === "2" ? "Shorts" : "Shirt"}`,
+        name: getProductName(shop, "de"),
         description: `${getProductDescription(shop, "de")} Maßgefertigt auf Bestellung.`,
         brand: { "@type": "Brand", name: "ON ME HONEY B" },
         offers: {
@@ -99,10 +104,11 @@ export default async function Layout({
           price: String(shop.price),
           priceCurrency: "EUR",
           availability: "https://schema.org/InStock",
-          priceValidUntil: "2027-12-31",
+          url: `${siteUrl}/product/${shop.id}`,
           seller: { "@type": "Organization", name: "ON ME HONEY B" },
         },
-        image: `${SITE}/og.png`,
+        sku: catalog.sku,
+        image: new URL(catalogFrontSrc(catalog.sku), siteUrl).href,
       }
     : {
         "@context": "https://schema.org",

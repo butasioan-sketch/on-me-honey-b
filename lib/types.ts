@@ -43,6 +43,13 @@ export interface Order {
   locale: string;
   shippingCountry: string;
   shippingMethod?: string;
+  shippingAddress?: {
+    name: string;
+    line1: string;
+    line2?: string;
+    postalCode: string;
+    city: string;
+  };
   createdAt: string;
   updatedAt: string;
 }

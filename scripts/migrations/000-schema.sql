@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS orders (
   shipping_country TEXT DEFAULT 'DE',
   design_id TEXT,
   shipping_method TEXT,
+  shipping_address JSONB,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );

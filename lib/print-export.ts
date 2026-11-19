@@ -1,5 +1,5 @@
 import { PRINT_SPEC, type PrintSide } from './print-spec';
-import { getMotifRect, type PrintTransform } from './print-position';
+import { getSheetRect, type PrintTransform } from './print-position';
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -42,14 +42,18 @@ function drawCover(
   boxH: number,
 ) {
   const renderScale = Math.max(boxW / img.width, boxH / img.height);
-  const renderW = img.width * renderScale;
-  const renderH = img.height * renderScale;
+  const cropW = boxW / renderScale;
+  const cropH = boxH / renderScale;
   ctx.drawImage(
     img,
-    boxX + (boxW - renderW) / 2,
-    boxY + (boxH - renderH) / 2,
-    renderW,
-    renderH,
+    (img.width - cropW) / 2,
+    (img.height - cropH) / 2,
+    cropW,
+    cropH,
+    boxX,
+    boxY,
+    boxW,
+    boxH,
   );
 }
 
@@ -123,7 +127,8 @@ export async function renderPrintSheetMulti(
 
   for (const layer of layers) {
     const img = await loadImage(layer.src);
-    const rect = getMotifRect(side, layer.transform, productId);
+    // Blattkoordinaten: für 051 auf die Standard-Motivfläche umgerechnet, sonst unverändert.
+    const rect = getSheetRect(side, layer.transform, productId);
     const boxX = (rect.left / 100) * widthPx;
     const boxY = (rect.top / 100) * heightPx;
     const boxW = (rect.width / 100) * widthPx;

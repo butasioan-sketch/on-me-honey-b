@@ -63,6 +63,11 @@ export interface GarmentProfile {
   mmReferenceHeight: number | null;
   /** Overlay-Kalibrierung verifiziert durch physischen Testdruck (WAVE 6.2) */
   overlayVerified?: boolean;
+  /** Druckblatt-Koordinaten: true = das A4-Blatt entspricht der Standard-Motivfläche
+   *  (Overlay bei scale 1, mittig in der Placement-Zone); Motivpositionen werden darauf
+   *  umgerechnet. Nur für Profile gesetzt, deren Bezug geprüft ist (051 Kissen).
+   *  Ohne Flag bleibt das bisherige Verhalten (Foto-% direkt als Blatt-%). */
+  sheetFromOverlay?: boolean;
 }
 
 const TEE_PROFILE: GarmentProfile = {
@@ -104,7 +109,8 @@ const SHORTS_PROFILE: GarmentProfile = {
 
 // WAVE 6.2: Pillow profile (Phase 6 - after Jonny price + gate)
 // Overlay Start values - NOT verified by physical test print yet
-const PILLOW_OVERLAY = { top: 15, left: 15, width: 70, height: 70 };
+// A4-Clamp: 52.5% × 400mm = 210mm ✓, 74.25% × 400mm = 297mm ✓
+const PILLOW_OVERLAY = { top: 12.875, left: 23.75, width: 52.5, height: 74.25 };
 const PILLOW_PLACEMENT = { top: 10, left: 10, width: 80, height: 80 };
 
 const PILLOW_PROFILE: GarmentProfile = {
@@ -119,6 +125,7 @@ const PILLOW_PROFILE: GarmentProfile = {
   backSrc: "/products/051/front.jpg", // Pillow uses same image for both sides
   mmReferenceHeight: null, // keine Foto-Messung — 40 cm Blank nicht als mm-Referenz erfinden
   overlayVerified: false, // NOT verified - awaiting physical test print
+  sheetFromOverlay: true, // A4-Blatt = Standard-Motivfläche (52,5 × 74,25 % des 40-cm-Bezugs)
 };
 
 export const GARMENT_PROFILES: Record<string, GarmentProfile> = {
