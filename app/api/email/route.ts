@@ -22,6 +22,11 @@ const ABANDONED_TEXTS: Record<string, { subject: string; title: string; body: st
 };
 
 const STATUS_TEXTS: Record<string, Record<string, { subject: string; title: string; body: string }>> = {
+  payment_failed: {
+    de: { subject: 'Deine Zahlung ist fehlgeschlagen', title: 'Zahlung nicht erfolgreich', body: 'Deine Zahlung (z. B. Lastschrift) wurde von der Bank nicht ausgeführt. Deine Bestellung wird deshalb nicht produziert. Du kannst sie im Shop erneut aufgeben – dein Motiv ist dort weiterhin gespeichert, falls du den Warenkorb nicht geleert hast.' },
+    ro: { subject: 'Plata ta a eșuat', title: 'Plată nereușită', body: 'Plata ta (de ex. debit direct) nu a fost executată de bancă. Comanda nu va fi produsă. O poți plasa din nou în magazin.' },
+    en: { subject: 'Your payment failed', title: 'Payment unsuccessful', body: 'Your payment (e.g. direct debit) was not completed by your bank, so your order will not be produced. You can place it again in the shop.' },
+  },
   production: {
     de: { subject: 'Deine Bestellung ist in Produktion', title: 'Es geht los!', body: 'Dein Shirt wird jetzt bedruckt. Wir melden uns, sobald es versendet wird.' },
     ro: { subject: 'Comanda ta este în producție', title: 'Am început!', body: 'Tricoul tău este acum imprimat. Te anunțăm când va fi expediat.' },
@@ -81,7 +86,7 @@ interface OrderEmailData {
   locale: string;
   designId?: string;
   designIds?: string;
-  type?: 'confirmation' | 'production' | 'shipped' | 'delivered' | 'admin_alert' | 'abandoned';
+  type?: 'confirmation' | 'production' | 'shipped' | 'delivered' | 'admin_alert' | 'abandoned' | 'payment_failed';
   reason?: 'missing_design' | 'on_hold';
   missingDesign?: boolean;
 }

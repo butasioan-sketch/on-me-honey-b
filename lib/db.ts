@@ -190,6 +190,38 @@ export async function hasOrderForStripeSession(
   return rows.length > 0;
 }
 
+/** Bestellung zu einer Stripe-Session, deren Bestätigungs-E-Mail noch nicht angenommen wurde.
+ *  Reserviert sie atomar (confirmation_email_sent_at = NOW()), damit parallele Retries nicht doppelt senden.
+ *  Gibt null zurück, wenn es keine solche Bestellung gibt. */
+export async function claimConfirmationEmail(
+  stripeSessionId: string,
+): Promise<{ id: string; customerEmail: string } | null> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  if (!sql) return null;
+  const rows = await sql.query(
+    `UPDATE orders SET confirmation_email_sent_at = NOW()
+     WHERE stripe_session_id=$1 AND confirmation_email_sent_at IS NULL
+     RETURNING id, customer_email`,
+    [stripeSessionId],
+  );
+  if (!rows[0]) return null;
+  return { id: String(rows[0].id), customerEmail: String(rows[0].customer_email || "") };
+}
+
+/** Gibt eine Reservierung frei, wenn der Versand gescheitert ist (nächster Retry versucht es erneut). */
+export async function releaseConfirmationEmail(orderId: string): Promise<void> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  if (!sql) return;
+  await sql.query(
+    `UPDATE orders SET confirmation_email_sent_at = NULL WHERE id=$1`,
+    [orderId],
+  );
+}
+
 export async function updateOrderStatus(
   id: string,
   status: string,
