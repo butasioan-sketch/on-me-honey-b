@@ -79,7 +79,7 @@ test("checkout return explains a delayed order after the last status check @smok
   ).toBeVisible({ timeout: 20000 });
   for (let i = 0; i < 25 && calls < 20; i++) await page.clock.runFor(3100);
   await expect(
-    page.getByRole("status").filter({ hasText: "Bitte nicht erneut bezahlen" }),
+    page.getByRole("alert").filter({ hasText: "Bitte nicht erneut bezahlen" }),
   ).toBeVisible({ timeout: 20000 });
   expect(calls).toBe(20);
   expect(await readCart(page)).not.toBeNull();

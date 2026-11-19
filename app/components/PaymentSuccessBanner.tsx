@@ -180,7 +180,7 @@ export default function PaymentSuccessBanner() {
         animation: "plt-fadeInUp 0.4s ease",
       }}
     >
-      <span role="status">
+      <span role={status === "delayed" ? "alert" : "status"}>
         {status === "paid"
           ? t.banner
           : status === "processing"

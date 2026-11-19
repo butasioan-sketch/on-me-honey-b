@@ -430,7 +430,7 @@ export default function ProductPage() {
                 style={{
                   marginTop: "0.5rem",
                   fontSize: "0.75rem",
-                  color: "#666",
+                  color: "#8f8f8f",
                   lineHeight: 1.5,
                 }}
               >
@@ -507,7 +507,7 @@ export default function ProductPage() {
                   </table>
                   <p
                     style={{
-                      color: "#666",
+                      color: "#8f8f8f",
                       fontSize: "0.7rem",
                       marginTop: "0.6rem",
                       lineHeight: 1.5,
@@ -565,7 +565,7 @@ export default function ProductPage() {
               border: `1px solid ${totalLayers > 0 ? "rgba(74,222,128,0.25)" : "rgba(255,255,255,0.08)"}`,
               fontSize: "0.78rem",
               fontWeight: 600,
-              color: totalLayers > 0 ? "#4ade80" : "#666",
+              color: totalLayers > 0 ? "#4ade80" : "#8f8f8f",
             }}
           >
             <span style={{ fontSize: "1rem" }}>
@@ -584,6 +584,7 @@ export default function ProductPage() {
 
           {error && (
             <p
+              role="alert"
               style={{
                 color: "#f87171",
                 fontSize: "0.875rem",
@@ -615,7 +616,7 @@ export default function ProductPage() {
             </button>
             <p
               style={{
-                color: "#666",
+                color: "#8f8f8f",
                 fontSize: "0.72rem",
                 textAlign: "center",
                 marginTop: "0.6rem",
@@ -660,7 +661,7 @@ export default function ProductPage() {
                 }}
               >
                 <TrustIcon name={key} size={20} />
-                <span style={{ color: "#666", fontSize: "0.78rem" }}>
+                <span style={{ color: "#8f8f8f", fontSize: "0.78rem" }}>
                   {label} — {sub}
                 </span>
               </div>
@@ -690,7 +691,7 @@ export default function ProductPage() {
         }}
       >
         <div>
-          <p style={{ fontSize: "0.7rem", color: "#666", margin: 0 }}>
+          <p style={{ fontSize: "0.7rem", color: "#8f8f8f", margin: 0 }}>
             {productName}
           </p>
           <p
