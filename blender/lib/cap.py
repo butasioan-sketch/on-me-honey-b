@@ -142,11 +142,13 @@ def build(config):
             u = -1 + 2 * iu / NU
             phi = math.pi / 2 - u * math.radians(62)
             rx, rd = A * math.cos(phi), B * math.sin(phi)
-            reach = L * (0.22 + 0.78 * math.sqrt(max(0.0, 1 - u * u)) ** 0.7) * v   # abgerundete Ecken
+            # D-förmiger Umriss: läuft zu den Kronenseiten weich aus, keine Ecken (Referenz 117–122)
+            reach = L * (0.03 + 0.97 * math.cos(u * math.pi / 2) ** 0.55) * v
             x = rx * (0.975 + 0.175 * v) + u * W * 0.25 * v   # Ansatz leicht innerhalb der Krone
             d = rd * 0.975 + reach
-            # Seiten biegen nach unten, proportional zur Schirmlänge an dieser Stelle (keine Steilklappen)
-            h = 0.004 - c["brim_curve"] * (u * u) * (reach / L) * 0.6 - 0.010 * v * v
+            # vorgebogener Schirm: Seiten fallen zur Vorderkante hin ab, Schirm neigt sich leicht nach vorn-unten
+            # Abfall mit Wurzel der lokalen Länge: weicher Bogen, keine Steilklappen an den kurzen Enden
+            h = 0.004 - c["brim_curve"] * 0.75 * (u * u) * (reach / L) ** 0.75 - 0.014 * v * v
             row_t.append(bld.bm.verts.new(bld.V(x, h, d)))
             row_b.append(bld.bm.verts.new(bld.V(x, h - 0.004, d)))
         top_rows.append(row_t)
