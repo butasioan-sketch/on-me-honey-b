@@ -30,6 +30,7 @@ import { renderPrintSheetMulti } from "@/lib/print-export";
 import { renderCustomerViewCompositeMulti } from "@/lib/print-customer-view";
 import { defaultPrintTransform } from "@/lib/print-position";
 import { trackAddToCart, trackProductView } from "@/lib/analytics";
+import { formatEuro } from "@/lib/format-price";
 
 export default function ProductPage() {
   const { t, locale } = useLocale();
@@ -375,7 +376,7 @@ export default function ProductPage() {
               color: "#fff",
             }}
           >
-            €{unitPrice.toFixed(2)}
+            {formatEuro(unitPrice, locale)}
           </p>
 
           <div style={{ marginBottom: "1.25rem" }}>
@@ -611,7 +612,7 @@ export default function ProductPage() {
             >
               {loading
                 ? t.cart.redirecting
-                : `${t.product.buyNow} — €${unitPrice.toFixed(2)}`}
+                : `${t.product.buyNow} — ${formatEuro(unitPrice, locale)}`}
             </button>
             <p
               style={{
@@ -701,7 +702,7 @@ export default function ProductPage() {
               margin: 0,
             }}
           >
-            €{unitPrice.toFixed(2)}
+            {formatEuro(unitPrice, locale)}
           </p>
         </div>
         <button

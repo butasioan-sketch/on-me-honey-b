@@ -7,6 +7,7 @@ import { PRINT_SPEC, formatSizeMm, getNoPrintNote, getPlacementZone, getGarmentP
 import { defaultPrintTransform, type PrintTransform } from '@/lib/print-position';
 import { useLocale } from '@/app/components/LocaleProvider';
 import ShirtPrintOverlay from './ShirtPrintOverlay';
+import { formatEuro } from "@/lib/format-price";
 
 // Ohne `loading` zeigte next/dynamic waehrend des JS-Chunk-Ladens (three.js/fiber/
 // drei-Bundle) buchstaeblich nichts an — auf dem dunklen Seiten-Hintergrund sah das
@@ -49,7 +50,7 @@ const MAX_LAYERS_PER_SIDE = 6;
 const genId = () => `L-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 
 export default function DesignStudio({ productId = '1', onDesignChange }: DesignStudioProps) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const profile = getGarmentProfile(productId);
   // Tee-Atelierfoto ist noch das alte einfarbige Blank-Foto, nicht JN827 (das hat
   // Kontrast-Einsaetze an Schulter/Seite) — siehe REPORT-AUDIT-WEBSHOP-DOWNLOADS-22-07.md.
@@ -224,7 +225,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
 
       <div className="plt-price-bar" style={{ marginBottom: '1rem' }}>
         <span className="plt-label" style={{ margin: 0 }}>{t.studio.price} {priceSuffix}</span>
-        <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.15rem' }}>€{calcUnitPriceForProduct(productId, totalLayers).toFixed(2)}</span>
+        <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.15rem' }}>{formatEuro(calcUnitPriceForProduct(productId, totalLayers), locale)}</span>
       </div>
 
       {preview360 ? (

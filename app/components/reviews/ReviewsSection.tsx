@@ -85,7 +85,7 @@ export default function ReviewsSection({
       </div>
 
       {loading ? (
-        <p style={{ color: '#555', textAlign: compact ? 'center' : 'left' }}>{t.reviews.loading}</p>
+        <p style={{ color: '#8f8f8f', textAlign: compact ? 'center' : 'left' }}>{t.reviews.loading}</p>
       ) : reviews.length === 0 ? (
         <div style={{
           textAlign: 'center',

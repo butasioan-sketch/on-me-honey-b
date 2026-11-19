@@ -21,6 +21,7 @@ import {
   PRICE_BUNDLE_ESSENTIAL,
   type MerchandiseItem,
 } from "@/lib/pricing";
+import { formatEuro } from "@/lib/format-price";
 
 interface CartItem {
   id: string;
@@ -82,7 +83,7 @@ function DesignThumb({ designId }: { designId?: string }) {
 }
 
 export default function CartPage() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -274,16 +275,15 @@ export default function CartPage() {
                       </p>
                       <p
                         style={{
-                          color: "#666",
+                          color: "#8f8f8f",
                           fontSize: "0.72rem",
                           marginTop: "0.2rem",
                         }}
                       >
-                        €
-                        {calcUnitPriceForProduct(
-                          item.id,
-                          item.pages || 1,
-                        ).toFixed(2)}
+                        {formatEuro(
+                          calcUnitPriceForProduct(item.id, item.pages || 1),
+                          locale,
+                        )}
                         {item.pages
                           ? ` · ${t.cart.printedSides(item.pages)}`
                           : ""}{" "}
@@ -300,7 +300,7 @@ export default function CartPage() {
                       }}
                     >
                       <p style={{ fontWeight: 700, margin: 0 }}>
-                        €{(item.price * item.quantity).toFixed(2)}
+                        {formatEuro((item.price * item.quantity), locale)}
                       </p>
                       <div
                         style={{
@@ -386,7 +386,7 @@ export default function CartPage() {
                     <a
                       href={`/product/${item.id}?size=${encodeURIComponent(item.size)}&edit=1`}
                       style={{
-                        color: "#666",
+                        color: "#8f8f8f",
                         fontSize: "0.72rem",
                         textDecoration: "none",
                         borderBottom: "1px solid #444",
@@ -532,7 +532,7 @@ export default function CartPage() {
                       </span>
                     </span>
                     <span style={{ fontWeight: 700 }}>
-                      €{o.price[country].toFixed(2)}
+                      {formatEuro(o.price[country], locale)}
                     </span>
                   </button>
                 ))}
@@ -559,9 +559,9 @@ export default function CartPage() {
                     fontWeight: 600,
                   }}
                 >
-                  ✓ Essential Set angewendet — 1× Tee + 1× Shorts für €
-                  {PRICE_BUNDLE_ESSENTIAL.toFixed(2)} (du sparst €
-                  {bundleSavings.toFixed(2)})
+                  ✓ Essential Set angewendet — 1× Tee + 1× Shorts für{" "}
+                  {formatEuro(PRICE_BUNDLE_ESSENTIAL, locale)} (du sparst{" "}
+                  {formatEuro(bundleSavings, locale)})
                 </div>
               )}
               <div
@@ -573,7 +573,7 @@ export default function CartPage() {
                 }}
               >
                 <span>{t.cart.subtotal}</span>
-                <span>€{subtotal.toFixed(2)}</span>
+                <span>{formatEuro(subtotal, locale)}</span>
               </div>
               <div
                 style={{
@@ -584,7 +584,7 @@ export default function CartPage() {
                 }}
               >
                 <span>{t.cart.shipping}</span>
-                <span>€{shipping.toFixed(2)}</span>
+                <span>{formatEuro(shipping, locale)}</span>
               </div>
               <div
                 style={{
@@ -595,7 +595,7 @@ export default function CartPage() {
                 }}
               >
                 <span>{t.cart.total}</span>
-                <span>€{total.toFixed(2)}</span>
+                <span>{formatEuro(total, locale)}</span>
               </div>
               {items.length > 0 && (
                 <p
@@ -666,11 +666,11 @@ export default function CartPage() {
             >
               {loading
                 ? t.cart.redirecting
-                : `${t.cart.checkout} — €${total.toFixed(2)}`}
+                : `${t.cart.checkout} — ${formatEuro(total, locale)}`}
             </button>
             <p
               style={{
-                color: "#666",
+                color: "#8f8f8f",
                 fontSize: "0.72rem",
                 textAlign: "center",
                 marginTop: "0.6rem",

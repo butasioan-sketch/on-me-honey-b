@@ -10,6 +10,7 @@ import {
   type Product,
 } from "@/lib/products";
 import { PRICE_TEE, PRICE_SHORTS, PRICE_BUNDLE_ESSENTIAL } from "@/lib/pricing";
+import { formatEuro } from "@/lib/format-price";
 
 const TEE_HREF = "/product/1";
 const SHORTS_HREF = "/product/2";
@@ -22,6 +23,7 @@ function ProductCard({
   name,
   price,
   cta,
+  locale,
 }: {
   href: string;
   viewer: React.ReactNode;
@@ -29,6 +31,7 @@ function ProductCard({
   name: string;
   price: number;
   cta: string;
+  locale: Locale;
 }) {
   return (
     <Link
@@ -75,7 +78,7 @@ function ProductCard({
               margin: 0,
             }}
           >
-            €{price.toFixed(2)}
+            {formatEuro(price, locale)}
           </p>
         </div>
         <span
@@ -95,11 +98,10 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
   const shorts = getProduct("2");
   if (!tee) return null;
 
-  const bundleSavings = (
-    PRICE_TEE +
-    PRICE_SHORTS -
-    PRICE_BUNDLE_ESSENTIAL
-  ).toFixed(2);
+  const bundleSavings = formatEuro(
+    PRICE_TEE + PRICE_SHORTS - PRICE_BUNDLE_ESSENTIAL,
+    locale,
+  );
 
   return (
     <section
@@ -207,6 +209,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
         }}
       >
         <ProductCard
+          locale={locale}
           href={TEE_HREF}
           viewer={
             <div
@@ -234,6 +237,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
         />
         {shorts && (
           <ProductCard
+            locale={locale}
             href={SHORTS_HREF}
             viewer={
               <div
@@ -306,7 +310,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
                   margin: 0,
                 }}
               >
-                €{PRICE_BUNDLE_ESSENTIAL.toFixed(2)}
+                {formatEuro(PRICE_BUNDLE_ESSENTIAL, locale)}
               </p>
               <p
                 style={{
@@ -316,7 +320,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
                   textDecoration: "line-through",
                 }}
               >
-                €{(PRICE_TEE + PRICE_SHORTS).toFixed(2)}
+                {formatEuro((PRICE_TEE + PRICE_SHORTS), locale)}
               </p>
               <p
                 style={{
