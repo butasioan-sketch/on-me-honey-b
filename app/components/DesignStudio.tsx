@@ -323,6 +323,9 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
           <p className="plt-label" style={{ textAlign: 'center', margin: 0, color: '#555' }}>
             {t.studio.dragHint.replace('{size}', formatSizeMm())}
           </p>
+          <p style={{ color: '#aaa', fontSize: '0.75rem', lineHeight: 1.45, margin: 0 }}>
+            {t.studio.cropHint}
+          </p>
           <p className="plt-label" style={{ textAlign: 'center', margin: 0, color: '#444', fontSize: '0.65rem' }}>
             {getNoPrintNote(productId)}
           </p>
