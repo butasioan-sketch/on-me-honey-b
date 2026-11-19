@@ -77,7 +77,11 @@ test("checkout return explains a delayed order after the last status check @smok
   await expect(
     page.getByRole("status").filter({ hasText: "Auftrag wird verarbeitet" }),
   ).toBeVisible({ timeout: 20000 });
-  for (let i = 0; i < 25 && calls < 20; i++) await page.clock.runFor(3100);
+  // Je Statusprüfung die Uhr vorspulen und auf die tatsächliche Anfrage warten (robust bei Netzlatenz)
+  for (let expected = 2; expected <= 20; expected++) {
+    await page.clock.runFor(3100);
+    await expect.poll(() => calls, { timeout: 15000 }).toBeGreaterThanOrEqual(expected);
+  }
   await expect(
     page.getByRole("alert").filter({ hasText: "Bitte nicht erneut bezahlen" }),
   ).toBeVisible({ timeout: 20000 });

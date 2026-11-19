@@ -109,7 +109,7 @@ export default function HomeView({ locale }: { locale: Locale }) {
                       display: 'inline-block',
                       padding: '0.25rem 0.75rem',
                       background: 'rgba(255,255,255,0.1)',
-                      color: '#888',
+                      color: '#b0b0b0',
                       borderRadius: '999px',
                       fontSize: '0.7rem',
                       fontWeight: 600,
@@ -134,7 +134,7 @@ export default function HomeView({ locale }: { locale: Locale }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.75rem' }}>
             {t.howItWorks.steps.map((step) => (
               <div key={step.num} className="plt-card" style={{ padding: '2rem 1.75rem', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontSize: '3.5rem', fontWeight: 900, color: 'rgba(226,0,26,0.15)', lineHeight: 1, marginBottom: '1rem', letterSpacing: '-0.04em' }}>{step.num}</div>
+                <div style={{ fontSize: '3.5rem', fontWeight: 900, color: '#8a6d2a', lineHeight: 1, marginBottom: '1rem', letterSpacing: '-0.04em' }}>{step.num}</div>
                 <p style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.6rem' }}>{step.label}</p>
                 <p style={{ color: '#999', fontSize: '0.9rem', lineHeight: 1.7 }}>{step.desc}</p>
               </div>
