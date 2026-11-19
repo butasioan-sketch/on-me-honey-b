@@ -11,6 +11,7 @@ const SHARE_TEXT: Record<
     text: string;
     banner: string;
     processing: string;
+    delayed: string;
     pending: string;
     share: string;
     copied: string;
@@ -21,6 +22,8 @@ const SHARE_TEXT: Record<
     text: "Gerade bestellt — mein Motiv auf Performance-Polyester. On me. In your head.",
     banner: "✓ Zahlung erfolgreich!",
     processing: "✓ Zahlung bestätigt – dein Auftrag wird verarbeitet.",
+    delayed:
+      "✓ Zahlung bestätigt. Die Auftragsbestätigung dauert länger als üblich – du erhältst sie per E-Mail. Bitte nicht erneut bezahlen.",
     pending:
       "Die Zahlung ist noch nicht bestätigt. Dein Warenkorb bleibt erhalten.",
     share: "Teilen",
@@ -31,6 +34,8 @@ const SHARE_TEXT: Record<
     text: "Tocmai am comandat — motivul meu pe poliester premium. On me. In your head.",
     banner: "✓ Plată reușită!",
     processing: "✓ Plată confirmată – comanda ta este în procesare.",
+    delayed:
+      "✓ Plată confirmată. Confirmarea comenzii durează mai mult decât de obicei – o vei primi pe e-mail. Te rugăm să nu plătești din nou.",
     pending: "Plata nu a fost încă confirmată. Coșul tău rămâne salvat.",
     share: "Distribuie",
     copied: "Link copiat!",
@@ -40,6 +45,8 @@ const SHARE_TEXT: Record<
     text: "Just ordered — my design on performance polyester. On me. In your head.",
     banner: "✓ Payment successful!",
     processing: "✓ Payment confirmed – your order is being processed.",
+    delayed:
+      "✓ Payment confirmed. Order confirmation is taking longer than usual – you will receive it by email. Please do not pay again.",
     pending: "Payment is awaiting confirmation. Your cart is still saved.",
     share: "Share",
     copied: "Link copied!",
@@ -50,7 +57,7 @@ const MAX_ORDER_CHECKS = 20;
 
 export default function PaymentSuccessBanner() {
   const [status, setStatus] = useState<
-    "paid" | "processing" | "pending" | null
+    "paid" | "processing" | "delayed" | "pending" | null
   >(null);
   const [copied, setCopied] = useState(false);
   const [locale, setLocale] = useState("de");
@@ -111,6 +118,9 @@ export default function PaymentSuccessBanner() {
     function retryOrderCheck() {
       if (++attempts < MAX_ORDER_CHECKS) {
         timer = setTimeout(() => void checkPayment(sessionId!), 3000);
+      } else {
+        // Paid at Stripe but no stored order after all checks: tell the customer what happens next.
+        setStatus("delayed");
       }
     }
     void checkPayment(sessionId);
@@ -153,7 +163,7 @@ export default function PaymentSuccessBanner() {
         background:
           status === "paid"
             ? "#15803d"
-            : status === "processing"
+            : status === "processing" || status === "delayed"
               ? "#1d4ed8"
               : "#854d0e",
         color: "#fff",
@@ -175,7 +185,9 @@ export default function PaymentSuccessBanner() {
           ? t.banner
           : status === "processing"
             ? t.processing
-            : t.pending}
+            : status === "delayed"
+              ? t.delayed
+              : t.pending}
       </span>
       {status === "paid" && (
         <button

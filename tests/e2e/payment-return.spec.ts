@@ -62,3 +62,25 @@ test("checkout return confirms once the webhook has stored the order @smoke", as
   ).toBeVisible({ timeout: 20000 });
   expect(await readCart(page)).toBeNull();
 });
+
+test("checkout return explains a delayed order after the last status check @smoke", async ({
+  page,
+}) => {
+  await seedPendingPurchase(page);
+  await page.clock.install();
+  let calls = 0;
+  await page.route("**/api/payments/checkout-status?*", (route) => {
+    calls++;
+    return route.fulfill({ json: { paid: true, orderSaved: false, amount: 49.48 } });
+  });
+  await page.goto("/?payment=success&session_id=cs_test_fixture");
+  await expect(
+    page.getByRole("status").filter({ hasText: "Auftrag wird verarbeitet" }),
+  ).toBeVisible({ timeout: 20000 });
+  for (let i = 0; i < 25 && calls < 20; i++) await page.clock.runFor(3100);
+  await expect(
+    page.getByRole("status").filter({ hasText: "Bitte nicht erneut bezahlen" }),
+  ).toBeVisible({ timeout: 20000 });
+  expect(calls).toBe(20);
+  expect(await readCart(page)).not.toBeNull();
+});
