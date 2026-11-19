@@ -27,7 +27,7 @@ export const translations = {
       bundleHint: 'Wird im Warenkorb automatisch angewendet.',
       essentialSetLabel: 'Essential Set',
       essentialSetCta: 'Essential Set ansehen',
-      essentialSetSave: (amount: string) => `Du sparst €${amount}`,
+      essentialSetSave: (amount: string) => `Du sparst ${amount}`,
     },
     shop: {
       label: 'Atelier',
@@ -227,7 +227,7 @@ export const translations = {
       bundleHint: 'Se aplică automat în coș.',
       essentialSetLabel: 'Essential Set',
       essentialSetCta: 'Vezi Essential Set',
-      essentialSetSave: (amount: string) => `Economisești €${amount}`,
+      essentialSetSave: (amount: string) => `Economisești ${amount}`,
     },
     shop: {
       label: 'Atelier',
@@ -427,7 +427,7 @@ export const translations = {
       bundleHint: 'Applied automatically in your cart.',
       essentialSetLabel: 'Essential Set',
       essentialSetCta: 'Explore the Essential Set',
-      essentialSetSave: (amount: string) => `You save €${amount}`,
+      essentialSetSave: (amount: string) => `You save ${amount}`,
     },
     shop: {
       label: 'Studio',

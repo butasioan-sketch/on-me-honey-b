@@ -48,7 +48,7 @@ test.describe("Visual Quality Check - AirFit Pro T-Shirt", () => {
     await expect(page.locator("h1").first()).toContainText("AirFit Pro");
     await expect(
       page
-        .getByText(/^€44[.,]99$/)
+        .getByText(/^(€\s?44[.,]99|44[.,]99\s?€)$/)
         .filter({ visible: true })
         .first(),
     ).toBeVisible();
@@ -138,7 +138,7 @@ test.describe("Visual Quality Check - AirFit Pro Shorts", () => {
     await expect(page.locator("h1").first()).toContainText("Shorts");
     await expect(
       page
-        .getByText(/^€39[.,]99$/)
+        .getByText(/^(€\s?39[.,]99|39[.,]99\s?€)$/)
         .filter({ visible: true })
         .first(),
     ).toBeVisible();
@@ -249,7 +249,7 @@ test.describe("Visual Quality Check - Warenkorb & Bundle", () => {
     // Prüfe Bundle-Preis (74,99€ statt 44,99€ + 39,99€ = 84,98€)
     await expect(
       page
-        .getByText(/^€?74[.,]99(?: €)?$/)
+        .getByText(/^(€\s?74[.,]99|74[.,]99\s?€)$/)
         .filter({ visible: true })
         .first(),
     ).toBeVisible();
@@ -318,13 +318,13 @@ test.describe("Visual Quality Check - Homepage & Navigation", () => {
     await expect(page.locator("text=AirFit Pro").first()).toBeVisible();
     await expect(
       page
-        .getByText(/^€44[.,]99$/)
+        .getByText(/^(€\s?44[.,]99|44[.,]99\s?€)$/)
         .filter({ visible: true })
         .first(),
     ).toBeVisible();
     await expect(
       page
-        .getByText(/^€39[.,]99$/)
+        .getByText(/^(€\s?39[.,]99|39[.,]99\s?€)$/)
         .filter({ visible: true })
         .first(),
     ).toBeVisible();

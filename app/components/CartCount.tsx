@@ -9,9 +9,10 @@ import {
   isBundleEligible,
   type MerchandiseItem,
 } from "@/lib/pricing";
+import { formatEuro } from "@/lib/format-price";
 
 export default function CartCount() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const pathname = usePathname();
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
@@ -104,7 +105,7 @@ export default function CartCount() {
             {count}
           </span>
           {showPrice && (
-            <span className="cart-label-text">€{total.toFixed(2)}</span>
+            <span className="cart-label-text">{formatEuro(total, locale)}</span>
           )}
         </span>
       ) : (

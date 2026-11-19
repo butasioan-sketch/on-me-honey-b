@@ -53,7 +53,7 @@ test.describe("Smoke Tests", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       /AirFit/i,
     );
-    await expect(page.locator("body")).toContainText("44.99");
+    await expect(page.locator("body")).toContainText(/44[.,]99/);
   });
 
   test("/product/2 shows 39.99 and Shorts @smoke", async ({ page }) => {
@@ -61,7 +61,7 @@ test.describe("Smoke Tests", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       /Shorts/i,
     );
-    await expect(page.locator("body")).toContainText("39.99");
+    await expect(page.locator("body")).toContainText(/39[.,]99/);
   });
 
   test("/product/001 is not 404 and contains AirFit @smoke", async ({
