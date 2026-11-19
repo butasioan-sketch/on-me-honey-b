@@ -1,3 +1,10 @@
+/* Lange deutsche Produktnamen („Dekokissenbezüge“) liefen auf Handybreite über den Rand
+   und erzeugten seitliches Scrollen. Überschriften dürfen trennen und umbrechen. */
+h1, h2, h3 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 /* ── ON ME HONEY B Design Tokens ── */
 :root {
   /* Backgrounds */
@@ -214,9 +221,6 @@ textarea {
     padding: 0.8rem 0.85rem !important;
     position: relative;
   }
-  .site-header-nav {
-    display: none !important;
-  }
   .brand-text {
     display: flex !important;
     flex-direction: column;
@@ -226,6 +230,15 @@ textarea {
      (~130px) — auf Telefonbreite nur Icon + Anzahl-Badge, wie in vielen Shop-Headern üblich. */
   .cart-label-text {
     display: none;
+  }
+}
+
+/* Die volle Navigation braucht ca. 920px. Darunter (Tablets, kleine Laptops) lief sie
+   über den Rand und erzeugte seitliches Scrollen auf jeder Seite (gemessen 700–900px).
+   Bis 1000px daher das Menü-Symbol statt der ausgeschriebenen Navigation. */
+@media (max-width: 1000px) {
+  .site-header-nav {
+    display: none !important;
   }
   .mobile-menu-button {
     display: flex !important;
