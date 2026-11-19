@@ -61,7 +61,7 @@ export default function TrackingPage() {
             placeholder="PLT-..."
             style={{ flex: 1, background: '#121212', border: '1px solid rgba(255,255,255,0.10)', borderRadius: '10px', padding: '0.85rem 1rem', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
           />
-          <button onClick={search} disabled={loading} style={{ background: '#D4AF37', color: '#fff', border: 'none', borderRadius: '10px', padding: '0.85rem 1.5rem', fontWeight: 700, fontSize: '0.9rem', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}>
+          <button onClick={search} disabled={loading} style={{ background: '#D4AF37', color: '#0a0a0a', border: 'none', borderRadius: '10px', padding: '0.85rem 1.5rem', fontWeight: 700, fontSize: '0.9rem', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}>
             {loading ? '...' : 'Suchen'}
           </button>
         </div>
@@ -94,14 +94,14 @@ export default function TrackingPage() {
                   return (
                     <div key={step.key} style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: i < STEPS.length - 1 ? '0.25rem' : 0 }}>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: done ? '#D4AF37' : '#1c1c1c', border: done ? 'none' : '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: '#fff', flexShrink: 0 }}>
+                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: done ? '#D4AF37' : '#1c1c1c', border: done ? 'none' : '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: done ? '#0a0a0a' : '#fff', flexShrink: 0 }}>
                           {done ? '✓' : ''}
                         </div>
                         {i < STEPS.length - 1 && (
                           <div style={{ width: '2px', height: '22px', background: i < currentStep ? '#D4AF37' : 'rgba(255,255,255,0.1)' }} />
                         )}
                       </div>
-                      <span style={{ fontSize: '0.9rem', color: active ? '#fff' : done ? '#bbb' : '#666', fontWeight: active ? 700 : 500, paddingBottom: i < STEPS.length - 1 ? '1.2rem' : 0 }}>
+                      <span style={{ fontSize: '0.9rem', color: active ? '#fff' : done ? '#bbb' : '#8f8f8f', fontWeight: active ? 700 : 500, paddingBottom: i < STEPS.length - 1 ? '1.2rem' : 0 }}>
                         {step.label}
                       </span>
                     </div>

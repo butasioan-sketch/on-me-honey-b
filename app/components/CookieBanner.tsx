@@ -59,7 +59,7 @@ export default function CookieBanner() {
         {t.cookie.text}{" "}
         <Link
           href="/datenschutz"
-          style={{ color: "#D4AF37", textDecoration: "none" }}
+          style={{ color: "#D4AF37", textDecoration: "underline", textUnderlineOffset: 2 }}
         >
           {t.cookie.privacy}
         </Link>

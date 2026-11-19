@@ -5,6 +5,14 @@ h1, h2, h3 {
   hyphens: auto;
 }
 
+/* Links im Fließtext nicht nur über die Farbe erkennbar (WCAG 1.4.1, axe link-in-text-block):
+   Gold auf hellem Fließtext hatte nur 1,1:1 Kontrast zum umgebenden Text. */
+p a:not([class]),
+li a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ── ON ME HONEY B Design Tokens ── */
 :root {
   /* Backgrounds */
@@ -25,8 +33,8 @@ h1, h2, h3 {
   --plt-text: #ffffff;
   --plt-text-secondary: #e8d7b8;
   --plt-text-muted: #a89968;
-  --plt-text-faint: #6b5d3f;
-  --plt-text-ghost: #3d3520;
+  --plt-text-faint: #a8996a; /* WCAG AA auf #0a0a0a (vorher 3,1:1) */
+  --plt-text-ghost: #8c7c54; /* WCAG AA auf #0a0a0a (vorher 1,6:1) */
 
   /* Borders */
   --plt-border: rgba(212, 175, 55, 0.12);
@@ -426,7 +434,7 @@ textarea {
   border-radius: var(--plt-r-full);
   border: none;
   background: transparent;
-  color: #777;
+  color: #a0a0a0; /* WCAG AA: 6,2:1 (vorher #777 = 3,7:1) */
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -456,8 +464,9 @@ textarea {
 }
 
 .plt-print-guide-text {
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.8); /* WCAG AA über dem Shirtfoto (vorher 3,2:1 bei 9 px) */
+  font-size: 0.7rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;

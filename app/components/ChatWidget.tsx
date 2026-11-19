@@ -251,7 +251,7 @@ export default function ChatWidget({ locale = "de" }: Props) {
               disabled={loading || !input.trim()}
               style={{
                 background: "#D4AF37",
-                color: "#fff",
+                color: "#0a0a0a",
                 border: "none",
                 borderRadius: "8px",
                 padding: "0.5rem 0.95rem",

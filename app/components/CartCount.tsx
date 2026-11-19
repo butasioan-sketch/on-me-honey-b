@@ -61,7 +61,7 @@ export default function CartCount() {
         alignItems: "center",
         gap: "0.4rem",
         textDecoration: "none",
-        color: "#fff",
+        color: count > 0 ? "#0a0a0a" : "#fff",
         padding: "0.5rem 0.9rem",
         borderRadius: "999px",
         background: count > 0 ? "#D4AF37" : "rgba(255,255,255,0.06)",
