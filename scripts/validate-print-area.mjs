@@ -47,6 +47,29 @@ for (const [key, p] of Object.entries(cfg.products)) {
   }
 }
 
+// Vorläufige Profile aus den 360°-Modellen (Bekleidung vorne + hinten), siehe
+// lib/catalog/print-profiles-draft.json und blender/lib/render_print_views.py.
+const draftPath = path.join(ROOT, 'lib/catalog/print-profiles-draft.json');
+if (fs.existsSync(draftPath)) {
+  const draft = JSON.parse(fs.readFileSync(draftPath, 'utf8'));
+  for (const p of draft.profiles) {
+    if (only && p.sku !== only) continue;
+    for (const side of ['front', 'back']) {
+      const ov = p.overlay?.[side];
+      const src = path.join(ROOT, 'public/products', p.sku, `render-${side}.png`);
+      const ok = ov && ov.widthMm > 0 && ov.heightMm > 0 &&
+        ov.widthMm <= A4.widthMm && ov.heightMm <= A4.heightMm &&
+        ov.left >= 0 && ov.top >= 0 && ov.left + ov.width <= 100 && ov.top + ov.height <= 100 &&
+        fs.existsSync(src);
+      console.log(`${ok ? '✅' : '❌'} entwurf ${p.sku}/${side}: ${ov ? `${ov.widthMm} × ${ov.heightMm} mm` : 'fehlt'}`);
+      if (!ok) {
+        failed++;
+        console.error('   → Druckfläche fehlt, größer als A4, außerhalb des Bildes oder Render fehlt');
+      }
+    }
+  }
+}
+
 if (failed === 0) {
   console.log('\n✅ Alle Overlays A4-konform!');
 } else {
