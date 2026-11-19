@@ -16,7 +16,7 @@ test("Atelier: Motiv und Ebenen sind per Tastatur bedienbar @smoke", async ({ pa
 
   const motif = page.getByRole("button", { name: "Motiv 1" });
   await expect(motif).toBeVisible({ timeout: 20000 });
-  await expect(page.getByRole("button", { name: /Bild 1/ })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "Bild 1", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByLabel("Zoom")).toBeVisible();
 
   const before = await motif.evaluate((el) => (el as HTMLElement).style.left + "|" + (el as HTMLElement).style.top);

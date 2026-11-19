@@ -434,8 +434,7 @@ export default function ProductPage() {
                   lineHeight: 1.5,
                 }}
               >
-                Das Druckbild ist für Größe L kalibriert — auf {size} wirkt es
-                proportional angepasst.
+                {t.product.sizeCalibrationNote.replace("{size}", size)}
               </p>
             )}
             {id === "1" && (

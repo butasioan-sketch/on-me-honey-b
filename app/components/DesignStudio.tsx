@@ -204,7 +204,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
   const atLimit = currentLayers.length >= MAX_LAYERS_PER_SIDE;
 
   const miniBtnStyle: React.CSSProperties = {
-    width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center',
     background: 'transparent', border: 'none', color: '#999', cursor: 'pointer', fontSize: '0.75rem', borderRadius: '4px',
   };
 
@@ -308,12 +308,12 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
               >
                 <img src={layer.src} alt="" style={{ width: 18, height: 18, objectFit: 'cover', borderRadius: 4 }} />
                 <span style={{ fontSize: '0.68rem', color: '#ccc', maxWidth: 70, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  Bild {idx + 1}
+                  {t.studio.layerName.replace('{n}', String(idx + 1))}
                 </span>
               </button>
-              <button type="button" title={t.studio.moveBackward} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'backward'); }} disabled={idx === 0} style={miniBtnStyle}>↓</button>
-              <button type="button" title={t.studio.moveForward} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'forward'); }} disabled={idx === currentLayers.length - 1} style={miniBtnStyle}>↑</button>
-              <button type="button" title={t.studio.remove} onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} style={{ ...miniBtnStyle, color: '#f87171' }}>×</button>
+              <button type="button" title={t.studio.moveBackward} aria-label={`${t.studio.moveBackward}: ${t.studio.layerName.replace('{n}', String(idx + 1))}`} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'backward'); }} disabled={idx === 0} style={miniBtnStyle}><span aria-hidden="true">↓</span></button>
+              <button type="button" title={t.studio.moveForward} aria-label={`${t.studio.moveForward}: ${t.studio.layerName.replace('{n}', String(idx + 1))}`} onClick={(e) => { e.stopPropagation(); moveLayer(layer.id, 'forward'); }} disabled={idx === currentLayers.length - 1} style={miniBtnStyle}><span aria-hidden="true">↑</span></button>
+              <button type="button" title={t.studio.remove} aria-label={`${t.studio.remove}: ${t.studio.layerName.replace('{n}', String(idx + 1))}`} onClick={(e) => { e.stopPropagation(); removeLayer(layer.id); }} style={{ ...miniBtnStyle, color: '#f87171' }}><span aria-hidden="true">×</span></button>
             </div>
           ))}
         </div>
