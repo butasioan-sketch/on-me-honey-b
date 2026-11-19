@@ -60,11 +60,22 @@ export default function AdminOrdersPage() {
     const idx = STATUS_FLOW.indexOf(order.status);
     if (idx < 0 || idx >= STATUS_FLOW.length - 1) return;
     const next = STATUS_FLOW[idx + 1];
-    await fetch("/api/orders", {
+    await setStatus(order, next);
+  };
+
+  // Status setzen und ehrlich melden, ob die Kundenmail vom Mail-Dienst angenommen wurde
+  const setStatus = async (order: Order, status: Order["status"]) => {
+    const res = await fetch("/api/orders", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: order.id, status: next }),
+      body: JSON.stringify({ id: order.id, status }),
     });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.success === false) {
+      window.alert(`Status für ${order.id} wurde NICHT geändert.`);
+    } else if (data.mailAccepted === false) {
+      window.alert(`Status ${status} gespeichert – die Kunden-E-Mail wurde vom Mail-Dienst NICHT angenommen.`);
+    }
     load();
   };
 
@@ -389,6 +400,23 @@ export default function AdminOrdersPage() {
                         → On Hold
                       </button>
                     )}
+                  {order.status === "on_hold" && !missing && (
+                    <button
+                      onClick={() => setStatus(order, "paid")}
+                      style={{
+                        background: "rgba(74,222,128,0.12)",
+                        border: "1px solid #4ade80",
+                        color: "#bbf7d0",
+                        padding: "0.4rem 1rem",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        fontSize: "0.8rem",
+                        marginRight: "0.4rem",
+                      }}
+                    >
+                      ✓ Freigeben (paid)
+                    </button>
+                  )}
                   {STATUS_FLOW.indexOf(order.status) < STATUS_FLOW.length - 1 &&
                     STATUS_FLOW.includes(order.status) &&
                     !missing && (

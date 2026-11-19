@@ -10,7 +10,8 @@ export default function DesignPreview({ designId }: { designId: string }) {
 
   useEffect(() => {
     let active = true;
-    fetch(`/api/designs?id=${encodeURIComponent(designId)}`)
+    // Admin-Route: liefert auch bezahlte (eingefrorene) Motive
+    fetch(`/admin/api/design?id=${encodeURIComponent(designId)}`)
       .then(r => r.json())
       .then(data => {
         if (!active) return;

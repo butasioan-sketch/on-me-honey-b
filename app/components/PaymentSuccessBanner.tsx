@@ -12,6 +12,7 @@ const SHARE_TEXT: Record<
     banner: string;
     processing: string;
     delayed: string;
+    asyncPending: string;
     pending: string;
     share: string;
     copied: string;
@@ -26,6 +27,8 @@ const SHARE_TEXT: Record<
       "✓ Zahlung bestätigt. Die Auftragsbestätigung dauert länger als üblich – du erhältst sie per E-Mail. Bitte nicht erneut bezahlen.",
     pending:
       "Die Zahlung ist noch nicht bestätigt. Dein Warenkorb bleibt erhalten.",
+    asyncPending:
+      "Deine Zahlung (z. B. Lastschrift) wird von der Bank bearbeitet. Bitte nicht erneut bezahlen – du erhältst eine E-Mail, sobald sie bestätigt ist.",
     share: "Teilen",
     copied: "Link kopiert!",
   },
@@ -37,6 +40,8 @@ const SHARE_TEXT: Record<
     delayed:
       "✓ Plată confirmată. Confirmarea comenzii durează mai mult decât de obicei – o vei primi pe e-mail. Te rugăm să nu plătești din nou.",
     pending: "Plata nu a fost încă confirmată. Coșul tău rămâne salvat.",
+    asyncPending:
+      "Plata ta (de ex. debit direct) este procesată de bancă. Te rugăm să nu plătești din nou – vei primi un e-mail după confirmare.",
     share: "Distribuie",
     copied: "Link copiat!",
   },
@@ -48,6 +53,8 @@ const SHARE_TEXT: Record<
     delayed:
       "✓ Payment confirmed. Order confirmation is taking longer than usual – you will receive it by email. Please do not pay again.",
     pending: "Payment is awaiting confirmation. Your cart is still saved.",
+    asyncPending:
+      "Your payment (e.g. direct debit) is being processed by your bank. Please do not pay again – you will receive an email once it is confirmed.",
     share: "Share",
     copied: "Link copied!",
   },
@@ -57,7 +64,7 @@ const MAX_ORDER_CHECKS = 20;
 
 export default function PaymentSuccessBanner() {
   const [status, setStatus] = useState<
-    "paid" | "processing" | "delayed" | "pending" | null
+    "paid" | "processing" | "delayed" | "asyncPending" | "pending" | null
   >(null);
   const [copied, setCopied] = useState(false);
   const [locale, setLocale] = useState("de");
@@ -85,7 +92,8 @@ export default function PaymentSuccessBanner() {
         // A failed poll after Stripe confirmed payment keeps "processing".
         if (result === null && attempts > 0) return retryOrderCheck();
         if (result?.paid !== true) {
-          setStatus("pending");
+          // Lastschrift in Bearbeitung: klarer Hinweis statt „nicht bestätigt“ (verhindert Doppelzahlung)
+          setStatus(result?.paymentProcessing === true ? "asyncPending" : "pending");
           return;
         }
         if (result.orderSaved !== true) {
@@ -163,7 +171,7 @@ export default function PaymentSuccessBanner() {
         background:
           status === "paid"
             ? "#15803d"
-            : status === "processing" || status === "delayed"
+            : status === "processing" || status === "delayed" || status === "asyncPending"
               ? "#1d4ed8"
               : "#854d0e",
         color: "#fff",
@@ -180,14 +188,16 @@ export default function PaymentSuccessBanner() {
         animation: "plt-fadeInUp 0.4s ease",
       }}
     >
-      <span role={status === "delayed" ? "alert" : "status"}>
+      <span role={status === "delayed" || status === "asyncPending" ? "alert" : "status"}>
         {status === "paid"
           ? t.banner
           : status === "processing"
             ? t.processing
             : status === "delayed"
               ? t.delayed
-              : t.pending}
+              : status === "asyncPending"
+                ? t.asyncPending
+                : t.pending}
       </span>
       {status === "paid" && (
         <button

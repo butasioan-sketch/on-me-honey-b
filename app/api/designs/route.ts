@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { PRINT_SPEC } from '@/lib/print-spec';
 import { isPrintReadyDataUrl } from '@/lib/print-export';
 import { initDb } from '@/lib/db';
+import { checkRateLimit, clientIp } from '@/lib/rate-limit';
+import { randomUUID } from 'node:crypto';
 
 async function getSql() {
   const url = process.env.DATABASE_URL || process.env.POSTGRES_URL;
@@ -35,14 +37,27 @@ function sanitizeTransform(raw: unknown): { scale: number; x: number; y: number 
   };
 }
 
+const DATAURL_RE = /^data:image\/(png|jpeg);base64,[A-Za-z0-9+/=]+$/;
+const MAX_DATAURL = 3_600_000; // Zeichen je Bild (A4 300 dpi JPEG liegt bei ca. 2,6 MB)
+const MAX_JSON = 20_000; // Zeichen für meta/zonesData
+const okImage = (s: unknown): s is string =>
+  typeof s === 'string' && s.length <= MAX_DATAURL && isPrintReadyDataUrl(s) && DATAURL_RE.test(s);
+
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(`design:${clientIp(request)}`, 20, 600_000);
+  if (!rl.ok) {
+    return NextResponse.json({ error: 'Zu viele Anfragen' }, { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } });
+  }
   try {
     await ensureInit();
     const contentLength = request.headers.get('content-length');
     const sizeMb = contentLength ? (parseInt(contentLength) / 1024 / 1024).toFixed(2) : '?';
     console.log('[designs POST] content-length:', sizeMb, 'MB');
 
-    const body = await request.json();
+    const body = await request.json().catch(() => null);
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json({ error: 'Ungültige Anfrage' }, { status: 400 });
+    }
     const sql = await getSql();
     if (!sql) return NextResponse.json({ error: 'no db' }, { status: 500 });
 
@@ -51,24 +66,25 @@ export async function POST(request: NextRequest) {
     if (!front && !back) {
       return NextResponse.json({ error: 'Weder front noch back übergeben' }, { status: 400 });
     }
-    if (front && !isPrintReadyDataUrl(front)) {
+    if (front && !okImage(front)) {
       return NextResponse.json({ error: 'front ist kein druckfertiges Bild' }, { status: 400 });
     }
-    if (back && !isPrintReadyDataUrl(back)) {
+    if (back && !okImage(back)) {
       return NextResponse.json({ error: 'back ist kein druckfertiges Bild' }, { status: 400 });
     }
 
     const frontTransform = sanitizeTransform(body.frontTransform);
     const backTransform = sanitizeTransform(body.backTransform);
-    const meta = body.meta && typeof body.meta === 'object' ? body.meta : null;
+    const meta = body.meta && typeof body.meta === 'object' && JSON.stringify(body.meta).length <= MAX_JSON ? body.meta : null;
     // Kundenblick-Preview ist ein Reklamations-Beweis, kein Kernfeature — bei Problemen
     // (fehlt/kaputt) einfach weglassen statt den ganzen Design-Save abzulehnen.
-    const frontPreview = body.frontPreview && isPrintReadyDataUrl(body.frontPreview) ? body.frontPreview : null;
-    const backPreview = body.backPreview && isPrintReadyDataUrl(body.backPreview) ? body.backPreview : null;
+    const frontPreview = okImage(body.frontPreview) ? body.frontPreview : null;
+    const backPreview = okImage(body.backPreview) ? body.backPreview : null;
     // Multi-Zone Support: zonesData enthält alle Druckzonen mit ihren Designs
-    const zonesData = body.zonesData && typeof body.zonesData === 'object' ? JSON.stringify(body.zonesData) : null;
+    const zonesJson = body.zonesData && typeof body.zonesData === 'object' ? JSON.stringify(body.zonesData) : null;
+    const zonesData = zonesJson && zonesJson.length <= MAX_JSON ? zonesJson : null;
 
-    const id = `DSGN-${Date.now()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+    const id = `DSGN-${Date.now()}-${randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase()}`;
     await sql.query(
       `INSERT INTO designs (id, front_image, back_image, product_id, front_transform, back_transform, meta, front_preview, back_preview, zones_data)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
@@ -83,9 +99,8 @@ export async function POST(request: NextRequest) {
     );
     return NextResponse.json({ id, success: true });
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : 'Fehler';
-    console.error('[designs POST] Fehler:', msg);
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error('[designs POST] Fehler:', err instanceof Error ? err.message : err);
+    return NextResponse.json({ error: 'Interner Fehler' }, { status: 500 });
   }
 }
 
@@ -96,10 +111,17 @@ export async function GET(request: NextRequest) {
     if (!id) return NextResponse.json({ error: 'no id' }, { status: 400 });
     const sql = await getSql();
     if (!sql) return NextResponse.json({ error: 'no db' }, { status: 500 });
-    const rows = await sql.query(`SELECT * FROM designs WHERE id=$1`, [id]) as Record<string, unknown>[];
+    // Öffentlich nur Motive, die noch nicht bezahlt/eingefroren sind (Warenkorb-Vorschau),
+    // und nur die Bildspalten. Bezahlte Designs liest der Admin über /admin/api/design.
+    const rows = await sql.query(
+      `SELECT id, product_id, front_image, back_image, front_preview, back_preview
+         FROM designs WHERE id=$1 AND frozen_at IS NULL`,
+      [id],
+    ) as Record<string, unknown>[];
     if (!rows.length) return NextResponse.json({ error: 'not found' }, { status: 404 });
     return NextResponse.json({ design: rows[0] });
   } catch (err: unknown) {
-    return NextResponse.json({ error: err instanceof Error ? err.message : 'Fehler' }, { status: 500 });
+    console.error('[designs GET] Fehler:', err instanceof Error ? err.message : err);
+    return NextResponse.json({ error: 'Interner Fehler' }, { status: 500 });
   }
 }

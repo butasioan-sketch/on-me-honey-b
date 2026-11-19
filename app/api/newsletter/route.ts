@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { addNewsletterSubscriber, confirmNewsletterSubscriber, initDb } from '@/lib/db';
 import { emailFrom } from "@/lib/email-from";
+import { checkRateLimit, clientIp } from '@/lib/rate-limit';
 
 let initialized = false;
 async function ensureInit() {
@@ -68,9 +69,14 @@ async function sendConfirmationEmail(email: string, token: string, locale: strin
 }
 
 export async function POST(request: NextRequest) {
+  // Gegen Massen-Eintragungen fremder Adressen: still verwerfen, gleiche Antwort
+  const rl = checkRateLimit(`nl:${clientIp(request)}`, 3, 3_600_000);
+  if (!rl.ok) return NextResponse.json({ status: 'pending' });
   try {
     await ensureInit();
-    const { email, locale = 'de' } = await request.json();
+    const body = await request.json().catch(() => ({}));
+    const email = typeof body.email === 'string' ? body.email.trim() : '';
+    const locale = ['de', 'ro', 'en'].includes(body.locale) ? body.locale : 'de';
 
     if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json({ error: 'invalid_email' }, { status: 400 });
@@ -79,15 +85,16 @@ export async function POST(request: NextRequest) {
     const token = crypto.randomUUID();
     const result = await addNewsletterSubscriber(email.toLowerCase(), token, locale);
 
+    // Keine Auskunft, ob eine Adresse bereits angemeldet ist (gleiche Antwort, keine zweite Mail)
     if (result === 'exists') {
-      return NextResponse.json({ status: 'exists' });
+      return NextResponse.json({ status: 'pending' });
     }
 
     await sendConfirmationEmail(email, token, locale);
     return NextResponse.json({ status: 'pending' });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : 'error';
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error('[newsletter] Fehler:', err instanceof Error ? err.message : err);
+    return NextResponse.json({ error: 'error' }, { status: 500 });
   }
 }
 

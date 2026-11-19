@@ -168,6 +168,26 @@ export function buildPrintJobPayload(
 const A4_PT: [number, number] = [595.28, 841.89]; // 210x297mm in PDF-Punkten (72dpi)
 const MARGIN = 42;
 
+// Standardschrift Helvetica kann nur WinAnsi. Rumänische Sonderzeichen, Emoji o. Ä. ließen
+// das PDF mit 500 abbrechen (kein Druckauftrag). Daher je Zeichen prüfen und ersetzen.
+const PDF_REPLACE: Record<string, string> = {
+  "ă": "a", "Ă": "A", "ș": "s", "Ș": "S", "ş": "s", "Ş": "S", "ț": "t", "Ț": "T", "ţ": "t", "Ţ": "T",
+  "→": "->", "←": "<-", "✓": "OK", "≈": "~", "−": "-",
+};
+export function pdfSafeText(text: string, font: PDFFont): string {
+  let out = "";
+  for (const ch of String(text)) {
+    const rep = PDF_REPLACE[ch] ?? ch;
+    try {
+      font.encodeText(rep);
+      out += rep;
+    } catch {
+      out += "?";
+    }
+  }
+  return out;
+}
+
 function drawText(
   page: PDFPage,
   font: PDFFont,
@@ -177,7 +197,7 @@ function drawText(
   size = 11,
   color = rgb(0.07, 0.07, 0.07),
 ) {
-  page.drawText(text, { x, y, size, font, color });
+  page.drawText(pdfSafeText(text, font), { x, y, size, font, color });
 }
 
 function parseDataUrl(

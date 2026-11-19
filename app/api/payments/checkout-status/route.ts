@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { hasOrderForStripeSession } from "@/lib/db";
+import { checkRateLimit, clientIp } from "@/lib/rate-limit";
 
 export async function GET(request: Request) {
+  const rl = checkRateLimit(`cs:${clientIp(request)}`, 40, 60_000);
+  if (!rl.ok) return NextResponse.json({ error: "rate" }, { status: 429 });
   const id = new URL(request.url).searchParams.get("session_id") ?? "";
   if (!/^cs_(test|live)_[A-Za-z0-9_]{1,160}$/.test(id)) {
     return NextResponse.json({ error: "Invalid session" }, { status: 400 });
@@ -26,8 +29,10 @@ export async function GET(request: Request) {
     const orderSaved = paid
       ? await hasOrderForStripeSession(id).catch(() => false)
       : false;
+    // Lastschrift/Klarna: Checkout abgeschlossen, Bank bestätigt erst später
+    const paymentProcessing = session.status === "complete" && session.payment_status === "unpaid";
     return NextResponse.json(
-      { paid, orderSaved, amount: paid ? (session.amount_total ?? 0) / 100 : 0 },
+      { paid, orderSaved, paymentProcessing, amount: paid ? (session.amount_total ?? 0) / 100 : 0 },
       { headers: { "Cache-Control": "private, no-store" } },
     );
   } catch (error) {

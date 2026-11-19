@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, clientIp } from '@/lib/rate-limit';
 
 const SYSTEM_PROMPT = `Du bist der ON ME Concierge — Premium-Berater für ON ME HONEY B.
 
@@ -39,11 +40,18 @@ REGELN:
 - Englisch gefragt → Englisch. Sonst Deutsch.`;
 
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(`chat:${clientIp(request)}`, 10, 60_000);
+  if (!rl.ok) {
+    return NextResponse.json({ error: 'Zu viele Anfragen' }, { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } });
+  }
   try {
     const { message, locale, history } = await request.json();
 
-    if (!message || message.trim().length === 0) {
+    if (typeof message !== 'string' || message.trim().length === 0) {
       return NextResponse.json({ error: 'Nachricht fehlt' }, { status: 400 });
+    }
+    if (message.length > 1000) {
+      return NextResponse.json({ error: 'Nachricht zu lang' }, { status: 400 });
     }
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -54,10 +62,12 @@ export async function POST(request: NextRequest) {
     }
 
     const messages = [
-      ...(history || []).slice(-6).map((h: { role: string; content: string }) => ({
-        role: h.role,
-        content: h.content,
-      })),
+      // Verlauf vom Client: nur echte Rollen, nur Text, gekürzt
+      ...(Array.isArray(history) ? history : [])
+        .slice(-6)
+        .filter((h: { role?: unknown; content?: unknown }) =>
+          (h?.role === 'user' || h?.role === 'assistant') && typeof h.content === 'string')
+        .map((h: { role: string; content: string }) => ({ role: h.role, content: h.content.slice(0, 1000) })),
       { role: 'user', content: message },
     ];
 

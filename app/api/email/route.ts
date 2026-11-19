@@ -109,12 +109,17 @@ async function fetchDesignImages(ids: string[]) {
   }
 }
 
+const escapeHtml = (v: unknown) =>
+  String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+const SAFE_IMG = /^data:image\/(png|jpeg);base64,[A-Za-z0-9+/=]+$/;
+const safeImg = (v?: string) => (v && SAFE_IMG.test(v) ? v : '');
+
 function buildDesignPreviewHtml(designs: { id: string; front_image?: string; back_image?: string }[]): string {
   if (!designs.length) return '';
   const blocks = designs.map((d) => {
     const imgs = [
-      d.front_image ? `<div style="text-align:center"><p style="color:#666;font-size:11px;margin:0 0 6px">Vorne</p><img src="${d.front_image}" alt="Vorne" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
-      d.back_image ? `<div style="text-align:center"><p style="color:#666;font-size:11px;margin:0 0 6px">Hinten</p><img src="${d.back_image}" alt="Hinten" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
+      safeImg(d.front_image) ? `<div style="text-align:center"><p style="color:#666;font-size:11px;margin:0 0 6px">Vorne</p><img src="${safeImg(d.front_image)}" alt="Vorne" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
+      safeImg(d.back_image) ? `<div style="text-align:center"><p style="color:#666;font-size:11px;margin:0 0 6px">Hinten</p><img src="${safeImg(d.back_image)}" alt="Hinten" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
     ].filter(Boolean).join('');
     if (!imgs) return '';
     return `<div style="margin-bottom:16px"><p style="color:#888;font-size:12px;margin-bottom:8px">Dein Motiv</p><div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">${imgs}</div></div>`;
@@ -124,9 +129,15 @@ function buildDesignPreviewHtml(designs: { id: string; front_image?: string; bac
 }
 
 function buildHtml(title: string, intro: string, d: OrderEmailData, footer: string, designPreview = ''): string {
+  const lineSum = d.items.reduce((sum, i) => sum + Number(i.price || 0) * Number(i.quantity || 0), 0);
+  // Versand und Essential-Set-Vorteil sind in der Summe enthalten, aber keine eigene Artikelzeile:
+  // als Ausgleichszeile zeigen, damit die Zeilen rechnerisch zur Summe passen.
+  const diff = Math.round((Number(d.total || 0) - lineSum) * 100) / 100;
   const itemRows = d.items.map(i =>
-    `<tr><td style="padding:8px 0;color:#888">${i.quantity}× ${i.name} (${i.size})</td><td style="padding:8px 0;text-align:right">€${(i.price * i.quantity).toFixed(2)}</td></tr>`
-  ).join('');
+    `<tr><td style="padding:8px 0;color:#888">${escapeHtml(i.quantity)}× ${escapeHtml(i.name)} (${escapeHtml(i.size)})</td><td style="padding:8px 0;text-align:right">€${(Number(i.price) * Number(i.quantity)).toFixed(2)}</td></tr>`
+  ).join('') + (diff !== 0 && d.items.length
+    ? `<tr><td style="padding:8px 0;color:#888">Versand / Set-Vorteil</td><td style="padding:8px 0;text-align:right">${diff > 0 ? '' : '−'}€${Math.abs(diff).toFixed(2)}</td></tr>`
+    : '');
 
   return `
   <div style="background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding:40px 20px;max-width:600px;margin:0 auto">

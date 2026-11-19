@@ -13,6 +13,7 @@ import {
 import type { Order } from "@/lib/types";
 import { buildPrintJobPayload } from "@/lib/print-job";
 import { readEmailDelivery } from "@/lib/email-delivery";
+import { randomUUID } from "node:crypto";
 
 export async function POST(request: NextRequest) {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -111,7 +112,7 @@ export async function POST(request: NextRequest) {
         designs.length < designIds.length ||
         designs.some((design) => !design.frontImage && !design.backImage);
 
-      const orderId = `OMHB-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const orderId = `OMHB-${Date.now()}-${randomUUID().replace(/-/g, "").slice(0, 8)}`;
       const order: Order = {
         id: orderId,
         stripeSessionId: session.id,
@@ -129,9 +130,20 @@ export async function POST(request: NextRequest) {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
-      const printJob = missingDesign
-        ? undefined
-        : buildPrintJobPayload(orderId, designs);
+      // Ein nicht druckbares Design (z. B. ohne Produktzuordnung) darf die bezahlte Bestellung nicht
+      // blockieren: dann ohne Druckauftrag als on_hold speichern, statt dauerhaft 500 zu liefern.
+      let printJob: ReturnType<typeof buildPrintJobPayload> | undefined;
+      if (!missingDesign) {
+        try {
+          printJob = buildPrintJobPayload(orderId, designs);
+        } catch (jobErr) {
+          console.error("[stripe-webhook] Druckauftrag nicht erstellbar, Bestellung on_hold:", {
+            orderId,
+            error: jobErr instanceof Error ? jobErr.message : "unknown",
+          });
+          order.status = "on_hold";
+        }
+      }
 
       // Store the snapshot with the order so a retry cannot observe a paid order without its print job.
       const created = await createOrder(order, printJob);
