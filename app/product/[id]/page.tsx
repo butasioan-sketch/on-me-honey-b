@@ -235,6 +235,7 @@ export default function ProductPage() {
         pages,
       });
       localStorage.setItem("on_me_honey_b_cart", JSON.stringify(cart));
+      window.dispatchEvent(new Event("cart-updated"));
       trackAddToCart(id, productName, unitPrice);
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
@@ -256,6 +257,7 @@ export default function ProductPage() {
     }
     setError("");
     setLoading(true);
+    let redirecting = false;
     try {
       const designId = await saveDesign();
       if (!designId) {
@@ -267,6 +269,8 @@ export default function ProductPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           paymentMethod: "card",
+          locale,
+          shippingId: DEFAULT_SHIPPING_ID,
           reference: `PROD-${id}-${size}`,
           shipping: getShipping(DEFAULT_SHIPPING_ID, DEFAULT_COUNTRY),
           total: unitPrice + getShipping(DEFAULT_SHIPPING_ID, DEFAULT_COUNTRY),
@@ -287,6 +291,7 @@ export default function ProductPage() {
       });
       const data = await res.json();
       if (data.redirectUrl) {
+        redirecting = true; // Button bleibt gesperrt, kein zweiter Checkout per Doppelklick
         // eslint-disable-next-line react-hooks/immutability
         window.location.href = data.redirectUrl;
       } else {
@@ -295,7 +300,7 @@ export default function ProductPage() {
     } catch {
       setError(t.errors.connection);
     } finally {
-      setLoading(false);
+      if (!redirecting) setLoading(false);
     }
   };
 
@@ -372,11 +377,15 @@ export default function ProductPage() {
             style={{
               fontSize: "1.75rem",
               fontWeight: 800,
-              marginBottom: "1.5rem",
+              marginBottom: "0.25rem",
               color: "#fff",
             }}
           >
             {formatEuro(unitPrice, locale)}
+          </p>
+          {/* PAngV: Endpreis, Steuerhinweis und Versandkosten direkt beim Preis */}
+          <p style={{ fontSize: "0.78rem", color: "#a0a0a0", marginBottom: "1.5rem" }}>
+            {t.product.priceNote} (<a href="/versand">{locale === "de" ? "Versandkosten" : locale === "ro" ? "costuri de livrare" : "shipping costs"}</a>)
           </p>
 
           <div style={{ marginBottom: "1.25rem" }}>

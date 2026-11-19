@@ -88,3 +88,17 @@ test("checkout return explains a delayed order after the last status check @smok
   expect(calls).toBe(20);
   expect(await readCart(page)).not.toBeNull();
 });
+
+test("checkout return warns not to pay again while a direct debit is processing @smoke", async ({
+  page,
+}) => {
+  await seedPendingPurchase(page);
+  await page.route("**/api/payments/checkout-status?*", (route) =>
+    route.fulfill({ json: { paid: false, orderSaved: false, paymentProcessing: true, amount: 0 } }),
+  );
+  await page.goto("/?payment=success&session_id=cs_test_fixture");
+  await expect(
+    page.getByRole("alert").filter({ hasText: "Bitte nicht erneut bezahlen" }),
+  ).toBeVisible({ timeout: 20000 });
+  expect(await readCart(page)).not.toBeNull();
+});

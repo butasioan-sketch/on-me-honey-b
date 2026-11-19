@@ -47,9 +47,11 @@ export default function CartCount() {
     update();
     window.addEventListener("storage", update);
     window.addEventListener("focus", update);
+    window.addEventListener("cart-updated", update);
     return () => {
       window.removeEventListener("storage", update);
       window.removeEventListener("focus", update);
+      window.removeEventListener("cart-updated", update);
     };
   }, []);
 

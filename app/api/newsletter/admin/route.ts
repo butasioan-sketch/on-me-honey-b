@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getNewsletterSubscribers, initDb } from '@/lib/db';
+import { isAdminRequest } from "@/lib/admin-auth";
 
 let initialized = false;
 async function ensureInit() {
@@ -7,16 +8,7 @@ async function ensureInit() {
 }
 
 function checkAdminAuth(request: NextRequest): boolean {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader?.startsWith('Basic ')) return false;
-
-  const base64 = authHeader.slice(6);
-  const decoded = Buffer.from(base64, 'base64').toString('utf-8');
-  const [, password] = decoded.split(':');
-
-  const adminPassword = process.env.ADMIN_PASSWORD;
-
-  return password === adminPassword;
+  return isAdminRequest(request);
 }
 
 export async function GET(request: NextRequest) {

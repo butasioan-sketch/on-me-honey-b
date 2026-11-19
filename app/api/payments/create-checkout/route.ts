@@ -17,6 +17,7 @@ import {
   type Country,
 } from "../../../../lib/shipping";
 import { PRODUCTS_133 } from "../../../../lib/products-all-133";
+import { getProduct } from "../../../../lib/products";
 
 type CheckoutItem = {
   productId?: string; // '1' Tee | '2' Shorts — default '1' fuer alte Aufrufer
@@ -316,19 +317,37 @@ export async function POST(request: Request) {
         );
       }
     }
+    const locale = (["de", "ro", "en"] as const).includes(body.locale) ? (body.locale as "de" | "ro" | "en") : "de";
     const priced: PricedItem[] = [];
     for (const item of items) {
       const productId = item.productId!; // Already validated above
+      // Name, Größe und Farbe nie ungeprüft vom Client übernehmen (Stripe, Bestellung, PDF, Mail)
+      const product = getProduct(productId);
+      if (!product) {
+        return NextResponse.json({ ok: false, error: "Artikel nicht verfügbar." }, { status: 400 });
+      }
+      if (!item.size || !product.sizes.includes(item.size)) {
+        return NextResponse.json({ ok: false, error: "Bitte eine gültige Größe wählen." }, { status: 400 });
+      }
+      const safeName = product.name[locale] || product.name.de;
+      const safeColor = product.colors[0]?.label[locale] || product.colors[0]?.label.de || "";
       let front: string | null = null;
       let back: string | null = null;
       let pages = 0;
       if (item.designId) {
         // Design existence already validated above
         const rows = (await sql.query(
-          `SELECT front_image, back_image, meta FROM designs WHERE id=$1`,
+          `SELECT front_image, back_image, meta, product_id FROM designs WHERE id=$1`,
           [item.designId],
         )) as Record<string, unknown>[];
         // rows.length guaranteed to be > 0 due to validation
+        if (rows.length && String(rows[0].product_id ?? "") !== productId) {
+          // Motiv eines anderen Artikels (oder ohne Zuordnung) würde falsch gedruckt bzw. abgerechnet
+          return NextResponse.json(
+            { ok: false, error: "Das Motiv gehört zu einem anderen Artikel. Bitte neu gestalten.", designId: item.designId },
+            { status: 400 },
+          );
+        }
         if (rows.length) {
           front = (rows[0].front_image as string) || null;
           back = (rows[0].back_image as string) || null;
@@ -348,14 +367,21 @@ export async function POST(request: Request) {
               : back
                 ? 1
                 : 0;
+          // Untergrenze: gespeicherte Ebenenliste bzw. mindestens 1 je Seite mit Bild
+          const listLen = (v: unknown) => (Array.isArray(v) ? v.length : 0);
+          const fCount = Math.max(frontCount, listLen(meta?.frontLayers), front ? 1 : 0);
+          const bCount = Math.max(backCount, listLen(meta?.backLayers), back ? 1 : 0);
           pages =
-            Math.max(0, Math.min(12, Math.round(frontCount))) +
-            Math.max(0, Math.min(12, Math.round(backCount)));
+            Math.max(0, Math.min(12, Math.round(fCount))) +
+            Math.max(0, Math.min(12, Math.round(bCount)));
         }
       }
       const qty = Math.round(Number(item.quantity || 1)); // Already validated 1-9
       priced.push({
         ...item,
+        name: safeName,
+        size: item.size,
+        color: safeColor,
         productId,
         pages,
         qty,
@@ -441,6 +467,15 @@ export async function POST(request: Request) {
           },
         },
       ],
+      custom_text: {
+        submit: {
+          message: {
+            de: "Maßanfertigung nach deinem Motiv: kein Widerrufsrecht (§ 312g Abs. 2 Nr. 1 BGB). Es gelten unsere AGB.",
+            ro: "Produs realizat la comandă după motivul tău: fără drept de retragere (§ 312g alin. 2 nr. 1 BGB). Se aplică termenii noștri.",
+            en: "Made to order from your design: no right of withdrawal (§ 312g (2) no. 1 BGB). Our terms apply.",
+          }[locale],
+        },
+      },
       success_url: `${siteUrl}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/?payment=cancel`,
       metadata: {
@@ -455,7 +490,7 @@ export async function POST(request: Request) {
           .slice(0, 490),
         shippingCountry: country,
         shippingMethod: shipOpt.carrier,
-        locale: body.locale || "de",
+        locale,
       },
     });
 

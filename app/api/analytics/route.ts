@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalyticsSummary, initDb, trackAnalyticsEvent } from "@/lib/db";
+import { isAdminRequest } from "@/lib/admin-auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,16 +20,7 @@ export async function POST(request: NextRequest) {
 }
 
 function checkAdminAuth(request: NextRequest): boolean {
-  const authHeader = request.headers.get("authorization");
-  if (!authHeader?.startsWith("Basic ")) return false;
-
-  const base64 = authHeader.slice(6);
-  const decoded = Buffer.from(base64, "base64").toString("utf-8");
-  const [, password] = decoded.split(":");
-
-  const adminPassword = process.env.ADMIN_PASSWORD;
-
-  return password === adminPassword;
+  return isAdminRequest(request);
 }
 
 export async function GET(request: NextRequest) {

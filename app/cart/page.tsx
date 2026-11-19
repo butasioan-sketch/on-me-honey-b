@@ -152,12 +152,14 @@ export default function CartPage() {
       items.map((i) => ({ id: i.id, name: i.name, price: i.price })),
     );
     const checkoutCart = localStorage.getItem("on_me_honey_b_cart");
+    let redirecting = false;
     try {
       const res = await fetch("/api/payments/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           paymentMethod: "card",
+          locale,
           reference: `CART-${Date.now()}`,
           shippingId: shipId,
           shipping,
@@ -185,6 +187,7 @@ export default function CartPage() {
             cart: checkoutCart,
           }));
         }
+        redirecting = true; // Button bleibt gesperrt, kein zweiter Checkout per Doppelklick
         window.location.href = data.redirectUrl;
       } else {
         setError(
@@ -194,7 +197,7 @@ export default function CartPage() {
     } catch {
       setError(t.errors.connection);
     } finally {
-      setLoading(false);
+      if (!redirecting) setLoading(false);
     }
   };
 
