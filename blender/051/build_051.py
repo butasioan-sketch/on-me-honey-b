@@ -78,7 +78,8 @@ for face in mesh.polygons:
     for loop_index in face.loop_indices:
         vertex = mesh.loops[loop_index].vertex_index
         row, col = divmod(vertex % (width * width), width)
-        uv.data[loop_index].uv = (col / SEGMENTS if vertex < width * width else 1 - col / SEGMENTS, row / SEGMENTS)
+        # Vorderseite links (u 0..0,5), Rückseite rechts (u 0,5..1): getrennte Motive vorne/hinten
+        uv.data[loop_index].uv = (0.5 * col / SEGMENTS if vertex < width * width else 0.5 + 0.5 * (1 - col / SEGMENTS), row / SEGMENTS)
 
 
 def add_seam(name, points, radius, closed=False):

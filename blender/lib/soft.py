@@ -59,7 +59,18 @@ class Builder:
         zs = [v.co.z for v in bm.verts]
         x0, x1, z0, z1 = min(xs), max(xs), min(zs), max(zs)
         sx, sz = max(x1 - x0, 1e-6), max(z1 - z0, 1e-6)
+        grid = getattr(self, "uv_grid", None) or {}
         for f in bm.faces:
+            if grid and all(l.vert in grid for l in f.loops):
+                # Abgewickelte Röhre (z. B. Socke): u = Umfang, v = Länge entlang der Mittellinie
+                uvs = [list(grid[l.vert]) for l in f.loops]
+                if max(u for u, _ in uvs) - min(u for u, _ in uvs) > 0.5:  # Naht schließen
+                    for uv in uvs:
+                        if uv[0] < 0.5:
+                            uv[0] += 1.0
+                for l, uv in zip(f.loops, uvs):
+                    l[self.uv].uv = (uv[0], uv[1])
+                continue
             back = f.normal.y > 0.3
             for loop in f.loops:
                 u = (loop.vert.co.x - x0) / sx
@@ -228,7 +239,16 @@ class Builder:
 
         def mat_fn(i, j):
             return mat_rib if zones[j] == "rib" else (mat_heel if zones[j] in ("heel", "toe") else mat_body)
-        self.quad_grid(pts, mat_fn, closed_u=True)
+        rows = self.quad_grid(pts, mat_fn, closed_u=True)
+        # UV abwickeln: Bogenlänge der Mittellinie statt Planarprojektion (sonst Fuß ohne UV-Fläche)
+        lens = [0.0]
+        for k in range(1, len(frames)):
+            lens.append(lens[-1] + (frames[k][0] - frames[k - 1][0]).length)
+        total = max(lens[-1], 1e-6)
+        self.uv_grid = getattr(self, "uv_grid", None) or {}
+        for j, row in enumerate(rows):
+            for i, vert in enumerate(row):
+                self.uv_grid[vert] = (i / seg, 1.0 - lens[j] / total)
 
 
 # ---------------------------------------------------------------- Taschen-Bausteine
