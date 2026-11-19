@@ -1,5 +1,6 @@
 import type { Order } from './types';
 import { orderMissingDesign } from './order-review';
+import { emailFrom } from "@/lib/email-from";
 
 export async function notifyAdminWebhookError(sessionId: string, error: unknown): Promise<void> {
   const adminEmail = process.env.ADMIN_ALERT_EMAIL || process.env.ADMIN_EMAIL;
@@ -21,7 +22,7 @@ export async function notifyAdminWebhookError(sessionId: string, error: unknown)
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'ON ME HONEY B <onboarding@resend.dev>', to: adminEmail, subject, html }),
+      body: JSON.stringify({ from: emailFrom(), to: adminEmail, subject, html }),
     });
   } catch (e) {
     console.error('[webhook-alert] Alert-Versand fehlgeschlagen:', e);

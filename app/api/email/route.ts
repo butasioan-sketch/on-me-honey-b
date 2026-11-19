@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { emailFrom } from "@/lib/email-from";
 
 const ABANDONED_TEXTS: Record<string, { subject: string; title: string; body: string; cta: string }> = {
   de: {
@@ -190,7 +191,7 @@ export async function POST(request: NextRequest) {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: 'ON ME HONEY B <onboarding@resend.dev>', to: data.email, subject: template.subject, html: template.html }),
+        body: JSON.stringify({ from: emailFrom(), to: data.email, subject: template.subject, html: template.html }),
       });
       return NextResponse.json({ sent: res.ok });
     }
@@ -219,7 +220,7 @@ export async function POST(request: NextRequest) {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: 'ON ME HONEY B <onboarding@resend.dev>', to: data.email, subject, html }),
+        body: JSON.stringify({ from: emailFrom(), to: data.email, subject, html }),
       });
       return NextResponse.json({ sent: res.ok });
     }
@@ -242,7 +243,7 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'ON ME HONEY B <onboarding@resend.dev>',
+        from: emailFrom(),
         to: data.email,
         subject: template.subject,
         html: template.html,

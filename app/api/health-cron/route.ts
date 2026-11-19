@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { initDb } from "@/lib/db";
+import { emailFrom } from "@/lib/email-from";
 
 export async function GET(request: NextRequest) {
   const cronSecret = process.env.CRON_SECRET;
@@ -58,7 +59,7 @@ async function sendAlert(siteUrl: string, details: Record<string, unknown>) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "ON ME HONEY B <onboarding@resend.dev>",
+      from: emailFrom(),
       to: adminEmail,
       subject: `⚠ ON ME HONEY B DOWN — ${new Date().toISOString()}`,
       html: `<p style="font-family:monospace">Site or API unresponsive.<br/><br/>${JSON.stringify(details, null, 2).replace(/\n/g, "<br/>")}<br/><br/><a href="${siteUrl}">${siteUrl}</a></p>`,
