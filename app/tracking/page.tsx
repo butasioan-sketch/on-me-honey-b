@@ -1,5 +1,5 @@
 'use client';
-import { SHIPPING_OPTIONS } from '@/lib/shipping';
+import { SHIPPING_OPTIONS, etaText } from '@/lib/shipping';
 
 import { useState } from 'react';
 import SiteHeader from '@/app/components/SiteHeader';
@@ -114,7 +114,7 @@ export default function TrackingPage() {
               <p style={{ color: '#666', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Versand</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
                 <span style={{ color: '#ccc' }}>{order.shippingMethod || 'Wird vorbereitet'}</span>
-                <span style={{ color: '#fff' }}>{SHIPPING_OPTIONS.find(o => o.carrier === order.shippingMethod)?.eta?.['DE'] || ''}</span>
+                <span style={{ color: '#fff' }}>{etaText(SHIPPING_OPTIONS.find(o => o.carrier === order.shippingMethod)?.eta?.['DE'] || '', 'de')}</span>
               </div>
             </div>
           </div>

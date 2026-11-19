@@ -260,7 +260,8 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  if (event.type === "checkout.session.expired") {
+  // Erinnerungsmail bei abgebrochenem Kauf ist Werbung (UWG § 7): nur mit ausdrücklichem Schalter
+  if (event.type === "checkout.session.expired" && process.env.ABANDONED_CART_EMAILS === "on") {
     const session = event.data.object as Stripe.Checkout.Session;
     const customerEmail =
       session.customer_details?.email ?? session.customer_email;

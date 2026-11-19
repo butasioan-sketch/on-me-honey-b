@@ -44,3 +44,10 @@ export function getShipping(id: string, country: Country): number {
 // Standard-Auswahl (Hermes)
 export const DEFAULT_SHIPPING_ID = 'hermes';
 export const DEFAULT_COUNTRY: Country = 'DE';
+
+/** Lieferzeit in der Shop-Sprache (Daten sind auf Deutsch gepflegt). */
+export function etaText(eta: string, locale: string = 'de'): string {
+  if (locale === 'ro') return eta.replace('Werktage', 'zile lucrătoare');
+  if (locale === 'en') return eta.replace('Werktage', 'business days');
+  return eta;
+}

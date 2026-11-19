@@ -13,6 +13,7 @@ import {
   DEFAULT_COUNTRY,
   getShipping,
   type Country,
+  etaText,
 } from "@/lib/shipping";
 import {
   calcUnitPriceForProduct,
@@ -36,6 +37,7 @@ interface CartItem {
 }
 
 function DesignThumb({ designId }: { designId?: string }) {
+  const { t } = useLocale();
   const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
@@ -76,7 +78,7 @@ function DesignThumb({ designId }: { designId?: string }) {
   return (
     <img
       src={src}
-      alt="Design-Vorschau"
+      alt={t.cart.designPreviewAlt}
       style={{ ...baseStyle, objectFit: "cover", background: "#1a1a1a" }}
     />
   );
@@ -87,6 +89,15 @@ export default function CartPage() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [cancelled, setCancelled] = useState(false);
+  useEffect(() => {
+    // Rückkehr nach abgebrochener Stripe-Zahlung: Hinweis statt stiller Startseite
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("payment") === "cancel") {
+      setCancelled(true);
+      window.history.replaceState({}, "", "/cart");
+    }
+  }, []);
   const [country, setCountry] = useState<Country>(DEFAULT_COUNTRY);
   const [shipId, setShipId] = useState<string>(DEFAULT_SHIPPING_ID);
 
@@ -223,6 +234,11 @@ export default function CartPage() {
         <h1 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "2rem" }}>
           {t.cart.title}
         </h1>
+        {cancelled && (
+          <p role="status" style={{ background: "#1f1812", border: "1px solid rgba(212,175,55,0.4)", color: "#e8d7b8", padding: "0.85rem 1rem", borderRadius: "10px", marginBottom: "1.5rem" }}>
+            {t.cart.paymentCancelled}
+          </p>
+        )}
 
         {items.length === 0 ? (
           <div style={{ textAlign: "center", padding: "4rem", color: "#888" }}>
@@ -290,7 +306,7 @@ export default function CartPage() {
                         {item.pages
                           ? ` · ${t.cart.printedSides(item.pages)}`
                           : ""}{" "}
-                        je Stück
+                        {t.cart.perItem}
                       </p>
                     </div>
                     <div
@@ -303,7 +319,7 @@ export default function CartPage() {
                       }}
                     >
                       <p style={{ fontWeight: 700, margin: 0 }}>
-                        {formatEuro((item.price * item.quantity), locale)}
+                        {formatEuro(calcUnitPriceForProduct(item.id, item.pages || 1) * item.quantity, locale)}
                       </p>
                       <div
                         style={{
@@ -531,7 +547,7 @@ export default function CartPage() {
                           marginLeft: "0.5rem",
                         }}
                       >
-                        {o.eta[country]}
+                        {etaText(o.eta[country], locale)}
                       </span>
                     </span>
                     <span style={{ fontWeight: 700 }}>
@@ -562,9 +578,7 @@ export default function CartPage() {
                     fontWeight: 600,
                   }}
                 >
-                  ✓ Essential Set angewendet — 1× Tee + 1× Shorts für{" "}
-                  {formatEuro(PRICE_BUNDLE_ESSENTIAL, locale)} (du sparst{" "}
-                  {formatEuro(bundleSavings, locale)})
+                  {t.cart.bundleApplied(formatEuro(PRICE_BUNDLE_ESSENTIAL, locale), formatEuro(bundleSavings, locale))}
                 </div>
               )}
               <div
@@ -610,7 +624,7 @@ export default function CartPage() {
                   }}
                 >
                   {t.cart.deliveryEta(
-                    selectedOption.eta[country],
+                    etaText(selectedOption.eta[country], locale),
                     selectedOption.carrier,
                   )}
                 </p>
@@ -691,7 +705,7 @@ export default function CartPage() {
                 marginTop: "1rem",
               }}
             >
-              🔒 Sichere Zahlung via Stripe
+              {t.cart.securePayment}
             </p>
           </>
         )}
