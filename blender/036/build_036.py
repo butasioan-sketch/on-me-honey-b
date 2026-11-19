@@ -26,4 +26,6 @@ for k in range(21):
 _loft(b, rings, mat_fn=lambda i, j: 2 if i in (39, 0) and 2 <= j <= 17 else 0, cap_bottom=True, cap_top=True, cap_mat=0)  # Reißverschluss oben entlang
 for side in (-1, 1):
     path_tube(b, arc((-0.08, 0.235, side * 0.03), (0.08, 0.235, side * 0.03), 0.10, n=16), 0.008, seg=8, mat=1, flat=0.35)
+# Referenz: schwarzer Reißverschluss vorne oben quer über die Front (Fronttasche)
+path_tube(b, [(-0.170 + 0.34 * k / 12, 0.200, 0.1015) for k in range(13)], 0.0035, seg=6, mat=2, flat=0.35)
 b.finish(thickness=0)

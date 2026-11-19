@@ -4,7 +4,7 @@ Stand 18.11.2026 · Claude · Zweig `fix/glb-masse-jn`. 130–133 ausgenommen (G
 
 **Methode:** Jedes GLB aus `public/models/sku/` mit Cycles gerendert (Schrägansicht, bei Verdacht zusätzlich hinten/unten) und neben `public/products/<sku>/front.jpg` gelegt; zusätzlich Codex' Firefox-Fotos (`00_Xena/.../Testnachweise/Firefox-133`) für 035/036/048/055/057/059/060/061. Sichtprüfung auf Form, Proportion, sichtbare Bauteile, Öffnungen/Schichtkanten. Maße nur für 001/015 (Hersteller-Maßblatt) und 051 (BRILDOR) geprüft; alle anderen Maße bleiben Schätzwerte (siehe Kopf der jeweiligen `build_<sku>.py`).
 
-**Ergebnis:** 129 SKUs geprüft · 15 korrigiert · 8 mit offener, benannter Abweichung · Rest übereinstimmend.
+**Ergebnis:** 129 SKUs geprüft · 22 korrigiert · 1 mit offener, benannter Abweichung · Rest übereinstimmend.
 
 Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, keine Draco-Kompression; unveränderte SKUs sind byte-gleich.
 
@@ -45,7 +45,7 @@ Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, ke
 | 033 | Einkaufstaschen / Shopper | übereinstimmend in Form und Proportion |
 | 034 | Turnbeutel | übereinstimmend in Form und Proportion |
 | 035 | Sportbeutel | korrigiert (Faltlagen-Commit): Kordeln weich statt geknickt |
-| 036 | Kleine Sporttaschen | offen – leicht: Referenz hat schwarze Paspeln/Reißverschluss, Modell nur dunkle Griffe |
+| 036 | Kleine Sporttaschen | korrigiert (Caps/036/102-Commit): schwarze Front-Reißverschlusslinie ergänzt; Griffe und oberer Reißverschluss waren bereits schwarz |
 | 037 | Kosmetiktaschen | übereinstimmend in Form und Proportion |
 | 038 | Kulturbeutel | übereinstimmend in Form und Proportion |
 | 039 | Federmäppchen | übereinstimmend in Form und Proportion |
@@ -94,7 +94,7 @@ Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, ke
 | 082 | Schlüsselanhänger Metall | übereinstimmend in Form und Proportion |
 | 083 | Schlüsselanhänger MDF | übereinstimmend in Form und Proportion |
 | 084 | Kühlschrankmagnete | übereinstimmend in Form und Proportion |
-| 085 | Flaschenöffner | offen – mittel: Referenz Metallöffner mit Öffnung am Ende, Modell rechteckige Aussparungen (Generator hardgoods/Codex, nicht von Claude geändert) |
+| 085 | Flaschenöffner | korrigiert von Codex 22a238e: Metallkörper, Druckfläche, Loch, Öffnung; Öffnung leicht eckiger als Foto (von Claude in Firefox gesehen) |
 | 086 | Lesezeichen Aluminium | übereinstimmend in Form und Proportion |
 | 087 | Foto-Puzzles bis A4 | übereinstimmend in Form und Proportion |
 | 088 | Untersetzer-Sets | übereinstimmend in Form und Proportion |
@@ -111,7 +111,7 @@ Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, ke
 | 099 | Kleine Bilderrahmen | übereinstimmend in Form und Proportion |
 | 100 | Schmuckanhänger | übereinstimmend in Form und Proportion |
 | 101 | Kleine Fotokacheln Keramik | übereinstimmend in Form und Proportion |
-| 102 | Keramiktassen 6 oz | offen – leicht: Tasse konisch, Referenz bauchiger |
+| 102 | Keramiktassen 6 oz | korrigiert (Caps/036/102-Commit): bauchige Tulpenform mit schmalem Fuß |
 | 103 | Keramiktassen 9 oz | übereinstimmend in Form und Proportion |
 | 104 | Keramiktassen 11 oz | übereinstimmend in Form und Proportion |
 | 105 | Keramiktassen 12 oz | übereinstimmend in Form und Proportion |
@@ -126,12 +126,12 @@ Alle Korrekturen bauen deterministisch (`blender -b -t 1`), Budget < 300 KiB, ke
 | 114 | Campingbecher | übereinstimmend in Form und Proportion |
 | 115 | Kinderbecher | übereinstimmend in Form und Proportion |
 | 116 | Stiftehalter in Becherform | übereinstimmend in Form und Proportion |
-| 117 | Basecaps | offen – leicht: Schirm flacher und eckiger als Referenz |
+| 117 | Basecaps | korrigiert (Caps/036/102-Commit): Schirm D-förmig, ohne Ecken, vorgebogen |
 | 118 | Trucker-Caps | korrigiert 4cdb620: Netzbahnen sichtbar abgesetzt |
-| 119 | 5-Panel-Caps | offen – leicht: Schirm flacher und eckiger als Referenz |
+| 119 | 5-Panel-Caps | korrigiert (Caps/036/102-Commit): Schirm D-förmig, ohne Ecken, vorgebogen |
 | 120 | Sportcaps | korrigiert 4cdb620: Perforationsfeld sichtbar abgesetzt |
-| 121 | Kindercaps | offen – leicht: Schirm flacher und eckiger als Referenz |
-| 122 | Visors | offen – leicht: Visor-Schirm flacher als Referenz |
+| 121 | Kindercaps | korrigiert (Caps/036/102-Commit): Schirm D-förmig, ohne Ecken, vorgebogen |
+| 122 | Visors | korrigiert (Caps/036/102-Commit): Schirm D-förmig und vorgebogen; Hinweis: glb-verify cap meldet wie vorher BBox-Höhe 7 cm < 10 cm (Visor ohne Krone, Altbefund) |
 | 123 | Runde Sublimationsteller | übereinstimmend in Form und Proportion |
 | 124 | Kleine Dekorationsteller | übereinstimmend in Form und Proportion |
 | 125 | Große Dekorationsteller | übereinstimmend in Form und Proportion |

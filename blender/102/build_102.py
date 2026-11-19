@@ -18,8 +18,15 @@ WHT = ("Kunststoff weiß", (0.94, 0.94, 0.94), 0.45)
 BLK = ("Schwarz", (0.05, 0.05, 0.055), 0.5)
 
 b = Builder("Mug102", [CER])
-R0, R1, H = 0.026, 0.038, 0.065
-prof = [(R0 - 0.004, 0.0), (R0, 0.004)] + [(lerp(R0, R1, t), 0.004 + (H - 0.004) * t) for t in [k / 12 for k in range(1, 13)]]
+# Referenz: bauchige Tulpenform, schmaler Fuß, Rand fast so weit wie der Bauch
+R0, R1, H = 0.021, 0.037, 0.062
+
+
+def r_at(t):
+    return R0 + (R1 - R0) * math.sin(math.pi / 2 * t) ** 0.6
+
+
+prof = [(R0 - 0.003, 0.0), (R0, 0.004)] + [(r_at(t), 0.004 + (H - 0.004) * t) for t in [k / 16 for k in range(1, 17)]]
 lathe(b, prof, wall=0.0042)
-handle(b, (lerp(R0, R1, 0.80), lerp(R0, R1, 0.22)), H * 0.22, H * 0.80, reach=0.0245, mat=0, shape="c")
+handle(b, (r_at(0.80), r_at(0.25)), H * 0.25, H * 0.80, reach=0.0245, mat=0, shape="c")
 finish(b)
