@@ -222,7 +222,7 @@ export const PRODUCTS_133: Product133[] = [
     id: '',
     name: { de: 'Fitness-Tops', ro: 'Fitness-Tops', en: 'Fitness-Tops' },
     category: 'A' as Category,
-    family: 'tank',
+    family: 'tee',
     blank: 'Fitness-Top (offen)',
     price: 0,
     status: 'offen' as ProductStatus,
