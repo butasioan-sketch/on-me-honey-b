@@ -12,7 +12,9 @@ const nextConfig: NextConfig = {
     // Content Security Policy - prevents XSS and injection attacks (INFRA P1 1.6)
     const cspDirectives = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
+      // 'unsafe-eval' braucht nur der Next-Dev-Server (HMR). In Produktion nur 'wasm-unsafe-eval':
+      // erlaubt WebAssembly (Draco-Decoder der 360°-GLBs), aber kein JavaScript-eval (XSS-Schutz).
+      `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""} https://js.stripe.com`,
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self' data:",
       "img-src 'self' data: blob: https:",
