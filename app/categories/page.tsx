@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getTranslation } from "@/lib/i18n";
 import SiteHeader from "@/app/components/SiteHeader";
 
 export const metadata: Metadata = {
@@ -27,8 +26,6 @@ const categories = [
 ] as const;
 
 export default async function CategoriesPage() {
-  const t = await getTranslation("de");
-
   const categoryNames = {
     A: {
       de: "Bekleidung und Mode",

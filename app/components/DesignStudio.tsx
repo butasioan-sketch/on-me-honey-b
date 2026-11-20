@@ -258,6 +258,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
           onTouchMove={(e) => { const touch = e.touches[0]; moveDrag(touch.clientX, touch.clientY); }}
           onTouchEnd={endDrag}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element -- Kalibriertes Garment-Foto, Druckflächen-Prozente hängen an der nativen img-Box */}
           <img
             src={getGarmentPhotoSrc(side, productId)}
             alt={sideLabel}
@@ -307,6 +308,7 @@ export default function DesignStudio({ productId = '1', onDesignChange }: Design
                 onClick={() => selectLayer(layer.id)}
                 style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element -- Kundenmotiv als data-URL */}
                 <img src={layer.src} alt="" style={{ width: 18, height: 18, objectFit: 'cover', borderRadius: 4 }} />
                 <span style={{ fontSize: '0.68rem', color: '#ccc', maxWidth: 70, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {t.studio.layerName.replace('{n}', String(idx + 1))}

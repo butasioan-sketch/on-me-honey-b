@@ -63,6 +63,7 @@ export default function ShirtPrintOverlay({
       {layers.map((layer, i) => {
         const isSelected = layer.id === selectedId;
         return (
+          // eslint-disable-next-line @next/next/no-img-element -- Kundenmotiv als data-URL, Position per Prozent auf dem Foto
           <img
             key={layer.id}
             src={layer.src}

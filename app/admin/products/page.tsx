@@ -126,6 +126,7 @@ export default function AdminProductsPage() {
                 <tr key={product.sku} className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-sm font-mono">{product.sku}</td>
                   <td className="px-4 py-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element -- Admin-Vorschau, keine Optimierung nötig */}
                     <img
                       src={catalogFrontSrc(product.sku)}
                       alt=""

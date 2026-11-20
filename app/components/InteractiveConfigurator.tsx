@@ -18,8 +18,8 @@
  */
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, PerspectiveCamera, useGLTF, Html } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Environment, ContactShadows, PerspectiveCamera, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { addToCart, type CartItem } from '@/lib/cart';
 import Toast, { type ToastAction } from './Toast';
@@ -573,6 +573,7 @@ export default function InteractiveConfigurator({
 
             {design.front ? (
               <div>
+                {/* eslint-disable-next-line @next/next/no-img-element -- Kundenmotiv als data-URL */}
                 <img
                   src={design.front}
                   alt="Front design"
@@ -648,6 +649,7 @@ export default function InteractiveConfigurator({
 
             {design.back ? (
               <div>
+                {/* eslint-disable-next-line @next/next/no-img-element -- Kundenmotiv als data-URL */}
                 <img
                   src={design.back}
                   alt="Back design"
