@@ -382,7 +382,7 @@ export const CATALOG: Record<string, ProductRecord> = {
   "013": {
     sku: "013",
     shopId: null,
-    familyId: "tank",
+    familyId: "tee",
     name: "Fitness-Tops",
     shop_live: false,
   },
