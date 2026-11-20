@@ -114,15 +114,22 @@ const escapeHtml = (v: unknown) =>
 const SAFE_IMG = /^data:image\/(png|jpeg);base64,[A-Za-z0-9+/=]+$/;
 const safeImg = (v?: string) => (v && SAFE_IMG.test(v) ? v : '');
 
-function buildDesignPreviewHtml(designs: { id: string; front_image?: string; back_image?: string }[]): string {
+const PREVIEW_TXT: Record<string, { motif: string; front: string; back: string }> = {
+  de: { motif: 'Dein Motiv', front: 'Vorne', back: 'Hinten' },
+  ro: { motif: 'Motivul tău', front: 'Față', back: 'Spate' },
+  en: { motif: 'Your design', front: 'Front', back: 'Back' },
+};
+
+function buildDesignPreviewHtml(designs: { id: string; front_image?: string; back_image?: string }[], locale = 'de'): string {
+  const L = PREVIEW_TXT[locale] || PREVIEW_TXT.de;
   if (!designs.length) return '';
   const blocks = designs.map((d) => {
     const imgs = [
-      safeImg(d.front_image) ? `<div style="text-align:center"><p style="color:#666;font-size:11px;margin:0 0 6px">Vorne</p><img src="${safeImg(d.front_image)}" alt="Vorne" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
-      safeImg(d.back_image) ? `<div style="text-align:center"><p style="color:#666;font-size:11px;margin:0 0 6px">Hinten</p><img src="${safeImg(d.back_image)}" alt="Hinten" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
+      safeImg(d.front_image) ? `<div style="text-align:center"><p style="color:#8f8f8f;font-size:11px;margin:0 0 6px">${L.front}</p><img src="${safeImg(d.front_image)}" alt="${L.front}" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
+      safeImg(d.back_image) ? `<div style="text-align:center"><p style="color:#8f8f8f;font-size:11px;margin:0 0 6px">${L.back}</p><img src="${safeImg(d.back_image)}" alt="${L.back}" style="max-width:200px;border-radius:8px;border:1px solid #333"/></div>` : '',
     ].filter(Boolean).join('');
     if (!imgs) return '';
-    return `<div style="margin-bottom:16px"><p style="color:#888;font-size:12px;margin-bottom:8px">Dein Motiv</p><div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">${imgs}</div></div>`;
+    return `<div style="margin-bottom:16px"><p style="color:#888;font-size:12px;margin-bottom:8px">${L.motif}</p><div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">${imgs}</div></div>`;
   }).join('');
   if (!blocks) return '';
   return `<div style="background:#111;border:1px solid #222;border-radius:12px;padding:16px;margin-bottom:24px">${blocks}</div>`;
@@ -179,7 +186,7 @@ export async function POST(request: NextRequest) {
     ].filter(Boolean))) as string[];
 
     const designs = await fetchDesignImages(designIds);
-    const designPreview = buildDesignPreviewHtml(designs);
+    const designPreview = buildDesignPreviewHtml(designs, data.locale);
 
     if (data.type === 'admin_alert') {
       const reason = data.reason === 'on_hold'

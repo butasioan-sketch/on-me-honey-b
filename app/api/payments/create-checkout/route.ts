@@ -43,8 +43,15 @@ function splitBundleHalves(): { tee: number; shorts: number } {
   return { tee: teeHalf, shorts: shortsHalf };
 }
 
-function itemLabel(p: PricedItem, suffix = ""): string {
-  return `${p.name}${p.color ? ` · ${p.color}` : ""}${p.size ? ` · Größe ${p.size}` : ""}${suffix}`;
+type Loc = "de" | "ro" | "en";
+const LINE_TXT: Record<Loc, { size: string; motifs: (n: number) => string; setShare: string; shipping: string }> = {
+  de: { size: "Größe", motifs: (n) => `${n} Motiv${n > 1 ? "e" : ""}`, setShare: "Set-Anteil", shipping: "Versand" },
+  ro: { size: "Mărime", motifs: (n) => (n > 1 ? `${n} motive` : `${n} motiv`), setShare: "parte din set", shipping: "Livrare" },
+  en: { size: "Size", motifs: (n) => `${n} design${n > 1 ? "s" : ""}`, setShare: "set share", shipping: "Shipping" },
+};
+
+function itemLabel(p: PricedItem, loc: Loc, suffix = ""): string {
+  return `${p.name}${p.color ? ` · ${p.color}` : ""}${p.size ? ` · ${LINE_TXT[loc].size} ${p.size}` : ""}${suffix}`;
 }
 
 /**
@@ -54,7 +61,7 @@ function itemLabel(p: PricedItem, suffix = ""): string {
  * den verfuegbaren Paaren hinaus) laufen zum normalen Flat-Preis. Summe der Lines ==
  * calcMerchandiseTotal(...) exakt, da dieselbe Paar-Logik verwendet wird.
  */
-function buildLineItems(priced: PricedItem[], applyBundle: boolean) {
+function buildLineItems(priced: PricedItem[], applyBundle: boolean, loc: Loc = "de") {
   const halves = splitBundleHalves();
   let teeBudget = applyBundle
     ? Math.min(
@@ -88,8 +95,8 @@ function buildLineItems(priced: PricedItem[], applyBundle: boolean) {
           currency: "eur",
           unit_amount: Math.round(p.unitPrice * 100),
           product_data: {
-            name: itemLabel(p),
-            description: `${p.pages} Seite(n) bedruckt`,
+            name: itemLabel(p, loc),
+            description: LINE_TXT[loc].motifs(p.pages),
           },
         },
       });
@@ -111,8 +118,8 @@ function buildLineItems(priced: PricedItem[], applyBundle: boolean) {
           currency: "eur",
           unit_amount: Math.round((half + extraPerUnit) * 100),
           product_data: {
-            name: itemLabel(p, " (Essential Set)"),
-            description: `${p.pages} Seite(n) bedruckt · Set-Anteil`,
+            name: itemLabel(p, loc, " (Essential Set)"),
+            description: `${LINE_TXT[loc].motifs(p.pages)} · ${LINE_TXT[loc].setShare}`,
           },
         },
       });
@@ -124,8 +131,8 @@ function buildLineItems(priced: PricedItem[], applyBundle: boolean) {
           currency: "eur",
           unit_amount: Math.round(p.unitPrice * 100),
           product_data: {
-            name: itemLabel(p),
-            description: `${p.pages} Seite(n) bedruckt`,
+            name: itemLabel(p, loc),
+            description: LINE_TXT[loc].motifs(p.pages),
           },
         },
       });
@@ -453,7 +460,7 @@ export async function POST(request: Request) {
       mode: "payment",
       allow_promotion_codes: true,
       payment_method_types: ["card", "paypal", "klarna", "sepa_debit", "link"],
-      line_items: buildLineItems(priced, applyBundle),
+      line_items: buildLineItems(priced, applyBundle, locale),
       shipping_address_collection: { allowed_countries: [country] },
       shipping_options: [
         {
@@ -463,7 +470,7 @@ export async function POST(request: Request) {
               amount: Math.round(shippingCost * 100),
               currency: "eur",
             },
-            display_name: `Versand · ${shipOpt.carrier}`,
+            display_name: `${LINE_TXT[locale].shipping} · ${shipOpt.carrier}`,
           },
         },
       ],
@@ -477,7 +484,7 @@ export async function POST(request: Request) {
         },
       },
       success_url: `${siteUrl}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/?payment=cancel`,
+      cancel_url: `${siteUrl}/cart?payment=cancel`,
       metadata: {
         reference: body.reference || "",
         paymentMethod,

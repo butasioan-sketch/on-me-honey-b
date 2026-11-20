@@ -107,6 +107,11 @@ export function proxy(request: NextRequest) {
   }
 
   // /api/email, /api/newsletter/admin, /api/analytics - nur mit Internal-Key oder Admin
+  // Seitenaufrufe (nur nach Cookie-Einwilligung im Client) dürfen ohne Login gemeldet werden;
+  // die Route begrenzt Rate und Felder. Lesen bleibt Admin-only.
+  if (pathname === "/api/analytics" && request.method === "POST") {
+    return NextResponse.next();
+  }
   if (
     pathname === "/api/email" ||
     pathname === "/api/newsletter/admin" ||
