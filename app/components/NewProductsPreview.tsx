@@ -127,6 +127,7 @@ export default function NewProductsPreview() {
                 e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
               }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element -- Katalogfoto in fester Kachel, Layout hängt an nativer img-Größe */}
               <img
                 src={catalogFrontSrc("051")}
                 alt="Kissenbezug 40×40cm"

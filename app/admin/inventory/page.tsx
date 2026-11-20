@@ -76,6 +76,7 @@ export default function InventoryPage() {
                 alignItems: "center",
               }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element -- Admin-Vorschau, keine Optimierung nötig */}
               <img
                 src={catalogFrontSrc(p.id === "1" ? "001" : "015")}
                 alt=""

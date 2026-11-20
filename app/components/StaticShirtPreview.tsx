@@ -38,6 +38,7 @@ export default function StaticShirtPreview({
           priority
         />
         {print && (
+          // eslint-disable-next-line @next/next/no-img-element -- Kundenmotiv als data-URL, next/image kann data-URLs nicht optimieren
           <img
             src={print.src}
             alt=""
