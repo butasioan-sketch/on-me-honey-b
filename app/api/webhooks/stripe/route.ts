@@ -61,10 +61,16 @@ export async function POST(request: NextRequest) {
         process.env.NEXT_PUBLIC_SITE_URL || "https://on-me-honey-b.vercel.app";
       const parsedItems = (() => {
         try {
-          const raw = JSON.parse(session.metadata?.items || "[]");
+          const meta = session.metadata || {};
+          const raw: unknown[] = JSON.parse(meta.items || "[]");
           if (!Array.isArray(raw)) return [];
+          // Weitere Positionen aus items_1, items_2 … (siehe create-checkout)
+          for (let k = 1; meta[`items_${k}`]; k++) {
+            const more = JSON.parse(meta[`items_${k}`]);
+            if (Array.isArray(more)) raw.push(...more);
+          }
           // Unterstützt altes Format {name,size,...} und neues abgekürztes Format {n,s,...}
-          return raw.map((i: Record<string, unknown>) => ({
+          return (raw as Record<string, unknown>[]).map((i) => ({
             productId: String(i.productId ?? i.pid ?? ""), // pid from checkout metadata, no Tee fallback
             name: String(i.name ?? i.n ?? "AirFit Pro"),
             size: String(i.size ?? i.s ?? ""),

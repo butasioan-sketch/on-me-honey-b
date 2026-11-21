@@ -1,39 +1,8 @@
 {
-  "rewrites": [
-    { "source": "/impressum", "destination": "/impressum" },
-    { "source": "/agb", "destination": "/agb" },
-    { "source": "/datenschutz", "destination": "/datenschutz" },
-    { "source": "/versand", "destination": "/versand" },
-    { "source": "/admin/:path*", "destination": "/admin/:path*" }
-  ],
   "crons": [
-    { "path": "/api/health-cron", "schedule": "0 6 * * *" }
-  ],
-  "headers": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=()"
-        },
-        {
-          "key": "X-DNS-Prefetch-Control",
-          "value": "on"
-        }
-      ]
+      "path": "/api/health-cron",
+      "schedule": "0 6 * * *"
     }
   ]
 }

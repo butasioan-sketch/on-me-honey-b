@@ -15,11 +15,11 @@ import { getDecalDimensions, getDecalPosition } from "@/lib/print-position";
 import { getViewerAspect } from "@/lib/print-spec";
 import {
   getAtelierModelPath,
-  getLiveFamilies,
   getProductByShopId,
 } from "@/lib/catalog/families";
 
 interface PrintData {
+  id?: string;
   src: string;
   x: number;
   y: number;
@@ -172,14 +172,6 @@ function GarmentModel({
     if (bestMesh) {
       const b = bestMesh as THREE.Mesh;
       b.geometry.computeBoundingBox();
-      console.log(
-        "[Shirt3D] product",
-        productId,
-        "verts",
-        bestCount,
-        "bbox",
-        JSON.stringify(b.geometry.boundingBox),
-      );
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setDecalMesh(b);
     }
@@ -198,7 +190,7 @@ function GarmentModel({
           <>
             {(frontPrint || []).map((p, i) => (
               <CustomerPrint
-                key={`front-${i}`}
+                key={p.id ?? `front-${i}`}
                 mesh={decalMesh}
                 print={p}
                 front
@@ -208,7 +200,7 @@ function GarmentModel({
             ))}
             {(backPrint || []).map((p, i) => (
               <CustomerPrint
-                key={`back-${i}`}
+                key={p.id ?? `back-${i}`}
                 mesh={decalMesh}
                 print={p}
                 front={false}
@@ -303,7 +295,8 @@ export default function Shirt3D({
     <Canvas
       shadows
       camera={{ position: cam.cameraPos, fov: cam.fov }}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
+      frameloop={autoRotate ? "always" : "demand"}
       style={{ width: "100%", height: "100%", background: "transparent" }}
       gl={{
         antialias: true,
@@ -378,9 +371,4 @@ export default function Shirt3D({
   );
 }
 
-// WAVE 4.1: Preload only shop_live families
-getLiveFamilies().forEach((family) => {
-  if (family.glbPath) {
-    useGLTF.preload(family.glbPath, "/draco/gltf/");
-  }
-});
+// Kein Vorladen aller Modelle beim Import: jede Seite lädt nur ihr eigenes GLB.

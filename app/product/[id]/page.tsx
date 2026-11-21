@@ -26,6 +26,10 @@ import { renderCustomerViewCompositeMulti } from "@/lib/print-customer-view";
 import { defaultPrintTransform } from "@/lib/print-position";
 import { trackAddToCart, trackProductView } from "@/lib/analytics";
 import { formatEuro } from "@/lib/format-price";
+import { MAX_SHOP_QUANTITY, totalQuantity } from "@/lib/order-limits";
+
+/** Sicherheitsabstand zur 4,5-MB-Grenze von Vercel-Funktionen. */
+const MAX_DESIGN_PAYLOAD = 4_200_000;
 
 export default function ProductPage() {
   const { t, locale } = useLocale();
@@ -91,93 +95,101 @@ export default function ProductPage() {
     try {
       const hasFront = design.frontLayers.length > 0;
       const hasBack = design.backLayers.length > 0;
-      const [front, back, frontPreview, backPreview] = await Promise.all([
-        hasFront
-          ? renderPrintSheetMulti(
-              "front",
-              design.frontLayers.map((l) => ({
-                src: l.src,
-                transform: l.transform,
-              })),
-              id,
-              { format: "jpeg", quality: 0.92 },
-            )
-          : Promise.resolve(null),
-        hasBack
-          ? renderPrintSheetMulti(
-              "back",
-              design.backLayers.map((l) => ({
-                src: l.src,
-                transform: l.transform,
-              })),
-              id,
-              { format: "jpeg", quality: 0.92 },
-            )
-          : Promise.resolve(null),
-        hasFront
-          ? renderCustomerViewCompositeMulti(
-              "front",
-              design.frontLayers.map((l) => ({
-                src: l.src,
-                transform: l.transform,
-              })),
-              id,
-            ).catch(() => null)
-          : Promise.resolve(null),
-        hasBack
-          ? renderCustomerViewCompositeMulti(
-              "back",
-              design.backLayers.map((l) => ({
-                src: l.src,
-                transform: l.transform,
-              })),
-              id,
-            ).catch(() => null)
-          : Promise.resolve(null),
-      ]);
-      // Ganzes A4-Blatt wird als EINE Einheit auf den Blank gepresst (Sublimation) —
-      // die einzelnen Ebenen haben zwar eigene Positionen INNERHALB des Blatts (siehe
-      // renderPrintSheetMulti), aber das Blatt selbst sitzt an der Standardposition der
-      // Placement-Zone. Deshalb hier immer der Default-Transform fuer die PDF-
-      // Platzierungsseite (Ebene 2), unabhaengig von den Ebenen-eigenen Positionen.
-      const standardTransform = defaultPrintTransform();
-      const payload = JSON.stringify({
-        front,
-        back,
-        productId: id,
-        frontTransform: hasFront ? standardTransform : null,
-        backTransform: hasBack ? standardTransform : null,
-        frontPreview,
-        backPreview,
-        meta: {
-          dpi: PRINT_SPEC.dpi,
-          widthPx: PRINT_SPEC.widthPx,
-          heightPx: PRINT_SPEC.heightPx,
-          blank: getGarmentProfile(id).blank,
-          method: PRINT_SPEC.method,
-          // Anzahl Ebenen je Seite — Grundlage der serverseitigen Preisberechnung
-          // (Extra-Motiv-Aufpreis ab dem 3. Bild, siehe lib/pricing.ts + create-checkout).
-          frontLayerCount: design.frontLayers.length,
-          backLayerCount: design.backLayers.length,
-          // Rohe Ebenen-Info (nicht nur das gerenderte Bild) — QA im Druckblatt-PDF und
-          // Grundlage fuer den spaeteren Plotter-SVG-Export (Phase 2, Text als Vektor).
-          frontLayers: design.frontLayers.map((l) => ({
-            kind: l.kind,
-            text: l.text || null,
-            color: l.color || null,
-          })),
-          backLayers: design.backLayers.map((l) => ({
-            kind: l.kind,
-            text: l.text || null,
-            color: l.color || null,
-          })),
-        },
-      });
-      console.log(
-        "[saveDesign] payload",
-        (payload.length / 1024 / 1024).toFixed(2),
-        "MB",
-      );
+      // Vercel nimmt höchstens 4,5 MB pro Anfrage an. Beidseitige A4-Druckblätter (300 dpi)
+      // werden deshalb bei Bedarf stufenweise stärker komprimiert, statt mit 413 zu scheitern.
+      const buildPayload = async (quality: number) => {
+        const [front, back, frontPreview, backPreview] = await Promise.all([
+          hasFront
+            ? renderPrintSheetMulti(
+                "front",
+                design.frontLayers.map((l) => ({
+                  src: l.src,
+                  transform: l.transform,
+                })),
+                id,
+                { format: "jpeg", quality },
+              )
+            : Promise.resolve(null),
+          hasBack
+            ? renderPrintSheetMulti(
+                "back",
+                design.backLayers.map((l) => ({
+                  src: l.src,
+                  transform: l.transform,
+                })),
+                id,
+                { format: "jpeg", quality },
+              )
+            : Promise.resolve(null),
+          hasFront
+            ? renderCustomerViewCompositeMulti(
+                "front",
+                design.frontLayers.map((l) => ({
+                  src: l.src,
+                  transform: l.transform,
+                })),
+                id,
+              ).catch(() => null)
+            : Promise.resolve(null),
+          hasBack
+            ? renderCustomerViewCompositeMulti(
+                "back",
+                design.backLayers.map((l) => ({
+                  src: l.src,
+                  transform: l.transform,
+                })),
+                id,
+              ).catch(() => null)
+            : Promise.resolve(null),
+        ]);
+        // Ganzes A4-Blatt wird als EINE Einheit auf den Blank gepresst (Sublimation) —
+        // die einzelnen Ebenen haben zwar eigene Positionen INNERHALB des Blatts (siehe
+        // renderPrintSheetMulti), aber das Blatt selbst sitzt an der Standardposition der
+        // Placement-Zone. Deshalb hier immer der Default-Transform fuer die PDF-
+        // Platzierungsseite (Ebene 2), unabhaengig von den Ebenen-eigenen Positionen.
+        const standardTransform = defaultPrintTransform();
+        const payload = JSON.stringify({
+          front,
+          back,
+          productId: id,
+          frontTransform: hasFront ? standardTransform : null,
+          backTransform: hasBack ? standardTransform : null,
+          frontPreview,
+          backPreview,
+          meta: {
+            dpi: PRINT_SPEC.dpi,
+            widthPx: PRINT_SPEC.widthPx,
+            heightPx: PRINT_SPEC.heightPx,
+            blank: getGarmentProfile(id).blank,
+            method: PRINT_SPEC.method,
+            // Anzahl Ebenen je Seite — Grundlage der serverseitigen Preisberechnung
+            // (Extra-Motiv-Aufpreis ab dem 3. Bild, siehe lib/pricing.ts + create-checkout).
+            frontLayerCount: design.frontLayers.length,
+            backLayerCount: design.backLayers.length,
+            // Rohe Ebenen-Info (nicht nur das gerenderte Bild) — QA im Druckblatt-PDF und
+            // Grundlage fuer den spaeteren Plotter-SVG-Export (Phase 2, Text als Vektor).
+            frontLayers: design.frontLayers.map((l) => ({
+              kind: l.kind,
+              text: l.text || null,
+              color: l.color || null,
+            })),
+            backLayers: design.backLayers.map((l) => ({
+              kind: l.kind,
+              text: l.text || null,
+              color: l.color || null,
+            })),
+          },
+        });
+        return payload;
+      };
+      let payload = "";
+      for (const quality of [0.92, 0.85, 0.78, 0.7]) {
+        payload = await buildPayload(quality);
+        if (payload.length <= MAX_DESIGN_PAYLOAD) break;
+      }
+      if (payload.length > MAX_DESIGN_PAYLOAD) {
+        throw new Error(`Motiv zu groß (${(payload.length / 1024 / 1024).toFixed(1)} MB)`);
+      }
       const res = await fetch("/api/designs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -217,6 +229,16 @@ export default function ProductPage() {
       const cart = JSON.parse(
         localStorage.getItem("on_me_honey_b_cart") || "[]",
       );
+      if (totalQuantity(cart) >= MAX_SHOP_QUANTITY) {
+        setError(
+          locale === "de"
+            ? `Mehr als ${MAX_SHOP_QUANTITY} Stück bitte über das Anfrageformular (/grossbestellung).`
+            : locale === "ro"
+              ? `Peste ${MAX_SHOP_QUANTITY} de bucăți: formular de cerere (/grossbestellung).`
+              : `More than ${MAX_SHOP_QUANTITY} pieces: please use the request form (/grossbestellung).`,
+        );
+        return;
+      }
       cart.push({
         id,
         name: productName,

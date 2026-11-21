@@ -44,11 +44,20 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(), geolocation=()",
           },
           {
-            key: "Access-Control-Allow-Origin",
-            value: "https://on-me-honey-b.vercel.app",
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains",
           },
         ],
       },
+      // 3D-Modelle, Draco-Decoder und Vorschaubilder: 1 Tag frisch, danach bis 7 Tage aus dem
+      // Cache bei Hintergrund-Aktualisierung. Nicht "immutable", weil Modelle unter gleichem
+      // Namen nachgebessert werden (z. B. aufgerichtete Modelle am 21.11.2026).
+      ...["/models/:path*", "/draco/:path*", "/products/:path*"].map((source) => ({
+        source,
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      })),
     ];
   },
   async redirects() {

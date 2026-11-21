@@ -517,7 +517,7 @@ export default function InteractiveConfigurator({
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.75rem' }}>
                 <span style={{ color: '#2196F3', fontSize: '1.1rem' }}>🚚</span>
                 <div>
-                  <strong style={{ color: '#ccc' }}>Lieferung:</strong> 3-7 Werktage<br/>
+                  <strong style={{ color: '#ccc' }}>Lieferung:</strong> spätestens 10 Werktage (3–5 Handfertigung + Versand)<br/>
                   <span style={{ fontSize: '0.8rem', color: '#888' }}>Maßgefertigt auf Bestellung</span>
                 </div>
               </div>

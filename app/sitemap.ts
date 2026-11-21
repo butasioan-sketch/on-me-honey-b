@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/faq',
     '/versand',
     '/so-gehts',
+    '/grossbestellung',
     '/widerruf',
     '/impressum',
     '/datenschutz',

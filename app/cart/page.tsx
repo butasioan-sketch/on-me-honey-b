@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 import { useState, useEffect } from "react";
+import { MAX_SHOP_QUANTITY, totalQuantity } from "@/lib/order-limits";
 import Link from "next/link";
 import SiteHeader from "@/app/components/SiteHeader";
 import { useLocale } from "@/app/components/LocaleProvider";
@@ -128,12 +129,23 @@ export default function CartPage() {
   const updateQty = (index: number, delta: number) => {
     const updated = items.map((item, i) => {
       if (i !== index) return item;
-      const qty = Math.max(1, Math.min(9, item.quantity + delta));
+      const others = items.reduce((n, it, j) => (j === index ? n : n + it.quantity), 0);
+      const qty = Math.max(1, Math.min(9, MAX_SHOP_QUANTITY - others, item.quantity + delta));
       return { ...item, quantity: qty };
     });
     setItems(updated);
     localStorage.setItem("on_me_honey_b_cart", JSON.stringify(updated));
   };
+
+  const qtyTotal = totalQuantity(items);
+  const overLimit = qtyTotal > MAX_SHOP_QUANTITY;
+  const bulkText =
+    locale === "ro"
+      ? `Peste ${MAX_SHOP_QUANTITY} de bucăți producem la cerere, cu ofertă individuală și termen fix.`
+      : locale === "en"
+        ? `For more than ${MAX_SHOP_QUANTITY} pieces we make an individual offer with a fixed date.`
+        : `Mehr als ${MAX_SHOP_QUANTITY} Stück fertigen wir auf Anfrage – mit individuellem Angebot und festem Termin.`;
+  const bulkLink = locale === "ro" ? "Formular de cerere →" : locale === "en" ? "Request form →" : "Zum Anfrageformular →";
 
   const merchItems: MerchandiseItem[] = items.map((i) => ({
     productId: i.id,
@@ -202,7 +214,11 @@ export default function CartPage() {
         window.location.href = data.redirectUrl;
       } else {
         setError(
-          data.code === "cart_too_large" ? t.errors.cartTooLarge : t.errors.checkout,
+          data.code === "cart_too_large"
+            ? t.errors.cartTooLarge
+            : data.code === "bulk_inquiry_required"
+              ? bulkText
+              : t.errors.checkout,
         );
       }
     } catch {
@@ -360,16 +376,16 @@ export default function CartPage() {
                         </span>
                         <button
                           onClick={() => updateQty(i, +1)}
-                          disabled={item.quantity >= 9}
+                          disabled={item.quantity >= 9 || qtyTotal >= MAX_SHOP_QUANTITY}
                           style={{
                             width: 26,
                             height: 26,
                             borderRadius: "6px",
                             border: "1px solid rgba(255,255,255,0.15)",
                             background: "#1a1a1a",
-                            color: item.quantity >= 9 ? "#444" : "#fff",
+                            color: item.quantity >= 9 || qtyTotal >= MAX_SHOP_QUANTITY ? "#444" : "#fff",
                             cursor:
-                              item.quantity >= 9 ? "not-allowed" : "pointer",
+                              item.quantity >= 9 || qtyTotal >= MAX_SHOP_QUANTITY ? "not-allowed" : "pointer",
                             fontSize: "1rem",
                             display: "flex",
                             alignItems: "center",
@@ -668,10 +684,30 @@ export default function CartPage() {
               </p>
             )}
 
+            {(overLimit || qtyTotal >= MAX_SHOP_QUANTITY) && (
+              <p
+                data-testid="bulk-hint"
+                style={{
+                  background: "rgba(212,175,55,0.08)",
+                  border: "1px solid rgba(212,175,55,0.35)",
+                  borderRadius: "10px",
+                  padding: "0.75rem 1rem",
+                  marginBottom: "1rem",
+                  fontSize: "0.85rem",
+                  color: "#e8d9a8",
+                  lineHeight: 1.5,
+                }}
+              >
+                {bulkText}{" "}
+                <a href="/grossbestellung" style={{ color: "#D4AF37", fontWeight: 700 }}>
+                  {bulkLink}
+                </a>
+              </p>
+            )}
             <button
               type="button"
               onClick={checkout}
-              disabled={loading || missingDesign}
+              disabled={loading || missingDesign || overLimit}
               className="plt-btn-primary"
               style={{
                 width: "100%",
