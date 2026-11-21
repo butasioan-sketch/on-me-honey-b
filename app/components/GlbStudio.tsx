@@ -230,32 +230,6 @@ export default function GlbStudio({ profileId, modelPath, productName, previewOn
 
   return (
     <section className="glb-studio" aria-label={productName}>
-      <div className="glb-studio-tabs" role="group">
-        {(["front", "back"] as const).map((s) => {
-          const count = (s === "front" ? frontLayers : backLayers).length;
-          return (
-            <button
-              key={s}
-              type="button"
-              aria-pressed={side === s && !spinning}
-              className={`plt-tab${side === s && !spinning ? " plt-tab-active" : ""}`}
-              onClick={() => switchSide(s)}
-            >
-              {s === "front" ? tx.front : tx.back}
-              {count > 0 && <span className="glb-studio-dot" aria-label={`${count}`} />}
-            </button>
-          );
-        })}
-        <button
-          type="button"
-          aria-pressed={spinning}
-          className={`plt-tab${spinning ? " plt-tab-active" : ""}`}
-          onClick={() => setSpinning((v) => !v)}
-        >
-          {spinning ? tx.stop : tx.rotate}
-        </button>
-      </div>
-
       <div
         className={`glb-studio-viewer${dragOver ? " is-dragover" : ""}`}
         data-testid="glb-viewer"
@@ -270,6 +244,31 @@ export default function GlbStudio({ profileId, modelPath, productName, previewOn
           addFile(e.dataTransfer.files?.[0]);
         }}
       >
+        <div className="glb-studio-tabs" role="group">
+          {(["front", "back"] as const).map((s) => {
+            const count = (s === "front" ? frontLayers : backLayers).length;
+            return (
+              <button
+                key={s}
+                type="button"
+                aria-pressed={side === s && !spinning}
+                className={`plt-tab${side === s && !spinning ? " plt-tab-active" : ""}`}
+                onClick={() => switchSide(s)}
+              >
+                {s === "front" ? tx.front : tx.back}
+                {count > 0 && <span className="glb-studio-dot" aria-label={`${count}`} />}
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            aria-pressed={spinning}
+            className={`plt-tab${spinning ? " plt-tab-active" : ""}`}
+            onClick={() => setSpinning((v) => !v)}
+          >
+            {spinning ? tx.stop : tx.rotate}
+          </button>
+        </div>
         <ViewerBoundary message={tx.viewerError}>
           <Shirt3D
             productId={profileId}
