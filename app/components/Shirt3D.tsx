@@ -97,7 +97,8 @@ function CustomerPrint({
     position[2] += (front ? 1 : -1) * layerIndex * 0.0015;
     return {
       pos: position,
-      size: [w, h, Math.max(s.z * 1.5, 0.1)] as [number, number, number],
+      // Nur die zugewandte Hälfte treffen: sonst schlägt das Motiv auf die Gegenseite durch
+      size: [w, h, Math.max(s.z * 0.55, 0.004)] as [number, number, number],
     };
   }, [mesh, print.x, print.y, print.scale, front, productId, layerIndex]);
 
