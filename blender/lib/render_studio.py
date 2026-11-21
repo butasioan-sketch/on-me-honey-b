@@ -37,6 +37,10 @@ scene.render.resolution_x, scene.render.resolution_y = 600, 800
 vt = [i.identifier for i in scene.view_settings.bl_rna.properties["view_transform"].enum_items]
 scene.view_settings.view_transform = "AgX" if "AgX" in vt else "Filmic"
 scene.view_settings.exposure = 0.0
+try:
+    scene.view_settings.look = "AgX - Medium High Contrast"
+except Exception:
+    pass
 scene.cycles.max_bounces = 4
 scene.cycles.diffuse_bounces = 2
 scene.cycles.glossy_bounces = 2
@@ -45,7 +49,7 @@ scene.cycles.transmission_bounces = 2
 world = bpy.data.worlds.new("w")
 world.use_nodes = True
 world.node_tree.nodes["Background"].inputs[0].default_value = (0.82, 0.82, 0.83, 1)
-world.node_tree.nodes["Background"].inputs[1].default_value = 0.25
+world.node_tree.nodes["Background"].inputs[1].default_value = 0.12
 scene.world = world
 
 # Hohlkehle: Boden (vorn) geht in einem Viertelkreis in die Rückwand über
@@ -69,7 +73,7 @@ scene.collection.objects.link(cyc)
 mat = bpy.data.materials.new("studio")
 mat.use_nodes = True
 bsdf = mat.node_tree.nodes["Principled BSDF"]
-bsdf.inputs["Base Color"].default_value = (0.78, 0.78, 0.79, 1)
+bsdf.inputs["Base Color"].default_value = (0.42, 0.42, 0.43, 1)
 bsdf.inputs["Roughness"].default_value = 0.9
 cyc.data.materials.append(mat)
 
@@ -96,9 +100,9 @@ def softbox(name, loc, energy, sz):
     scene.collection.objects.link(o)
 
 
-softbox("key", (-2.2, -2.6, 2.0), 260, 3.5)
-softbox("fill", (2.6, -2.2, 0.8), 90, 4.0)
-softbox("top", (0.0, 1.0, 3.2), 110, 3.0)
+softbox("key", (-2.4, -2.4, 2.2), 300, 2.2)
+softbox("fill", (2.6, -2.2, 0.6), 45, 4.0)
+softbox("top", (0.6, 1.4, 3.0), 80, 2.5)
 
 scene.render.filepath = out_png
 bpy.ops.render.render(write_still=True)
