@@ -65,3 +65,15 @@ test("Warenkorb zeigt bei 20 Stück den Hinweis auf das Anfrageformular @smoke",
   await expect(page.getByTestId("bulk-hint")).toBeVisible();
   await expect(page.getByTestId("bulk-hint").getByRole("link")).toHaveAttribute("href", "/grossbestellung");
 });
+
+test("Anleitungsvideos sind abrufbar und eingebunden @smoke", async ({ page }) => {
+  await page.goto("/so-gehts");
+  await expect(page.locator("video")).toHaveCount(2);
+  for (const v of ["bestellen", "bezahlen"]) {
+    const res = await page.request.get(`/videos/${v}.mp4`);
+    expect(res.status(), v).toBe(200);
+    expect(res.headers()["content-type"], v).toContain("video/mp4");
+    const vtt = await page.request.get(`/videos/${v}.de.vtt`);
+    expect((await vtt.text()).startsWith("WEBVTT"), v).toBe(true);
+  }
+});

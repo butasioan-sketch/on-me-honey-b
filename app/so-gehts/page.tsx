@@ -14,7 +14,7 @@ const STEPS = [
   ["Motiv hochladen", "Tippe auf „Bild hierher ziehen oder tippen“ und wähle dein Bild. Es erscheint sofort auf dem Modell – vorne oder hinten."],
   ["Anpassen", "Mit den Reglern änderst du Größe und Position. „360° drehen“ zeigt dir das Ergebnis von allen Seiten."],
   ["Größe wählen", "Wähle deine Größe und tippe auf „Jetzt bestellen“ oder lege das Teil in den Warenkorb."],
-  ["Bezahlen", "Du landest auf der sicheren Bezahlseite von Stripe. Adresse eingeben, Zahlungsart wählen, bezahlen – fertig. Die Bestätigung kommt per E-Mail."],
+  ["Bezahlen", "Du landest auf der sicheren Bezahlseite von Stripe. E-Mail und Lieferadresse eingeben, Zahlungsart wählen (z. B. Karte, PayPal, Klarna, SEPA-Lastschrift oder Apple Pay – je nach Gerät), bezahlen – fertig. Die Bestätigung kommt per E-Mail. Wir fertigen dann in 3–5 Werktagen von Hand; spätestens 10 Werktage nach Zahlungseingang ist deine Bestellung bei dir."],
 ] as const;
 
 function Video({ src, title, captions }: { src: string; title: string; captions: string }) {
