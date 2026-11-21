@@ -179,10 +179,7 @@ function GarmentModel({
   }, [scene, shirtColor, productId, preserveMaterials]);
 
   return (
-    <group
-      scale={preserveMaterials || visible ? 1 : 0.8}
-      position={[0, preserveMaterials || visible ? 0 : -0.3, 0]}
-    >
+    <group>
       <primitive object={scene} />
       {decalMesh &&
         visible &&
@@ -335,14 +332,18 @@ export default function Shirt3D({
             </group>
           </Bounds>
         ) : (
-          <group rotation={sideRotation}>
-            <GarmentModel
-              {...props}
-              modelPath={modelPath}
-              productId={productId}
-              preserveMaterials={false}
-            />
-          </group>
+          // Auch die Shop-Modelle automatisch einpassen (vorher feste Kamera: Tee im
+          // quadratischen Viewer unten abgeschnitten).
+          <Bounds fit clip margin={1.15}>
+            <group rotation={sideRotation}>
+              <GarmentModel
+                {...props}
+                modelPath={modelPath}
+                productId={productId}
+                preserveMaterials={false}
+              />
+            </group>
+          </Bounds>
         )}
 
         {/* Soft contact shadows - realistic ground contact */}
@@ -354,7 +355,7 @@ export default function Shirt3D({
           far={2}
         />
         <OrbitControls
-          makeDefault={preserveMaterials}
+          makeDefault
           enablePan={false}
           minDistance={cam.minDistance}
           maxDistance={cam.maxDistance}
