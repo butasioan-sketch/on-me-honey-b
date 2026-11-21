@@ -54,7 +54,7 @@ scene.world = world
 
 # Hohlkehle: Boden (vorn) geht in einem Viertelkreis in die Rückwand über
 floor_z = mn.z
-span = radius * 12
+span = max(radius * 12, 4.0)  # kleine Artikel: Boden darf nie im Bild enden
 back_y = mx.y + radius * 1.2
 r = radius * 1.5
 verts = [(center.x - span, center.y - span, floor_z), (center.x + span, center.y - span, floor_z)]
