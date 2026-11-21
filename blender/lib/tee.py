@@ -37,7 +37,8 @@ DEFAULTS = dict(
     back_drop=0.022,
     neck_d_front=0.070,
     neck_d_back=0.060,
-    body_d=0.150,
+    body_d=0.135,         # Rumpftiefe (21.11.: flacher, näher an den Ghost-Mannequin-Fotos)
+    body_round=2.1,       # Superellipsen-Exponent Rumpfquerschnitt (2 = Ellipse; früher 2.7 = kastig)
     sleeve_len=0.185,
     sleeve_angle=38.0,    # Grad unter der Horizontalen
     sleeve_root=(0.098, 0.088),  # Radius oben/Tiefe am Armloch
@@ -49,7 +50,7 @@ DEFAULTS = dict(
     carbon_color=(0.05, 0.052, 0.056),
     raglan=False,         # Raglan-Naht vom Hals zur Achsel
     side_seam_lines=False,  # Teilungsnähte vorne (Laufshirt)
-    folds=1.0,            # Stärke des Faltenwurfs
+    folds=1.5,            # Stärke des Faltenwurfs (21.11.: 1.0 → 1.5, natürlicher)
     sleeveless=False,     # Tanktop/Träger: offene Armausschnitte statt Ärmel
     armhole_h=None,       # Unterkante Armausschnitt (None = armpit_h)
     armhole_open=0.55,    # Öffnungstiefe des Armausschnitts relativ zur Rumpftiefe
@@ -102,6 +103,10 @@ def _material(name, rgb, rough=0.82, sheen=0.25):
 def build(config):
     c = dict(DEFAULTS)
     c.update(config)
+    if c.get("photo_pose", True) and not c["sleeveless"] and c["sleeve_len"] < 0.3:
+        # 21.11.: Kurzärmel hängen auf den Produktfotos deutlich tiefer, Schultern fallen ab
+        c["sleeve_angle"] = min(56.0, c["sleeve_angle"] + 12.0)
+        c["shoulder_drop"] = c["shoulder_drop"] * 1.3
     args = sys.argv[sys.argv.index("--") + 1:]
     output = Path(args[0]).resolve()
     blend_out = Path(args[1]).resolve() if len(args) > 1 and args[1] else None
@@ -165,8 +170,10 @@ def build(config):
         d = c["neck_d_front"] if front else c["neck_d_back"]
         return d * math.sqrt(max(0.0, 1 - (ax / NW) ** 2))
 
+    PSE = c.get("body_round", P_SE)
+
     def superellipse(u):
-        return max(0.0, 1 - abs(u) ** P_SE) ** (1 / P_SE)
+        return max(0.0, 1 - abs(u) ** PSE) ** (1 / PSE)
 
     def folds(x, h, front):
         s = 1 if front else -1

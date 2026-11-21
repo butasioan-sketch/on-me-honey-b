@@ -11,6 +11,7 @@ import {
   ContactShadows,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { getDecalDimensions, getDecalPosition } from "@/lib/print-position";
 import { getViewerAspect } from "@/lib/print-spec";
 import {
@@ -265,6 +266,25 @@ function getCamera(productId: string) {
   };
 }
 
+/** Studio-Umgebung für realistische Reflexionen (prozedural, keine externe HDR-Datei → CSP-konform). */
+function StudioEnvironment() {
+  const gl = useThree((st) => st.gl);
+  const get = useThree((st) => st.get);
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl);
+    const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    const scene = get().scene; // three.js-Szene ist ein veränderliches Objekt, kein React-State
+    scene.environment = env;
+    scene.environmentIntensity = 0.85;
+    return () => {
+      scene.environment = null;
+      env.dispose();
+      pmrem.dispose();
+    };
+  }, [gl, get]);
+  return null;
+}
+
 /**
  * Dreht das MODELL (nicht die Kamera): beim 360°-Drehen kontinuierlich, sonst exakt
  * Vorder- bzw. Rückseite zur Kamera. Bei jedem Seitenwechsel wird auch die Kamera
@@ -330,8 +350,9 @@ export default function Shirt3D({
       }}
     >
       <Suspense fallback={<ModelLoadingSkeleton productId={productId} />}>
+        <StudioEnvironment />
         {/* Professional lighting with shadows + environment - 10/10 quality */}
-        <ambientLight intensity={0.75} />
+        <ambientLight intensity={0.25} />
         <directionalLight
           position={[2.5, 4, 3]}
           intensity={1.2}
