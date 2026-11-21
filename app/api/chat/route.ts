@@ -13,7 +13,7 @@ ATELIER (Design-Prozess): Kunde lädt eigenes Motiv hoch und/oder tippt eigenen 
 
 PREIS: T-Shirt €44,99, Shorts €39,99 — jeweils Fixpreis für bis zu 2 Motiv-Ebenen (vorne & hinten zusammen), jede weitere Ebene +€2,99. Essential Set (1× T-Shirt + 1× Shorts zusammen): €74,99 statt €84,98 — wird im Warenkorb automatisch angewendet, sobald beide Produkte drin sind.
 
-VERSAND: Nur Deutschland — ab €4,49 (Hermes) / €4,79 (DPD) / €4,99 (DHL), 3–5 Werktage. Zusätzlich Fertigungszeit: 2–3 Werktage nach Bestellung, da jedes Piece individuell bedruckt wird. Gesamtlieferzeit AGB: 5–10 Werktage ab Zahlungseingang.
+VERSAND: Nur Deutschland — ab €4,49 (Hermes) / €4,79 (DPD) / €4,99 (DHL), 3–5 Werktage. Zusätzlich Handfertigung: 3–5 Werktage nach Zahlungseingang, Lieferung spätestens 10 Werktage, da jedes Piece individuell bedruckt wird. Gesamtlieferzeit AGB: 5–10 Werktage ab Zahlungseingang.
 
 PFLEGE: Waschen bei 30 °C, auf links gewendet, damit der Druck möglichst lange hält.
 
@@ -113,10 +113,10 @@ function getFallbackResponse(message: string, locale: string): string {
   const responses: Record<string, Record<string, string>> = {
     de: {
       groesse: 'Unsere Größen: S (XS-S), M (M), L (L-XL), XL (XL-XXL), XXL (XXL+). Bei Unsicherheit empfehlen wir eine Größe größer.',
-      versand: 'Deutschland: ab €4.49 (Hermes), €4.79 (DPD) oder €4.99 (DHL), 2–5 Werktage je nach Paketdienst.',
+      versand: 'Deutschland: ab €4.49 (Hermes), €4.79 (DPD) oder €4.99 (DHL), 2–5 Werktage Versand je nach Paketdienst, plus 3–5 Werktage Handfertigung.',
       rueckgabe: 'Da jedes Shirt individuell bedruckt wird, ist ein Widerruf gesetzlich ausgeschlossen (§ 312g BGB). Bei Druckfehlern oder Beschädigung ersetzen wir dein Shirt kostenlos — schreib uns einfach eine E-Mail mit Foto.',
       zahlung: 'Wir akzeptieren alle Kreditkarten über Stripe. 100% sichere Verbindung.',
-      produktion: 'Jedes Piece wird maßgefertigt nach deiner Bestellung — kein Lagerware-Print-on-Demand. Fertigung: 2–3 Werktage.',
+      produktion: 'Jedes Piece wird maßgefertigt nach deiner Bestellung — kein Lagerware-Print-on-Demand. Handfertigung: 3–5 Werktage, Lieferung spätestens 10 Werktage nach Zahlungseingang.',
       material: 'AirFit Performance Fabric — leicht, schnelltrocknend, dein Motiv wird in die Faser sublimiert (kein Aufkleber, kein Abblättern). Aktuell nur in Weiß.',
       atelier: 'Im Atelier lädst du dein Motiv hoch (vorne und/oder hinten, 210 × 297 mm) und positionierst/skalierst es frei — was du siehst, wird genauso gedruckt. Die 360°-Ansicht drehst du nur manuell per Ziehen.',
       pflege: 'Waschen bei 30 °C, auf links gewendet — so hält der Druck am längsten.',
@@ -128,7 +128,7 @@ function getFallbackResponse(message: string, locale: string): string {
       versand: 'Germania: de la 4,49 €, 2–5 zile lucrătoare.',
       rueckgabe: 'Deoarece fiecare tricou este imprimat individual, retragerea este exclusă legal. La defecte de imprimare sau deteriorare, înlocuim tricoul gratuit — trimiteți-ne un email cu o poză.',
       zahlung: 'Acceptăm toate cardurile prin Stripe. Conexiune 100% sigură.',
-      produktion: 'Fiecare tricou este produs individual după comanda ta — nu e marfă de stoc. Timp de producție: 2–3 zile.',
+      produktion: 'Fiecare tricou este produs individual după comanda ta — nu e marfă de stoc. Producție manuală: 3–5 zile lucrătoare, livrare în max. 10 zile lucrătoare.',
       material: 'AirFit Performance Fabric — ușor, se usucă rapid, designul tău este sublimat în fibră (fără autocolant, fără decojire). Momentan doar alb.',
       atelier: 'În Atelier încarci motivul (față și/sau spate, 210 × 297 mm) și îl poziționezi/scalezi liber — ce vezi, se imprimă exact așa. Vederea 360° se rotește doar manual, prin tragere.',
       pflege: 'Spălare la 30 °C, pe dos — așa ține imprimeul cel mai mult.',
@@ -140,7 +140,7 @@ function getFallbackResponse(message: string, locale: string): string {
       versand: 'Germany: from €4.49, 2–5 business days.',
       rueckgabe: 'Since every shirt is individually printed, returns are legally excluded. For print defects or damage we replace your shirt free of charge — just email us a photo.',
       zahlung: 'We accept all credit cards via Stripe. 100% secure connection.',
-      produktion: 'Each shirt is individually made to order — no stock print-on-demand. Production time: 2–3 days.',
+      produktion: 'Each shirt is individually made to order — no stock print-on-demand. Handmade production: 3–5 working days, delivered within 10 working days.',
       material: 'AirFit Performance Fabric — light, fast-drying, your design is sublimated into the fiber (no sticker, no peeling). Currently white only.',
       atelier: 'In the Studio you upload your design (front and/or back, 210 × 297 mm) and freely position/scale it — what you see is exactly what prints. The 360° view only rotates manually by dragging.',
       pflege: 'Wash at 30 °C, inside out — that keeps the print looking best for longest.',

@@ -1,6 +1,6 @@
 "use client";
-import React, { Suspense, useEffect, useMemo, useState } from "react";
-import { Canvas, createPortal } from "@react-three/fiber";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Canvas, createPortal, useFrame, useThree } from "@react-three/fiber";
 import {
   OrbitControls,
   Bounds,
@@ -11,17 +11,15 @@ import {
   ContactShadows,
 } from "@react-three/drei";
 import * as THREE from "three";
-import ShirtFlip from "./ShirtFlip";
-import StaticShirtPreview from "./StaticShirtPreview";
 import { getDecalDimensions, getDecalPosition } from "@/lib/print-position";
 import { getViewerAspect } from "@/lib/print-spec";
 import {
   getAtelierModelPath,
-  getLiveFamilies,
   getProductByShopId,
 } from "@/lib/catalog/families";
 
 interface PrintData {
+  id?: string;
   src: string;
   x: number;
   y: number;
@@ -32,10 +30,12 @@ interface Shirt3DProps {
   backPrint?: PrintData[];
   shirtColor?: string;
   enableTouch?: boolean;
-  fallback?: "static" | "flip";
-  frontSrc?: string;
-  backSrc?: string;
   productId?: string;
+  /** Direktes GLB (z. B. /models/sku/051-v1.glb) statt Auflösung über die Shop-ID. */
+  modelPath?: string;
+  /** Welche Seite zur Kamera zeigt, solange nicht automatisch gedreht wird. */
+  facing?: "front" | "back";
+  autoRotate?: boolean;
 }
 
 // The original shop meshes use the legacy tint. Calibrated SKU models carry their own materials.
@@ -97,7 +97,8 @@ function CustomerPrint({
     position[2] += (front ? 1 : -1) * layerIndex * 0.0015;
     return {
       pos: position,
-      size: [w, h, Math.max(s.z * 1.5, 0.1)] as [number, number, number],
+      // Nur die zugewandte Hälfte treffen: sonst schlägt das Motiv auf die Gegenseite durch
+      size: [w, h, Math.max(s.z * 0.55, 0.004)] as [number, number, number],
     };
   }, [mesh, print.x, print.y, print.scale, front, productId, layerIndex]);
 
@@ -172,14 +173,6 @@ function GarmentModel({
     if (bestMesh) {
       const b = bestMesh as THREE.Mesh;
       b.geometry.computeBoundingBox();
-      console.log(
-        "[Shirt3D] product",
-        productId,
-        "verts",
-        bestCount,
-        "bbox",
-        JSON.stringify(b.geometry.boundingBox),
-      );
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setDecalMesh(b);
     }
@@ -187,10 +180,7 @@ function GarmentModel({
   }, [scene, shirtColor, productId, preserveMaterials]);
 
   return (
-    <group
-      scale={preserveMaterials || visible ? 1 : 0.8}
-      position={[0, preserveMaterials || visible ? 0 : -0.3, 0]}
-    >
+    <group>
       <primitive object={scene} />
       {decalMesh &&
         visible &&
@@ -198,7 +188,7 @@ function GarmentModel({
           <>
             {(frontPrint || []).map((p, i) => (
               <CustomerPrint
-                key={`front-${i}`}
+                key={p.id ?? `front-${i}`}
                 mesh={decalMesh}
                 print={p}
                 front
@@ -208,7 +198,7 @@ function GarmentModel({
             ))}
             {(backPrint || []).map((p, i) => (
               <CustomerPrint
-                key={`back-${i}`}
+                key={p.id ?? `back-${i}`}
                 mesh={decalMesh}
                 print={p}
                 front={false}
@@ -275,30 +265,50 @@ function getCamera(productId: string) {
   };
 }
 
+/**
+ * Dreht das MODELL (nicht die Kamera): beim 360°-Drehen kontinuierlich, sonst exakt
+ * Vorder- bzw. Rückseite zur Kamera. Bei jedem Seitenwechsel wird auch die Kamera
+ * auf die Frontalansicht zurückgesetzt, damit „Vorderseite/Rückseite" immer stimmt.
+ */
+function SideGroup({ facing, spinning, children }: { facing: "front" | "back"; spinning: boolean; children: React.ReactNode }) {
+  const ref = useRef<THREE.Group>(null);
+  const controls = useThree((st) => st.controls) as unknown as {
+    setAzimuthalAngle?: (a: number) => void;
+    setPolarAngle?: (a: number) => void;
+    update?: () => void;
+  } | null;
+  const invalidate = useThree((st) => st.invalidate);
+  useEffect(() => {
+    if (spinning || !ref.current) return;
+    ref.current.rotation.y = facing === "back" ? Math.PI : 0;
+    controls?.setAzimuthalAngle?.(0);
+    controls?.setPolarAngle?.(Math.PI / 2 - 0.05);
+    controls?.update?.();
+    invalidate();
+  }, [facing, spinning, controls, invalidate]);
+  useFrame((_, delta) => {
+    if (spinning && ref.current) ref.current.rotation.y += delta * 0.9;
+  });
+  return <group ref={ref}>{children}</group>;
+}
+
 export default function Shirt3D({
   enableTouch = true,
-  fallback = "flip",
+  modelPath: modelOverride,
+  facing = "front",
+  autoRotate = true,
   ...props
 }: Shirt3DProps) {
   const requestedId = props.productId;
-  const record = requestedId ? getProductByShopId(requestedId) : null;
-  const modelPath = record ? getAtelierModelPath(record) : null;
-  const preserveMaterials = !!record?.atelierModel;
+  const record = requestedId && !modelOverride ? getProductByShopId(requestedId) : null;
+  const modelPath = modelOverride ?? (record ? getAtelierModelPath(record) : null);
+  const preserveMaterials = !!modelOverride || !!record?.atelierModel;
 
   if (!requestedId || !modelPath) {
-    if (fallback === "static") {
-      return <StaticShirtPreview shadow="0 12px 32px rgba(0,0,0,0.55)" />;
-    }
     return (
-      <ShirtFlip
-        frontPrint={props.frontPrint}
-        backPrint={props.backPrint}
-        productId={props.productId}
-        {...(props.frontSrc ? { frontSrc: props.frontSrc } : {})}
-        {...(props.backSrc ? { backSrc: props.backSrc } : {})}
-        showControls={false}
-        showHint={false}
-      />
+      <p role="status" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#a0a0a0" }}>
+        3D-Modell nicht verfügbar
+      </p>
     );
   }
 
@@ -309,7 +319,8 @@ export default function Shirt3D({
     <Canvas
       shadows
       camera={{ position: cam.cameraPos, fov: cam.fov }}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
+      frameloop={autoRotate ? "always" : "demand"}
       style={{ width: "100%", height: "100%", background: "transparent" }}
       gl={{
         antialias: true,
@@ -338,20 +349,28 @@ export default function Shirt3D({
 
         {preserveMaterials ? (
           <Bounds fit clip margin={1.2}>
-            <GarmentModel
-              {...props}
-              modelPath={modelPath}
-              productId={productId}
-              preserveMaterials
-            />
+            <SideGroup facing={facing} spinning={autoRotate}>
+              <GarmentModel
+                {...props}
+                modelPath={modelPath}
+                productId={productId}
+                preserveMaterials
+              />
+            </SideGroup>
           </Bounds>
         ) : (
-          <GarmentModel
-            {...props}
-            modelPath={modelPath}
-            productId={productId}
-            preserveMaterials={false}
-          />
+          // Auch die Shop-Modelle automatisch einpassen (vorher feste Kamera: Tee im
+          // quadratischen Viewer unten abgeschnitten).
+          <Bounds fit clip margin={1.15}>
+            <SideGroup facing={facing} spinning={autoRotate}>
+              <GarmentModel
+                {...props}
+                modelPath={modelPath}
+                productId={productId}
+                preserveMaterials={false}
+              />
+            </SideGroup>
+          </Bounds>
         )}
 
         {/* Soft contact shadows - realistic ground contact */}
@@ -363,12 +382,11 @@ export default function Shirt3D({
           far={2}
         />
         <OrbitControls
-          makeDefault={preserveMaterials}
+          makeDefault
           enablePan={false}
           minDistance={cam.minDistance}
           maxDistance={cam.maxDistance}
-          autoRotate={true}
-          autoRotateSpeed={1.5}
+          autoRotate={false}
           target={cam.orbitTarget}
           enableRotate={enableTouch}
           enableZoom={enableTouch}
@@ -380,9 +398,4 @@ export default function Shirt3D({
   );
 }
 
-// WAVE 4.1: Preload only shop_live families
-getLiveFamilies().forEach((family) => {
-  if (family.glbPath) {
-    useGLTF.preload(family.glbPath, "/draco/gltf/");
-  }
-});
+// Kein Vorladen aller Modelle beim Import: jede Seite lädt nur ihr eigenes GLB.

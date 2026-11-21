@@ -103,7 +103,7 @@ fi
 echo "📦 Static Assets:"
 check "GLB Tee" "$BASE_URL/models/shirt-white-v2.glb" "200"
 check "GLB Shorts" "$BASE_URL/models/shorts-white-v1.glb" "200"
-check "Image Front" "$BASE_URL/airfit-front.png" "200"
+check "GLB SKU 001" "$BASE_URL/models/sku/001-v1.glb" "200"
 pillow_headers=$(curl -sI "$BASE_URL/models/pillow-cover-40x40.glb" | tr -d '\r' | tr '[:upper:]' '[:lower:]')
 pillow_len=$(echo "$pillow_headers" | awk '$1=="content-length:" { print $2 }')
 if [ "$pillow_len" = "3687780" ]; then

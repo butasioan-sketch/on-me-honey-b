@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { MAX_SHOP_QUANTITY, totalQuantity } from "@/lib/order-limits";
 import { getPaymentMethod } from "../../../../data/payments";
 import { getProviderMode } from "../../../../lib/paymentProviders";
 import {
@@ -250,6 +251,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // Ab 21 Stück insgesamt nur per Anfrage (Handfertigung, individuelles Angebot)
+    const qtyTotal = totalQuantity(items.map((i) => ({ quantity: Math.round(Number(i.quantity || 0)) })));
+    if (qtyTotal > MAX_SHOP_QUANTITY) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: `Bestellungen über ${MAX_SHOP_QUANTITY} Stück bitte über das Anfrageformular (/grossbestellung).`,
+          code: "bulk_inquiry_required",
+          quantity: qtyTotal,
+        },
+        { status: 400 },
+      );
+    }
+
     // WAVE 6.4: Gate check for productId='3' (pillow) - requires Jonny approval
     const hasPillow = items.find((item) => item.productId === "3");
     if (hasPillow) {
@@ -443,9 +458,21 @@ export async function POST(request: Request) {
       d: p.designId ?? "",
       pid: p.productId,
     }));
-    const itemsMeta = JSON.stringify(itemsAbbrev);
-    // shortcut: Stripe metadata bounds cart size, move the complete order snapshot to the database to support larger carts.
-    if (itemsMeta.length > 500) {
+    // Stripe: max. 500 Zeichen je Metadata-Wert, max. 50 Schlüssel. Die Positionen werden
+    // daher auf items, items_1, items_2 … verteilt (Webhook setzt sie wieder zusammen).
+    const itemChunks: string[] = [];
+    let chunk: typeof itemsAbbrev = [];
+    for (const it of itemsAbbrev) {
+      const next = JSON.stringify([...chunk, it]);
+      if (next.length > 500 && chunk.length) {
+        itemChunks.push(JSON.stringify(chunk));
+        chunk = [it];
+      } else {
+        chunk.push(it);
+      }
+    }
+    if (chunk.length) itemChunks.push(JSON.stringify(chunk));
+    if (itemChunks.some((c) => c.length > 500) || itemChunks.length > 30) {
       return NextResponse.json(
         {
           ok: false,
@@ -455,6 +482,8 @@ export async function POST(request: Request) {
         { status: 422 },
       );
     }
+    const itemsMeta = itemChunks[0] ?? "[]";
+    const extraItemMeta = Object.fromEntries(itemChunks.slice(1).map((c, i) => [`items_${i + 1}`, c]));
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -477,9 +506,9 @@ export async function POST(request: Request) {
       custom_text: {
         submit: {
           message: {
-            de: "Maßanfertigung nach deinem Motiv: kein Widerrufsrecht (§ 312g Abs. 2 Nr. 1 BGB). Es gelten unsere AGB.",
-            ro: "Produs realizat la comandă după motivul tău: fără drept de retragere (§ 312g alin. 2 nr. 1 BGB). Se aplică termenii noștri.",
-            en: "Made to order from your design: no right of withdrawal (§ 312g (2) no. 1 BGB). Our terms apply.",
+            de: `Handgefertigt nach deinem Motiv: 3–5 Werktage Produktion + Versand, Lieferung spätestens 10 Werktage nach Zahlungseingang. Kein Widerrufsrecht (§ 312g Abs. 2 Nr. 1 BGB); bei Produkt- oder Druckfehlern gilt die Gewährleistung, Rücksendekosten tragen wir. Es gelten unsere [AGB](${siteUrl}/agb).`,
+            ro: `Realizat manual după motivul tău: 3–5 zile lucrătoare producție + livrare, max. 10 zile lucrătoare de la plată. Fără drept de retragere (§ 312g alin. 2 nr. 1 BGB); pentru defecte se aplică garanția, costurile de retur le suportăm noi. Se aplică [termenii](${siteUrl}/agb).`,
+            en: `Handmade from your design: 3–5 working days production + shipping, delivered within 10 working days after payment. No right of withdrawal (§ 312g (2) no. 1 BGB); for product or print defects the warranty applies and we cover return costs. Our [terms](${siteUrl}/agb) apply.`,
           }[locale],
         },
       },
@@ -489,6 +518,7 @@ export async function POST(request: Request) {
         reference: body.reference || "",
         paymentMethod,
         items: itemsMeta,
+        ...extraItemMeta,
         designId: priced.find((p) => p.designId)?.designId || "",
         designIds: priced
           .map((p) => p.designId)

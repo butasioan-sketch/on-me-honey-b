@@ -50,9 +50,6 @@ export async function POST(request: NextRequest) {
   }
   try {
     await ensureInit();
-    const contentLength = request.headers.get('content-length');
-    const sizeMb = contentLength ? (parseInt(contentLength) / 1024 / 1024).toFixed(2) : '?';
-    console.log('[designs POST] content-length:', sizeMb, 'MB');
 
     const body = await request.json().catch(() => null);
     if (!body || typeof body !== 'object') {

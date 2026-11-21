@@ -43,6 +43,7 @@ test("vorläufige Druckprofile: Bekleidung vorne und hinten, je höchstens A4 @s
 test("vorläufige Druckprofile machen keinen Artikel kaufbar @smoke", async ({ page }) => {
   // 016 (Sporthose) hat jetzt ein vorläufiges Profil, bleibt aber Katalogartikel ohne Kaufen-Knopf.
   await page.goto("/product/016");
-  await expect(page.getByRole("button", { name: "360°-Entwurf ansehen" })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByText("Bald verfügbar")).toBeVisible({ timeout: 20000 });
+  await expect(page.getByRole("button", { name: /Bild hierher ziehen/ })).toBeVisible();
   await expect(page.getByRole("button", { name: /Jetzt bestellen/ })).toHaveCount(0);
 });

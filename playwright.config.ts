@@ -14,6 +14,10 @@ export default defineConfig({
     // navigator.language im Testbrowser oft auf en-US, lib/locale.ts detectLocale()
     // wechselt dann auf Englisch und alle deutschen Text-Locators schlagen fehl.
     locale: "de-DE",
+    // Geschützte Vercel-Preview: kurzlebiges OIDC-Token als Trusted-Source-Header (nie loggen).
+    ...(process.env.E2E_VERCEL_OIDC && process.env.VERCEL_OIDC_TOKEN
+      ? { extraHTTPHeaders: { "x-vercel-trusted-oidc-idp-token": process.env.VERCEL_OIDC_TOKEN } }
+      : {}),
   },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },

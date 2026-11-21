@@ -798,3 +798,39 @@ export async function getReviewStats() {
 
   return { count, avg, pending: pending.length };
 }
+
+export interface BulkInquiry {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  company: string | null;
+  products: string;
+  quantity: number;
+  wantedBy: string | null;
+  message: string | null;
+  locale: string;
+}
+
+/** Speichert eine Großbestellungs-Anfrage. Wirft, wenn keine Datenbank erreichbar ist –
+ *  das Formular meldet Erfolg nur nach bestätigtem INSERT. */
+export async function createBulkInquiry(inq: BulkInquiry): Promise<void> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  if (!sql) throw new Error("Keine Datenbank konfiguriert");
+  const rows = await sql.query(
+    `INSERT INTO bulk_inquiries (id, name, email, phone, company, products, quantity, wanted_by, message, locale)
+     VALUES ($1,$2,lower($3),$4,$5,$6,$7,$8,$9,$10) RETURNING id`,
+    [inq.id, inq.name, inq.email, inq.phone, inq.company, inq.products, inq.quantity, inq.wantedBy, inq.message, inq.locale],
+  );
+  if (rows.length !== 1) throw new Error("Anfrage nicht gespeichert");
+}
+
+export async function markBulkInquiryNotified(id: string): Promise<void> {
+  const sql = (await getPg()) as {
+    query: (q: string, p?: unknown[]) => Promise<Record<string, unknown>[]>;
+  } | null;
+  if (!sql) return;
+  await sql.query(`UPDATE bulk_inquiries SET admin_notified_at = NOW() WHERE id = $1`, [id]);
+}

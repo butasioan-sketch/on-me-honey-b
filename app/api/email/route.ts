@@ -70,10 +70,11 @@ function buildStatusHtml(title: string, body: string, orderId: string, isDeliver
 }
 
 function buildConfirmationEmail(d: OrderEmailData, designPreview: string) {
+  const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://on-me-honey-b.vercel.app';
   const templates: Record<string, { subject: string; title: string; intro: string; footer: string }> = {
-    de: { subject: `ON ME HONEY B — Bestellbestätigung ${d.orderId}`, title: 'Danke für deine Bestellung!', intro: 'Deine Bestellung wurde erfolgreich aufgegeben.', footer: 'Produktion startet innerhalb von 24 Stunden.' },
-    ro: { subject: `ON ME HONEY B — Confirmare comandă ${d.orderId}`, title: 'Mulțumim pentru comandă!', intro: 'Comanda ta a fost plasată cu succes.', footer: 'Producția începe în 24 de ore.' },
-    en: { subject: `ON ME HONEY B — Order Confirmation ${d.orderId}`, title: 'Thank you for your order!', intro: 'Your order has been placed successfully.', footer: 'Production starts within 24 hours.' },
+    de: { subject: `ON ME HONEY B — Bestellbestätigung ${d.orderId}`, title: 'Danke für deine Bestellung!', intro: 'Deine Bestellung wurde erfolgreich aufgegeben.', footer: `Wir fertigen dein Stück jetzt in Handarbeit (3–5 Werktage), danach geht es in den Versand – spätestens 10 Werktage nach Zahlungseingang ist es bei dir. Vertragsgrundlage sind unsere AGB (${SITE}/agb). Personalisierte Ware ist vom Widerruf ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB); bei Produkt- oder Druckfehlern gilt die gesetzliche Gewährleistung, die Rücksendekosten tragen wir (${SITE}/versand).` },
+    ro: { subject: `ON ME HONEY B — Confirmare comandă ${d.orderId}`, title: 'Mulțumim pentru comandă!', intro: 'Comanda ta a fost plasată cu succes.', footer: `Producem manual articolul tău (3–5 zile lucrătoare), apoi îl expediem – livrare în max. 10 zile lucrătoare de la plată. Se aplică termenii noștri (${SITE}/agb). Produsele personalizate nu pot fi returnate prin retragere; pentru defecte de produs sau de imprimare se aplică garanția legală, costurile de retur le suportăm noi.` },
+    en: { subject: `ON ME HONEY B — Order Confirmation ${d.orderId}`, title: 'Thank you for your order!', intro: 'Your order has been placed successfully.', footer: `We now make your item by hand (3–5 working days) and then ship it – delivered no later than 10 working days after payment. Our terms apply (${SITE}/agb). Personalised goods are excluded from the right of withdrawal; for product or print defects the statutory warranty applies and we cover return costs.` },
   };
   const t = templates[d.locale] || templates.de;
   return { subject: t.subject, html: buildHtml(t.title, t.intro, d, t.footer, designPreview) };

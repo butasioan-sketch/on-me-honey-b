@@ -67,7 +67,22 @@ export default function ImpressumPage() {
           </>
         )}
 
-        <div style={{ marginTop: '2.5rem', color: '#555', fontSize: '0.82rem', lineHeight: 1.6 }}>
+        <div style={S.section}>
+          <p style={S.label}>Über uns</p>
+          <p style={S.value}>
+            ON ME HONEY B ist ein kleines Start-up. Wir gestalten nicht nur – wir fertigen jedes Stück selbst in Handarbeit:
+            Druckvorbereitung, Sublimationsdruck, Pressen und Endkontrolle passieren bei uns, nicht in einer Fabrik.
+            Deshalb produzieren wir erst nach deiner Bestellung (3–5 Werktage) und nehmen Großbestellungen über 20 Stück per{' '}
+            <a href="/grossbestellung" style={{ color: '#D4AF37' }}>Anfrage</a> an.
+          </p>
+        </div>
+
+        <div style={S.section}>
+          <p style={S.label}>Umsatzsteuer</p>
+          <p style={S.value}>Kleinunternehmer gemäß § 19 UStG, daher kein Ausweis der Umsatzsteuer.</p>
+        </div>
+
+        <div style={{ marginTop: '2.5rem', color: '#8f8f8f', fontSize: '0.82rem', lineHeight: 1.6 }}>
           <p>
             Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
           </p>

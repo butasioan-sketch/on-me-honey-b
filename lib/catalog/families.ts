@@ -1022,10 +1022,9 @@ export function getProductBySku(sku: string): ProductRecord | null {
   return CATALOG[sku] || null;
 }
 
-/** Katalogfoto. 001 und 015 sind PNG, alle anderen SKUs sind JPG. */
+/** Vorschaubild aus dem 3D-Modell (blender/lib/render_thumb.py), ersetzt seit 21.11.2026 die Produktfotos. */
 export function catalogFrontSrc(sku: string): string {
-  const ext = sku === "001" || sku === "015" ? "png" : "jpg";
-  return `/products/${sku}/front.${ext}`;
+  return `/products/${sku}/glb.webp`;
 }
 
 /**

@@ -5,7 +5,7 @@ export interface FaqItem { q: string; a: string; }
 const FAQ_DE: FaqItem[] = [
   { q: 'Wie gestalte ich mein Piece?', a: 'Im Atelier lädst du dein Motiv hoch — vorne und hinten im Format 210 × 297 mm. Du positionierst und skalierst es live. Was du siehst, wird gedruckt.' },
   { q: 'Welche Bildqualität braucht mein Motiv?', a: 'Empfohlen: 2480 × 3508 Pixel (300 dpi). Minimum: 1000 Pixel auf der kürzeren Seite. PNG mit transparentem Hintergrund für scharfe Kanten.' },
-  { q: 'Wie lange dauert die Lieferung?', a: 'Deutschland: 2–5 Werktage Versand, ab 4,49 € (Hermes, DPD oder DHL). Maßanfertigung: zusätzlich 2–3 Werktage.' },
+  { q: 'Wie lange dauert die Lieferung?', a: 'Wir fertigen jedes Stück selbst per Hand: 3–5 Werktage Produktion ab Zahlungseingang, danach 2–5 Werktage Versand in Deutschland (ab 4,49 €, Hermes, DPD oder DHL). Spätestens 10 Werktage nach Zahlungseingang ist deine Bestellung bei dir. Mehr als 20 Stück? Bitte über das Anfrageformular unter /grossbestellung.' },
   { q: 'Kann ich meine Bestellung verfolgen?', a: 'Ja. Mit deiner Bestellnummer (PLT-…) unter Sendungsverfolgung siehst du den Status: Bezahlt, In Fertigung, Versendet, Zugestellt.' },
   { q: 'Welche Größen gibt es?', a: 'Unisex in S, M, L, XL und XXL. Im Zweifel eine Nummer größer wählen.' },
   { q: 'Aus welchem Material?', a: 'AirFit Performance Fabric — ein heller Performance-Polyester-Strick (T-Shirt 165 g/m², Shorts 135 g/m²), optimiert für Sublimation. Aktuell in Weiß — weitere Farben folgen.' },
@@ -18,7 +18,7 @@ const FAQ_DE: FaqItem[] = [
 const FAQ_RO: FaqItem[] = [
   { q: 'Cum îmi creez piece-ul?', a: 'În Atelier încarci motivul — față și spate, 210 × 297 mm. Poziționezi și scalezi live. Ce vezi, se imprimă.' },
   { q: 'Ce calitate de imagine?', a: 'Recomandat: 2480 × 3508 px (300 dpi). Minimum: 1000 px pe latura scurtă. PNG cu fundal transparent.' },
-  { q: 'Cât durează livrarea?', a: 'Germania: 2–5 zile lucrătoare, de la 4,49 €. Confecție: +2–3 zile.' },
+  { q: 'Cât durează livrarea?', a: 'Producție manuală 3–5 zile lucrătoare de la plată, apoi livrare în Germania 2–5 zile (de la 4,49 €). Maximum 10 zile lucrătoare. Peste 20 de bucăți: formular de cerere /grossbestellung.' },
   { q: 'Pot urmări comanda?', a: 'Da. Cu numărul PLT-… la Urmărire vezi statusul comenzii.' },
   { q: 'Ce mărimi există?', a: 'Unisex: S, M, L, XL, XXL. La dubii, alege o mărime mai mare.' },
   { q: 'Din ce material?', a: 'AirFit Performance Fabric — poliester performance (tricou 165 g/m², pantaloni scurți 135 g/m²), optimizat pentru sublimare. Momentan alb.' },
@@ -31,7 +31,7 @@ const FAQ_RO: FaqItem[] = [
 const FAQ_EN: FaqItem[] = [
   { q: 'How do I design my piece?', a: 'In the Studio, upload front & back at 210 × 297 mm. Position and scale live. What you see is what prints.' },
   { q: 'What image quality?', a: 'Recommended: 2480 × 3508 px (300 dpi). Minimum: 1000 px on the short side. PNG with transparent background.' },
-  { q: 'How long is delivery?', a: 'Germany: 2–5 business days for shipping from €4.49. Made to order: +2–3 production days.' },
+  { q: 'How long is delivery?', a: 'Handmade in 3–5 working days after payment, then 2–5 days shipping within Germany (from €4.49). Delivered within 10 working days at the latest. More than 20 pieces? Use the request form at /grossbestellung.' },
   { q: 'Can I track my order?', a: 'Yes. Use your PLT-… order number on the tracking page.' },
   { q: 'What sizes?', a: 'Unisex S, M, L, XL, XXL. When in doubt, size up.' },
   { q: 'What material?', a: 'AirFit Performance Fabric — a light performance polyester knit (T-shirt 165 gsm, shorts 135 gsm), sublimation-ready. Currently white only.' },

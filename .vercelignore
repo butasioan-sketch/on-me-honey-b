@@ -27,3 +27,14 @@ tsconfig.tsbuildinfo
 *-ORIGINAL.*
 *-BACKUP.*
 *-OLD.*
+
+# Arbeitsdateien, die nicht ins Deployment gehören (Architektur-Prüfung 21.11.2026)
+/blender/
+/image-backups/
+/playwright-screenshots/
+/lighthouse-*.json
+/*.pdf
+/*.md
+!/README.md
+/sentry.*.disabled
+/public/models/*.md

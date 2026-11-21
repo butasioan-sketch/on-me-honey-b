@@ -18,7 +18,7 @@ export default function DatenschutzPage() {
       <main id="main-content" style={{ maxWidth: '700px', margin: '0 auto', padding: '3rem 2rem 5rem' }}>
         <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.5rem', textTransform: 'uppercase', fontWeight: 600 }}>ON ME HONEY B</p>
         <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>Datenschutzerklärung</h1>
-        <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '2.5rem' }}>Stand: Juli 2026 · gemäß DSGVO und TTDSG</p>
+        <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '2.5rem' }}>Stand: 21. November 2026 · gemäß DSGVO und TDDDG</p>
 
         <h2 style={S.h2}>Verantwortlicher</h2>
         <p style={S.p}>
@@ -37,6 +37,9 @@ export default function DatenschutzPage() {
 
         <h2 style={S.h2}>E-Mail-Versand</h2>
         <p style={S.p}>Bestellbestätigungen werden über Resend (resend.com) versendet. Dabei wird deine E-Mail-Adresse zur Zustellung der Transaktions-E-Mail genutzt. Kein E-Mail-Marketing ohne explizite Einwilligung.</p>
+
+        <h2 style={S.h2}>Anfrage für Großbestellungen</h2>
+        <p style={S.p}>Wenn du unser Anfrageformular für Bestellungen über 20 Stück nutzt, verarbeiten wir Name, E-Mail, freiwillig Telefon und Firma, gewünschte Produkte, Stückzahl, Wunschtermin und deine Nachricht, um dir ein Angebot zu erstellen und es mit dir abzustimmen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen). Die Anfrage wird in unserer Datenbank bei Neon (Auftragsverarbeitung) gespeichert und per Resend als E-Mail an uns übermittelt. Zum Schutz vor Missbrauch wird deine IP-Adresse kurzzeitig zur Begrenzung der Anfragen verarbeitet (Art. 6 Abs. 1 lit. f DSGVO), nicht gespeichert. Kommt kein Auftrag zustande, löschen wir die Anfrage spätestens nach 6 Monaten; kommt ein Auftrag zustande, gelten die gesetzlichen Aufbewahrungsfristen (§ 147 AO, § 257 HGB).</p>
 
         <h2 style={S.h2}>Cookies & LocalStorage</h2>
         <p style={S.p}>Wir nutzen Browser-LocalStorage für den Warenkorb und deine Spracheinstellung — ohne Tracking-Zweck. Analyse- und Marketing-Cookies (Google Analytics, Meta Pixel, TikTok) werden erst nach deiner ausdrücklichen Einwilligung über den Cookie-Banner aktiviert. Du kannst diese Einwilligung jederzeit zurückziehen (Seite neu laden → Cookie-Banner erscheint erneut).</p>
