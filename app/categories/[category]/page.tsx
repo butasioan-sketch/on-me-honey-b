@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getProductsByCategory, type Category } from "@/lib/products-all-133";
 import SiteHeader from "@/app/components/SiteHeader";
+import { catalogFrontSrc } from "@/lib/catalog/families";
 
 const CATEGORY_INFO = {
   A: { name: "Bekleidung und Mode", icon: "👕" },
@@ -161,15 +162,11 @@ export default async function CategoryPage({
                 }}
               >
                 <Image
-                  src={
-                    product.hasPhoto
-                      ? `/products/${product.sku}/front.${product.sku === "001" || product.sku === "015" ? "png" : "jpg"}`
-                      : "/products/placeholder/coming-soon.svg"
-                  }
+                  src={catalogFrontSrc(product.sku)}
                   alt={product.name.de}
                   width={400}
                   height={400}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
                 />
                 {product.status !== "shop_live" && (
                   <div

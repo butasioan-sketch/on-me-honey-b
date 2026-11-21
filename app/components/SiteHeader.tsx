@@ -8,7 +8,7 @@ import CartCount from "@/app/components/CartCount";
 import { useState } from "react";
 
 export default function SiteHeader() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -125,8 +125,8 @@ export default function SiteHeader() {
         <Link href="/geschenke" className="plt-nav-link">
           {t.nav.gifts}
         </Link>
-        <Link href="/versand" className="plt-nav-link">
-          {t.nav.shipping}
+        <Link href="/so-gehts" className="plt-nav-link">
+          {locale === "ro" ? "Cum funcționează" : locale === "en" ? "How it works" : "So geht's"}
         </Link>
         <LocaleSwitcher />
 
@@ -155,6 +155,9 @@ export default function SiteHeader() {
             </Link>
             <Link href="/geschenke" onClick={() => setMobileMenuOpen(false)}>
               {t.nav.gifts}
+            </Link>
+            <Link href="/so-gehts" onClick={() => setMobileMenuOpen(false)}>
+              {locale === "ro" ? "Cum funcționează (video)" : locale === "en" ? "How it works (video)" : "So geht's (Video)"}
             </Link>
             <Link href="/versand" onClick={() => setMobileMenuOpen(false)}>
               {t.nav.shipping}

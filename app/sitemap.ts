@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...Object.keys(CAMPAIGNS).map((slug) => `/saison/${slug}`),
     '/faq',
     '/versand',
+    '/so-gehts',
     '/widerruf',
     '/impressum',
     '/datenschutz',

@@ -33,6 +33,7 @@ const FOOTER_LINKS = [
   { label: 'Widerruf', href: '/widerruf' },
   { label: 'Datenschutz', href: '/datenschutz' },
   { label: 'Versand & Reklamation', href: '/versand' },
+  { label: "So bestellst du (Video)", href: '/so-gehts' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Bewertungen', href: '/bewertungen' },
   { label: 'Sendungsverfolgung', href: '/tracking' },

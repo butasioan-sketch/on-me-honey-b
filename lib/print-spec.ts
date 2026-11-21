@@ -121,8 +121,8 @@ const PILLOW_PROFILE: GarmentProfile = {
   placement: { front: PILLOW_PLACEMENT, back: PILLOW_PLACEMENT },
   blank: "BRILDOR Kissenbezug 40×40cm",
   weightGsm: 180,
-  frontSrc: "/products/051/front.jpg",
-  backSrc: "/products/051/front.jpg", // Pillow uses same image for both sides
+  frontSrc: "/products/051/glb.webp",
+  backSrc: "/products/051/glb.webp", // Pillow uses same image for both sides
   mmReferenceHeight: null, // keine Foto-Messung — 40 cm Blank nicht als mm-Referenz erfinden
   overlayVerified: false, // NOT verified - awaiting physical test print
   sheetFromOverlay: true, // A4-Blatt = Standard-Motivfläche (52,5 × 74,25 % des 40-cm-Bezugs)
@@ -134,7 +134,26 @@ export const GARMENT_PROFILES: Record<string, GarmentProfile> = {
   "3": PILLOW_PROFILE, // WAVE 6.2
 };
 
+/** Nur Ansicht: Motiv-Vorschau auf den 3D-Modellen der noch nicht bestellbaren Katalogartikel.
+ *  Mittige Fläche auf der Bounding-Box des Modells, KEIN Druckprofil, nie für Bestellung/PDF. */
+const PREVIEW_RECT = { top: 22, left: 25, width: 50, height: 56 };
+export const PREVIEW_PROFILE_ID = "preview";
+const PREVIEW_PROFILE: GarmentProfile = {
+  productId: PREVIEW_PROFILE_ID,
+  photoWidth: 1000,
+  photoHeight: 1000,
+  overlay: { front: PREVIEW_RECT, back: PREVIEW_RECT },
+  placement: { front: { top: 10, left: 10, width: 80, height: 80 }, back: { top: 10, left: 10, width: 80, height: 80 } },
+  blank: "Vorschau (nicht bestellbar)",
+  weightGsm: 0,
+  frontSrc: "",
+  backSrc: "",
+  mmReferenceHeight: null,
+  overlayVerified: false,
+};
+
 export function getGarmentProfile(productId: string): GarmentProfile {
+  if (productId === PREVIEW_PROFILE_ID) return PREVIEW_PROFILE;
   if (!(productId in GARMENT_PROFILES)) {
     throw new Error(`Unknown productId: ${productId}`);
   }
@@ -147,6 +166,9 @@ export function requireGarmentProductId(
 ): string {
   if (!productId) {
     throw new Error("Design ohne productId");
+  }
+  if (productId === PREVIEW_PROFILE_ID) {
+    throw new Error("Vorschau-Profil ist nicht bestellbar");
   }
   getGarmentProfile(productId);
   return productId;

@@ -208,12 +208,13 @@ test.describe("Smoke Tests", () => {
     );
   });
 
-  test("homepage does not ask for the missing tee photo @smoke", async ({
+  test("homepage shows GLB renderings instead of product photos @smoke", async ({
     page,
   }) => {
     await page.goto("/");
     const html = await page.content();
-    expect(html).toContain("airfit-front-t.png");
-    expect(html).not.toContain("airfit-tee-front.png");
+    expect(html).toContain("glb.webp");
+    expect(html).not.toContain("airfit-front-t.png");
+    expect(html).not.toMatch(/\/products\/\d{3}\/front\./);
   });
 });

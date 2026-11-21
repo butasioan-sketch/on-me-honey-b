@@ -16,6 +16,11 @@
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
+  "shortcuts": [
+    { "name": "So bestellst du (Video)", "short_name": "So geht's", "url": "/so-gehts", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "T-Shirt gestalten", "short_name": "T-Shirt", "url": "/product/1", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Warenkorb", "short_name": "Warenkorb", "url": "/cart", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ],
   "screenshots": [
     {
       "src": "/og.png",

@@ -11,8 +11,6 @@ import {
   ContactShadows,
 } from "@react-three/drei";
 import * as THREE from "three";
-import ShirtFlip from "./ShirtFlip";
-import StaticShirtPreview from "./StaticShirtPreview";
 import { getDecalDimensions, getDecalPosition } from "@/lib/print-position";
 import { getViewerAspect } from "@/lib/print-spec";
 import {
@@ -32,10 +30,12 @@ interface Shirt3DProps {
   backPrint?: PrintData[];
   shirtColor?: string;
   enableTouch?: boolean;
-  fallback?: "static" | "flip";
-  frontSrc?: string;
-  backSrc?: string;
   productId?: string;
+  /** Direktes GLB (z. B. /models/sku/051-v1.glb) statt Auflösung über die Shop-ID. */
+  modelPath?: string;
+  /** Welche Seite zur Kamera zeigt, solange nicht automatisch gedreht wird. */
+  facing?: "front" | "back";
+  autoRotate?: boolean;
 }
 
 // The original shop meshes use the legacy tint. Calibrated SKU models carry their own materials.
@@ -277,28 +277,22 @@ function getCamera(productId: string) {
 
 export default function Shirt3D({
   enableTouch = true,
-  fallback = "flip",
+  modelPath: modelOverride,
+  facing = "front",
+  autoRotate = true,
   ...props
 }: Shirt3DProps) {
   const requestedId = props.productId;
-  const record = requestedId ? getProductByShopId(requestedId) : null;
-  const modelPath = record ? getAtelierModelPath(record) : null;
-  const preserveMaterials = !!record?.atelierModel;
+  const record = requestedId && !modelOverride ? getProductByShopId(requestedId) : null;
+  const modelPath = modelOverride ?? (record ? getAtelierModelPath(record) : null);
+  const preserveMaterials = !!modelOverride || !!record?.atelierModel;
+  const sideRotation: [number, number, number] = [0, !autoRotate && facing === "back" ? Math.PI : 0, 0];
 
   if (!requestedId || !modelPath) {
-    if (fallback === "static") {
-      return <StaticShirtPreview shadow="0 12px 32px rgba(0,0,0,0.55)" />;
-    }
     return (
-      <ShirtFlip
-        frontPrint={props.frontPrint}
-        backPrint={props.backPrint}
-        productId={props.productId}
-        {...(props.frontSrc ? { frontSrc: props.frontSrc } : {})}
-        {...(props.backSrc ? { backSrc: props.backSrc } : {})}
-        showControls={false}
-        showHint={false}
-      />
+      <p role="status" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#a0a0a0" }}>
+        3D-Modell nicht verfügbar
+      </p>
     );
   }
 
@@ -338,20 +332,24 @@ export default function Shirt3D({
 
         {preserveMaterials ? (
           <Bounds fit clip margin={1.2}>
+            <group rotation={sideRotation}>
+              <GarmentModel
+                {...props}
+                modelPath={modelPath}
+                productId={productId}
+                preserveMaterials
+              />
+            </group>
+          </Bounds>
+        ) : (
+          <group rotation={sideRotation}>
             <GarmentModel
               {...props}
               modelPath={modelPath}
               productId={productId}
-              preserveMaterials
+              preserveMaterials={false}
             />
-          </Bounds>
-        ) : (
-          <GarmentModel
-            {...props}
-            modelPath={modelPath}
-            productId={productId}
-            preserveMaterials={false}
-          />
+          </group>
         )}
 
         {/* Soft contact shadows - realistic ground contact */}
@@ -367,7 +365,7 @@ export default function Shirt3D({
           enablePan={false}
           minDistance={cam.minDistance}
           maxDistance={cam.maxDistance}
-          autoRotate={true}
+          autoRotate={autoRotate}
           autoRotateSpeed={1.5}
           target={cam.orbitTarget}
           enableRotate={enableTouch}

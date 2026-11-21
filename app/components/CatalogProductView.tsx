@@ -1,34 +1,20 @@
 "use client";
 
-import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useState } from "react";
 import SiteHeader from "./SiteHeader";
-import {
-  catalogFrontSrc,
-  categoryForSku,
-  type ProductRecord,
-} from "@/lib/catalog/families";
+import { categoryForSku, type ProductRecord } from "@/lib/catalog/families";
+import { PREVIEW_PROFILE_ID } from "@/lib/print-spec";
 
-const CatalogModelViewer = dynamic(() => import("./CatalogModelViewer"), {
+const GlbStudio = dynamic(() => import("./GlbStudio"), {
   ssr: false,
-  loading: () => <p role="status">360°-Modell lädt …</p>,
+  loading: () => <div className="glb-studio-viewer" role="status" aria-label="3D-Modell lädt" />,
 });
 
-interface CatalogProductViewProps {
-  product: ProductRecord;
-}
-
 /**
- * Catalog-only product view (shop_live=false)
- * Shows photo + metadata, no purchase flow
+ * Katalogartikel (shop_live=false): nur 3D-Modell + Upload-Vorschau (Jonny 21.11.2026).
+ * Keine Produktfotos, kein Kauf.
  */
-export default function CatalogProductView({
-  product,
-}: CatalogProductViewProps) {
-  const [showModel, setShowModel] = useState(false);
-  const modelPath = `/models/sku/${product.sku}-v1.glb`;
-  const photoPath = catalogFrontSrc(product.sku);
+export default function CatalogProductView({ product }: { product: ProductRecord }) {
   const category = categoryForSku(product.sku);
 
   return (
@@ -42,147 +28,50 @@ export default function CatalogProductView({
     >
       <SiteHeader />
 
-      <div
-        style={{ maxWidth: "1100px", margin: "0 auto", padding: "2rem 1rem" }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
-            gap: "2rem",
-            alignItems: "start",
-          }}
-        >
-          {/* Photo */}
-          <div
+      <main className="glb-product">
+        <GlbStudio
+          profileId={PREVIEW_PROFILE_ID}
+          modelPath={`/models/sku/${product.sku}-v1.glb`}
+          productName={product.name}
+          previewOnly
+        />
+
+        <div className="glb-product-buy">
+          <p className="plt-label" style={{ color: "#a0a0a0", margin: 0 }}>
+            SKU {product.sku}
+          </p>
+          <h1
             style={{
-              position: "relative",
-              width: "100%",
-              aspectRatio: "1/1",
-              maxHeight: "600px",
-              background: "#111",
-              borderRadius: "16px",
-              overflow: "hidden",
+              fontSize: "1.9rem",
+              fontWeight: 900,
+              margin: 0,
+              color: "#fff",
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
             }}
           >
-            {showModel ? (
-              <CatalogModelViewer key={modelPath} src={modelPath} />
-            ) : (
-              <Image
-                src={photoPath}
-                alt={product.name}
-                fill
-                sizes="(max-width: 900px) calc(100vw - 32px), 520px"
-                style={{ objectFit: "contain" }}
-                priority
-              />
-            )}
-            <button
-              type="button"
-              className="plt-btn-secondary"
-              style={{ position: "absolute", right: 12, bottom: 12 }}
-              onClick={() => setShowModel(!showModel)}
-            >
-              {showModel ? "Produktfoto anzeigen" : "360°-Entwurf ansehen"}
-            </button>
-          </div>
-
-          {/* Info */}
-          <div>
-            <p
-              className="plt-label"
-              style={{ color: "#666", marginBottom: "0.5rem" }}
-            >
-              SKU {product.sku}
-            </p>
-            <h1
-              style={{
-                fontSize: "2.5rem",
-                fontWeight: 900,
-                marginBottom: "1rem",
-                color: "#fff",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-              }}
-            >
-              {product.name}
-            </h1>
-
-            {/* Coming Soon Badge */}
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.75rem 1.25rem",
-                background: "rgba(76, 175, 80, 0.1)",
-                border: "1px solid rgba(76, 175, 80, 0.3)",
-                borderRadius: "12px",
-                fontSize: "0.95rem",
-                color: "#4CAF50",
-                fontWeight: 600,
-                marginBottom: "2rem",
-              }}
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              Bald verfügbar
-            </div>
-
-            <p
-              style={{
-                fontSize: "1rem",
-                color: "#888",
-                lineHeight: 1.6,
-                marginBottom: "2rem",
-              }}
-            >
-              Dieses Produkt befindet sich in Vorbereitung und kann noch nicht
-              bestellt werden. Die Angaben zur Personalisierung folgen mit der
-              Produktfreigabe.
-            </p>
-
-            {/* Back to catalog */}
-            <a
-              href={category ? `/categories/${category}` : "/"}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.75rem 1.5rem",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "10px",
-                color: "#fff",
-                textDecoration: "none",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.borderColor = "rgba(212, 175, 55, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-              }}
-            >
-              ← Zurück zum Katalog
-            </a>
-          </div>
+            {product.name}
+          </h1>
+          <p
+            style={{
+              display: "inline-flex",
+              alignSelf: "flex-start",
+              margin: 0,
+              padding: "0.6rem 1rem",
+              background: "rgba(76, 175, 80, 0.1)",
+              border: "1px solid rgba(76, 175, 80, 0.3)",
+              borderRadius: "12px",
+              color: "#6fcf73",
+              fontWeight: 600,
+            }}
+          >
+            Bald verfügbar
+          </p>
+          <a href={category ? `/categories/${category}` : "/"} className="plt-btn-secondary" style={{ alignSelf: "flex-start", textDecoration: "none" }}>
+            ← Zurück zum Katalog
+          </a>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

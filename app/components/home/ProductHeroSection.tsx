@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { catalogFrontSrc } from "@/lib/catalog/families";
 import { Locale, getTranslation } from "@/lib/i18n";
 import {
   getAllProducts,
@@ -221,7 +222,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
               }}
             >
               <Image
-                src="/airfit-front-t.png"
+                src={catalogFrontSrc("001")}
                 alt="AirFit Pro T-Shirt"
                 fill
                 sizes="(max-width: 768px) calc(100vw - 4rem), (max-width: 1100px) 45vw, 510px"
@@ -249,7 +250,7 @@ export default function ProductHeroSection({ locale }: { locale: Locale }) {
                 }}
               >
                 <Image
-                  src="/airfit-shorts-front.png"
+                  src={catalogFrontSrc("015")}
                   alt="AirFit Pro Shorts"
                   fill
                   sizes="(max-width: 768px) calc(100vw - 4rem), (max-width: 1100px) 45vw, 510px"

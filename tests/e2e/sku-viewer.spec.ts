@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 
 import { CATALOG } from "../../lib/catalog/families";
@@ -14,44 +14,34 @@ test("every catalog SKU has a valid GLB header @smoke", () => {
   }
 });
 
-test("051 loads its own model only when requested @smoke", async ({ page }) => {
-  const asset = "/models/sku/051-v1.glb";
-  const requests: string[] = [];
-  page.on("request", (request) =>
-    requests.push(new URL(request.url()).pathname),
-  );
-  await page.goto("/product/051");
-  await expect(
-    page.getByRole("heading", { name: "Dekokissenbezüge" }),
-  ).toBeVisible();
-  await expect(page.getByAltText("Dekokissenbezüge")).toBeVisible();
-  expect(requests).not.toContain(asset);
-
-  const response = page.waitForResponse(
-    (result) => new URL(result.url()).pathname === asset,
-  );
-  await page.getByRole("button", { name: "360°-Entwurf ansehen" }).click();
-  expect((await response).ok()).toBe(true);
-  await expect(page.locator("canvas")).toBeVisible({ timeout: 20000 });
-  await expect(
-    page
-      .getByRole("status")
-      .filter({ hasText: "360°-Ansicht nicht verfügbar" }),
-  ).toHaveCount(0);
-  await page.getByRole("button", { name: "Produktfoto anzeigen" }).click();
-  await expect(page.getByAltText("Dekokissenbezüge")).toBeVisible();
+test("every catalog SKU has a GLB rendering instead of a photo @smoke", () => {
+  for (const sku of Object.keys(CATALOG)) {
+    const file = readFileSync(`public/products/${sku}/glb.webp`);
+    expect(file.toString("ascii", 8, 12), sku).toBe("WEBP");
+    expect(existsSync(`public/products/${sku}/front.jpg`), sku).toBe(false);
+    expect(existsSync(`public/products/${sku}/front.png`), sku).toBe(false);
+  }
 });
 
-for (const sku of ["043", "081", "104", "122", "133"]) {
-  test(`${sku} opens the SKU-specific 360° draft`, async ({ page }) => {
+for (const [sku, name] of [
+  ["051", "Dekokissenbezüge"],
+  ["043", null],
+  ["081", null],
+  ["104", null],
+  ["122", null],
+  ["133", null],
+] as const) {
+  test(`${sku} shows its own 3D model and the upload area, no photo`, async ({ page }) => {
     const asset = `/models/sku/${sku}-v1.glb`;
-    await page.goto(`/product/${sku}`);
     const response = page.waitForResponse(
       (result) => new URL(result.url()).pathname === asset,
     );
-    await page.getByRole("button", { name: "360°-Entwurf ansehen" }).click();
+    await page.goto(`/product/${sku}`);
+    if (name) await expect(page.getByRole("heading", { name })).toBeVisible();
     expect((await response).ok()).toBe(true);
-    await expect(page.locator("canvas")).toBeVisible({ timeout: 20000 });
+    await expect(page.locator('[data-testid="glb-viewer"] canvas')).toBeVisible({ timeout: 20000 });
+    await expect(page.getByRole("button", { name: /Bild hierher ziehen/ })).toBeVisible();
+    await expect(page.locator('main img[src*="/products/"]')).toHaveCount(0);
   });
 }
 
@@ -73,7 +63,7 @@ test("purchasable SKU aliases identify the same canonical products @smoke", asyn
     const schema = data
       .map((value) => JSON.parse(value))
       .find((item) => item.sku === sku);
-    expect(schema?.image).toMatch(new RegExp(`/products/${sku}/front\\.png$`));
+    expect(schema?.image).toMatch(new RegExp(`/products/${sku}/glb\\.webp$`));
     expect(schema?.offers?.url).toMatch(new RegExp(`/product/${shopId}$`));
   }
 });
@@ -90,23 +80,12 @@ test("footer newsletter has a labeled keyboard focus target @smoke", async ({
   await expect(email).toHaveCSS("outline-width", "2px");
 });
 
-test("failed 360° model is announced and the photo stays accessible", async ({
-  page,
-}) => {
+test("failed 3D model is announced", async ({ page }) => {
   await page.route("**/models/sku/051-v1.glb", (route) =>
     route.fulfill({ status: 404, body: "Missing model" }),
   );
-  const response = page.waitForResponse(
-    (result) => new URL(result.url()).pathname === "/models/sku/051-v1.glb",
-  );
   await page.goto("/product/051");
-  await page.getByRole("button", { name: "360°-Entwurf ansehen" }).click();
-  expect((await response).status()).toBe(404);
   await expect(
-    page
-      .getByRole("status")
-      .filter({ hasText: "360°-Ansicht nicht verfügbar" }),
+    page.getByRole("status").filter({ hasText: "3D-Modell konnte nicht geladen werden" }),
   ).toBeVisible({ timeout: 20000 });
-  await page.getByRole("button", { name: "Produktfoto anzeigen" }).click();
-  await expect(page.getByAltText("Dekokissenbezüge")).toBeVisible();
 });
