@@ -1,6 +1,6 @@
 "use client";
-import React, { Suspense, useEffect, useMemo, useState } from "react";
-import { Canvas, createPortal } from "@react-three/fiber";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Canvas, createPortal, useFrame, useThree } from "@react-three/fiber";
 import {
   OrbitControls,
   Bounds,
@@ -264,6 +264,33 @@ function getCamera(productId: string) {
   };
 }
 
+/**
+ * Dreht das MODELL (nicht die Kamera): beim 360°-Drehen kontinuierlich, sonst exakt
+ * Vorder- bzw. Rückseite zur Kamera. Bei jedem Seitenwechsel wird auch die Kamera
+ * auf die Frontalansicht zurückgesetzt, damit „Vorderseite/Rückseite" immer stimmt.
+ */
+function SideGroup({ facing, spinning, children }: { facing: "front" | "back"; spinning: boolean; children: React.ReactNode }) {
+  const ref = useRef<THREE.Group>(null);
+  const controls = useThree((st) => st.controls) as unknown as {
+    setAzimuthalAngle?: (a: number) => void;
+    setPolarAngle?: (a: number) => void;
+    update?: () => void;
+  } | null;
+  const invalidate = useThree((st) => st.invalidate);
+  useEffect(() => {
+    if (spinning || !ref.current) return;
+    ref.current.rotation.y = facing === "back" ? Math.PI : 0;
+    controls?.setAzimuthalAngle?.(0);
+    controls?.setPolarAngle?.(Math.PI / 2 - 0.05);
+    controls?.update?.();
+    invalidate();
+  }, [facing, spinning, controls, invalidate]);
+  useFrame((_, delta) => {
+    if (spinning && ref.current) ref.current.rotation.y += delta * 0.9;
+  });
+  return <group ref={ref}>{children}</group>;
+}
+
 export default function Shirt3D({
   enableTouch = true,
   modelPath: modelOverride,
@@ -275,7 +302,6 @@ export default function Shirt3D({
   const record = requestedId && !modelOverride ? getProductByShopId(requestedId) : null;
   const modelPath = modelOverride ?? (record ? getAtelierModelPath(record) : null);
   const preserveMaterials = !!modelOverride || !!record?.atelierModel;
-  const sideRotation: [number, number, number] = [0, !autoRotate && facing === "back" ? Math.PI : 0, 0];
 
   if (!requestedId || !modelPath) {
     return (
@@ -322,27 +348,27 @@ export default function Shirt3D({
 
         {preserveMaterials ? (
           <Bounds fit clip margin={1.2}>
-            <group rotation={sideRotation}>
+            <SideGroup facing={facing} spinning={autoRotate}>
               <GarmentModel
                 {...props}
                 modelPath={modelPath}
                 productId={productId}
                 preserveMaterials
               />
-            </group>
+            </SideGroup>
           </Bounds>
         ) : (
           // Auch die Shop-Modelle automatisch einpassen (vorher feste Kamera: Tee im
           // quadratischen Viewer unten abgeschnitten).
           <Bounds fit clip margin={1.15}>
-            <group rotation={sideRotation}>
+            <SideGroup facing={facing} spinning={autoRotate}>
               <GarmentModel
                 {...props}
                 modelPath={modelPath}
                 productId={productId}
                 preserveMaterials={false}
               />
-            </group>
+            </SideGroup>
           </Bounds>
         )}
 
@@ -359,8 +385,7 @@ export default function Shirt3D({
           enablePan={false}
           minDistance={cam.minDistance}
           maxDistance={cam.maxDistance}
-          autoRotate={autoRotate}
-          autoRotateSpeed={1.5}
+          autoRotate={false}
           target={cam.orbitTarget}
           enableRotate={enableTouch}
           enableZoom={enableTouch}
