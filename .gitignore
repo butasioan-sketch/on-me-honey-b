@@ -74,3 +74,5 @@ public/models/library/inactive/
 *ABGLEICH*.md
 *Emblem*.png
 GROK-STATUS*.md
+__pycache__/
+*.pyc

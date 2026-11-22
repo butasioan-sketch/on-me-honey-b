@@ -85,8 +85,16 @@ cam = bpy.data.objects.new("cam", cam_data)
 scene.collection.objects.link(cam)
 scene.camera = cam
 dist = radius / math.sin(fov * 0.75 / 2) * 1.02
-yaw = math.radians(-8)
-cam.location = center + Vector((math.sin(yaw) * dist, -math.cos(yaw) * dist, size.z * 0.10))
+# Blickwinkel wie auf dem Foto: STUDIO_YAW (Grad, Standard -8), STUDIO_ELEV (Grad über
+# der Horizontalen; ohne Angabe leicht erhöht um 10 % der Objekthöhe)
+import os
+yaw = math.radians(float(os.environ.get("STUDIO_YAW", "-8")))
+elev = os.environ.get("STUDIO_ELEV")
+if elev is None:
+    cam.location = center + Vector((math.sin(yaw) * dist, -math.cos(yaw) * dist, size.z * 0.10))
+else:
+    e = math.radians(float(elev))
+    cam.location = center + Vector((math.sin(yaw) * math.cos(e) * dist, -math.cos(yaw) * math.cos(e) * dist, math.sin(e) * dist))
 cam.rotation_euler = (center - cam.location).to_track_quat("-Z", "Y").to_euler()
 
 
