@@ -1,0 +1,72 @@
+name: Render 3D-Modelle
+
+# Probe-Renderings geänderter SKU-Modelle in der Cloud statt auf dem Laptop (4 GB RAM).
+# Läuft bei jedem Push, der public/models/sku/*.glb ändert; Ergebnis als Artifact „renders“
+# (<sku>-render.png). Abholen: gh run download <run-id> -n renders -D <ordner>
+on:
+  push:
+    paths:
+      - 'public/models/sku/*.glb'
+  workflow_dispatch:
+    inputs:
+      skus:
+        description: 'SKUs mit Leerzeichen, z. B. "032 033"'
+        required: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Blender installieren
+        run: sudo apt-get update -q && sudo apt-get install -y -q blender
+
+      - name: Geänderte SKUs bestimmen
+        id: skus
+        env:
+          INPUT_SKUS: ${{ github.event.inputs.skus }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -n "$INPUT_SKUS" ]; then
+            list="$INPUT_SKUS"
+          else
+            base="$BEFORE"
+            if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+              base=$(git merge-base origin/main HEAD)
+            fi
+            list=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'public/models/sku/*-v1.glb' \
+              | sed -E 's|.*/([0-9]+)-v1\.glb|\1|' | tr '\n' ' ')
+          fi
+          echo "list=$list" >> "$GITHUB_OUTPUT"
+          echo "SKUs: $list"
+
+      - name: Rendern
+        if: steps.skus.outputs.list != ''
+        env:
+          SKUS: ${{ steps.skus.outputs.list }}
+        run: |
+          mkdir -p renders
+          for s in $SKUS; do
+            node scripts/glb-undraco.mjs "public/models/sku/$s-v1.glb" "/tmp/$s.glb"
+            blender -b -t 4 --python blender/lib/render_studio.py -- "/tmp/$s.glb" "renders/$s-render.png" 32 > "renders/$s.log" 2>&1 \
+              || echo "::warning::$s: Render fehlgeschlagen"
+          done
+          ls -la renders
+
+      - uses: actions/upload-artifact@v4
+        if: steps.skus.outputs.list != ''
+        with:
+          name: renders
+          path: renders/
+          retention-days: 14
