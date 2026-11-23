@@ -58,6 +58,35 @@ def _diffuse(out, mask, iters, k):
 
 
 def fill(rgb, mask):
+    """Normalisierte Faltung: jeder Maskenpixel erhält den nähegewichteten Mittelwert der
+    unverdeckten Umgebung – auf mehreren Skalen, damit Helligkeitsverläufe (Falten,
+    Schatten) weiterlaufen statt zu einem flachen Grau zu verschwimmen."""
+    from scipy.ndimage import gaussian_filter, distance_transform_edt
+    img = rgb.astype(np.float32)
+    valid = (~mask).astype(np.float32)
+    dist = distance_transform_edt(mask)  # Abstand zum Maskenrand in Pixeln
+    out = img.copy()
+    filled = np.zeros_like(img)
+    weight = np.zeros(mask.shape, np.float32)
+    for sigma in (4, 10, 24, 60):
+        den = gaussian_filter(valid, sigma)
+        est = np.stack([gaussian_filter(img[..., c] * valid, sigma) for c in range(3)], -1) / np.maximum(den, 1e-4)[..., None]
+        # kleine Skala nahe am Rand (Details), große Skala tief im Fleck (Verlauf)
+        w = np.exp(-((dist - 1.5 * sigma) / (1.5 * sigma)) ** 2) * (den > 0.02)
+        filled += est * w[..., None]
+        weight += w
+    filled /= np.maximum(weight, 1e-6)[..., None]
+    out[mask] = filled[mask]
+    # Stoffstruktur: feines Rauschen in der Stärke des umgebenden Stoffes
+    ring = (distance_transform_edt(~mask) < 12) & ~mask
+    hp = img - np.stack([gaussian_filter(img[..., c], 2) for c in range(3)], -1)
+    sd = float(hp[ring].std()) if ring.any() else 1.0
+    noise = np.random.default_rng(1).normal(0, min(sd, 3.0), img.shape[:2])[..., None]
+    out[mask] += noise[mask]
+    return out.clip(0, 255).astype(np.uint8)
+
+
+def fill_alt(rgb, mask):
     out = rgb.astype(np.float32)
     # Startwert: Stoffton im schmalen Ring direkt um das Logo (nicht der Bildhintergrund)
     ring_img = Image.fromarray((mask * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(11))
