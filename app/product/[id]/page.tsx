@@ -448,7 +448,7 @@ export default function ProductPage() {
           <p style={{ color: "#a0a0a0", fontSize: "0.72rem", textAlign: "center", margin: 0, lineHeight: 1.5 }}>
             {t.shop.legal}
           </p>
-          <a href="/so-gehts" style={{ color: "#D4AF37", fontSize: "0.85rem", textAlign: "center" }}>
+          <a href="/so-gehts#video-gestalten" style={{ color: "#D4AF37", fontSize: "0.85rem", textAlign: "center" }}>
             {locale === "de" ? "▶ So bestellst du – Video (1 Min.)" : locale === "ro" ? "▶ Cum comanzi – video" : "▶ How to order – video"}
           </a>
         </div>
