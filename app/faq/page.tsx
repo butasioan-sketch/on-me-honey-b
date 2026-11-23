@@ -18,7 +18,18 @@ export default function FaqPage() {
       <main id="main-content" style={{ maxWidth: '720px', margin: '0 auto', padding: '3rem 2rem 5rem' }}>
         <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.22em', marginBottom: '0.6rem', textTransform: 'uppercase', fontWeight: 600 }}>{meta.label}</p>
         <h1 style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '0.6rem', color: '#fff', letterSpacing: '-0.02em' }}>{meta.title}</h1>
-        <p style={{ color: '#999', fontSize: '1rem', marginBottom: '2.5rem', lineHeight: 1.6 }}>{meta.sub}</p>
+        <p style={{ color: '#999', fontSize: '1rem', marginBottom: '1.25rem', lineHeight: 1.6 }}>{meta.sub}</p>
+
+        <p style={{ color: '#bbb', fontSize: '0.9rem', margin: '0 0 2.25rem', lineHeight: 1.7 }}>
+          {locale === 'ro' ? 'Preferi să vezi?' : locale === 'en' ? 'Prefer to watch?' : 'Lieber zuschauen?'}{' '}
+          <Link href="/so-gehts#video-gestalten" style={{ color: '#D4AF37' }}>
+            {locale === 'ro' ? '▶ Creează și comandă (1 min)' : locale === 'en' ? '▶ Design and order (1 min)' : '▶ Gestalten und bestellen (1 Min.)'}
+          </Link>
+          {' · '}
+          <Link href="/so-gehts#video-bezahlen" style={{ color: '#D4AF37' }}>
+            {locale === 'ro' ? '▶ Plătește sigur (1,5 min)' : locale === 'en' ? '▶ Pay securely (1.5 min)' : '▶ Sicher bezahlen (1,5 Min.)'}
+          </Link>
+        </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {items.map((item, i) => {

@@ -146,6 +146,12 @@ export default function CartPage() {
         ? `For more than ${MAX_SHOP_QUANTITY} pieces we make an individual offer with a fixed date.`
         : `Mehr als ${MAX_SHOP_QUANTITY} Stück fertigen wir auf Anfrage – mit individuellem Angebot und festem Termin.`;
   const bulkLink = locale === "ro" ? "Formular de cerere →" : locale === "en" ? "Request form →" : "Zum Anfrageformular →";
+  const payVideo =
+    locale === "ro"
+      ? "▶ Cum funcționează plata? Video (1,5 min)"
+      : locale === "en"
+        ? "▶ How does payment work? Video (1.5 min)"
+        : "▶ Wie läuft die Bezahlung ab? Video (1,5 Min.)";
 
   const merchItems: MerchandiseItem[] = items.map((i) => ({
     productId: i.id,
@@ -742,6 +748,11 @@ export default function CartPage() {
               }}
             >
               {t.cart.securePayment}
+            </p>
+            <p style={{ textAlign: "center", margin: "0.4rem 0 0" }}>
+              <a href="/so-gehts#video-bezahlen" style={{ color: "#D4AF37", fontSize: "0.8rem" }}>
+                {payVideo}
+              </a>
             </p>
           </>
         )}
