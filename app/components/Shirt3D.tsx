@@ -11,6 +11,7 @@ import {
   ContactShadows,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { getDecalDimensions, getDecalPosition } from "@/lib/print-position";
 import { getViewerAspect } from "@/lib/print-spec";
 import {
@@ -265,6 +266,59 @@ function getCamera(productId: string) {
   };
 }
 
+/** Software-Rendering (kein GPU, z. B. SwiftShader/llvmpipe): dort kostet die Umgebung Sekunden. */
+function isSoftwareRenderer(gl: THREE.WebGLRenderer): boolean {
+  try {
+    const ctx = gl.getContext();
+    const ext = ctx.getExtension("WEBGL_debug_renderer_info");
+    const name = String(ext ? ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL) : ctx.getParameter(ctx.RENDERER));
+    return /swiftshader|llvmpipe|software|softpipe/i.test(name);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Studio-Umgebung für realistische Reflexionen (prozedural, keine externe HDR-Datei → CSP-konform).
+ * Wird erst im Leerlauf nach dem ersten Bild erzeugt (blockiert sonst beim Laden den Hauptthread)
+ * und auf Software-Renderern ausgelassen. onReady schaltet das Umgebungslicht passend um.
+ */
+function StudioEnvironment({ onReady }: { onReady: (ready: boolean) => void }) {
+  const gl = useThree((st) => st.gl);
+  const get = useThree((st) => st.get);
+  const invalidate = useThree((st) => st.invalidate);
+  useEffect(() => {
+    if (isSoftwareRenderer(gl)) return;
+    let env: THREE.Texture | null = null;
+    let pmrem: THREE.PMREMGenerator | null = null;
+    const scene = get().scene; // three.js-Szene ist ein veränderliches Objekt, kein React-State
+    const build = () => {
+      pmrem = new THREE.PMREMGenerator(gl);
+      env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+      scene.environment = env;
+      scene.environmentIntensity = 0.85;
+      onReady(true);
+      invalidate();
+    };
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const id = w.requestIdleCallback ? w.requestIdleCallback(build, { timeout: 2500 }) : window.setTimeout(build, 800);
+    return () => {
+      if (w.cancelIdleCallback) w.cancelIdleCallback(id);
+      else window.clearTimeout(id);
+      if (env) {
+        scene.environment = null;
+        env.dispose();
+      }
+      pmrem?.dispose();
+      onReady(false);
+    };
+  }, [gl, get, invalidate, onReady]);
+  return null;
+}
+
 /**
  * Dreht das MODELL (nicht die Kamera): beim 360°-Drehen kontinuierlich, sonst exakt
  * Vorder- bzw. Rückseite zur Kamera. Bei jedem Seitenwechsel wird auch die Kamera
@@ -303,6 +357,8 @@ export default function Shirt3D({
   const record = requestedId && !modelOverride ? getProductByShopId(requestedId) : null;
   const modelPath = modelOverride ?? (record ? getAtelierModelPath(record) : null);
   const preserveMaterials = !!modelOverride || !!record?.atelierModel;
+  // setEnvReady ist stabil (useState) → StudioEnvironment-Effekt läuft nicht bei jedem Render neu
+  const [envReady, setEnvReady] = useState(false);
 
   if (!requestedId || !modelPath) {
     return (
@@ -330,8 +386,9 @@ export default function Shirt3D({
       }}
     >
       <Suspense fallback={<ModelLoadingSkeleton productId={productId} />}>
-        {/* Professional lighting with shadows + environment - 10/10 quality */}
-        <ambientLight intensity={0.75} />
+        <StudioEnvironment onReady={setEnvReady} />
+        {/* Mit Studio-Umgebung genügt wenig Grundlicht; ohne (Software-Rendering) wie bisher heller */}
+        <ambientLight intensity={envReady ? 0.25 : 0.75} />
         <directionalLight
           position={[2.5, 4, 3]}
           intensity={1.2}

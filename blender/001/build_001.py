@@ -13,7 +13,7 @@ import tee  # noqa: E402
 
 tee.build(dict(
     name="Tee001",
-    carbon=True,   # Schulterstreifen + Seiteneinsätze laut Referenz
+    carbon=False,  # 21.11.: wie das Produktfoto rein weiß (vorher JN827-Carbon-Einsätze)
     # 54 cm flach gemessen; +1,7 % gleicht den Faltenwurf aus (gemessen 53,1 cm bei 0.270)
     half_w=0.2745, waist_w=0.2745, hem_w=0.2745, length=0.72,  # JN827 M
 ))
