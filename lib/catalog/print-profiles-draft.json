@@ -11,37 +11,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1082.4,
+      "frameHeightMm": 916.6,
       "overlay": {
         "front": {
-          "top": 29.24,
-          "left": 35.45,
-          "width": 29.1,
-          "height": 27.44,
+          "top": 24.72,
+          "left": 32.82,
+          "width": 34.37,
+          "height": 32.4,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 27.39,
-          "left": 35.45,
-          "width": 29.1,
-          "height": 27.44,
+          "top": 22.54,
+          "left": 32.82,
+          "width": 34.37,
+          "height": 32.4,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 29.24,
-          "left": 31.45,
-          "width": 37.1,
-          "height": 33.44
+          "top": 24.72,
+          "left": 28.82,
+          "width": 42.37,
+          "height": 38.4
         },
         "back": {
-          "top": 27.39,
-          "left": 31.45,
-          "width": 37.1,
-          "height": 33.44
+          "top": 22.54,
+          "left": 28.82,
+          "width": 42.37,
+          "height": 38.4
         }
       },
       "frontSrc": "/products/002/render-front.png",
@@ -54,37 +54,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1485.8,
+      "frameHeightMm": 1128.7,
       "overlay": {
         "front": {
-          "top": 31.21,
-          "left": 39.4,
-          "width": 21.2,
-          "height": 19.99,
+          "top": 25.3,
+          "left": 36.05,
+          "width": 27.91,
+          "height": 26.31,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 29.87,
-          "left": 39.4,
-          "width": 21.2,
-          "height": 19.99,
+          "top": 23.53,
+          "left": 36.05,
+          "width": 27.91,
+          "height": 26.31,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 31.21,
-          "left": 35.4,
-          "width": 29.2,
-          "height": 25.99
+          "top": 25.3,
+          "left": 32.05,
+          "width": 35.91,
+          "height": 32.31
         },
         "back": {
-          "top": 29.87,
-          "left": 35.4,
-          "width": 29.2,
-          "height": 25.99
+          "top": 23.53,
+          "left": 32.05,
+          "width": 35.91,
+          "height": 32.31
         }
       },
       "frontSrc": "/products/003/render-front.png",
@@ -97,37 +97,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 889.7,
+      "frameHeightMm": 784.1,
       "overlay": {
         "front": {
-          "top": 34.73,
-          "left": 32.3,
-          "width": 35.41,
-          "height": 33.38,
+          "top": 32.7,
+          "left": 29.91,
+          "width": 40.17,
+          "height": 37.88,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 32.49,
-          "left": 32.3,
-          "width": 35.41,
-          "height": 33.38,
+          "top": 30.15,
+          "left": 29.91,
+          "width": 40.17,
+          "height": 37.88,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 34.73,
-          "left": 28.3,
-          "width": 43.41,
-          "height": 39.38
+          "top": 32.7,
+          "left": 25.91,
+          "width": 48.17,
+          "height": 43.88
         },
         "back": {
-          "top": 32.49,
-          "left": 28.3,
-          "width": 43.41,
-          "height": 39.38
+          "top": 30.15,
+          "left": 25.91,
+          "width": 48.17,
+          "height": 43.88
         }
       },
       "frontSrc": "/products/004/render-front.png",
@@ -140,37 +140,37 @@
       "kind": "body",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 639.9,
+      "frameHeightMm": 670.1,
       "overlay": {
         "front": {
-          "top": 28.67,
-          "left": 34.6,
-          "width": 30.8,
-          "height": 29.04,
-          "widthMm": 131.4,
-          "heightMm": 185.8
+          "top": 29.66,
+          "left": 35.31,
+          "width": 29.39,
+          "height": 27.71,
+          "widthMm": 131.3,
+          "heightMm": 185.7
         },
         "back": {
-          "top": 28.67,
-          "left": 34.6,
-          "width": 30.8,
-          "height": 29.04,
-          "widthMm": 131.4,
-          "heightMm": 185.8
+          "top": 29.66,
+          "left": 35.31,
+          "width": 29.39,
+          "height": 27.71,
+          "widthMm": 131.3,
+          "heightMm": 185.7
         }
       },
       "placement": {
         "front": {
-          "top": 28.67,
-          "left": 30.6,
-          "width": 38.8,
-          "height": 35.04
+          "top": 29.66,
+          "left": 31.31,
+          "width": 37.39,
+          "height": 33.71
         },
         "back": {
-          "top": 28.67,
-          "left": 30.6,
-          "width": 38.8,
-          "height": 35.04
+          "top": 29.66,
+          "left": 31.31,
+          "width": 37.39,
+          "height": 33.71
         }
       },
       "frontSrc": "/products/005/render-front.png",
@@ -183,37 +183,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 812.1,
+      "frameHeightMm": 741.7,
       "overlay": {
         "front": {
-          "top": 18.79,
-          "left": 30.6,
-          "width": 38.79,
-          "height": 36.57,
+          "top": 15.84,
+          "left": 28.77,
+          "width": 42.47,
+          "height": 40.04,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 16.33,
-          "left": 30.6,
-          "width": 38.79,
-          "height": 36.57,
+          "top": 13.14,
+          "left": 28.77,
+          "width": 42.47,
+          "height": 40.04,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 18.79,
-          "left": 26.6,
-          "width": 46.79,
-          "height": 42.57
+          "top": 15.84,
+          "left": 24.77,
+          "width": 50.47,
+          "height": 46.04
         },
         "back": {
-          "top": 16.33,
-          "left": 26.6,
-          "width": 46.79,
-          "height": 42.57
+          "top": 13.14,
+          "left": 24.77,
+          "width": 50.47,
+          "height": 46.04
         }
       },
       "frontSrc": "/products/006/render-front.png",
@@ -226,37 +226,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1399.3,
+      "frameHeightMm": 974.6,
       "overlay": {
         "front": {
-          "top": 29.7,
-          "left": 38.74,
-          "width": 22.51,
-          "height": 21.23,
+          "top": 20.86,
+          "left": 33.84,
+          "width": 32.32,
+          "height": 30.48,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 28.28,
-          "left": 38.74,
-          "width": 22.51,
-          "height": 21.23,
+          "top": 18.81,
+          "left": 33.84,
+          "width": 32.32,
+          "height": 30.48,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 29.7,
-          "left": 34.74,
-          "width": 30.51,
-          "height": 27.23
+          "top": 20.86,
+          "left": 29.84,
+          "width": 40.32,
+          "height": 36.48
         },
         "back": {
-          "top": 28.28,
-          "left": 34.74,
-          "width": 30.51,
-          "height": 27.23
+          "top": 18.81,
+          "left": 29.84,
+          "width": 40.32,
+          "height": 36.48
         }
       },
       "frontSrc": "/products/007/render-front.png",
@@ -269,37 +269,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1417.8,
+      "frameHeightMm": 990.1,
       "overlay": {
         "front": {
-          "top": 31.34,
-          "left": 38.89,
-          "width": 22.22,
-          "height": 20.95,
+          "top": 23.29,
+          "left": 34.09,
+          "width": 31.82,
+          "height": 30,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 29.93,
-          "left": 38.89,
-          "width": 22.22,
-          "height": 20.95,
+          "top": 21.27,
+          "left": 34.09,
+          "width": 31.82,
+          "height": 30,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 31.34,
-          "left": 34.89,
-          "width": 30.22,
-          "height": 26.95
+          "top": 23.29,
+          "left": 30.09,
+          "width": 39.82,
+          "height": 36
         },
         "back": {
-          "top": 29.93,
-          "left": 34.89,
-          "width": 30.22,
-          "height": 26.95
+          "top": 21.27,
+          "left": 30.09,
+          "width": 39.82,
+          "height": 36
         }
       },
       "frontSrc": "/products/008/render-front.png",
@@ -312,37 +312,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1393.1,
+      "frameHeightMm": 1053.4,
       "overlay": {
         "front": {
-          "top": 30.92,
-          "left": 38.69,
-          "width": 22.61,
-          "height": 21.32,
+          "top": 24.78,
+          "left": 35.05,
+          "width": 29.9,
+          "height": 28.19,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 29.48,
-          "left": 38.69,
-          "width": 22.61,
-          "height": 21.32,
+          "top": 22.88,
+          "left": 35.05,
+          "width": 29.9,
+          "height": 28.19,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 30.92,
-          "left": 34.69,
-          "width": 30.61,
-          "height": 27.32
+          "top": 24.78,
+          "left": 31.05,
+          "width": 37.9,
+          "height": 34.19
         },
         "back": {
-          "top": 29.48,
-          "left": 34.69,
-          "width": 30.61,
-          "height": 27.32
+          "top": 22.88,
+          "left": 31.05,
+          "width": 37.9,
+          "height": 34.19
         }
       },
       "frontSrc": "/products/009/render-front.png",
@@ -355,37 +355,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 866.3,
+      "frameHeightMm": 855.9,
       "overlay": {
         "front": {
-          "top": 14.65,
-          "left": 31.82,
-          "width": 36.36,
-          "height": 34.28,
+          "top": 14.22,
+          "left": 31.6,
+          "width": 36.8,
+          "height": 34.7,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 12.34,
-          "left": 31.82,
-          "width": 36.36,
-          "height": 34.28,
+          "top": 11.88,
+          "left": 31.6,
+          "width": 36.8,
+          "height": 34.7,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 14.65,
-          "left": 27.82,
-          "width": 44.36,
-          "height": 40.28
+          "top": 14.22,
+          "left": 27.6,
+          "width": 44.8,
+          "height": 40.7
         },
         "back": {
-          "top": 12.34,
-          "left": 27.82,
-          "width": 44.36,
-          "height": 40.28
+          "top": 11.88,
+          "left": 27.6,
+          "width": 44.8,
+          "height": 40.7
         }
       },
       "frontSrc": "/products/010/render-front.png",
@@ -398,37 +398,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1354.7,
+      "frameHeightMm": 960.4,
       "overlay": {
         "front": {
-          "top": 30.44,
-          "left": 38.37,
-          "width": 23.25,
-          "height": 21.92,
+          "top": 22.42,
+          "left": 33.6,
+          "width": 32.8,
+          "height": 30.92,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 28.97,
-          "left": 38.37,
-          "width": 23.25,
-          "height": 21.92,
+          "top": 20.34,
+          "left": 33.6,
+          "width": 32.8,
+          "height": 30.92,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 30.44,
-          "left": 34.37,
-          "width": 31.25,
-          "height": 27.92
+          "top": 22.42,
+          "left": 29.6,
+          "width": 40.8,
+          "height": 36.92
         },
         "back": {
-          "top": 28.97,
-          "left": 34.37,
-          "width": 31.25,
-          "height": 27.92
+          "top": 20.34,
+          "left": 29.6,
+          "width": 40.8,
+          "height": 36.92
         }
       },
       "frontSrc": "/products/011/render-front.png",
@@ -441,37 +441,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1304,
+      "frameHeightMm": 995.8,
       "overlay": {
         "front": {
-          "top": 30.47,
-          "left": 37.92,
-          "width": 24.16,
-          "height": 22.78,
+          "top": 24.29,
+          "left": 34.18,
+          "width": 31.63,
+          "height": 29.83,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 28.94,
-          "left": 37.92,
-          "width": 24.16,
-          "height": 22.78,
+          "top": 22.28,
+          "left": 34.18,
+          "width": 31.63,
+          "height": 29.83,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 30.47,
-          "left": 33.92,
-          "width": 32.16,
-          "height": 28.78
+          "top": 24.29,
+          "left": 30.18,
+          "width": 39.63,
+          "height": 35.83
         },
         "back": {
-          "top": 28.94,
-          "left": 33.92,
-          "width": 32.16,
-          "height": 28.78
+          "top": 22.28,
+          "left": 30.18,
+          "width": 39.63,
+          "height": 35.83
         }
       },
       "frontSrc": "/products/012/render-front.png",
@@ -484,37 +484,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1053.3,
+      "frameHeightMm": 911.8,
       "overlay": {
         "front": {
-          "top": 29.15,
-          "left": 35.05,
-          "width": 29.91,
-          "height": 28.2,
+          "top": 25.2,
+          "left": 32.73,
+          "width": 34.55,
+          "height": 32.57,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 27.25,
-          "left": 35.05,
-          "width": 29.91,
-          "height": 28.2,
+          "top": 23,
+          "left": 32.73,
+          "width": 34.55,
+          "height": 32.57,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 29.15,
-          "left": 31.05,
-          "width": 37.91,
-          "height": 34.2
+          "top": 25.2,
+          "left": 28.73,
+          "width": 42.55,
+          "height": 38.57
         },
         "back": {
-          "top": 27.25,
-          "left": 31.05,
-          "width": 37.91,
-          "height": 34.2
+          "top": 23,
+          "left": 28.73,
+          "width": 42.55,
+          "height": 38.57
         }
       },
       "frontSrc": "/products/013/render-front.png",
@@ -527,37 +527,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 600.6,
+      "frameHeightMm": 436.9,
       "overlay": {
         "front": {
-          "top": 43.92,
-          "left": 36.26,
-          "width": 27.48,
-          "height": 25.91,
+          "top": 41.64,
+          "left": 31.12,
+          "width": 37.77,
+          "height": 35.61,
           "widthMm": 110,
           "heightMm": 155.6
         },
         "back": {
-          "top": 53.91,
-          "left": 40.76,
-          "width": 18.47,
-          "height": 17.42,
+          "top": 55.37,
+          "left": 37.31,
+          "width": 25.39,
+          "height": 23.94,
           "widthMm": 74,
           "heightMm": 104.6
         }
       },
       "placement": {
         "front": {
-          "top": 43.92,
-          "left": 32.26,
-          "width": 35.48,
-          "height": 31.91
+          "top": 41.64,
+          "left": 27.12,
+          "width": 45.77,
+          "height": 41.61
         },
         "back": {
-          "top": 53.91,
-          "left": 36.76,
-          "width": 26.47,
-          "height": 23.42
+          "top": 55.37,
+          "left": 33.31,
+          "width": 33.39,
+          "height": 29.94
         }
       },
       "frontSrc": "/products/014/render-front.png",
@@ -574,33 +574,33 @@
       "overlay": {
         "front": {
           "top": 11.19,
-          "left": 56.33,
-          "width": 16.81,
-          "height": 15.85,
-          "widthMm": 119.8,
-          "heightMm": 169.4
+          "left": 60.73,
+          "width": 20.35,
+          "height": 19.19,
+          "widthMm": 145.1,
+          "heightMm": 205.2
         },
         "back": {
           "top": 11.19,
-          "left": 56.33,
-          "width": 16.81,
-          "height": 15.85,
-          "widthMm": 119.8,
-          "heightMm": 169.4
+          "left": 60.73,
+          "width": 20.35,
+          "height": 19.19,
+          "widthMm": 145.1,
+          "heightMm": 205.2
         }
       },
       "placement": {
         "front": {
           "top": 11.19,
-          "left": 52.33,
-          "width": 24.81,
-          "height": 21.85
+          "left": 56.73,
+          "width": 28.35,
+          "height": 25.19
         },
         "back": {
           "top": 11.19,
-          "left": 52.33,
-          "width": 24.81,
-          "height": 21.85
+          "left": 56.73,
+          "width": 28.35,
+          "height": 25.19
         }
       },
       "frontSrc": "/products/016/render-front.png",
@@ -609,11 +609,8 @@
       "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
     },
     {
-      "sku": "017",
-      "kind": "bottom",
-      "photoWidth": 1024,
-      "photoHeight": 1536,
       "frameHeightMm": 1080,
+      "kind": "bottom",
       "overlay": {
         "front": {
           "top": 11.11,
@@ -632,6 +629,8 @@
           "heightMm": 211.8
         }
       },
+      "photoHeight": 1536,
+      "photoWidth": 1024,
       "placement": {
         "front": {
           "top": 11.11,
@@ -646,17 +645,15 @@
           "height": 25.61
         }
       },
+      "sku": "017",
       "frontSrc": "/products/017/render-front.png",
       "backSrc": "/products/017/render-back.png",
       "status": "vorlaeufig",
       "basis": "Rendering des eigenen 360°-Modells (Schätzmaße), kein Maßblatt, kein Testdruck"
     },
     {
-      "sku": "018",
-      "kind": "bottom",
-      "photoWidth": 1024,
-      "photoHeight": 1536,
       "frameHeightMm": 982.8,
+      "kind": "bottom",
       "overlay": {
         "front": {
           "top": 11.84,
@@ -675,6 +672,8 @@
           "heightMm": 123.1
         }
       },
+      "photoHeight": 1536,
+      "photoWidth": 1024,
       "placement": {
         "front": {
           "top": 11.84,
@@ -689,6 +688,7 @@
           "height": 18.52
         }
       },
+      "sku": "018",
       "frontSrc": "/products/018/render-front.png",
       "backSrc": "/products/018/render-back.png",
       "status": "vorlaeufig",
@@ -699,37 +699,37 @@
       "kind": "bottom",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 776.7,
+      "frameHeightMm": 714.4,
       "overlay": {
         "front": {
-          "top": 31.98,
-          "left": 55.5,
-          "width": 32.51,
-          "height": 30.65,
-          "widthMm": 168.4,
-          "heightMm": 238.1
+          "top": 30.4,
+          "left": 55.66,
+          "width": 32.6,
+          "height": 30.74,
+          "widthMm": 155.3,
+          "heightMm": 219.6
         },
         "back": {
-          "top": 31.98,
-          "left": 55.5,
-          "width": 32.51,
-          "height": 30.65,
-          "widthMm": 168.4,
-          "heightMm": 238.1
+          "top": 30.4,
+          "left": 55.66,
+          "width": 32.6,
+          "height": 30.74,
+          "widthMm": 155.3,
+          "heightMm": 219.6
         }
       },
       "placement": {
         "front": {
-          "top": 31.98,
-          "left": 51.5,
-          "width": 40.51,
-          "height": 36.65
+          "top": 30.4,
+          "left": 51.66,
+          "width": 40.6,
+          "height": 36.74
         },
         "back": {
-          "top": 31.98,
-          "left": 51.5,
-          "width": 40.51,
-          "height": 36.65
+          "top": 30.4,
+          "left": 51.66,
+          "width": 40.6,
+          "height": 36.74
         }
       },
       "frontSrc": "/products/019/render-front.png",
@@ -742,37 +742,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1445.5,
+      "frameHeightMm": 980.4,
       "overlay": {
         "front": {
-          "top": 30.43,
-          "left": 56.19,
-          "width": 18.47,
-          "height": 17.41,
-          "widthMm": 178,
-          "heightMm": 251.7
+          "top": 21.15,
+          "left": 58.9,
+          "width": 25.88,
+          "height": 24.41,
+          "widthMm": 169.2,
+          "heightMm": 239.3
         },
         "back": {
-          "top": 29.04,
-          "left": 39.1,
-          "width": 21.79,
-          "height": 20.55,
+          "top": 19.11,
+          "left": 33.93,
+          "width": 32.13,
+          "height": 30.29,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 30.43,
-          "left": 52.19,
-          "width": 26.47,
-          "height": 23.41
+          "top": 21.15,
+          "left": 54.9,
+          "width": 33.88,
+          "height": 30.41
         },
         "back": {
-          "top": 29.04,
-          "left": 35.1,
-          "width": 29.79,
-          "height": 26.55
+          "top": 19.11,
+          "left": 29.93,
+          "width": 40.13,
+          "height": 36.29
         }
       },
       "frontSrc": "/products/020/render-front.png",
@@ -785,37 +785,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1446.4,
+      "frameHeightMm": 1115.4,
       "overlay": {
         "front": {
-          "top": 41.26,
-          "left": 39.11,
-          "width": 21.78,
-          "height": 20.53,
+          "top": 38.67,
+          "left": 35.88,
+          "width": 28.24,
+          "height": 26.63,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 41.95,
-          "left": 39.11,
-          "width": 21.78,
-          "height": 20.53,
+          "top": 39.57,
+          "left": 35.88,
+          "width": 28.24,
+          "height": 26.63,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 41.26,
-          "left": 35.11,
-          "width": 29.78,
-          "height": 26.53
+          "top": 38.67,
+          "left": 31.88,
+          "width": 36.24,
+          "height": 32.63
         },
         "back": {
-          "top": 41.95,
-          "left": 35.11,
-          "width": 29.78,
-          "height": 26.53
+          "top": 39.57,
+          "left": 31.88,
+          "width": 36.24,
+          "height": 32.63
         }
       },
       "frontSrc": "/products/021/render-front.png",
@@ -828,37 +828,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 1450.1,
+      "frameHeightMm": 948.5,
       "overlay": {
         "front": {
-          "top": 33.18,
-          "left": 39.14,
-          "width": 21.72,
-          "height": 20.48,
+          "top": 24.28,
+          "left": 33.39,
+          "width": 33.21,
+          "height": 31.31,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 31.8,
-          "left": 39.14,
-          "width": 21.72,
-          "height": 20.48,
+          "top": 22.17,
+          "left": 33.39,
+          "width": 33.21,
+          "height": 31.31,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 33.18,
-          "left": 35.14,
-          "width": 29.72,
-          "height": 26.48
+          "top": 24.28,
+          "left": 29.39,
+          "width": 41.21,
+          "height": 37.31
         },
         "back": {
-          "top": 31.8,
-          "left": 35.14,
-          "width": 29.72,
-          "height": 26.48
+          "top": 22.17,
+          "left": 29.39,
+          "width": 41.21,
+          "height": 37.31
         }
       },
       "frontSrc": "/products/022/render-front.png",
@@ -871,37 +871,37 @@
       "kind": "top",
       "photoWidth": 1024,
       "photoHeight": 1536,
-      "frameHeightMm": 725.5,
+      "frameHeightMm": 681.3,
       "overlay": {
         "front": {
-          "top": 43.74,
-          "left": 28.29,
-          "width": 43.42,
-          "height": 40.93,
+          "top": 43.33,
+          "left": 26.88,
+          "width": 46.23,
+          "height": 43.59,
           "widthMm": 210,
           "heightMm": 297
         },
         "back": {
-          "top": 43.74,
-          "left": 28.29,
-          "width": 43.42,
-          "height": 40.93,
+          "top": 43.33,
+          "left": 26.88,
+          "width": 46.23,
+          "height": 43.59,
           "widthMm": 210,
           "heightMm": 297
         }
       },
       "placement": {
         "front": {
-          "top": 43.74,
-          "left": 24.29,
-          "width": 51.42,
-          "height": 46.93
+          "top": 43.33,
+          "left": 22.88,
+          "width": 54.23,
+          "height": 49.59
         },
         "back": {
-          "top": 43.74,
-          "left": 24.29,
-          "width": 51.42,
-          "height": 46.93
+          "top": 43.33,
+          "left": 22.88,
+          "width": 54.23,
+          "height": 49.59
         }
       },
       "frontSrc": "/products/023/render-front.png",

@@ -18,12 +18,24 @@ const FACES = Number(process.env.TRIPO_FACES || 40000);
 const TEXQ = process.env.TRIPO_TEXTURE || "detailed";
 
 async function api(method, url, body, isForm = false) {
-  for (let attempt = 0; attempt < 6; attempt++) {
-    const res = await fetch(BASE + url, {
-      method,
-      headers: isForm ? H : { ...H, "Content-Type": "application/json" },
-      body: body ? (isForm ? body : JSON.stringify(body)) : undefined,
-    });
+  for (let attempt = 0; attempt < 10; attempt++) {
+    let res;
+    try {
+      res = await fetch(BASE + url, {
+        method,
+        headers: isForm ? H : { ...H, "Content-Type": "application/json" },
+        body: body ? (isForm ? body : JSON.stringify(body)) : undefined,
+      });
+    } catch (e) {
+      // Netzaussetzer (WLAN): GET immer wiederholen; POST nur, wenn die Verbindung gar nicht
+      // zustande kam – sonst könnte ein zweiter bezahlter Auftrag entstehen.
+      const code = e.cause?.code || "";
+      if (method === "GET" || /CONNECT|ENOTFOUND|EAI_AGAIN|ECONNREFUSED/.test(code)) {
+        await new Promise((r) => setTimeout(r, 15000));
+        continue;
+      }
+      throw e;
+    }
     const json = await res.json().catch(() => ({}));
     if (res.status === 429) {
       const wait = Number(res.headers.get("retry-after") || 10) * 1000;
@@ -35,7 +47,7 @@ async function api(method, url, body, isForm = false) {
     }
     return json.data;
   }
-  throw new Error(`${method} ${url} → zu viele 429`);
+  throw new Error(`${method} ${url} → zu viele 429/Netzfehler`);
 }
 
 const balance = async () => api("GET", "/account/balance");
@@ -62,8 +74,13 @@ async function one(outDir, sku, img) {
     if (st.status === "success") {
       const url = st.output?.model_url;
       if (!url) throw new Error(`${sku}: success ohne model_url`);
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`${sku}: Download HTTP ${res.status}`);
+      let res;
+      for (let a = 0; a < 8; a++) {
+        res = await fetch(url).catch(() => null);
+        if (res?.ok) break;
+        await new Promise((r) => setTimeout(r, 15000));
+      }
+      if (!res?.ok) throw new Error(`${sku}: Download fehlgeschlagen (Task ${task.task_id} ist bezahlt – mit \`tripo task get\` nachholen)`);
       const glb = Buffer.from(await res.arrayBuffer());
       if (glb.toString("ascii", 0, 4) !== "glTF") throw new Error(`${sku}: Download ist kein GLB`);
       const out = path.join(outDir, `${sku}-tripo.glb`);
