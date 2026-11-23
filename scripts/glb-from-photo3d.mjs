@@ -51,6 +51,38 @@ const T = [k, 0, 0, 0, 0, k, 0, 0, 0, 0, k, 0,
   rCenter[0] - nCenter[0] * k, rCenter[1] - nCenter[1] * k, rCenter[2] - nCenter[2] * k, 1];
 for (const mesh of doc.getRoot().listMeshes()) transformMesh(mesh, T);
 
+// ISLANDS=<Anteil> (z. B. 0.05): lose Teile mit weniger als diesem Anteil der Dreiecke entfernen
+// (Foto-zu-3D modelliert Etiketten-/Logo-Reste gern als freischwebenden Ring).
+if (process.env.ISLANDS) {
+  await doc.transform(weld());
+  const minShare = Number(process.env.ISLANDS);
+  for (const mesh of doc.getRoot().listMeshes()) for (const prim of mesh.listPrimitives()) {
+    const pos = prim.getAttribute("POSITION"), idx = prim.getIndices();
+    if (!pos || !idx) continue;
+    const A = pos.getArray(), I = idx.getArray(), n = pos.getCount();
+    const key = new Map(), gid = new Int32Array(n);
+    for (let v = 0; v < n; v++) {
+      const kk = `${Math.round(A[v * 3] * 1e5)},${Math.round(A[v * 3 + 1] * 1e5)},${Math.round(A[v * 3 + 2] * 1e5)}`;
+      let g = key.get(kk); if (g === undefined) { g = key.size; key.set(kk, g); } gid[v] = g;
+    }
+    const par = Int32Array.from({ length: key.size }, (_, i) => i);
+    const find = (a) => { while (par[a] !== a) { par[a] = par[par[a]]; a = par[a]; } return a; };
+    for (let t = 0; t < I.length; t += 3) {
+      const a = find(gid[I[t]]), b = find(gid[I[t + 1]]), c = find(gid[I[t + 2]]);
+      par[b] = a; par[find(c)] = a;
+    }
+    const tris = I.length / 3, count = new Map();
+    for (let t = 0; t < I.length; t += 3) { const r = find(gid[I[t]]); count.set(r, (count.get(r) || 0) + 1); }
+    const keep = [];
+    for (let t = 0; t < I.length; t += 3) if (count.get(find(gid[I[t]])) >= minShare * tris) keep.push(I[t], I[t + 1], I[t + 2]);
+    const removed = tris - keep.length / 3;
+    if (removed) {
+      idx.setArray(new (I.constructor)(keep));
+      console.error(`ISLANDS: ${removed} von ${tris} Dreiecken in ${[...count.values()].filter((c) => c < minShare * tris).length} losen Teilen entfernt`);
+    }
+  }
+}
+
 // SMOOTH="x0,x1,y0,y1" (Anteile der Breite / Höhe von oben): Beulen, die Foto-zu-3D aus
 // Resten des Logo-Entfernens modelliert hat, an der Vorderseite glätten (Taubin, ohne
 // Schrumpfen, weicher Übergang zum Rand). Die Stelle ist die Druckfläche – glatt ist dort richtig.
