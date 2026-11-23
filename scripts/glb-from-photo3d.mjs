@@ -33,6 +33,15 @@ for (const node of doc.getRoot().listNodes()) {
 }
 for (const node of doc.getRoot().listNodes()) { node.setTranslation([0, 0, 0]); node.setRotation([0, 0, 0, 1]); node.setScale([1, 1, 1]); }
 
+// Foto-zu-3D liefert die Blickrichtung des Fotos, nicht die Shop-Ausrichtung (Front nach +Z):
+// YAW=<Grad> dreht um die Hochachse, bevor eingepasst wird.
+const yaw = (Number(process.env.YAW || 0) * Math.PI) / 180;
+if (yaw) {
+  const c = Math.cos(yaw), s = Math.sin(yaw);
+  const R = [c, 0, -s, 0, 0, 1, 0, 0, s, 0, c, 0, 0, 0, 0, 1];
+  for (const mesh of doc.getRoot().listMeshes()) transformMesh(mesh, R);
+}
+
 const nb = getBounds(doc.getRoot().listScenes()[0]);
 const nSize = nb.max.map((v, i) => v - nb.min[i]);
 const nCenter = nb.max.map((v, i) => (v + nb.min[i]) / 2);
