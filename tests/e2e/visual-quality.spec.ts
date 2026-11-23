@@ -55,6 +55,9 @@ async function uploadTestDesign(page: Page, side: "front" | "back" = "front") {
 }
 
 test.describe("Visual Quality Check - AirFit Pro T-Shirt", () => {
+  // GLB laden + Upload + Viewer brauchen auf Software-Renderern (SwiftShader) mehr als
+  // die globalen 30 s; die einzelnen Erwartungen haben schon je bis zu 20 s.
+  test.describe.configure({ timeout: 90_000 });
   test("T-Shirt Produktseite lädt korrekt", async ({ page }, testInfo) => {
     await page.goto(`${BASE_URL}/product/1`);
 
@@ -129,6 +132,9 @@ test.describe("Visual Quality Check - AirFit Pro T-Shirt", () => {
 });
 
 test.describe("Visual Quality Check - AirFit Pro Shorts", () => {
+  // GLB laden + Upload + Viewer brauchen auf Software-Renderern (SwiftShader) mehr als
+  // die globalen 30 s; die einzelnen Erwartungen haben schon je bis zu 20 s.
+  test.describe.configure({ timeout: 90_000 });
   test("Shorts Produktseite lädt korrekt", async ({ page }, testInfo) => {
     await page.goto(`${BASE_URL}/product/2`);
 
