@@ -76,6 +76,7 @@ export default async function CategoriesPage() {
   return (
     <>
       <SiteHeader />
+      <span id="main-content" tabIndex={-1} />
       <div
         style={{ padding: "5rem 2rem", maxWidth: "1200px", margin: "0 auto" }}
       >

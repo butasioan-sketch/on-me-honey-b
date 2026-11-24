@@ -271,7 +271,11 @@ function isSoftwareRenderer(gl: THREE.WebGLRenderer): boolean {
   try {
     const ctx = gl.getContext();
     const ext = ctx.getExtension("WEBGL_debug_renderer_info");
-    const name = String(ext ? ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL) : ctx.getParameter(ctx.RENDERER));
+    const name = String(
+      ext
+        ? ctx.getParameter(ext.UNMASKED_RENDERER_WEBGL)
+        : ctx.getParameter(ctx.RENDERER),
+    );
     return /swiftshader|llvmpipe|software|softpipe/i.test(name);
   } catch {
     return false;
@@ -304,7 +308,9 @@ function StudioEnvironment({ onReady }: { onReady: (ready: boolean) => void }) {
       requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
       cancelIdleCallback?: (id: number) => void;
     };
-    const id = w.requestIdleCallback ? w.requestIdleCallback(build, { timeout: 2500 }) : window.setTimeout(build, 800);
+    const id = w.requestIdleCallback
+      ? w.requestIdleCallback(build, { timeout: 2500 })
+      : window.setTimeout(build, 800);
     return () => {
       if (w.cancelIdleCallback) w.cancelIdleCallback(id);
       else window.clearTimeout(id);
@@ -324,7 +330,15 @@ function StudioEnvironment({ onReady }: { onReady: (ready: boolean) => void }) {
  * Vorder- bzw. Rückseite zur Kamera. Bei jedem Seitenwechsel wird auch die Kamera
  * auf die Frontalansicht zurückgesetzt, damit „Vorderseite/Rückseite" immer stimmt.
  */
-function SideGroup({ facing, spinning, children }: { facing: "front" | "back"; spinning: boolean; children: React.ReactNode }) {
+function SideGroup({
+  facing,
+  spinning,
+  children,
+}: {
+  facing: "front" | "back";
+  spinning: boolean;
+  children: React.ReactNode;
+}) {
   const ref = useRef<THREE.Group>(null);
   const controls = useThree((st) => st.controls) as unknown as {
     setAzimuthalAngle?: (a: number) => void;
@@ -354,15 +368,29 @@ export default function Shirt3D({
   ...props
 }: Shirt3DProps) {
   const requestedId = props.productId;
-  const record = requestedId && !modelOverride ? getProductByShopId(requestedId) : null;
-  const modelPath = modelOverride ?? (record ? getAtelierModelPath(record) : null);
+  const record =
+    requestedId && !modelOverride ? getProductByShopId(requestedId) : null;
+  const modelPath =
+    modelOverride ?? (record ? getAtelierModelPath(record) : null);
   const preserveMaterials = !!modelOverride || !!record?.atelierModel;
   // setEnvReady ist stabil (useState) → StudioEnvironment-Effekt läuft nicht bei jedem Render neu
   const [envReady, setEnvReady] = useState(false);
+  // Ohne GPU (Software-Rendering, schwache Geräte) kostet jedes Bild mit Schattenkarte +
+  // Kontaktschatten über 1 s Hauptthread (Lighthouse 24.11.: TBT 11 s mobil). Dort ohne Schatten.
+  const [lowPower, setLowPower] = useState(false);
 
   if (!requestedId || !modelPath) {
     return (
-      <p role="status" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#a0a0a0" }}>
+      <p
+        role="status"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+          color: "#a0a0a0",
+        }}
+      >
         3D-Modell nicht verfügbar
       </p>
     );
@@ -373,9 +401,10 @@ export default function Shirt3D({
 
   return (
     <Canvas
-      shadows
+      shadows={!lowPower}
       camera={{ position: cam.cameraPos, fov: cam.fov }}
-      dpr={[1, 1.5]}
+      dpr={lowPower ? 1 : [1, 1.5]}
+      onCreated={({ gl }) => setLowPower(isSoftwareRenderer(gl))}
       frameloop={autoRotate ? "always" : "demand"}
       style={{ width: "100%", height: "100%", background: "transparent" }}
       gl={{
@@ -430,14 +459,16 @@ export default function Shirt3D({
           </Bounds>
         )}
 
-        {/* Soft contact shadows - realistic ground contact */}
-        <ContactShadows
-          position={[0, -0.85, 0]}
-          opacity={0.3}
-          scale={3}
-          blur={2}
-          far={2}
-        />
+        {/* Weiche Kontaktschatten (rendern die Szene pro Bild erneut) – nur mit GPU */}
+        {!lowPower && (
+          <ContactShadows
+            position={[0, -0.85, 0]}
+            opacity={0.3}
+            scale={3}
+            blur={2}
+            far={2}
+          />
+        )}
         <OrbitControls
           makeDefault
           enablePan={false}
@@ -447,7 +478,7 @@ export default function Shirt3D({
           target={cam.orbitTarget}
           enableRotate={enableTouch}
           enableZoom={enableTouch}
-          enableDamping={true}
+          enableDamping={!lowPower}
           dampingFactor={0.05}
         />
       </Suspense>

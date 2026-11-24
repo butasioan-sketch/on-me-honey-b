@@ -7,14 +7,24 @@ import { PREVIEW_PROFILE_ID } from "@/lib/print-spec";
 
 const GlbStudio = dynamic(() => import("./GlbStudio"), {
   ssr: false,
-  loading: () => <div className="glb-studio-viewer" role="status" aria-label="3D-Modell lädt" />,
+  loading: () => (
+    <div
+      className="glb-studio-viewer"
+      role="status"
+      aria-label="3D-Modell lädt"
+    />
+  ),
 });
 
 /**
  * Katalogartikel (shop_live=false): nur 3D-Modell + Upload-Vorschau (Jonny 21.11.2026).
  * Keine Produktfotos, kein Kauf.
  */
-export default function CatalogProductView({ product }: { product: ProductRecord }) {
+export default function CatalogProductView({
+  product,
+}: {
+  product: ProductRecord;
+}) {
   const category = categoryForSku(product.sku);
 
   return (
@@ -28,7 +38,7 @@ export default function CatalogProductView({ product }: { product: ProductRecord
     >
       <SiteHeader />
 
-      <main className="glb-product">
+      <main id="main-content" className="glb-product">
         <GlbStudio
           profileId={PREVIEW_PROFILE_ID}
           modelPath={`/models/sku/${product.sku}-v1.glb`}
@@ -67,7 +77,11 @@ export default function CatalogProductView({ product }: { product: ProductRecord
           >
             Bald verfügbar
           </p>
-          <a href={category ? `/categories/${category}` : "/"} className="plt-btn-secondary" style={{ alignSelf: "flex-start", textDecoration: "none" }}>
+          <a
+            href={category ? `/categories/${category}` : "/"}
+            className="plt-btn-secondary"
+            style={{ alignSelf: "flex-start", textDecoration: "none" }}
+          >
             ← Zurück zum Katalog
           </a>
         </div>

@@ -71,6 +71,8 @@ export default function HomePage() {
 
       <SiteHeader />
 
+      <span id="main-content" tabIndex={-1} />
+
       <HomeLocaleGate>
         <HomeView locale="de" />
       </HomeLocaleGate>

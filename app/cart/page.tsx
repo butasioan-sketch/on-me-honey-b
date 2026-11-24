@@ -129,8 +129,14 @@ export default function CartPage() {
   const updateQty = (index: number, delta: number) => {
     const updated = items.map((item, i) => {
       if (i !== index) return item;
-      const others = items.reduce((n, it, j) => (j === index ? n : n + it.quantity), 0);
-      const qty = Math.max(1, Math.min(9, MAX_SHOP_QUANTITY - others, item.quantity + delta));
+      const others = items.reduce(
+        (n, it, j) => (j === index ? n : n + it.quantity),
+        0,
+      );
+      const qty = Math.max(
+        1,
+        Math.min(9, MAX_SHOP_QUANTITY - others, item.quantity + delta),
+      );
       return { ...item, quantity: qty };
     });
     setItems(updated);
@@ -145,7 +151,12 @@ export default function CartPage() {
       : locale === "en"
         ? `For more than ${MAX_SHOP_QUANTITY} pieces we make an individual offer with a fixed date.`
         : `Mehr als ${MAX_SHOP_QUANTITY} Stück fertigen wir auf Anfrage – mit individuellem Angebot und festem Termin.`;
-  const bulkLink = locale === "ro" ? "Formular de cerere →" : locale === "en" ? "Request form →" : "Zum Anfrageformular →";
+  const bulkLink =
+    locale === "ro"
+      ? "Formular de cerere →"
+      : locale === "en"
+        ? "Request form →"
+        : "Zum Anfrageformular →";
   const payVideo =
     locale === "ro"
       ? "▶ Cum funcționează plata? Video (1,5 min)"
@@ -211,10 +222,13 @@ export default function CartPage() {
       const data = await res.json();
       if (data.redirectUrl) {
         if (typeof data.sessionId === "string") {
-          sessionStorage.setItem("plt_pending_purchase", JSON.stringify({
-            sessionId: data.sessionId,
-            cart: checkoutCart,
-          }));
+          sessionStorage.setItem(
+            "plt_pending_purchase",
+            JSON.stringify({
+              sessionId: data.sessionId,
+              cart: checkoutCart,
+            }),
+          );
         }
         redirecting = true; // Button bleibt gesperrt, kein zweiter Checkout per Doppelklick
         window.location.href = data.redirectUrl;
@@ -245,6 +259,7 @@ export default function CartPage() {
       }}
     >
       <SiteHeader />
+      <span id="main-content" tabIndex={-1} />
 
       <div
         style={{
@@ -257,7 +272,17 @@ export default function CartPage() {
           {t.cart.title}
         </h1>
         {cancelled && (
-          <p role="status" style={{ background: "#1f1812", border: "1px solid rgba(212,175,55,0.4)", color: "#e8d7b8", padding: "0.85rem 1rem", borderRadius: "10px", marginBottom: "1.5rem" }}>
+          <p
+            role="status"
+            style={{
+              background: "#1f1812",
+              border: "1px solid rgba(212,175,55,0.4)",
+              color: "#e8d7b8",
+              padding: "0.85rem 1rem",
+              borderRadius: "10px",
+              marginBottom: "1.5rem",
+            }}
+          >
             {t.cart.paymentCancelled}
           </p>
         )}
@@ -341,7 +366,11 @@ export default function CartPage() {
                       }}
                     >
                       <p style={{ fontWeight: 700, margin: 0 }}>
-                        {formatEuro(calcUnitPriceForProduct(item.id, item.pages || 1) * item.quantity, locale)}
+                        {formatEuro(
+                          calcUnitPriceForProduct(item.id, item.pages || 1) *
+                            item.quantity,
+                          locale,
+                        )}
                       </p>
                       <div
                         style={{
@@ -382,16 +411,25 @@ export default function CartPage() {
                         </span>
                         <button
                           onClick={() => updateQty(i, +1)}
-                          disabled={item.quantity >= 9 || qtyTotal >= MAX_SHOP_QUANTITY}
+                          disabled={
+                            item.quantity >= 9 || qtyTotal >= MAX_SHOP_QUANTITY
+                          }
                           style={{
                             width: 26,
                             height: 26,
                             borderRadius: "6px",
                             border: "1px solid rgba(255,255,255,0.15)",
                             background: "#1a1a1a",
-                            color: item.quantity >= 9 || qtyTotal >= MAX_SHOP_QUANTITY ? "#444" : "#fff",
+                            color:
+                              item.quantity >= 9 ||
+                              qtyTotal >= MAX_SHOP_QUANTITY
+                                ? "#444"
+                                : "#fff",
                             cursor:
-                              item.quantity >= 9 || qtyTotal >= MAX_SHOP_QUANTITY ? "not-allowed" : "pointer",
+                              item.quantity >= 9 ||
+                              qtyTotal >= MAX_SHOP_QUANTITY
+                                ? "not-allowed"
+                                : "pointer",
                             fontSize: "1rem",
                             display: "flex",
                             alignItems: "center",
@@ -600,7 +638,10 @@ export default function CartPage() {
                     fontWeight: 600,
                   }}
                 >
-                  {t.cart.bundleApplied(formatEuro(PRICE_BUNDLE_ESSENTIAL, locale), formatEuro(bundleSavings, locale))}
+                  {t.cart.bundleApplied(
+                    formatEuro(PRICE_BUNDLE_ESSENTIAL, locale),
+                    formatEuro(bundleSavings, locale),
+                  )}
                 </div>
               )}
               <div
@@ -705,7 +746,10 @@ export default function CartPage() {
                 }}
               >
                 {bulkText}{" "}
-                <a href="/grossbestellung" style={{ color: "#D4AF37", fontWeight: 700 }}>
+                <a
+                  href="/grossbestellung"
+                  style={{ color: "#D4AF37", fontWeight: 700 }}
+                >
                   {bulkLink}
                 </a>
               </p>
@@ -750,7 +794,10 @@ export default function CartPage() {
               {t.cart.securePayment}
             </p>
             <p style={{ textAlign: "center", margin: "0.4rem 0 0" }}>
-              <a href="/so-gehts#video-bezahlen" style={{ color: "#D4AF37", fontSize: "0.8rem" }}>
+              <a
+                href="/so-gehts#video-bezahlen"
+                style={{ color: "#D4AF37", fontSize: "0.8rem" }}
+              >
                 {payVideo}
               </a>
             </p>
