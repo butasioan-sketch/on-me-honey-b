@@ -3,6 +3,7 @@ import Link from "next/link";
 import SiteHeader from "@/app/components/SiteHeader";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/categories" },
   title: "Alle Produkte - ON ME HONEY B",
   description:
     "133 individuell bedruckbare Produkte in 9 Kategorien: Bekleidung, Taschen, Wohnen, Geschenke, Tassen, Caps, Teller, Stifte, Schuhe. 2 sofort verfügbar.",
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
     title: "Alle Produkte - ON ME HONEY B",
     description: "133 individuell bedruckbare Produkte in 9 Kategorien",
     type: "website",
+    url: "/categories",
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
 };
 

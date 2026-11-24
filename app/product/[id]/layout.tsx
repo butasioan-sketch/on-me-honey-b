@@ -13,6 +13,7 @@ import {
   getProductDescription,
   type Product,
 } from "@/lib/products";
+import { formatEuro } from "@/lib/format-price";
 
 type Params = Promise<{ id: string }>;
 
@@ -53,7 +54,7 @@ export async function generateMetadata({
   if (shop) {
     const name = getProductName(shop, "de");
     const desc = getProductDescription(shop, "de");
-    const price = `${shop.price.toFixed(2)} €`;
+    const price = formatEuro(shop.price, "de");
     return {
       alternates: { canonical: url },
       title: `${name} — Dein Design | ON ME HONEY B`,
@@ -63,6 +64,7 @@ export async function generateMetadata({
         description: `${desc} Jetzt gestalten!`,
         type: "website",
         url,
+        images: [{ url: catalogFrontSrc(catalog.sku), alt: name }],
       },
     };
   }
@@ -71,11 +73,15 @@ export async function generateMetadata({
     alternates: { canonical: url },
     title: `${catalog.name} — ON ME HONEY B`,
     description: `${catalog.name} (SKU ${catalog.sku}) — bald verfügbar bei ON ME HONEY B.`,
+    // Noch nicht bestellbar: dünne Vorschauseite, nicht in der Sitemap → nicht indexieren,
+    // Links aber verfolgen. Entfällt automatisch, sobald shop_live gesetzt ist.
+    robots: { index: false, follow: true },
     openGraph: {
       title: `${catalog.name} | ON ME HONEY B`,
       description: "Bald verfügbar.",
       type: "website",
       url,
+      images: [{ url: catalogFrontSrc(catalog.sku), alt: catalog.name }],
     },
   };
 }
@@ -110,21 +116,16 @@ export default async function Layout({
         sku: catalog.sku,
         image: new URL(catalogFrontSrc(catalog.sku), siteUrl).href,
       }
-    : {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        name: catalog.name,
-        description: "Bald verfügbar.",
-        brand: { "@type": "Brand", name: "ON ME HONEY B" },
-        sku: catalog.sku,
-      };
+    : null;
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
+      {productSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
       {children}
     </>
   );

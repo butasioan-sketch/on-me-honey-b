@@ -52,6 +52,7 @@ export async function generateMetadata({
       description: `${info.name} im Katalog von ON ME HONEY B.`,
       url,
       type: "website",
+      images: [{ url: "/og.png", width: 1200, height: 630 }],
     },
   };
 }
@@ -166,7 +167,11 @@ export default async function CategoryPage({
                   alt={product.name.de}
                   width={400}
                   height={400}
-                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
                 />
                 {product.status !== "shop_live" && (
                   <div

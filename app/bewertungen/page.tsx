@@ -1,42 +1,97 @@
-'use client';
+"use client";
 
-import { useLocale } from '@/app/components/LocaleProvider';
-import SiteHeader from '@/app/components/SiteHeader';
-import ReviewForm from '@/app/components/reviews/ReviewForm';
-import ReviewsSection from '@/app/components/reviews/ReviewsSection';
+import { useLocale } from "@/app/components/LocaleProvider";
+import SiteHeader from "@/app/components/SiteHeader";
+import ReviewForm from "@/app/components/reviews/ReviewForm";
+import ReviewsSection from "@/app/components/reviews/ReviewsSection";
 
 export default function BewertungenPage() {
   const { locale, t } = useLocale();
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.08), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)',
-      color: '#fff',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-    }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(1000px 500px at 50% -10%, rgba(226,0,26,0.08), transparent 60%), linear-gradient(180deg, #0c0c0d 0%, #0a0a0a 100%)",
+        color: "#fff",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
       <SiteHeader />
 
-      <main id="main-content" style={{ maxWidth: '1000px', margin: '0 auto', padding: '3rem 2rem 5rem' }}>
-        <ReviewsSection locale={locale} showLink={false} />
+      <main
+        id="main-content"
+        style={{
+          maxWidth: "1000px",
+          margin: "0 auto",
+          padding: "3rem 2rem 5rem",
+        }}
+      >
+        <ReviewsSection locale={locale} showLink={false} headingLevel="h1" />
 
-        <div style={{ marginTop: '3.5rem', display: 'grid', gap: '2rem', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', alignItems: 'start' }}>
+        <div
+          style={{
+            marginTop: "3.5rem",
+            display: "grid",
+            gap: "2rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            alignItems: "start",
+          }}
+        >
           <div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>{t.reviews.formTitle}</h2>
-            <p style={{ color: '#888', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>{t.reviews.formSub}</p>
+            <h2
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: 800,
+                marginBottom: "0.5rem",
+              }}
+            >
+              {t.reviews.formTitle}
+            </h2>
+            <p
+              style={{
+                color: "#888",
+                fontSize: "0.9rem",
+                lineHeight: 1.6,
+                marginBottom: "1.5rem",
+              }}
+            >
+              {t.reviews.formSub}
+            </p>
             <ReviewForm locale={locale} copy={t.reviews.form} />
           </div>
 
-          <aside style={{
-            background: '#121212',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '16px',
-            padding: '1.5rem',
-          }}>
-            <p style={{ color: '#D4AF37', fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.75rem' }}>
+          <aside
+            style={{
+              background: "#121212",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: "16px",
+              padding: "1.5rem",
+            }}
+          >
+            <p
+              style={{
+                color: "#D4AF37",
+                fontSize: "0.72rem",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                marginBottom: "0.75rem",
+              }}
+            >
               {t.reviews.moderationLabel}
             </p>
-            <p style={{ color: '#aaa', fontSize: '0.88rem', lineHeight: 1.65, margin: 0 }}>{t.reviews.moderationNote}</p>
+            <p
+              style={{
+                color: "#aaa",
+                fontSize: "0.88rem",
+                lineHeight: 1.65,
+                margin: 0,
+              }}
+            >
+              {t.reviews.moderationNote}
+            </p>
           </aside>
         </div>
       </main>

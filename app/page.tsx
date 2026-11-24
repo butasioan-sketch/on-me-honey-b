@@ -5,7 +5,7 @@ import HomeView from "@/app/components/home/HomeView";
 import HomeLocaleGate from "@/app/components/home/HomeLocaleGate";
 
 export const metadata: Metadata = {
-  title: "ON ME HONEY B - Individuell bedruckbare Premium-Sportbekleidung",
+  title: "ON ME HONEY B – Bedruckbare Premium-Sportbekleidung",
   description:
     "133 individuell bedruckbare Produkte - von Bekleidung bis Wohnaccessoires. 2 Produkte sofort verfügbar, 131 in Vorbereitung. Premium AirFit Performance Fabric.",
   alternates: { canonical: "/" },
