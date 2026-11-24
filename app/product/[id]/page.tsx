@@ -17,7 +17,13 @@ import CatalogProductView from "@/app/components/CatalogProductView";
 
 const GlbStudio = dynamic(() => import("@/app/components/GlbStudio"), {
   ssr: false,
-  loading: () => <div className="glb-studio-viewer" role="status" aria-label="3D-Modell lädt" />,
+  loading: () => (
+    <div
+      className="glb-studio-viewer"
+      role="status"
+      aria-label="3D-Modell lädt"
+    />
+  ),
 });
 import type { DesignState } from "@/lib/design-types";
 import { calcUnitPriceForProduct } from "@/lib/pricing";
@@ -65,7 +71,6 @@ export default function ProductPage() {
     const preSize = searchParams.get("size");
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (preSize) setSize(preSize);
-
 
     if (searchParams.has("edit")) setEditHint(true);
   }, []);
@@ -188,7 +193,9 @@ export default function ProductPage() {
         if (payload.length <= MAX_DESIGN_PAYLOAD) break;
       }
       if (payload.length > MAX_DESIGN_PAYLOAD) {
-        throw new Error(`Motiv zu groß (${(payload.length / 1024 / 1024).toFixed(1)} MB)`);
+        throw new Error(
+          `Motiv zu groß (${(payload.length / 1024 / 1024).toFixed(1)} MB)`,
+        );
       }
       const res = await fetch("/api/designs", {
         method: "POST",
@@ -332,7 +339,7 @@ export default function ProductPage() {
     >
       <SiteHeader />
 
-      <main className="glb-product">
+      <main id="main-content" className="glb-product">
         <GlbStudio
           profileId={id}
           productName={productName}
@@ -353,12 +360,33 @@ export default function ProductPage() {
             {productName}
           </h1>
           <div>
-            <p style={{ fontSize: "1.75rem", fontWeight: 800, margin: 0, color: "#fff" }}>
+            <p
+              style={{
+                fontSize: "1.75rem",
+                fontWeight: 800,
+                margin: 0,
+                color: "#fff",
+              }}
+            >
               {formatEuro(unitPrice, locale)}
             </p>
             {/* PAngV: Endpreis, Steuerhinweis und Versandkosten direkt beim Preis */}
-            <p style={{ fontSize: "0.78rem", color: "#a0a0a0", margin: "0.25rem 0 0" }}>
-              {t.product.priceNote} (<a href="/versand">{locale === "de" ? "Versandkosten" : locale === "ro" ? "costuri de livrare" : "shipping costs"}</a>)
+            <p
+              style={{
+                fontSize: "0.78rem",
+                color: "#a0a0a0",
+                margin: "0.25rem 0 0",
+              }}
+            >
+              {t.product.priceNote} (
+              <a href="/versand">
+                {locale === "de"
+                  ? "Versandkosten"
+                  : locale === "ro"
+                    ? "costuri de livrare"
+                    : "shipping costs"}
+              </a>
+              )
             </p>
           </div>
 
@@ -382,7 +410,14 @@ export default function ProductPage() {
           </div>
 
           {editHint && (
-            <p style={{ margin: 0, fontSize: "0.8rem", color: "#fca5a5", lineHeight: 1.5 }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "0.8rem",
+                color: "#fca5a5",
+                lineHeight: 1.5,
+              }}
+            >
               {locale === "de"
                 ? "Größe vorausgewählt. Lade dein Motiv erneut hoch."
                 : locale === "ro"
@@ -400,7 +435,10 @@ export default function ProductPage() {
               gap: "0.6rem",
               padding: "0.65rem 0.9rem",
               borderRadius: "10px",
-              background: totalLayers > 0 ? "rgba(74,222,128,0.08)" : "rgba(255,255,255,0.03)",
+              background:
+                totalLayers > 0
+                  ? "rgba(74,222,128,0.08)"
+                  : "rgba(255,255,255,0.03)",
               border: `1px solid ${totalLayers > 0 ? "rgba(74,222,128,0.25)" : "rgba(255,255,255,0.08)"}`,
               fontSize: "0.8rem",
               fontWeight: 600,
@@ -420,7 +458,10 @@ export default function ProductPage() {
           </div>
 
           {error && (
-            <p role="alert" style={{ color: "#f87171", fontSize: "0.875rem", margin: 0 }}>
+            <p
+              role="alert"
+              style={{ color: "#f87171", fontSize: "0.875rem", margin: 0 }}
+            >
               {error}
             </p>
           )}
@@ -441,15 +482,42 @@ export default function ProductPage() {
             onClick={addToCart}
             disabled={addLoading}
             className={`plt-btn-secondary${added ? " plt-btn-cart-added" : ""}`}
-            style={{ width: "100%", padding: "0.9rem", color: added ? "#4ade80" : "#fff" }}
+            style={{
+              width: "100%",
+              padding: "0.9rem",
+              color: added ? "#4ade80" : "#fff",
+            }}
           >
-            {addLoading ? "..." : added ? `✓ ${t.product.added}` : `+ ${t.product.addCart}`}
+            {addLoading
+              ? "..."
+              : added
+                ? `✓ ${t.product.added}`
+                : `+ ${t.product.addCart}`}
           </button>
-          <p style={{ color: "#a0a0a0", fontSize: "0.72rem", textAlign: "center", margin: 0, lineHeight: 1.5 }}>
+          <p
+            style={{
+              color: "#a0a0a0",
+              fontSize: "0.72rem",
+              textAlign: "center",
+              margin: 0,
+              lineHeight: 1.5,
+            }}
+          >
             {t.shop.legal}
           </p>
-          <a href="/so-gehts#video-gestalten" style={{ color: "#D4AF37", fontSize: "0.85rem", textAlign: "center" }}>
-            {locale === "de" ? "▶ So bestellst du – Video (1 Min.)" : locale === "ro" ? "▶ Cum comanzi – video" : "▶ How to order – video"}
+          <a
+            href="/so-gehts#video-gestalten"
+            style={{
+              color: "#D4AF37",
+              fontSize: "0.85rem",
+              textAlign: "center",
+            }}
+          >
+            {locale === "de"
+              ? "▶ So bestellst du – Video (1 Min.)"
+              : locale === "ro"
+                ? "▶ Cum comanzi – video"
+                : "▶ How to order – video"}
           </a>
         </div>
       </main>
@@ -475,8 +543,17 @@ export default function ProductPage() {
         }}
       >
         <div>
-          <p style={{ fontSize: "0.7rem", color: "#a0a0a0", margin: 0 }}>{productName}</p>
-          <p style={{ fontSize: "1.2rem", fontWeight: 800, color: "#fff", margin: 0 }}>
+          <p style={{ fontSize: "0.7rem", color: "#a0a0a0", margin: 0 }}>
+            {productName}
+          </p>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              fontWeight: 800,
+              color: "#fff",
+              margin: 0,
+            }}
+          >
             {formatEuro(unitPrice, locale)}
           </p>
         </div>
@@ -485,7 +562,11 @@ export default function ProductPage() {
           onClick={buyNow}
           disabled={loading}
           className="plt-btn-primary"
-          style={{ padding: "0.75rem 1.5rem", fontSize: "0.9rem", flexShrink: 0 }}
+          style={{
+            padding: "0.75rem 1.5rem",
+            fontSize: "0.9rem",
+            flexShrink: 0,
+          }}
         >
           {loading ? t.cart.redirecting : t.product.buyNow}
         </button>

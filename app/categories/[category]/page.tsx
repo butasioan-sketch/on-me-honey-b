@@ -77,6 +77,7 @@ export default async function CategoryPage({
   return (
     <>
       <SiteHeader />
+      <span id="main-content" tabIndex={-1} />
       <div
         style={{ padding: "3rem 2rem", maxWidth: "1400px", margin: "0 auto" }}
       >
@@ -157,7 +158,7 @@ export default async function CategoryPage({
             gap: "1.5rem",
           }}
         >
-          {products.map((product) => (
+          {products.map((product, index) => (
             <div
               key={product.sku}
               className="plt-card"
@@ -182,6 +183,7 @@ export default async function CategoryPage({
                   alt={product.name.de}
                   width={400}
                   height={400}
+                  priority={index < 2}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -208,7 +210,7 @@ export default async function CategoryPage({
                 >
                   SKU {product.sku}
                 </div>
-                <h3
+                <h2
                   style={{
                     fontWeight: "bold",
                     fontSize: "1.125rem",
@@ -217,7 +219,7 @@ export default async function CategoryPage({
                   }}
                 >
                   {product.name.de}
-                </h3>
+                </h2>
                 <div
                   style={{
                     display: "flex",

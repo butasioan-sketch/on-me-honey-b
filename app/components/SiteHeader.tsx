@@ -87,7 +87,7 @@ export default function SiteHeader() {
         <Link
           href="/"
           className="plt-nav-link"
-          aria-label="Zur Startseite"
+          aria-label="Home – zur Startseite"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -126,7 +126,11 @@ export default function SiteHeader() {
           {t.nav.gifts}
         </Link>
         <Link href="/so-gehts" className="plt-nav-link">
-          {locale === "ro" ? "Cum funcționează" : locale === "en" ? "How it works" : "So geht's"}
+          {locale === "ro"
+            ? "Cum funcționează"
+            : locale === "en"
+              ? "How it works"
+              : "So geht's"}
         </Link>
         <LocaleSwitcher />
 
@@ -157,7 +161,11 @@ export default function SiteHeader() {
               {t.nav.gifts}
             </Link>
             <Link href="/so-gehts" onClick={() => setMobileMenuOpen(false)}>
-              {locale === "ro" ? "Cum funcționează (video)" : locale === "en" ? "How it works (video)" : "So geht's (Video)"}
+              {locale === "ro"
+                ? "Cum funcționează (video)"
+                : locale === "en"
+                  ? "How it works (video)"
+                  : "So geht's (Video)"}
             </Link>
             <Link href="/versand" onClick={() => setMobileMenuOpen(false)}>
               {t.nav.shipping}

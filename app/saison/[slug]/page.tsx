@@ -50,6 +50,7 @@ export default async function SaisonPage({
     <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "#fff" }}>
       <SiteHeader />
       <main
+        id="main-content"
         style={{ maxWidth: "1200px", margin: "0 auto", padding: "3rem 1rem" }}
       >
         <CampaignIntro
