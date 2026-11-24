@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - 'public/models/sku/*.glb'
+      - '.github/workflows/render-models.yml'
   workflow_dispatch:
     inputs:
       skus:
@@ -30,21 +31,18 @@ jobs:
       - run: npm ci
 
       - name: Blender installieren
-        run: sudo apt-get update -q && sudo apt-get install -y -q blender
+        run: sudo apt-get update -q && sudo apt-get install -y -q blender python3-numpy && blender --version | head -1
 
       - name: Geänderte SKUs bestimmen
         id: skus
         env:
           INPUT_SKUS: ${{ github.event.inputs.skus }}
-          BEFORE: ${{ github.event.before }}
         run: |
           if [ -n "$INPUT_SKUS" ]; then
             list="$INPUT_SKUS"
           else
-            base="$BEFORE"
-            if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
-              base=$(git merge-base origin/main HEAD)
-            fi
+            # alle Modelle, die dieser Branch gegenüber main ändert
+            base=$(git merge-base origin/main HEAD)
             list=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'public/models/sku/*-v1.glb' \
               | sed -E 's|.*/([0-9]+)-v1\.glb|\1|' | tr '\n' ' ')
           fi
@@ -60,12 +58,14 @@ jobs:
           for s in $SKUS; do
             node scripts/glb-undraco.mjs "public/models/sku/$s-v1.glb" "/tmp/$s.glb"
             blender -b -t 4 --python blender/lib/render_studio.py -- "/tmp/$s.glb" "renders/$s-render.png" 32 > "renders/$s.log" 2>&1 \
-              || echo "::warning::$s: Render fehlgeschlagen"
+              || true
+            [ -s "renders/$s-render.png" ] || { echo "::error::$s: kein Bild"; tail -5 "renders/$s.log"; fail=1; }
           done
           ls -la renders
+          exit ${fail:-0}
 
       - uses: actions/upload-artifact@v4
-        if: steps.skus.outputs.list != ''
+        if: always() && steps.skus.outputs.list != ''
         with:
           name: renders
           path: renders/
