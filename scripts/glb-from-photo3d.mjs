@@ -42,6 +42,15 @@ if (yaw) {
   for (const mesh of doc.getRoot().listMeshes()) transformMesh(mesh, R);
 }
 
+// PITCH=<Grad> kippt um die Querachse (X) – für Artikel, die Foto-zu-3D liegend statt
+// stehend modelliert (flache Taschen, Einlegesohlen). Wirkt nach YAW.
+const pitch = (Number(process.env.PITCH || 0) * Math.PI) / 180;
+if (pitch) {
+  const c = Math.cos(pitch), s = Math.sin(pitch);
+  const R = [1, 0, 0, 0, 0, c, s, 0, 0, -s, c, 0, 0, 0, 0, 1];
+  for (const mesh of doc.getRoot().listMeshes()) transformMesh(mesh, R);
+}
+
 const nb = getBounds(doc.getRoot().listScenes()[0]);
 const nSize = nb.max.map((v, i) => v - nb.min[i]);
 const nCenter = nb.max.map((v, i) => (v + nb.min[i]) / 2);
