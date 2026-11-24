@@ -1,0 +1,37 @@
+name: Lighthouse (Live)
+on:
+  workflow_dispatch:
+  push:
+    branches: [perf/lighthouse]
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Lighthouse mobil + desktop
+        run: |
+          npm i -g lighthouse@12.6.1
+          mkdir -p lh
+          for p in / /product/1 /product/2 /categories/A /so-gehts; do
+            n=$(echo "$p" | tr '/' '_'); [ "$n" = "_" ] && n=_start
+            for f in mobile desktop; do
+              extra=""; [ "$f" = desktop ] && extra="--preset=desktop"
+              lighthouse "https://on-me-honey-b.vercel.app$p" $extra --quiet --chrome-flags="--headless=new --no-sandbox" \
+                --output=json --output-path="lh/${f}${n}.json" || echo "FEHLER $p $f"
+            done
+          done
+      - name: Zusammenfassung
+        run: |
+          node -e '
+          const fs=require("fs");const rows=[];
+          for(const f of fs.readdirSync("lh")){const r=JSON.parse(fs.readFileSync("lh/"+f));const c=r.categories,a=r.audits;
+            const s=k=>Math.round((c[k]?.score??0)*100);
+            rows.push(`| ${f.replace(".json","")} | ${s("performance")} | ${s("accessibility")} | ${s("best-practices")} | ${s("seo")} | ${a["largest-contentful-paint"].displayValue} | ${a["total-blocking-time"].displayValue} | ${a["cumulative-layout-shift"].displayValue} |`);
+            const bad=Object.values(a).filter(x=>x.score!==null&&x.score<0.9&&!["informative","notApplicable","manual"].includes(x.scoreDisplayMode)).map(x=>x.id+(x.displayValue?" ("+x.displayValue+")":""));
+            rows.push(`|  ↳ schwach: ${bad.join(", ").slice(0,900)} |||||||`);}
+          fs.writeFileSync(process.env.GITHUB_STEP_SUMMARY,"| Seite | Perf | A11y | BP | SEO | LCP | TBT | CLS |\n|---|---|---|---|---|---|---|---|\n"+rows.join("\n"));
+          console.log(rows.join("\n"));'
+      - uses: actions/upload-artifact@v4
+        with: { name: lighthouse, path: lh, retention-days: 14 }
