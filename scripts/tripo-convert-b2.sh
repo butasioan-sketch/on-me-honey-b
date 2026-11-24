@@ -6,7 +6,8 @@
 #   PITCH Kippen um die Querachse (liegend modellierte flache Artikel)
 #   SM    1 = Logo-Fläche aus der Maske glätten, F = ganze Vorderseite kräftig, 0 = keine Glättung
 # Bleiben beim alten Modell (Tripo-Ergebnis schlechter): 040 verdreht, 044 Lasche, 047/048/049 Bruchstücke,
-# 120/121 Dellen in der Cap-Front, 132 Sohle verdreht.
+# 120/121 Dellen in der Cap-Front, 132 Sohle verdreht, 038/041/045/046/050 Logo-Abdruck trotz Glättung,
+# 042 Formfehler, 039 zerknittert.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 raw=$1 masks=$2; shift 2
@@ -18,14 +19,7 @@ table="
 035 0 0 1
 036 0 0 1
 037 0 0 1
-038 0 0 F
-039 0 0 1
-041 0 0 F
-042 0 0 1
 043 0 0 1
-045 -90 90 F
-046 0 0 F
-050 0 0 F
 062 0 0 1
 117 0 0 1
 118 -90 0 1
