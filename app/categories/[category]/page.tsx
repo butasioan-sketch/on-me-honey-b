@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getProductsByCategory, type Category } from "@/lib/products-all-133";
 import SiteHeader from "@/app/components/SiteHeader";
 import { catalogFrontSrc } from "@/lib/catalog/families";
+import { CATEGORY_COPY } from "@/lib/catalog/category-copy";
 
 const CATEGORY_INFO = {
   A: { name: "Bekleidung und Mode", icon: "👕" },
@@ -46,10 +47,10 @@ export async function generateMetadata({
   return {
     alternates: { canonical: url },
     title: `${info.name} - ON ME HONEY B`,
-    description: `${info.name} im Katalog von ON ME HONEY B. Entdecke Produkte zur Personalisierung und sieh, welche bereits verfügbar sind.`,
+    description: CATEGORY_COPY[categoryUpper].description,
     openGraph: {
       title: `${info.name} - ON ME HONEY B`,
-      description: `${info.name} im Katalog von ON ME HONEY B.`,
+      description: CATEGORY_COPY[categoryUpper].description,
       url,
       type: "website",
       images: [{ url: "/og.png", width: 1200, height: 630 }],
@@ -71,6 +72,7 @@ export default async function CategoryPage({
   const categoryKey = category as Category;
   const products = getProductsByCategory(categoryKey);
   const info = CATEGORY_INFO[categoryKey];
+  const copy = CATEGORY_COPY[categoryKey];
 
   return (
     <>
@@ -132,6 +134,19 @@ export default async function CategoryPage({
                 {products.length} Produkte
               </p>
             </div>
+          </div>
+          <div
+            style={{
+              maxWidth: "68ch",
+              color: "#c8c8c8",
+              lineHeight: 1.7,
+              display: "grid",
+              gap: "0.75rem",
+            }}
+          >
+            {copy.paragraphs.map((text) => (
+              <p key={text.slice(0, 40)}>{text}</p>
+            ))}
           </div>
         </div>
 

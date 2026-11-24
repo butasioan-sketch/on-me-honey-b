@@ -61,3 +61,18 @@ test("Bewertungsseite hat genau eine h1 @smoke", async ({ page }) => {
   await page.goto("/bewertungen");
   await expect(page.locator("h1")).toHaveCount(1);
 });
+
+test("Kategorieseiten haben eigenen Einleitungstext und eigene Beschreibung @smoke", async ({
+  request,
+}) => {
+  const seen = new Set<string>();
+  for (const c of ["A", "E", "I"]) {
+    const html = await (await request.get(`/categories/${c}`)).text();
+    const desc =
+      html.match(/<meta name="description" content="([^"]+)"/)?.[1] ?? "";
+    expect(desc.length, `${c} description`).toBeGreaterThan(70);
+    expect(seen.has(desc), `${c} doppelte description`).toBe(false);
+    seen.add(desc);
+    expect(html).toContain("eigenes 3D-Modell");
+  }
+});
