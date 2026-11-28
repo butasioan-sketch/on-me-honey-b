@@ -19,6 +19,7 @@ import {
 } from "../../../../lib/shipping";
 import { PRODUCTS_133 } from "../../../../lib/products-all-133";
 import { getProduct } from "../../../../lib/products";
+import { testPrintDone } from "../../../../lib/catalog/test-prints";
 
 type CheckoutItem = {
   productId?: string; // '1' Tee | '2' Shorts — default '1' fuer alte Aufrufer
@@ -45,10 +46,33 @@ function splitBundleHalves(): { tee: number; shorts: number } {
 }
 
 type Loc = "de" | "ro" | "en";
-const LINE_TXT: Record<Loc, { size: string; motifs: (n: number) => string; setShare: string; shipping: string }> = {
-  de: { size: "Größe", motifs: (n) => `${n} Motiv${n > 1 ? "e" : ""}`, setShare: "Set-Anteil", shipping: "Versand" },
-  ro: { size: "Mărime", motifs: (n) => (n > 1 ? `${n} motive` : `${n} motiv`), setShare: "parte din set", shipping: "Livrare" },
-  en: { size: "Size", motifs: (n) => `${n} design${n > 1 ? "s" : ""}`, setShare: "set share", shipping: "Shipping" },
+const LINE_TXT: Record<
+  Loc,
+  {
+    size: string;
+    motifs: (n: number) => string;
+    setShare: string;
+    shipping: string;
+  }
+> = {
+  de: {
+    size: "Größe",
+    motifs: (n) => `${n} Motiv${n > 1 ? "e" : ""}`,
+    setShare: "Set-Anteil",
+    shipping: "Versand",
+  },
+  ro: {
+    size: "Mărime",
+    motifs: (n) => (n > 1 ? `${n} motive` : `${n} motiv`),
+    setShare: "parte din set",
+    shipping: "Livrare",
+  },
+  en: {
+    size: "Size",
+    motifs: (n) => `${n} design${n > 1 ? "s" : ""}`,
+    setShare: "set share",
+    shipping: "Shipping",
+  },
 };
 
 function itemLabel(p: PricedItem, loc: Loc, suffix = ""): string {
@@ -62,7 +86,11 @@ function itemLabel(p: PricedItem, loc: Loc, suffix = ""): string {
  * den verfuegbaren Paaren hinaus) laufen zum normalen Flat-Preis. Summe der Lines ==
  * calcMerchandiseTotal(...) exakt, da dieselbe Paar-Logik verwendet wird.
  */
-function buildLineItems(priced: PricedItem[], applyBundle: boolean, loc: Loc = "de") {
+function buildLineItems(
+  priced: PricedItem[],
+  applyBundle: boolean,
+  loc: Loc = "de",
+) {
   const halves = splitBundleHalves();
   let teeBudget = applyBundle
     ? Math.min(
@@ -252,7 +280,9 @@ export async function POST(request: Request) {
     }
 
     // Ab 21 Stück insgesamt nur per Anfrage (Handfertigung, individuelles Angebot)
-    const qtyTotal = totalQuantity(items.map((i) => ({ quantity: Math.round(Number(i.quantity || 0)) })));
+    const qtyTotal = totalQuantity(
+      items.map((i) => ({ quantity: Math.round(Number(i.quantity || 0)) })),
+    );
     if (qtyTotal > MAX_SHOP_QUANTITY) {
       return NextResponse.json(
         {
@@ -271,7 +301,8 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Kissenbezüge sind noch nicht verfügbar. Das Produkt befindet sich in der Vorbereitung.",
+          error:
+            "Kissenbezüge sind noch nicht verfügbar. Das Produkt befindet sich in der Vorbereitung.",
           productId: "3",
           status: "pilot",
         },
@@ -292,6 +323,21 @@ export async function POST(request: Request) {
           error: `Produkt "${product?.name?.de || notShopLive.productId}" ist noch nicht verfügbar. Nur Live-Produkte können gekauft werden.`,
           productId: notShopLive.productId,
           status: product?.status || "unknown",
+        },
+        { status: 400 },
+      );
+    }
+
+    // Kaufsperre bis zum Testdruck (lib/catalog/release-gate.ts testPrintDone)
+    const untested = items.find((item) => !testPrintDone(item.productId!));
+    if (untested) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Dieses Produkt ist bald bestellbar. Wir drucken gerade die letzten Testmuster.",
+          code: "testdruck_ausstehend",
+          productId: untested.productId,
         },
         { status: 400 },
       );
@@ -339,20 +385,44 @@ export async function POST(request: Request) {
         );
       }
     }
-    const locale = (["de", "ro", "en"] as const).includes(body.locale) ? (body.locale as "de" | "ro" | "en") : "de";
+    const locale = (["de", "ro", "en"] as const).includes(body.locale)
+      ? (body.locale as "de" | "ro" | "en")
+      : "de";
     const priced: PricedItem[] = [];
     for (const item of items) {
       const productId = item.productId!; // Already validated above
       // Name, Größe und Farbe nie ungeprüft vom Client übernehmen (Stripe, Bestellung, PDF, Mail)
       const product = getProduct(productId);
       if (!product) {
-        return NextResponse.json({ ok: false, error: "Artikel nicht verfügbar." }, { status: 400 });
+        return NextResponse.json(
+          { ok: false, error: "Artikel nicht verfügbar." },
+          { status: 400 },
+        );
       }
       if (!item.size || !product.sizes.includes(item.size)) {
-        return NextResponse.json({ ok: false, error: "Bitte eine gültige Größe wählen." }, { status: 400 });
+        return NextResponse.json(
+          { ok: false, error: "Bitte eine gültige Größe wählen." },
+          { status: 400 },
+        );
       }
       const safeName = product.name[locale] || product.name.de;
-      const safeColor = product.colors[0]?.label[locale] || product.colors[0]?.label.de || "";
+      // Farbe nur aus der Liste des Produkts (Schlüssel oder Bezeichnung), sonst die erste
+      const wanted = String(item.color ?? "")
+        .trim()
+        .toLowerCase();
+      const matched = product.colors.find(
+        (c) =>
+          c.key === wanted ||
+          Object.values(c.label).some((l) => l.toLowerCase() === wanted),
+      );
+      if (wanted && !matched) {
+        return NextResponse.json(
+          { ok: false, error: "Diese Farbe gibt es für das Produkt nicht." },
+          { status: 400 },
+        );
+      }
+      const colorObj = matched ?? product.colors[0];
+      const safeColor = colorObj?.label[locale] || colorObj?.label.de || "";
       let front: string | null = null;
       let back: string | null = null;
       let pages = 0;
@@ -366,7 +436,12 @@ export async function POST(request: Request) {
         if (rows.length && String(rows[0].product_id ?? "") !== productId) {
           // Motiv eines anderen Artikels (oder ohne Zuordnung) würde falsch gedruckt bzw. abgerechnet
           return NextResponse.json(
-            { ok: false, error: "Das Motiv gehört zu einem anderen Artikel. Bitte neu gestalten.", designId: item.designId },
+            {
+              ok: false,
+              error:
+                "Das Motiv gehört zu einem anderen Artikel. Bitte neu gestalten.",
+              designId: item.designId,
+            },
             { status: 400 },
           );
         }
@@ -391,8 +466,16 @@ export async function POST(request: Request) {
                 : 0;
           // Untergrenze: gespeicherte Ebenenliste bzw. mindestens 1 je Seite mit Bild
           const listLen = (v: unknown) => (Array.isArray(v) ? v.length : 0);
-          const fCount = Math.max(frontCount, listLen(meta?.frontLayers), front ? 1 : 0);
-          const bCount = Math.max(backCount, listLen(meta?.backLayers), back ? 1 : 0);
+          const fCount = Math.max(
+            frontCount,
+            listLen(meta?.frontLayers),
+            front ? 1 : 0,
+          );
+          const bCount = Math.max(
+            backCount,
+            listLen(meta?.backLayers),
+            back ? 1 : 0,
+          );
           pages =
             Math.max(0, Math.min(12, Math.round(fCount))) +
             Math.max(0, Math.min(12, Math.round(bCount)));
@@ -483,7 +566,9 @@ export async function POST(request: Request) {
       );
     }
     const itemsMeta = itemChunks[0] ?? "[]";
-    const extraItemMeta = Object.fromEntries(itemChunks.slice(1).map((c, i) => [`items_${i + 1}`, c]));
+    const extraItemMeta = Object.fromEntries(
+      itemChunks.slice(1).map((c, i) => [`items_${i + 1}`, c]),
+    );
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

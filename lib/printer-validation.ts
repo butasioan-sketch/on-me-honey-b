@@ -1,8 +1,11 @@
 /* eslint-disable */
-// Drucker-Validierung für Procolored K13 Lite DTF-Drucker
-// Max. Druckfläche: A3+ (329 × 483 mm)
-// Auflösung: 1440 dpi (empfohlen: mind. 300 dpi für Uploads)
-// Farben: CMYK + Weiß
+// Upload-Prüfung gegen das Druckblatt. Beide Verfahren (Sublimation, DTF) drucken auf
+// DIN A4 (210 × 297 mm) mit 300 dpi → 2480 × 3508 px (PRINT_SPEC in lib/print-spec.ts).
+// Früher stand hier ein Procolored K13 Lite (A3+, 329 × 483 mm) — das Gerät gibt es
+// im Betrieb nicht; die Fläche passte nicht zum A4-Druckblatt.
+
+import { PRINT_SPEC } from "./print-spec";
+import { getPrintMethodSpec, type PrintMethod } from "./print-method";
 
 export interface ImageMetadata {
   width: number; // Pixel
@@ -10,6 +13,8 @@ export interface ImageMetadata {
   dpi?: number;
   type?: string;
   sizeInMB?: number;
+  /** true, wenn das Bild einen Alphakanal hat (PNG/WebP mit Transparenz). */
+  hasAlpha?: boolean;
 }
 
 export interface PrinterValidationWarning {
@@ -18,29 +23,27 @@ export interface PrinterValidationWarning {
   suggestion?: string;
 }
 
-/**
- * Procolored K13 Lite Specs
- */
 export const PRINTER_SPEC = {
-  name: "Procolored K13 Lite",
-  maxPrintAreaMM: { width: 329, height: 483 }, // A3+
-  maxPrintAreaPixels: { width: 3874, height: 5689 }, // @ 300 DPI
-  minRecommendedDPI: 300,
-  optimalDPI: 300,
-  maxDPI: 1440,
+  maxPrintAreaMM: { width: PRINT_SPEC.widthMm, height: PRINT_SPEC.heightMm }, // A4
+  maxPrintAreaPixels: {
+    width: PRINT_SPEC.widthPx,
+    height: PRINT_SPEC.heightPx,
+  }, // @ 300 dpi
+  minRecommendedDPI: PRINT_SPEC.dpi,
+  optimalDPI: PRINT_SPEC.dpi,
   supportedFormats: ["image/png", "image/jpeg", "image/svg+xml"],
-  colors: "CMYK + Weiß",
 } as const;
 
 /**
- * Validiert Bild-Metadata gegen Drucker-Anforderungen
+ * Validiert Bild-Metadaten gegen das A4-Druckblatt des jeweiligen Verfahrens.
  */
 export function validateForPrinter(
   image: ImageMetadata,
+  method: PrintMethod = "sublimation",
 ): PrinterValidationWarning[] {
   const warnings: PrinterValidationWarning[] = [];
+  const spec = getPrintMethodSpec(method);
 
-  // DPI-Prüfung
   if (image.dpi && image.dpi < PRINTER_SPEC.minRecommendedDPI) {
     warnings.push({
       level: "warning",
@@ -49,19 +52,26 @@ export function validateForPrinter(
     });
   }
 
-  // Bildgröße vs. Druckfläche (A3 = 297×420mm @ 300 DPI)
-  const maxWidthPixels = 3508; // 297mm × 300 DPI / 25.4
-  const maxHeightPixels = 4961; // 420mm × 300 DPI / 25.4
-
-  if (image.width > maxWidthPixels || image.height > maxHeightPixels) {
+  if (
+    image.width < PRINT_SPEC.minUploadPx &&
+    image.height < PRINT_SPEC.minUploadPx
+  ) {
     warnings.push({
       level: "warning",
-      message: `Bild sehr groß (${image.width}×${image.height} px)`,
-      suggestion: `Max. empfohlene Größe: ${maxWidthPixels}×${maxHeightPixels} px (A3 @ 300 DPI). Größere Bilder werden skaliert.`,
+      message: `Bild klein (${image.width}×${image.height} px)`,
+      suggestion: `Für A4 sind ${PRINT_SPEC.widthPx}×${PRINT_SPEC.heightPx} px ideal (300 dpi).`,
     });
   }
 
-  // Format-Prüfung
+  const { width: maxW, height: maxH } = PRINTER_SPEC.maxPrintAreaPixels;
+  if (image.width > maxW * 2 || image.height > maxH * 2) {
+    warnings.push({
+      level: "warning",
+      message: `Bild sehr groß (${image.width}×${image.height} px)`,
+      suggestion: `Mehr als ${maxW}×${maxH} px (A4 @ 300 dpi) bringt keine Schärfe. Größere Bilder werden skaliert.`,
+    });
+  }
+
   if (
     image.type &&
     !PRINTER_SPEC.supportedFormats.includes(image.type as any)
@@ -73,7 +83,19 @@ export function validateForPrinter(
     });
   }
 
-  // Dateigröße-Warnung (> 50 MB könnte Upload-Probleme verursachen)
+  // DTF: Ein JPEG hat immer einen Hintergrund. Weiße oder farbige Flächen ums Motiv
+  // werden mitgedruckt (Weißtinte) — freigestelltes PNG ist besser.
+  if (
+    method === "dtf" &&
+    (image.type === "image/jpeg" || image.hasAlpha === false)
+  ) {
+    warnings.push({
+      level: "warning",
+      message: `${spec.label}: Bild ohne transparenten Hintergrund`,
+      suggestion: `Der Hintergrund wird mitgedruckt. Für ein freigestelltes Motiv bitte ein PNG mit transparentem Hintergrund hochladen.`,
+    });
+  }
+
   if (image.sizeInMB && image.sizeInMB > 50) {
     warnings.push({
       level: "warning",

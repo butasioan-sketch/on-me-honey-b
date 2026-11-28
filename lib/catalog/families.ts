@@ -311,6 +311,8 @@ export const CATALOG: Record<string, ProductRecord> = {
   },
   "003": {
     sku: "003",
+    // Beim Freischalten: shopId "4" = Classic Cotton Tee (DTF, Weiß/Schwarz, lib/products.ts).
+    // Erst setzen, wenn das Freigabe-Gate grün ist — sonst gilt 003 über die Familie "tee" als live.
     shopId: null,
     familyId: "tee",
     name: "Herren-T-Shirts",
@@ -1036,7 +1038,9 @@ export function getProductByShopId(shopId: string): ProductRecord | null {
 
 /** Per-SKU atelier models are set after print and viewer calibration. */
 export function getAtelierModelPath(record: ProductRecord): string | null {
-  return record.atelierModel ?? PRODUCT_FAMILIES[record.familyId]?.glbPath ?? null;
+  return (
+    record.atelierModel ?? PRODUCT_FAMILIES[record.familyId]?.glbPath ?? null
+  );
 }
 
 /**

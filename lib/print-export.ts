@@ -1,10 +1,11 @@
-import { PRINT_SPEC, type PrintSide } from './print-spec';
-import { getSheetRect, type PrintTransform } from './print-position';
+import { PRINT_SPEC, getPrintMethod, type PrintSide } from "./print-spec";
+import { getPrintMethodSpec, type PrintMethod } from "./print-method";
+import { getSheetRect, type PrintTransform } from "./print-position";
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = reject;
     img.src = src;
@@ -15,8 +16,9 @@ function loadImage(src: string): Promise<HTMLImageElement> {
  * ZWEI-EBENEN-MODELL DER DRUCKDATEN (Strategie: EMPFOHLEN, siehe
  * CLAUDE-AUFTRAG-DRUCKAUFTRAG-PDF-FREEZE.md):
  *
- * EBENE 1 — DRUCKBLATT (diese Datei): das A4-Transferpapier für den Sublimationsdruck
- * (Epson SC-F100), immer 210×297 mm / 2480×3508 px. Nur `scale` (Zoom) wirkt sich
+ * EBENE 1 — DRUCKBLATT (diese Datei): das A4-Blatt, immer 210×297 mm / 2480×3508 px —
+ * Sublimation: Transferpapier (Epson SC-F100), weißes JPEG; DTF: PET-Folie, transparentes
+ * PNG (siehe lib/print-method.ts). Nur `scale` (Zoom) wirkt sich
  * auf den Bildausschnitt aus — object-fit:cover, zentriert.
  *
  * EBENE 2 — PLATZIERUNG AUF SHIRT (lib/print-position.ts / lib/print-job.ts):
@@ -65,16 +67,16 @@ function drawCover(
 export async function renderPrintSheet(
   src: string,
   transform: PrintTransform,
-  options?: { background?: string; format?: 'jpeg' | 'png'; quality?: number },
+  options?: { background?: string; format?: "jpeg" | "png"; quality?: number },
 ): Promise<string> {
   const { widthPx, heightPx } = PRINT_SPEC;
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = widthPx;
   canvas.height = heightPx;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas nicht verfügbar');
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas nicht verfügbar");
 
-  ctx.fillStyle = options?.background ?? '#ffffff';
+  ctx.fillStyle = options?.background ?? "#ffffff";
   ctx.fillRect(0, 0, widthPx, heightPx);
 
   const img = await loadImage(src);
@@ -90,14 +92,18 @@ export async function renderPrintSheet(
   drawCover(ctx, img, boxX, boxY, boxW, boxH);
   ctx.restore();
 
-  const format = options?.format ?? 'jpeg';
-  const quality = options?.quality ?? (format === 'jpeg' ? 0.92 : undefined);
+  const format = options?.format ?? "jpeg";
+  const quality = options?.quality ?? (format === "jpeg" ? 0.92 : undefined);
   return canvas.toDataURL(`image/${format}`, quality);
 }
 
 /** Prüft ob ein gerendertes Blatt die Zielauflösung hat */
 export function isPrintReadyDataUrl(dataUrl: string): boolean {
-  return (dataUrl.startsWith('data:image/jpeg') || dataUrl.startsWith('data:image/png')) && dataUrl.length > 10_000;
+  return (
+    (dataUrl.startsWith("data:image/jpeg") ||
+      dataUrl.startsWith("data:image/png")) &&
+    dataUrl.length > 10_000
+  );
 }
 
 /**
@@ -112,18 +118,34 @@ export function isPrintReadyDataUrl(dataUrl: string): boolean {
 export async function renderPrintSheetMulti(
   side: PrintSide,
   layers: { src: string; transform: PrintTransform }[],
-  productId: string = '1',
-  options?: { background?: string; format?: 'jpeg' | 'png'; quality?: number },
+  productId: string = "1",
+  options?: {
+    background?: string | null;
+    format?: "jpeg" | "png";
+    quality?: number;
+    method?: PrintMethod;
+  },
 ): Promise<string> {
   const { widthPx, heightPx } = PRINT_SPEC;
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = widthPx;
   canvas.height = heightPx;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas nicht verfügbar');
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas nicht verfügbar");
 
-  ctx.fillStyle = options?.background ?? '#ffffff';
-  ctx.fillRect(0, 0, widthPx, heightPx);
+  // Verfahren bestimmt Hintergrund und Format: Sublimation = weißes JPEG,
+  // DTF = transparentes PNG (weiße Fläche würde sonst mit Weißtinte gedruckt).
+  const spec = getPrintMethodSpec(options?.method ?? getPrintMethod(productId));
+  const background =
+    options?.background !== undefined
+      ? options.background
+      : spec.sheetBackground;
+  if (background) {
+    ctx.fillStyle = background;
+    ctx.fillRect(0, 0, widthPx, heightPx);
+  } else {
+    ctx.clearRect(0, 0, widthPx, heightPx);
+  }
 
   for (const layer of layers) {
     const img = await loadImage(layer.src);
@@ -141,7 +163,8 @@ export async function renderPrintSheetMulti(
     ctx.restore();
   }
 
-  const format = options?.format ?? 'jpeg';
-  const quality = options?.quality ?? (format === 'jpeg' ? 0.92 : undefined);
+  // Transparenter Hintergrund geht nur als PNG — JPEG würde ihn schwarz füllen.
+  const format = background ? (options?.format ?? spec.sheetFormat) : "png";
+  const quality = options?.quality ?? (format === "jpeg" ? 0.92 : undefined);
   return canvas.toDataURL(`image/${format}`, quality);
 }

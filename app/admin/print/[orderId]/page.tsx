@@ -7,6 +7,12 @@ import {
   requireGarmentProductId,
 } from "@/lib/print-spec";
 import { orderDesignIds } from "@/lib/order-review";
+import { getPrintMethodSpec } from "@/lib/print-method";
+
+/** Dateiendung passend zum gespeicherten Druckblatt (DTF = PNG, Sublimation = JPEG). */
+function sheetExt(dataUrl: string): string {
+  return dataUrl.startsWith("data:image/png") ? "png" : "jpg";
+}
 
 export default async function PrintView({
   params,
@@ -37,6 +43,15 @@ export default async function PrintView({
       ),
     ),
   );
+
+  // Verfahren je Design (Sublimation oder DTF) — eine Bestellung kann beide enthalten.
+  const methodOf = (d: DesignRecord) =>
+    getPrintMethodSpec(
+      getGarmentProfile(requireGarmentProductId(d.productId)).method,
+    );
+  const methodsUsed = Array.from(
+    new Set(designs.map((d) => methodOf(d).id)),
+  ).map(getPrintMethodSpec);
 
   return (
     <div
@@ -184,9 +199,21 @@ export default async function PrintView({
         {PRINT_SPEC.widthPx} × {PRINT_SPEC.heightPx} px
         <br />
         Blank: {blanksUsed.length ? blanksUsed.join(" · ") : PRINT_SPEC.blank} ·
-        Methode: {PRINT_SPEC.method}
-        <br />
-        Epson SC-F100: Papier A4, „Actual size“ / 100 % — kein Fit-to-Page
+        Methode:{" "}
+        {methodsUsed.length
+          ? methodsUsed.map((m) => m.label).join(" · ")
+          : PRINT_SPEC.method}
+        {methodsUsed.map((m) => (
+          <span key={m.id}>
+            <br />
+            <strong>{m.label}</strong>: {m.device} · {m.medium}
+            {m.productionNotes.map((n) => (
+              <span key={n}>
+                <br />– {n}
+              </span>
+            ))}
+          </span>
+        ))}
       </div>
 
       {designs.map((d) => (
@@ -197,7 +224,7 @@ export default async function PrintView({
           <p
             style={{ fontSize: "0.8rem", color: "#666", marginBottom: "1rem" }}
           >
-            Design {d.id}
+            Design {d.id} · <strong>{methodOf(d).label}</strong>
             {d.frozenAt &&
               ` · eingefroren ${new Date(d.frozenAt).toLocaleString("de-DE")}`}
           </p>
@@ -222,7 +249,7 @@ export default async function PrintView({
                 </p>
                 <a
                   href={d.frontImage}
-                  download={`${order.id}-front.jpg`}
+                  download={`${order.id}-front.${sheetExt(d.frontImage)}`}
                   style={{
                     display: "inline-block",
                     background: "#D4AF37",
@@ -273,7 +300,7 @@ export default async function PrintView({
                 </p>
                 <a
                   href={d.backImage}
-                  download={`${order.id}-back.jpg`}
+                  download={`${order.id}-back.${sheetExt(d.backImage)}`}
                   style={{
                     display: "inline-block",
                     background: "#D4AF37",
@@ -323,12 +350,14 @@ export default async function PrintView({
           paddingTop: "1rem",
         }}
       >
-        {PRINT_SPEC.method} ·{" "}
-        {blanksUsed.length ? blanksUsed.join(" · ") : PRINT_SPEC.blank} ·{" "}
+        {methodsUsed.length
+          ? methodsUsed.map((m) => m.label).join(" · ")
+          : PRINT_SPEC.method}{" "}
+        · {blanksUsed.length ? blanksUsed.join(" · ") : PRINT_SPEC.blank} ·{" "}
         {PRINT_SPEC.widthMm} × {PRINT_SPEC.heightMm} mm Hochformat (
         {PRINT_SPEC.dpi} dpi = {PRINT_SPEC.widthPx} × {PRINT_SPEC.heightPx} px).
         Motive in Originalauflösung — Download oder Rechtsklick → Bild speichern
-        → Epson SC-F100.
+        → Sublimation: Epson SC-F100 · DTF: RIP-Software des DTF-Druckers.
       </p>
     </div>
   );
