@@ -10,7 +10,11 @@ import { useParams, notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import SiteHeader from "@/app/components/SiteHeader";
 import { useLocale } from "@/app/components/LocaleProvider";
-import { PRINT_SPEC, getGarmentProfile } from "@/lib/print-spec";
+import {
+  PRINT_SPEC,
+  getGarmentProfile,
+  getPrintMethod,
+} from "@/lib/print-spec";
 import { getProduct, getProductName, SHIRT_COLORS } from "@/lib/products";
 import { getProductById } from "@/lib/catalog/families";
 import CatalogProductView from "@/app/components/CatalogProductView";
@@ -100,6 +104,8 @@ export default function ProductPage() {
     try {
       const hasFront = design.frontLayers.length > 0;
       const hasBack = design.backLayers.length > 0;
+      // Sublimation = weißes JPEG, DTF = transparentes PNG (lib/print-method.ts).
+      const printMethod = getPrintMethod(id);
       // Vercel nimmt höchstens 4,5 MB pro Anfrage an. Beidseitige A4-Druckblätter (300 dpi)
       // werden deshalb bei Bedarf stufenweise stärker komprimiert, statt mit 413 zu scheitern.
       const buildPayload = async (quality: number) => {
@@ -112,7 +118,7 @@ export default function ProductPage() {
                   transform: l.transform,
                 })),
                 id,
-                { format: "jpeg", quality },
+                { format: "jpeg", quality, method: printMethod },
               )
             : Promise.resolve(null),
           hasBack
@@ -123,7 +129,7 @@ export default function ProductPage() {
                   transform: l.transform,
                 })),
                 id,
-                { format: "jpeg", quality },
+                { format: "jpeg", quality, method: printMethod },
               )
             : Promise.resolve(null),
           hasFront
@@ -147,7 +153,7 @@ export default function ProductPage() {
               ).catch(() => null)
             : Promise.resolve(null),
         ]);
-        // Ganzes A4-Blatt wird als EINE Einheit auf den Blank gepresst (Sublimation) —
+        // Ganzes A4-Blatt wird als EINE Einheit auf den Blank gepresst (Sublimation und DTF) —
         // die einzelnen Ebenen haben zwar eigene Positionen INNERHALB des Blatts (siehe
         // renderPrintSheetMulti), aber das Blatt selbst sitzt an der Standardposition der
         // Placement-Zone. Deshalb hier immer der Default-Transform fuer die PDF-
@@ -166,7 +172,7 @@ export default function ProductPage() {
             widthPx: PRINT_SPEC.widthPx,
             heightPx: PRINT_SPEC.heightPx,
             blank: getGarmentProfile(id).blank,
-            method: PRINT_SPEC.method,
+            method: printMethod,
             // Anzahl Ebenen je Seite — Grundlage der serverseitigen Preisberechnung
             // (Extra-Motiv-Aufpreis ab dem 3. Bild, siehe lib/pricing.ts + create-checkout).
             frontLayerCount: design.frontLayers.length,
@@ -193,8 +199,9 @@ export default function ProductPage() {
         if (payload.length <= MAX_DESIGN_PAYLOAD) break;
       }
       if (payload.length > MAX_DESIGN_PAYLOAD) {
+        // DTF-Blätter sind verlustfreie PNGs (Transparenz) — Qualitätsstufen helfen dort nicht.
         throw new Error(
-          `Motiv zu groß (${(payload.length / 1024 / 1024).toFixed(1)} MB)`,
+          `Motiv zu groß (${(payload.length / 1024 / 1024).toFixed(1)} MB${printMethod === "dtf" ? ", DTF-PNG" : ""})`,
         );
       }
       const res = await fetch("/api/designs", {

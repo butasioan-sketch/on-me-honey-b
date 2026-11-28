@@ -18,6 +18,11 @@ import {
   type PrintSide,
 } from "./print-spec";
 import {
+  getPrintMethodSpec,
+  isPrintMethod,
+  type PrintMethod,
+} from "./print-method";
+import {
   getMotifRect,
   defaultPrintTransform,
   type PrintTransform,
@@ -85,6 +90,8 @@ export function computePlacementMm(
 export interface PrintJobDesignEntry {
   id: string;
   productId: string;
+  /** Druckverfahren dieses Designs. Fehlt in Snapshots vor DTF → dort immer Sublimation. */
+  method?: PrintMethod;
   hasFront: boolean;
   hasBack: boolean;
   frontTransform: PrintTransform | null;
@@ -133,10 +140,20 @@ export function buildPrintJobPayload(
             ),
           ),
         ).join(" · ") || PRINT_SPEC.blank,
-      method: PRINT_SPEC.method,
+      // Gemischte Bestellung (z. B. Sublimations-Shirt + DTF-Hoodie): alle Verfahren nennen.
+      method:
+        Array.from(
+          new Set(
+            designs.map(
+              (d) =>
+                getGarmentProfile(requireGarmentProductId(d.productId)).method,
+            ),
+          ),
+        ).join(" · ") || PRINT_SPEC.method,
     },
     designs: designs.map((d) => {
       const productId = requireGarmentProductId(d.productId);
+      const method = getGarmentProfile(productId).method;
       const frontTransform = d.frontImage
         ? d.frontTransform || defaultPrintTransform()
         : null;
@@ -146,6 +163,7 @@ export function buildPrintJobPayload(
       return {
         id: d.id,
         productId,
+        method,
         hasFront: !!d.frontImage,
         hasBack: !!d.backImage,
         frontTransform,
@@ -163,6 +181,13 @@ export function buildPrintJobPayload(
   };
 }
 
+/** Verfahren eines Designs aus dem Snapshot; ältere Snapshots kennen nur Sublimation. */
+export function printJobEntryMethod(
+  entry: PrintJobDesignEntry | undefined,
+): PrintMethod {
+  return entry && isPrintMethod(entry.method) ? entry.method : "sublimation";
+}
+
 // === PDF ===
 
 const A4_PT: [number, number] = [595.28, 841.89]; // 210x297mm in PDF-Punkten (72dpi)
@@ -171,8 +196,21 @@ const MARGIN = 42;
 // Standardschrift Helvetica kann nur WinAnsi. Rumänische Sonderzeichen, Emoji o. Ä. ließen
 // das PDF mit 500 abbrechen (kein Druckauftrag). Daher je Zeichen prüfen und ersetzen.
 const PDF_REPLACE: Record<string, string> = {
-  "ă": "a", "Ă": "A", "ș": "s", "Ș": "S", "ş": "s", "Ş": "S", "ț": "t", "Ț": "T", "ţ": "t", "Ţ": "T",
-  "→": "->", "←": "<-", "✓": "OK", "≈": "~", "−": "-",
+  ă: "a",
+  Ă: "A",
+  ș: "s",
+  Ș: "S",
+  ş: "s",
+  Ş: "S",
+  ț: "t",
+  Ț: "T",
+  ţ: "t",
+  Ţ: "T",
+  "→": "->",
+  "←": "<-",
+  "✓": "OK",
+  "≈": "~",
+  "−": "-",
 };
 export function pdfSafeText(text: string, font: PDFFont): string {
   let out = "";
@@ -343,7 +381,7 @@ export async function generatePrintPdf(
   drawText(
     cover,
     font,
-    `Format: ${formatSizeMm()} Hochformat · ${PRINT_SPEC.dpi} dpi · ${PRINT_SPEC.widthPx} × ${PRINT_SPEC.heightPx} px · Methode: ${PRINT_SPEC.method}`,
+    `Format: ${formatSizeMm()} Hochformat · ${PRINT_SPEC.dpi} dpi · ${PRINT_SPEC.widthPx} × ${PRINT_SPEC.heightPx} px · Methode: ${printJob.printSpec.method}`,
     MARGIN,
     y,
     10,
@@ -358,15 +396,29 @@ export async function generatePrintPdf(
   );
   drawText(cover, font, `Blank: ${blanksUsed.join(" · ")}`, MARGIN, y, 10);
   y -= 15;
-  drawText(
-    cover,
-    font,
-    `Epson SC-F100: Papier A4, „Actual size" / 100 % — kein Fit-to-Page`,
-    MARGIN,
-    y,
-    10,
+  const methodsUsed = Array.from(
+    new Set(printJob.designs.map((e) => printJobEntryMethod(e))),
   );
-  y -= 25;
+  for (const m of methodsUsed.length
+    ? methodsUsed
+    : (["sublimation"] as PrintMethod[])) {
+    const spec = getPrintMethodSpec(m);
+    drawText(
+      cover,
+      bold,
+      `${spec.label}: ${spec.device} · ${spec.medium}`,
+      MARGIN,
+      y,
+      10,
+    );
+    y -= 14;
+    for (const note of spec.productionNotes) {
+      drawText(cover, font, `- ${note}`, MARGIN + 8, y, 9);
+      y -= 12;
+    }
+    y -= 4;
+  }
+  y -= 10;
 
   drawText(
     cover,
@@ -404,6 +456,7 @@ export async function generatePrintPdf(
     ];
 
     const designProductId = requireGarmentProductId(d.productId);
+    const designMethod = getPrintMethodSpec(printJobEntryMethod(entry));
 
     for (const { side, image, placement } of sides) {
       if (!image) continue;
@@ -415,7 +468,7 @@ export async function generatePrintPdf(
       drawText(
         sheetPage,
         bold,
-        `DRUCKBLATT ${sideLabel} — ${d.id}`,
+        `DRUCKBLATT ${sideLabel} — ${d.id} — ${designMethod.label}`,
         MARGIN,
         ph - MARGIN,
         13,

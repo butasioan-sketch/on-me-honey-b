@@ -6,6 +6,8 @@
 // FINAL-CLAUDE-LAUNCH-21-07.md Abschnitt 6). Kein Halb-Update: Maße/mm bleiben die
 // bisherige Näherung, nicht neu erfunden für JN827.
 
+import type { PrintMethod } from "./print-method";
+
 export const SHIRT_PHOTO = {
   width: 1024,
   height: 1536,
@@ -68,6 +70,8 @@ export interface GarmentProfile {
    *  umgerechnet. Nur für Profile gesetzt, deren Bezug geprüft ist (051 Kissen).
    *  Ohne Flag bleibt das bisherige Verhalten (Foto-% direkt als Blatt-%). */
   sheetFromOverlay?: boolean;
+  /** Druckverfahren dieses Produkts (siehe lib/print-method.ts). */
+  method: PrintMethod;
 }
 
 const TEE_PROFILE: GarmentProfile = {
@@ -81,6 +85,7 @@ const TEE_PROFILE: GarmentProfile = {
   frontSrc: "/airfit-front-t.png",
   backSrc: "/airfit-back-t.png",
   mmReferenceHeight: 740 + 110, // shirtLengthMm + collarOffsetMm (Gr. L)
+  method: "sublimation", // JN827 Polyester
 };
 
 // Shorts-Fotos: 863×1200 (front) / 864×1200 (back) — gemeinsam auf 864×1200 gerundet.
@@ -105,6 +110,7 @@ const SHORTS_PROFILE: GarmentProfile = {
   frontSrc: "/airfit-shorts-front.png",
   backSrc: "/airfit-shorts-back.png",
   mmReferenceHeight: null, // keine Referenzmessung vorhanden — nicht erfinden
+  method: "sublimation", // JN387 Polyester
 };
 
 // WAVE 6.2: Pillow profile (Phase 6 - after Jonny price + gate)
@@ -126,6 +132,7 @@ const PILLOW_PROFILE: GarmentProfile = {
   mmReferenceHeight: null, // keine Foto-Messung — 40 cm Blank nicht als mm-Referenz erfinden
   overlayVerified: false, // NOT verified - awaiting physical test print
   sheetFromOverlay: true, // A4-Blatt = Standard-Motivfläche (52,5 × 74,25 % des 40-cm-Bezugs)
+  method: "sublimation", // Polyester-Velvet
 };
 
 export const GARMENT_PROFILES: Record<string, GarmentProfile> = {
@@ -143,13 +150,17 @@ const PREVIEW_PROFILE: GarmentProfile = {
   photoWidth: 1000,
   photoHeight: 1000,
   overlay: { front: PREVIEW_RECT, back: PREVIEW_RECT },
-  placement: { front: { top: 10, left: 10, width: 80, height: 80 }, back: { top: 10, left: 10, width: 80, height: 80 } },
+  placement: {
+    front: { top: 10, left: 10, width: 80, height: 80 },
+    back: { top: 10, left: 10, width: 80, height: 80 },
+  },
   blank: "Vorschau (nicht bestellbar)",
   weightGsm: 0,
   frontSrc: "",
   backSrc: "",
   mmReferenceHeight: null,
   overlayVerified: false,
+  method: "sublimation",
 };
 
 export function getGarmentProfile(productId: string): GarmentProfile {
@@ -174,6 +185,11 @@ export function requireGarmentProductId(
   return productId;
 }
 
+/** Druckverfahren eines bestellbaren Produkts (Sublimation oder DTF). */
+export function getPrintMethod(productId: string): PrintMethod {
+  return getGarmentProfile(productId).method;
+}
+
 export function getGarmentPhotoSrc(side: PrintSide, productId: string): string {
   const g = getGarmentProfile(productId);
   return side === "front" ? g.frontSrc : g.backSrc;
@@ -195,7 +211,8 @@ export const PRINT_SPEC = {
   minUploadPx: 1000,
   aspectRatio: 210 / 297,
   sides: ["front", "back"] as const,
-  method: "sublimation" as const,
+  /** Standardverfahren. Je Produkt gilt getPrintMethod(productId) (Sublimation oder DTF). */
+  method: "sublimation" as PrintMethod,
   /** Nur Fallback falls ein Druckauftrag ohne jedes Design vorliegt (Edge-Case) —
    *  der eigentliche Blank-Name kommt produktabhaengig aus GARMENT_PROFILES.
    *  War frueher faelschlich 'B&C TM062' fest eingetragen, obwohl kein aktives
