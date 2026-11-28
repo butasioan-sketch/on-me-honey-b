@@ -164,7 +164,14 @@ function GarmentModel({
       m.castShadow = true;
       m.receiveShadow = true;
 
-      const count = m.geometry.attributes.position?.count ?? 0;
+      // Motiv auf die Druckfläche legen, nicht auf das größte Teil: bei Hartware ist das
+      // oft Kante oder Metall (z. B. 064 MDF-Kante, 066 Metallrahmen). Materialien mit
+      // „Druckfläche“ im Namen haben Vorrang, sonst gewinnt das Teil mit den meisten Punkten.
+      const matName = Array.isArray(m.material)
+        ? m.material.map((x) => x.name).join(" ")
+        : ((m.material as THREE.Material | undefined)?.name ?? "");
+      const bonus = /druckfl/i.test(matName) ? 1e9 : 0;
+      const count = (m.geometry.attributes.position?.count ?? 0) + bonus;
       if (count > bestCount) {
         bestMesh = m;
         bestCount = count;
