@@ -135,10 +135,29 @@ const PILLOW_PROFILE: GarmentProfile = {
   method: "sublimation", // Polyester-Velvet
 };
 
+// Baumwoll-Tee (DTF): gleicher T-Shirt-Schnitt wie P1, deshalb vorläufig dieselben Fotos und
+// dieselbe Fläche. Nicht testgedruckt, keine mm-Referenz für diesen Rohling.
+const COTTON_TEE_PROFILE: GarmentProfile = {
+  productId: "4",
+  photoWidth: SHIRT_PHOTO.width,
+  photoHeight: SHIRT_PHOTO.height,
+  overlay: { front: OVERLAY_FRONT, back: OVERLAY_BACK },
+  placement: { front: PLACEMENT_FRONT, back: PLACEMENT_BACK },
+  blank:
+    "Stanley/Stella Creator 2.0 STTU169 (Bio-Baumwolle, 180 g/m²) – Etikett bestätigen",
+  weightGsm: 180,
+  frontSrc: "/airfit-front-t.png",
+  backSrc: "/airfit-back-t.png",
+  mmReferenceHeight: null,
+  overlayVerified: false,
+  method: "dtf",
+};
+
 export const GARMENT_PROFILES: Record<string, GarmentProfile> = {
   "1": TEE_PROFILE,
   "2": SHORTS_PROFILE,
   "3": PILLOW_PROFILE, // WAVE 6.2
+  "4": COTTON_TEE_PROFILE, // vorbereitet, nicht bestellbar
 };
 
 /** Nur Ansicht: Motiv-Vorschau auf den 3D-Modellen der noch nicht bestellbaren Katalogartikel.

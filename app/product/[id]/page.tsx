@@ -17,6 +17,7 @@ import {
 } from "@/lib/print-spec";
 import { getProduct, getProductName, SHIRT_COLORS } from "@/lib/products";
 import { getProductById } from "@/lib/catalog/families";
+import { testPrintDone } from "@/lib/catalog/test-prints";
 import CatalogProductView from "@/app/components/CatalogProductView";
 
 const GlbStudio = dynamic(() => import("@/app/components/GlbStudio"), {
@@ -56,10 +57,12 @@ export default function ProductPage() {
 
   // All hooks must be called before any conditional returns
   const [size, setSize] = useState("");
-  // Alle Rohlinge sind weiß; Farbauswahl entfällt (Jonny 21.11.2026: nur GLB + Upload).
-  const colorKey = "weiss";
-  const activeColor =
-    SHIRT_COLORS.find((c) => c.key === colorKey) || SHIRT_COLORS[0];
+  // Polyester-Rohlinge sind nur weiß; Baumwolle (DTF) gibt es in Weiß und Schwarz.
+  const colorList = product?.colors?.length ? product.colors : SHIRT_COLORS;
+  const [colorKey, setColorKey] = useState(colorList[0].key);
+  const activeColor = colorList.find((c) => c.key === colorKey) || colorList[0];
+  // Kaufsperre bis zum Testdruck (lib/catalog/test-prints.ts)
+  const purchaseLocked = !!id && !testPrintDone(id);
   const [loading, setLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [added, setAdded] = useState(false);
@@ -350,6 +353,7 @@ export default function ProductPage() {
         <GlbStudio
           profileId={id}
           productName={productName}
+          shirtColor={colorList.length > 1 ? activeColor.hex : undefined}
           onDesignChange={setDesign}
         />
 
@@ -416,6 +420,72 @@ export default function ProductPage() {
             </div>
           </div>
 
+          {colorList.length > 1 && (
+            <div>
+              <p className="plt-label" style={{ marginBottom: "0.6rem" }}>
+                {locale === "de"
+                  ? "Farbe"
+                  : locale === "ro"
+                    ? "Culoare"
+                    : "Colour"}
+                : {colorLabel}
+              </p>
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                {colorList.map((c) => (
+                  <button
+                    key={c.key}
+                    type="button"
+                    aria-pressed={colorKey === c.key}
+                    aria-label={c.label[locale] || c.label.de}
+                    title={c.label[locale] || c.label.de}
+                    onClick={() => setColorKey(c.key)}
+                    className={`plt-size-btn${colorKey === c.key ? " plt-size-btn-active" : ""}`}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.4rem",
+                    }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        width: "1rem",
+                        height: "1rem",
+                        borderRadius: "50%",
+                        background: c.hex,
+                        border: "1px solid #888",
+                      }}
+                    />
+                    {c.label[locale] || c.label.de}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {purchaseLocked && (
+            <p
+              role="status"
+              data-testid="purchase-locked"
+              style={{
+                margin: 0,
+                padding: "0.65rem 0.9rem",
+                borderRadius: "10px",
+                background: "rgba(212,175,55,0.08)",
+                border: "1px solid rgba(212,175,55,0.35)",
+                color: "#D4AF37",
+                fontSize: "0.85rem",
+                lineHeight: 1.5,
+              }}
+            >
+              {locale === "de"
+                ? "Bald bestellbar: Wir drucken gerade die letzten Testmuster. Gestalten und ansehen kannst du schon jetzt."
+                : locale === "ro"
+                  ? "În curând disponibil: tipărim ultimele mostre de test. Poți deja crea și vizualiza designul."
+                  : "Available soon: we are printing the final test samples. You can already design and preview."}
+            </p>
+          )}
+
           {editHint && (
             <p
               style={{
@@ -476,7 +546,7 @@ export default function ProductPage() {
           <button
             type="button"
             onClick={buyNow}
-            disabled={loading}
+            disabled={loading || purchaseLocked}
             className="plt-btn-primary"
             style={{ width: "100%", fontSize: "1rem", padding: "1rem" }}
           >
@@ -487,7 +557,7 @@ export default function ProductPage() {
           <button
             type="button"
             onClick={addToCart}
-            disabled={addLoading}
+            disabled={addLoading || purchaseLocked}
             className={`plt-btn-secondary${added ? " plt-btn-cart-added" : ""}`}
             style={{
               width: "100%",

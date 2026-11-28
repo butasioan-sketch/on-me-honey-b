@@ -15,6 +15,9 @@ import {
 import { GARMENT_PROFILES } from "@/lib/print-spec";
 import { PRODUCT_FLAT } from "@/lib/pricing";
 import { getProduct } from "@/lib/products";
+import { testPrintForSku } from "@/lib/catalog/test-prints";
+
+export { testPrintDone } from "@/lib/catalog/test-prints";
 
 export type GateCheckId =
   | "catalog"
@@ -202,10 +205,11 @@ export function checkReleaseGate(sku: string): GateResult {
     {
       id: "physicalTestPrint",
       label: "Physischer Testdruck gegen Vorschau und PDF",
-      ok: !!evidence?.physicalTestPrint,
-      detail: evidence?.physicalTestPrint
-        ? `${evidence.physicalTestPrint.date} · ${evidence.physicalTestPrint.source}`
-        : "fehlt",
+      ok: !!(evidence?.physicalTestPrint ?? testPrintForSku(sku)),
+      detail: (() => {
+        const tp = evidence?.physicalTestPrint ?? testPrintForSku(sku);
+        return tp ? `${tp.date} · ${tp.source}` : "fehlt";
+      })(),
     },
     {
       id: "notBlocked",
